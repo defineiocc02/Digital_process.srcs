@@ -55,6 +55,25 @@ module tb_sar_recon;
     // 100MHz 时钟生成
     initial forever #5 clk = ~clk; 
 
+    // =========================================================================
+    // [新增] 仿真专用：将 16-bit 重构结果导出为 TXT 文件供 MATLAB 分析
+    // =========================================================================
+    integer file_id;
+    initial begin
+        file_id = $fopen("adc_recon_sim_data.txt", "w");
+        if (file_id == 0) begin
+            $display("|  [ERROR]  | Cannot create adc_recon_sim_data.txt");
+        end
+    end
+
+    // 全局捕获：只要有效信号拉高，就抓取当前的 ADC 结果写入文件
+    always_ff @(posedge clk) begin
+        if (data_valid_out) begin
+            $fdisplay(file_id, "%d", $signed(adc_dout));
+        end
+    end
+    // =========================================================================
+
     // --- 4. 辅助函数 ---
     
     // 函数：模拟理想 ADC 的采样过程
@@ -269,6 +288,10 @@ module tb_sar_recon;
         $display("\n==================================================");
         $display("                ALL TESTS COMPLETED               ");
         $display("==================================================");
+        
+        // [新增] 测试结束后关闭文件
+        if (file_id != 0) $fclose(file_id); 
+        
         $finish; 
     end
 
