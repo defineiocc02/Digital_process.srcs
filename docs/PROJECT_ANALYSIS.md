@@ -216,11 +216,11 @@
 
 ### 6.3 参数配置
 
-- **校准参数**：在sar_calib_ctrl_serial.sv中修改：
+- 校准参数：在sar_calib_ctrl_serial.sv中修改：
   - AVG_LOOPS：平均次数，影响校准精度和时间
   - COMP_WAIT_CYC：等待周期，影响校准速度
 
-- **重构参数**：在sar_reconstruction.sv中修改：
+- 重构参数：在sar_reconstruction.sv中修改：
   - FRAC_BITS：小数位数，影响权重精度
   - OUTPUT_WIDTH：输出位数，根据需求调整
 
