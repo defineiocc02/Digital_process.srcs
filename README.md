@@ -10,26 +10,37 @@
 ## 🏗️ 目录结构
 
 ```
-├── rtl/                    # 核心 RTL 代码（可综合）
-│   ├── calibration/       # 校准模块
-│   ├── reconstruction/    # 重构模块
-│   ├── sar_logic/         # SAR 逻辑控制
-│   ├── decoder/           # Flash 译码器
-│   └── top/               # 顶层模块
-│
-├── sim_models/            # 仿真模型（不可综合）
-│
-├── testbenches/           # 测试平台
-│   ├── top_level/         # 顶层系统测试
-│   ├── calibration/       # 校准模块测试
-│   ├── reconstruction/    # 重构模块测试
-│   ├── decoder/           # 译码器测试
-│   └── common/            # 公共测试文件
-│
-├── constraints/           # 约束文件
-├── scripts/               # 工具脚本
-├── docs/                  # 技术文档
-└── vivado_project/        # Vivado 工程文件
+Digital_process.srcs/
+├── README.md                    # 项目主说明
+├── Docs/                        # 项目文档
+│   ├── README.md                # 文档索引
+│   ├── FILE_STRUCTURE_EXPLANATION.md
+│   ├── MIGRATION_GUIDE.md
+│   ├── MIGRATION_REPORT.md
+│   └── TB_REPORT_IMPLEMENTATION_SUMMARY.md
+├── Reports/                     # 项目报告
+│   ├── project_report_v1.0.md
+│   └── VERSION_MANAGEMENT.md
+├── test_reports/                # 测试报告输出
+│   ├── README.md
+│   └── TB_REPORT_SPEC.md
+├── REFERENCE/                   # 参考文献
+│   └── README.md
+├── scripts/                     # 脚本工具
+│   ├── README.md
+│   ├── automated_migration.ps1
+│   ├── sync_backup_vivado.ps1
+│   ├── verify_consistency.ps1
+│   └── fix_git_config.ps1
+├── backup_chinese/              # 备份文件夹（中文注释）
+│   ├── rtl/                     # RTL 代码
+│   ├── testbenches/             # TB 文件
+│   ├── sim_models/              # 仿真模型
+│   └── constraints/             # 约束文件
+├── sources_1/                   # Vivado RTL 源文件（英文注释）
+├── sim_1/                       # Vivado 仿真源文件（英文注释）
+├── constrs_1/                   # Vivado 约束文件（英文注释）
+└── vivado_project/              # Vivado 工程文件
 ```
 
 ## 🚀 快速开始
@@ -94,8 +105,19 @@ cd testbenches/top_level
 
 ## 📚 文档
 
-- **项目分析**：[docs/PROJECT_ANALYSIS.md](docs/PROJECT_ANALYSIS.md)
-- **AI 指南**：[.github/copilot-instructions.md](.github/copilot-instructions.md)
+### 文档索引
+- **完整文档索引**：[Docs/README.md](Docs/README.md) - 📋 所有文档的分类索引
+
+### 核心文档
+- **文件结构说明**：[Docs/FILE_STRUCTURE_EXPLANATION.md](Docs/FILE_STRUCTURE_EXPLANATION.md) - 🌳 完整的文件结构和使用指南
+- **项目报告**：[Reports/project_report_v1.0.md](Reports/project_report_v1.0.md) - 📊 详细的技术报告
+- **迁移指南**：[Docs/MIGRATION_GUIDE.md](Docs/MIGRATION_GUIDE.md) - 🚀 项目迁移步骤
+- **TB 报告规范**：[test_reports/TB_REPORT_SPEC.md](test_reports/TB_REPORT_SPEC.md) - 📝 TB 测试报告规范
+
+### 快速参考
+- **脚本工具**：[scripts/README.md](scripts/README.md) - 🛠️ 自动化脚本使用说明
+- **版本管理**：[Reports/VERSION_MANAGEMENT.md](Reports/VERSION_MANAGEMENT.md) - 📋 版本管理规范
+- **参考文献**：[REFERENCE/README.md](REFERENCE/README.md) - 📚 学术参考资料
 
 ## 🔧 使用指南
 

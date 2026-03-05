@@ -1,30 +1,30 @@
 `timescale 1ns/1ps
 
 module flash_decoder_adder (
-    // 数字信号接口 (不再使用 electrical)
-    input  logic [2:0] thermo,  // 输入: 3位温度计码
-    output logic [1:0] d_flash  // 输出: 2位二进制码
+    // Electrical signal interface (use electrical for actual implementation)
+    input  logic [2:0] thermo,  // Input: 3-bit thermometer code
+    output logic [1:0] d_flash  // Output: 2-bit binary code
 );
 
     // =========================================================================
-    // 核心逻辑：加法器阵列 (Ones Counter)
+    // Core Logic: Adder-based Ones Counter
     // =========================================================================
-    // 原理：直接统计输入中有多少个 '1'。
+    // Principle: Directly count how many '1's in the input.
     // 
-    // 映射关系：
-    //   000 (0个1) -> 00 (0)
-    //   001 (1个1) -> 01 (1)
-    //   011 (2个1) -> 10 (2)
-    //   111 (3个1) -> 11 (3)
+    // Mapping relationship:
+    //   000 (0 ones) -> 00 (0)
+    //   001 (1 one)  -> 01 (1)
+    //   011 (2 ones) -> 10 (2)
+    //   111 (3 ones) -> 11 (3)
     //
-    // 气泡抑制能力 (Bubble Suppression):
-    //   如果出现气泡错误，例如 "101" (中间断了):
-    //   1 + 0 + 1 = 2 -> 输出 10 (2)。
-    //   它会自动将其纠正为最接近的合法国 (2个1即为2)，而不会输出乱码。
+    // Bubble Error Suppression:
+    //   When input has bubble error like "101" (middle is 0):
+    //   1 + 0 + 1 = 2 -> Output 10 (2).
+    //   Automatically corrects to nearest valid code (2 ones becomes 2), suppressing bubble errors.
     // =========================================================================
 
     always_comb begin
-        // 使用 2'() 进行位宽拓展，防止溢出，并强制进行算术加法
+        // Use 2'() for bit-width extension to prevent implicit truncation warnings
         d_flash = 2'(thermo[0]) + 2'(thermo[1]) + 2'(thermo[2]);
     end
 
