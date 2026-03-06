@@ -10,7 +10,7 @@ module virtual_adc_phy #(
     output reg         comp_out
 );
 
-    // Weight Definition (fully consistent with MATLAB 16-bit calibration results)
+    // 权重定义 (完全对齐 MATLAB 16-bit 校正版输出)
     // Unit: 1 LSB = 256.0
     logic signed [31:0] phy_weights [19:0];
 
@@ -47,7 +47,7 @@ module virtual_adc_phy #(
         end
     end
 
-    // Voltage Accumulation (combinational logic)
+    // 电压累加 (组合逻辑)
     logic signed [39:0] v_p_comb;
     logic signed [39:0] v_n_comb;
 
@@ -60,7 +60,7 @@ module virtual_adc_phy #(
         end
     end
 
-    // Comparator (timing logic)
+    // 比较器 (时序逻辑)
     always_ff @(posedge clk) begin
         if ((v_p_comb - v_n_comb + 500) > 0) 
             comp_out <= 1'b1;

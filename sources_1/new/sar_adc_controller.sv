@@ -2,40 +2,40 @@
 
 // =============================================================================
 // Module Name   : sar_adc_controller
-// Description   : Hardware SAR Logic Controller (Successive Approximation Register)
-//                 Equivalent to Force Task in Testbench, implements actual binary search algorithm
+// Description   : 纯硬件实现的 SAR 逻辑控制器 (Successive Approximation Register)
+//                 替代 Testbench 中的软件 Task，实现真实的逐次逼近时序。
 // =============================================================================
 module sar_adc_controller #(
-    parameter int CAP_NUM = 20  // ADC resolution (Bit 0 ~ 19)
+    parameter int CAP_NUM = 20  // ADC 分辨率 (Bit 0 ~ 19)
 )(
     input  wire                 clk,
     input  wire                 rst_n,
     
-    // --- Control Interface (Handshake) ---
-    input  wire                 start,        // Start conversion
-    output reg                  eoc,          // End of Conversion
-    output reg [CAP_NUM-1:0]    result_out,   // Final conversion result
-    output reg                  result_valid, // Result valid flag
+    // --- 控制接口 (Handshake) ---
+    input  wire                 start,        // 启动脉冲
+    output reg                  eoc,          // End of Conversion (转换完成)
+    output reg [CAP_NUM-1:0]    result_out,   // 最终并行数据
+    output reg                  result_valid, // 结果有效标志
     
-    // --- Analog Front-end Interface (PHY Interface) ---
-    input  wire                 comp_out,     // Comparator output (1: DAC > Vin, 0: DAC < Vin)
-    output reg  [CAP_NUM-1:0]   dac_p_force   // DAC control signal for capacitor array
+    // --- 模拟前端接口 (PHY Interface) ---
+    input  wire                 comp_out,     // 比较器输入 (1: DAC > Vin, 0: DAC < Vin)
+    output reg  [CAP_NUM-1:0]   dac_p_force   // 输出给电容阵列的控制码
 );
 
-    // --- State Machine ---
+    // --- 状态机定义 ---
     typedef enum logic [1:0] {
-        S_IDLE,    // Idle state
-        S_SAMPLE,  // Sample state (preset all capacitors to sampling state)
-        S_CONVERT, // Convert state (execute SAR loop)
-        S_DONE     // Done state
+        S_IDLE,    // 空闲态
+        S_SAMPLE,  // 采样态 (预留，本例中快速跳过)
+        S_CONVERT, // 转换态 (核心 SAR 循环)
+        S_DONE     // 完成态
     } state_t;
 
     state_t state;
 
-    // --- Internal Registers ---
-    logic [$clog2(CAP_NUM)-1:0] bit_ptr;  // Pointer: current bit being tested
-    logic [CAP_NUM-1:0]         sar_reg;  // Register: stores SAR conversion result
-    logic                       phase;    // Phase control: 0=Set DAC, 1=Latch Comp
+    // --- 内部寄存器 ---
+    logic [$clog2(CAP_NUM)-1:0] bit_ptr;  // 指针：当前操作位
+    logic [CAP_NUM-1:0]         sar_reg;  // 寄存器：存储逼近过程中的码字
+    logic                       phase;    // 相位控制：0=Set DAC, 1=Latch Comp
 
     // =========================================================================
     // FSM & Datapath
@@ -50,7 +50,7 @@ module sar_adc_controller #(
             result_valid <= 0;
             result_out   <= '0;
         end else begin
-            // Default reset
+            // 默认脉冲复位
             eoc          <= 0;
             result_valid <= 0;
 
@@ -62,12 +62,12 @@ module sar_adc_controller #(
                 end
 
                 S_SAMPLE: begin
-                    // Actual hardware uses bootstrap switches for capacitor array control
-                    // Directly enter conversion, preset MSB (Bit 19)
+                    // 实际设计中这里控制采样开关 (Bootstrapped Switch)
+                    // 本例直接进入转换，并预置 MSB (Bit 19)
                     state   <= S_CONVERT;
                     bit_ptr <= CAP_NUM - 1; 
                     
-                    // [Set]: Preset MSB to 1 (Trial)
+                    // [动作]: 预置 MSB 为 1 (Trial)
                     sar_reg              <= '0;
                     sar_reg[CAP_NUM - 1] <= 1'b1; 
                     phase   <= 0;
@@ -76,27 +76,27 @@ module sar_adc_controller #(
                 S_CONVERT: begin
                     if (phase == 0) begin
                         // --- Phase 0: DAC Settling ---
-                        // Wait for DAC output voltage to settle, then trigger comparator
+                        // 等待 DAC 输出电压稳定，比较器前置放大器建立
                         phase <= 1;
                     end else begin
                         // --- Phase 1: Comparator Latch & Shift ---
                         
-                        // 1. Check current bit based on comparator output
-                        // If comp_out=1 (DAC > Vin), current bit is too high, clear to 0
+                        // 1. 根据比较器结果决定当前位 (Check)
+                        // 如果 comp_out=1 (DAC > Vin)，说明刚置的 1 太大了，必须撤销(置0)
                         if (comp_out) begin
                             sar_reg[bit_ptr] <= 1'b0; 
                         end
-                        // Otherwise keep 1
+                        // 否则保持 1 (Keep)
 
-                        // 2. Shift logic
+                        // 2. 移位逻辑 (Shift)
                         if (bit_ptr == 0) begin
                             state <= S_DONE;
                         end else begin
                             bit_ptr <= bit_ptr - 1;
-                            // [Set]: Preset next bit to 1 (Next Trial)
-                            // Note: Operate on next lower bit, current bit decision is final
+                            // [动作]: 下一位预置为 1 (Next Trial)
+                            // 注意：这里是对寄存器的下一位进行操作，保留当前位的决定
                             sar_reg[bit_ptr - 1] <= 1'b1;
-                            phase <= 0; // Return to Phase 0 for next comparison
+                            phase <= 0; // 回到 Phase 0 等待新电压建立
                         end
                     end
                 end
@@ -111,8 +111,8 @@ module sar_adc_controller #(
         end
     end
 
-    // --- Output Logic ---
-    // Output internal register to PHY in real-time
+    // --- 输出逻辑 ---
+    // 将内部寄存器实时送给 PHY
     always_comb begin
         dac_p_force = sar_reg;
     end
