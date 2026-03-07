@@ -3,46 +3,46 @@
 // =============================================================================
 // File Name     : sar_reconstruction.sv
 // Module Name   : sar_reconstruction
-// Description   : SAR ADC 数字重构引擎 (Digital Reconstruction Engine)
-//                 基于裂式采样 (Split-Sampling) 架构，将非理想的 SAR 原始码流
-//                 通过线性加权求和，还原为高精度的 16-bit 线性电压值。
+// Description   : SAR ADC Digital Reconstruction Engine
+//                 For split-sampling architecture, processes raw SAR data
+//                 through weighted summation to produce high-precision 16-bit digital output.
 //
-// Functionality : V_out = (Σ (D_i * W_i)) * Scale_Factor + Offset_Comp
+// Functionality : V_out = (Sum (D_i * W_i)) * Scale_Factor + Offset_Comp
 //
 // Key Features  :
-//   1. [Robustness] 40-bit 宽动态范围累加器，防止中间级溢出。
-//   2. [Precision] 纯有符号数 (Signed) 运算管线，确保补码逻辑正确。
-//   3. [Accuracy] 内置 +0.5 LSB 偏置补偿，消除量化截断误差 (DC Offset)。
-//   4. [Flexibility] 动态权重更新接口，支持前台校准算法实时写入。
+//   1. [Robustness] 40-bit dynamic range accumulator prevents intermediate overflow
+//   2. [Precision] Signed arithmetic ensures linearity accuracy
+//   3. [Accuracy] +0.5 LSB offset compensation corrects rounding truncation error (DC Offset)
+//   4. [Flexibility] Dynamic weight update interface supports foreground calibration algorithm writes
 //
 // Parameters    :
-//   CAP_NUM       : 电容阵列总位数 (默认 20)。
-//   WEIGHT_WIDTH : 权重存储位宽 (默认 30，适配 2^27 量级的定点数)。
-//   OUTPUT_WIDTH : 最终输出位宽 (默认 16-bit)。
-//   FRAC_BITS    : 权重的小数部分位宽 (默认 8-bit, Q22.8 格式)。
+//   CAP_NUM       : Capacitor array bit count (default 20)
+//   WEIGHT_WIDTH  : Weight storage bit width (default 30, supports up to 2^27 binary weights)
+//   OUTPUT_WIDTH  : Output data bit width (default 16-bit)
+//   FRAC_BITS     : Weight fractional bit count (default 8-bit, Q22.8 format)
 //
 // Ports         :
-//   clk            : 全局时钟
-//   rst_n          : 全局异步复位 (低有效)
-//   data_valid_in  : SAR 转换完成标志
-//   raw_bits       : 原始 SAR 码流 (D_out)
-//   w_wr_en        : 权重写使能 (来自校准控制器)
-//   w_wr_addr      : 权重写地址 (0~19)
-//   w_wr_data      : 校准后的新权重 (30-bit 有符号数)
-//   adc_dout       : 线性化后的 ADC 输出 (16-bit 有符号数)
-//   data_valid_out : 输出有效标志
+//   clk            : Global clock
+//   rst_n          : Global asynchronous reset (active low)
+//   data_valid_in  : SAR conversion complete flag
+//   raw_bits       : Raw SAR data (D_out)
+//   w_wr_en        : Weight write enable (from calibration controller)
+//   w_wr_addr      : Weight write address (0~19)
+//   w_wr_data      : Calibrated weight value (30-bit signed)
+//   adc_dout       : Reconstructed ADC output (16-bit signed)
+//   data_valid_out : Output valid flag
 //
 // Design Notes  :
-//   1. 权重存储采用本地 RAM 阵列，上电后必须由校准控制器初始化。
-//   2. 采用两级流水线设计：第一级差分累加，第二级缩放与饱和。
-//      [Update] 为改善时序，第一级累加已被拆分为 Pipeline Stage 1 (Partial) 和 Stage 2 (Global)。
-//   3. +0.5 LSB 补偿确保四舍五入，消除 Floor 截断带来的 -0.5 LSB 系统偏差。
-//   4. 所有中间计算使用显式有符号数，防止 Verilog 无符号提升陷阱。
+//   1. Weight storage uses distributed RAM, initialized to zero, updated by calibration controller
+//   2. Reconstruction uses two-stage pipeline: first stage accumulates, second stage rounds/saturates
+//      [Update] For timing optimization, first stage accumulation split into Pipeline Stage 1 (Partial) and Stage 2 (Global)
+//   3. +0.5 LSB ensures correct rounding, compensating for Floor truncation -0.5 LSB systematic offset
+//   4. All intermediate calculations use explicit signed arithmetic to prevent Verilog type inference issues
 // =============================================================================
 
 module sar_reconstruction #(
     parameter int CAP_NUM       = 20, 
-    parameter int WEIGHT_WIDTH  = 30, // [Design Note] 必须 >= 28 以容纳 MSB 权重
+    parameter int WEIGHT_WIDTH  = 30, // [Design Note] Must be >= 28 to support MSB weight
     parameter int OUTPUT_WIDTH  = 16, 
     parameter int FRAC_BITS     = 8
 )(
@@ -51,41 +51,41 @@ module sar_reconstruction #(
     input  logic                          rst_n,
     
     // --- Data Path Input (From SAR Logic) ---
-    input  logic                          data_valid_in, // SAR 转换完成标志
-    input  logic [CAP_NUM-1:0]            raw_bits,      // 原始 SAR 码流 (D_out)
+    input  logic                          data_valid_in, // SAR conversion complete flag
+    input  logic [CAP_NUM-1:0]            raw_bits,      // Raw SAR data (D_out)
     
     // --- Calibration Interface (From Calib Ctrl) ---
-    input  logic                          w_wr_en,       // 写使能
-    input  logic [4:0]                    w_wr_addr,     // 权重地址 (0~19)
-    input  logic signed [WEIGHT_WIDTH-1:0] w_wr_data,    // 校准后的新权重
+    input  logic                          w_wr_en,       // Write enable
+    input  logic [4:0]                    w_wr_addr,     // Weight address (0~19)
+    input  logic signed [WEIGHT_WIDTH-1:0] w_wr_data,    // Calibrated weight value
     
     // --- Data Path Output (To User/Bus) ---
-    output logic signed [OUTPUT_WIDTH-1:0] adc_dout,      // 线性化后的 ADC 输出
-    output logic                          data_valid_out // 输出有效标志
+    output logic signed [OUTPUT_WIDTH-1:0] adc_dout,      // Reconstructed ADC output
+    output logic                          data_valid_out // Output valid flag
 );
 
     // =========================================================================
-    // 1. 本地权重存储阵列 (Local Weight Memory)
+    // 1. Local Weight Memory Array
     // =========================================================================
-    // 存储每个 bit 对应的物理权重。
-    // 初始化值仅用于防止不定态，实际工作时必须由 sar_calib_ctrl 模块写入校准值。
+    // Stores the binary weight for each bit.
+    // Initial value is zero; during actual use, calibration values are written by sar_calib_ctrl module.
     logic signed [WEIGHT_WIDTH-1:0] weight_ram [0:CAP_NUM-1];
 
     initial begin
         for (int k=0; k<CAP_NUM; k++) weight_ram[k] = 30'd0;
     end
 
-    // 同步写端口
+    // Synchronous write port
     always_ff @(posedge clk) begin
         if (w_wr_en) weight_ram[w_wr_addr] <= w_wr_data;
     end
 
     // =========================================================================
-    // 2. 流水线优化：第一级累加拆分为 Partial Accumulation (Stage 1)
+    // 2. Two-Stage Pipeline Optimization: Partial Accumulation (Stage 1)
     // =========================================================================
-    // 原逻辑在一个周期内完成 20 个 40-bit 加减法，是关键路径瓶颈。
-    // 现优化为两级流水线：
-    // Stage 1: 将 20 个输入分为 4 组，并行计算 4 个部分和。
+    // Original logic: single-cycle accumulation of 20 x 40-bit adders was critical path bottleneck.
+    // Optimized to two-stage pipeline:
+    // Stage 1: Divide 20 inputs into 4 groups, compute 4 partial sums in parallel.
     // =========================================================================
     logic signed [39:0] partial_sums [0:3]; 
     logic               vld_pipe_s1;
@@ -104,7 +104,7 @@ module sar_reconstruction #(
                     for (int i=0; i<GROUP_SIZE; i++) begin
                         int idx = g * GROUP_SIZE + i;
                         if (idx < CAP_NUM) begin
-                            // [CRITICAL DESIGN] 强制类型转换
+                            // [CRITICAL DESIGN] Force signed type conversion
                             if (raw_bits[idx]) 
                                 acc_group = acc_group + signed'(40'(weight_ram[idx]));
                             else             
@@ -121,9 +121,9 @@ module sar_reconstruction #(
     end
 
     // =========================================================================
-    // 3. 流水线优化：第二级累加 (Global Accumulation - Stage 2)
+    // 3. Two-Stage Pipeline Optimization: Global Accumulation (Stage 2)
     // =========================================================================
-    // 将部分和相加得到最终结果 sum_stage2
+    // Sum all partial sums to get final accumulated sum_stage2
     // =========================================================================
     logic signed [39:0] sum_stage2;
     logic               vld_pipe_s2;
@@ -144,25 +144,25 @@ module sar_reconstruction #(
     end
 
     // =========================================================================
-    // 4. 流水线第三级：缩放、偏置补偿与饱和 (Scaling & Saturation)
+    // 4. Two-Stage Pipeline: Scaling, Offset Compensation and Saturation
     // =========================================================================
-    // 目标: 将 40-bit 高精度定点数映射回 16-bit 输出范围 [-32768, +32767]。
+    // Target: Map 40-bit high-precision result to 16-bit range [-32768, +32767].
     //
-    // 操作步骤:
-    //   a. 除以 2 (ASR): 因为差分累加的动态范围是 2*Vref，需归一化。
-    //   b. 加 0.5 LSB: 消除 Floor 截断带来的 -0.5 LSB 系统性偏差 (DC Offset)。
-    //   c. 算术右移: 去除小数位并对齐到目标分辨率。
-    //   d. 饱和钳位: 防止数值溢出导致极性翻转。
+    // Processing steps:
+    //   a. Divide by 2 (ASR): Since accumulated dynamic range is 2*Vref, divide by 2 first
+    //   b. Add 0.5 LSB: Compensate for Floor truncation -0.5 LSB systematic offset (DC Offset)
+    //   c. Arithmetic shift: Remove fractional bits, round to target precision
+    //   d. Saturation clamp: Prevent overflow/underflow and sign inversion
     // =========================================================================
     
-    // [Fix] 移位量修正
-    // 权重 W19 ~ 2^23 (Q22.8), 输出 MSB ~ 2^15. 
-    // 2^23 -> 2^15 需要右移 8 位。
-    // 原公式 (20-16)+8 = 12 会导致输出幅度过小。
-    // 正确的移位量应当仅为 FRAC_BITS (假设权重已归一化到输出量程)
+    // [Fix] Shift amount calculation
+    // Weight W19 ~ 2^23 (Q22.8), target MSB ~ 2^15. 
+    // 2^23 -> 2^15 requires right shift of 8 bits.
+    // Original formula (20-16)+8 = 12 would result in too small output range.
+    // Correct shift amount should be FRAC_BITS (consistent with weight voltage normalization)
     localparam int TOTAL_SHIFT = FRAC_BITS; 
 
-    // 中间变量 (显式声明以便于 Debug 和波形观察)
+    // Intermediate variables (explicit declaration for Debug and simulation observation)
     logic signed [39:0] val_step1_div2;
     logic signed [39:0] val_step2_round;
     logic signed [39:0] val_step3_shift;
@@ -173,25 +173,26 @@ module sar_reconstruction #(
             data_valid_out <= 0;
         end else begin
             if (vld_pipe_s2) begin
-                // Step 1: 差分除以 2 (算术右移，保留符号位)
+                // Step 1: Divide by 2 (arithmetic right shift, preserves sign bit)
                 val_step1_div2 = sum_stage2 >>> 1;
                 
-                // Step 2: 加 0.5 LSB 进行舍入 (Round to Nearest)
-                // [CRITICAL DESIGN] 必须使用 '40'sd1' 声明为有符号数。
-                // 若写成 '1'，编译器会将其视为无符号数，导致负数参与运算时被提升为巨大的正数！
+                // Step 2: Add 0.5 LSB rounding compensation (Round to Nearest)
+                // [CRITICAL DESIGN] Must use '40'sd1' because it's signed arithmetic
+                // Writing '1' alone would be treated as unsigned, causing incorrect results
+                // when sum_stage2 is negative (treated as large positive number)
                 val_step2_round = val_step1_div2 + (40'sd1 <<< (TOTAL_SHIFT - 1));
                 
-                // Step 3: 最终移位 (降采样)
+                // Step 3: Arithmetic right shift (rounding)
                 val_step3_shift = val_step2_round >>> TOTAL_SHIFT;
                 
-                // Step 4: 饱和输出 (Saturation Logic)
-                // 检查是否超出了 16-bit 有符号数范围
+                // Step 4: Saturation Logic
+                // Check if result exceeds 16-bit signed range
                 if (val_step3_shift > 32767)       
                     adc_dout <= 32767;
                 else if (val_step3_shift < -32768) 
                     adc_dout <= -32768;
                 else                       
-                    adc_dout <= val_step3_shift[15:0]; // 安全截断
+                    adc_dout <= val_step3_shift[15:0]; // Safe truncation
                 
                 data_valid_out <= 1;
             end else begin

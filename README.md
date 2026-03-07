@@ -30,8 +30,7 @@ Digital_process.srcs/
 │   ├── README.md
 │   ├── automated_migration.ps1
 │   ├── sync_backup_vivado.ps1
-│   ├── verify_consistency.ps1
-│   └── fix_git_config.ps1
+│   └── verify_consistency.ps1
 ├── backup_chinese/              # 备份文件夹（中文注释）
 │   ├── rtl/                     # RTL 代码
 │   ├── testbenches/             # TB 文件
@@ -134,12 +133,20 @@ cd testbenches/top_level
 ## 📝 版本管理
 
 ### 当前版本
-- **版本号**：v3.0.0
-- **发布日期**：2026-03-01
+- **版本号**：v3.1.0
+- **发布日期**：2026-03-05
 - **状态**：Stable (稳定版)
 - **适用工程**：SAR ADC 数字处理系统
 
 ### 版本历史
+
+#### v3.1.0 (2026-03-05) - 注释优化版
+- ✅ 完成所有 Vivado 相关文件的注释英文转换
+- ✅ 防止 Vivado 打开文件时出现乱码问题
+- ✅ 转换 sources_1/new/ 中 5 个 RTL 文件
+- ✅ 转换 sim_1/new/ 中 6 个仿真文件
+- ✅ 验证所有文件无中文注释
+- ✅ 删除临时脚本 fix_git_config.ps1
 
 #### v3.0.0 (2026-03-01) - 代码重组版
 - ✅ 完成代码结构重组，按功能模块分类
@@ -183,4 +190,4 @@ cd testbenches/top_level
 
 ---
 
-*最后更新时间：2026-03-01*
+*最后更新时间：2026-03-05*
