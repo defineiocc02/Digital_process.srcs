@@ -3,130 +3,132 @@
 // =============================================================================
 // File Name     : sar_calib_ctrl_serial.sv
 // Module Name   : sar_calib_ctrl_serial
-// Description   : 高精度 Split-Sampling SAR ADC 前台递归校准控制器 (串行版)
+// Description   : High-Precision Split-Sampling SAR ADC Foreground Recursive Calibration Controller (Serial Version)
 //
 // Functionality :
-//   实现基于 "Measure-then-Set" 策略的递归校准算法。利用低位已校准电容（存储
-//   在 Shadow RAM 中）作为参考 DAC，通过二分搜索测量高位电容的实际权重。
-//   v2.0 引入串行计算架构以优化时序，并增强 ASIC 复位可靠性。
+//   Implements recursive calibration algorithm based on "Measure-then-Set" strategy.
+//   Uses lower calibrated capacitors (stored in Shadow RAM) as reference DAC to
+//   measure actual weights of higher capacitors through binary search.
+//   v2.0 introduces serial computation architecture for timing optimization and
+//   enhanced ASIC reset reliability.
 //
 // Key Features  :
-//   1. 递归测量 (Recursive Measurement): 利用低位组合测量高位
-//   2. 串行累加 (Serial Accumulation): [v2.0 New] 多周期权重计算，消除组合逻辑时序瓶颈
-//   3. 失调消除 (Offset Cancellation): 采用 (P+N)/2 差分测量法
-//   4. MSB 保护 (MSB Protection): 强制反接次高位以压缩共模范围，并在数字域补偿
-//   5. ASIC复位 (ASIC Safe Reset): [v2.0 New] 同步复位加载基准权重，替代 initial 块
+//   1. Recursive Measurement: Uses lower bit combinations to measure higher bits
+//   2. Serial Accumulation: [v2.0 New] Multi-cycle weight calculation, eliminates combinational logic timing bottleneck
+//   3. Offset Cancellation: Uses (P+N)/2 differential measurement method
+//   4. MSB Protection: Forces inversion of second-highest bit to compress common-mode range, compensates in digital domain
+//   5. ASIC Safe Reset: [v2.0 New] Synchronous reset loads reference weights, replaces initial blocks
 //
 // Parameters    :
-//   CAP_NUM       : 总电容位数 (默认 20)
-//   WEIGHT_WIDTH  : 权重定点数位宽 (默认 30, Q18.12)
-//   COMP_WAIT_CYC : 比较器/DAC 建立时间周期数 (默认 16)
-//   AVG_LOOPS     : 平均次数 (默认 32, 需为 2 的幂)
-//   MAX_CALIB_BIT : 免校准 LSB 段最高位 (默认 5)
+//   CAP_NUM       : Total capacitor bit count (default 20)
+//   WEIGHT_WIDTH  : Weight fixed-point bit width (default 30, Q18.12)
+//   COMP_WAIT_CYC : Comparator/DAC settling time cycles (default 16)
+//   AVG_LOOPS     : Averaging count (default 32, must be power of 2)
+//   MAX_CALIB_BIT : Highest bit of calibration-free LSB segment (default 5)
 //
 // Ports         :
-//   clk           : 系统时钟
-//   rst_n         : 异步复位 (低有效)
-//   start_calib   : 校准启动脉冲
-//   calib_done    : 校准完成标志
-//   calib_mode_en : 校准模式使能指示
-//   comp_out      : 比较器输出 (1: Vp > Vn)
-//   dac_p_force   : P 端 DAC 强制控制信号
-//   dac_n_force   : N 端 DAC 强制控制信号
-//   w_wr_en       : 权重写回使能
-//   w_wr_addr     : 权重写回地址
-//   w_wr_data     : 权重写回数据
+//   clk           : System clock
+//   rst_n         : Asynchronous reset (active low)
+//   start_calib   : Calibration start pulse
+//   calib_done    : Calibration complete flag
+//   calib_mode_en : Calibration mode enable indicator
+//   comp_out      : Comparator output (1: Vp > Vn)
+//   dac_p_force   : P-side DAC force control signal
+//   dac_n_force   : N-side DAC force control signal
+//   w_wr_en       : Weight write-back enable
+//   w_wr_addr     : Weight write-back address
+//   w_wr_data     : Weight write-back data
 //
 // Design Notes  :
-//   1. [CRITICAL] 针对 Bit 18/19 的校准启用了特殊保护逻辑 (Bit-Swapping)
-//   2. [TIMING]   权重计算拆分为 S_PHASE_x_CALC 状态，需消耗 CAP_NUM 个时钟周期
-//   3. [ASIC]     复位释放后，Shadow RAM 低位自动加载理想值
+//   1. [CRITICAL] Special protection logic (Bit-Swapping) enabled for Bit 18/19 calibration
+//   2. [TIMING]   Weight calculation split into S_PHASE_x_CALC states, requires CAP_NUM clock cycles
+//   3. [ASIC]     After reset release, Shadow RAM lower bits automatically load ideal values
 // =============================================================================
 
 module sar_calib_ctrl_serial #(
-    parameter int CAP_NUM       = 20,            // 总电容位数 (Bit 0 ~ Bit 19)
-    parameter int WEIGHT_WIDTH  = 30,            // 权重定点数位宽 (Q18.12, 基准 256.0)
-    parameter int COMP_WAIT_CYC = 16,            // 比较器/DAC 建立时间 (时钟周期)
-    parameter int AVG_LOOPS     = 32,            // 平均次数 (必须为 2 的幂)
-    parameter int MAX_CALIB_BIT = 5              // 可信 LSB 段最高位 (Bit 0-5 免校准)
+    parameter int CAP_NUM       = 20,            // Total capacitor bit count (Bit 0 ~ Bit 19)
+    parameter int WEIGHT_WIDTH  = 30,            // Weight fixed-point bit width (Q18.12, reference 256.0)
+    parameter int COMP_WAIT_CYC = 16,            // Comparator/DAC settling time (clock cycles)
+    parameter int AVG_LOOPS     = 32,            // Averaging count (must be power of 2)
+    parameter int MAX_CALIB_BIT = 5              // Trusted LSB segment highest bit (Bit 0-5 calibration-free)
 )(
-    // --- 全局信号 ---
+    // --- Global Signals ---
     input  logic                          clk,
     input  logic                          rst_n,
     
-    // --- 控制平面 ---
-    input  logic                          start_calib,    // 启动脉冲
-    output logic                          calib_done,     // 完成标志
-    output logic                          calib_mode_en,  // 状态指示
+    // --- Control Plane ---
+    input  logic                          start_calib,    // Start pulse
+    output logic                          calib_done,     // Complete flag
+    output logic                          calib_mode_en,  // Status indicator
     
-    // --- 模拟前端 (AFE) ---
-    input  logic                          comp_out,       // 比较器输出 (1: Vp > Vn)
-    output logic [CAP_NUM-1:0]            dac_p_force,    // P端 DAC 强制控制
-    output logic [CAP_NUM-1:0]            dac_n_force,    // N端 DAC 强制控制
+    // --- Analog Front End (AFE) ---
+    input  logic                          comp_out,       // Comparator output (1: Vp > Vn)
+    output logic [CAP_NUM-1:0]            dac_p_force,    // P-side DAC force control
+    output logic [CAP_NUM-1:0]            dac_n_force,    // N-side DAC force control
     
-    // --- 寄存器堆写回 ---
+    // --- Register File Write-Back ---
     output logic                          w_wr_en,
     output logic [4:0]                    w_wr_addr,
     output logic signed [WEIGHT_WIDTH-1:0] w_wr_data
 );
 
-    // 计算移位位数: log2(32) = 5
+    // Calculate shift amount: log2(32) = 5
     localparam AVG_SHIFT = $clog2(AVG_LOOPS);
 
     // =========================================================================
-    // 1. 状态机定义 (FSM)
+    // 1. State Machine Definition (FSM)
     // =========================================================================
     typedef enum logic [3:0] {
-        S_IDLE,           // 空闲状态
-        S_INIT_TARGET,    // 初始化目标位
+        S_IDLE,           // Idle state
+        S_INIT_TARGET,    // Initialize target bit
         
-        // P 相序列
-        S_PHASE_P_SETUP,  // P相准备：设置保护位与搜索范围
-        S_PHASE_P_SAR,    // P相执行：二分搜索 (Binary Search)
-        S_PHASE_P_CALC,   // P相计算：[v2.0 New] 串行累加权重
+        // Phase P Sequence
+        S_PHASE_P_SETUP,  // Phase P setup: set protection bits and search range
+        S_PHASE_P_SAR,    // Phase P execute: binary search
+        S_PHASE_P_CALC,   // Phase P calculate: [v2.0 New] serial weight accumulation
         
-        // N 相序列
-        S_PHASE_N_SETUP,  // N相准备：反向连接
-        S_PHASE_N_SAR,    // N相执行：二分搜索
-        S_PHASE_N_CALC,   // N相计算：[v2.0 New] 串行累加权重
+        // Phase N Sequence
+        S_PHASE_N_SETUP,  // Phase N setup: reverse connection
+        S_PHASE_N_SAR,    // Phase N execute: binary search
+        S_PHASE_N_CALC,   // Phase N calculate: [v2.0 New] serial weight accumulation
         
-        S_ACCUMULATE,     // 累加操作：Sum += P + N
-        S_UPDATE_WEIGHT,  // 更新权重：计算平均并写入 Shadow RAM
-        S_DONE            // 校准完成
+        S_ACCUMULATE,     // Accumulate operation: Sum += P + N
+        S_UPDATE_WEIGHT,  // Update weight: calculate average and write to Shadow RAM
+        S_DONE            // Calibration complete
     } state_t;
 
     state_t state, next_state;
 
     // =========================================================================
-    // 2. 内部信号声明
+    // 2. Internal Signal Declaration
     // =========================================================================
-    // 控制计数器
-    logic [4:0]  target_bit;  // 当前正在校准的目标位 (6~19)
-    logic [5:0]  avg_cnt;     // 平均次数计数器
-    logic [7:0]  wait_cnt;    // 建立时间计数器
+    // Control counters
+    logic [4:0]  target_bit;  // Current target bit being calibrated (6~19)
+    logic [5:0]  avg_cnt;     // Averaging counter
+    logic [7:0]  wait_cnt;    // Settling time counter
     
-    // SAR 核心逻辑
-    logic [4:0]             sar_ptr;   // 当前正在试探的位指针
-    logic [CAP_NUM-1:0]     sar_code;  // SAR 搜索码字
+    // SAR core logic
+    logic [4:0]             sar_ptr;   // Current trial bit pointer
+    logic [CAP_NUM-1:0]     sar_code;  // SAR search codeword
     
-    // 串行计算逻辑 [v2.0 New]
-    logic [4:0]             calc_cnt;  // 串行累加计数器
-    logic signed [WEIGHT_WIDTH+5:0] temp_acc; // 临时累加器 (防溢出)
+    // Serial computation logic [v2.0 New]
+    logic [4:0]             calc_cnt;  // Serial accumulation counter
+    logic signed [WEIGHT_WIDTH+5:0] temp_acc; // Temporary accumulator (overflow protection)
     
-    // 算术运算单元
-    logic signed [WEIGHT_WIDTH+AVG_SHIFT+2:0] accumulator;        // 总平均累加器
-    logic signed [WEIGHT_WIDTH-1:0]           meas_val_p;         // P相测量结果
-    logic signed [WEIGHT_WIDTH-1:0]           meas_val_n;         // N相测量结果
-    logic signed [WEIGHT_WIDTH-1:0]           calc_result_wire;   // 平均值计算结果
+    // Arithmetic unit
+    logic signed [WEIGHT_WIDTH+AVG_SHIFT+2:0] accumulator;        // Total average accumulator
+    logic signed [WEIGHT_WIDTH-1:0]           meas_val_p;         // Phase P measurement result
+    logic signed [WEIGHT_WIDTH-1:0]           meas_val_n;         // Phase N measurement result
+    logic signed [WEIGHT_WIDTH-1:0]           calc_result_wire;   // Average calculation result
 
-    // 影子寄存器 (Shadow RAM)
-    // [CRITICAL] 存储递归算法所需的已知电容权重
+    // Shadow register (Shadow RAM)
+    // [CRITICAL] Stores known capacitor weights required for recursive algorithm
     logic signed [WEIGHT_WIDTH-1:0] shadow_weights [CAP_NUM];
 
-    logic comp_out_r;  // 比较器输出打拍同步
+    logic comp_out_r;  // Comparator output registered for synchronization
 
     // =========================================================================
-    // 3. 状态机跳转逻辑
+    // 3. State Machine Transition Logic
     // =========================================================================
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) state <= S_IDLE;
@@ -143,16 +145,16 @@ module sar_calib_ctrl_serial #(
             S_PHASE_P_SETUP:  next_state = S_PHASE_P_SAR;
             S_PHASE_P_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_P_CALC; 
                               else next_state = S_PHASE_P_SAR;
-            S_PHASE_P_CALC:   if (calc_cnt == CAP_NUM) next_state = S_PHASE_N_SETUP; // 等待串行计算完成
+            S_PHASE_P_CALC:   if (calc_cnt == CAP_NUM) next_state = S_PHASE_N_SETUP; // Wait for serial calculation complete
                               else next_state = S_PHASE_P_CALC;
             
             // Phase N: Setup -> SAR Loop -> Calc Loop -> Next
             S_PHASE_N_SETUP:  next_state = S_PHASE_N_SAR;
             S_PHASE_N_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_N_CALC; 
                               else next_state = S_PHASE_N_SAR;
-            S_PHASE_N_CALC:   if (calc_cnt == CAP_NUM) next_state = S_ACCUMULATE;    // 等待串行计算完成
+            S_PHASE_N_CALC:   if (calc_cnt == CAP_NUM) next_state = S_ACCUMULATE;    // Wait for serial calculation complete
 
-            // 循环与更新判断
+            // Loop and update judgment
             S_ACCUMULATE:     if (avg_cnt == AVG_LOOPS - 1) next_state = S_UPDATE_WEIGHT;
                               else next_state = S_PHASE_P_SETUP;
                               
@@ -165,7 +167,7 @@ module sar_calib_ctrl_serial #(
     end
 
     // =========================================================================
-    // 4. 核心数据通路 (Sequential Logic)
+    // 4. Core Data Path (Sequential Logic)
     // =========================================================================
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -176,7 +178,7 @@ module sar_calib_ctrl_serial #(
             calc_cnt <= 0; temp_acc <= 0;
             
             // [ASIC Safe Initialization]
-            // 在复位阶段初始化基准权重，替代原有的 initial 块，确保 ASIC 兼容性
+            // Initialize reference weights during reset phase, replaces original initial block, ensures ASIC compatibility
             for(int i=0; i<CAP_NUM; i++) shadow_weights[i] <= 0;
             shadow_weights[0] <= 30'd256;  // Bit 0 = 1.0
             shadow_weights[1] <= 30'd512;  // Bit 1 = 2.0
@@ -187,7 +189,7 @@ module sar_calib_ctrl_serial #(
             
         end else begin
             w_wr_en <= 0;
-            comp_out_r <= comp_out; // 输入同步
+            comp_out_r <= comp_out; // Input synchronization
 
             case (state)
                 S_IDLE: begin
@@ -204,7 +206,7 @@ module sar_calib_ctrl_serial #(
                 // =============================================================
                 S_PHASE_P_SETUP: begin
                     sar_code <= 0;
-                    // [MSB Protection] 避开保护位，防止重复计算
+                    // [MSB Protection] Avoid protection bits, prevent double counting
                     if (target_bit >= 18) sar_ptr <= 16; else sar_ptr <= target_bit - 1;
                     wait_cnt <= COMP_WAIT_CYC;
                 end
@@ -219,18 +221,18 @@ module sar_calib_ctrl_serial #(
                         if (sar_ptr > 0) begin
                             sar_ptr <= sar_ptr - 1; wait_cnt <= COMP_WAIT_CYC;
                         end else begin
-                            calc_cnt <= 0; temp_acc <= 0; // SAR 结束，启动串行计算
+                            calc_cnt <= 0; temp_acc <= 0; // SAR complete, start serial calculation
                         end
                     end
                 end
 
                 S_PHASE_P_CALC: begin
                     if (calc_cnt < CAP_NUM) begin
-                        // [Serial Accumulation] 逐位累加，优化时序
+                        // [Serial Accumulation] Bit-by-bit accumulation, timing optimization
                         if (sar_code[calc_cnt]) temp_acc <= temp_acc + shadow_weights[calc_cnt];
                         calc_cnt <= calc_cnt + 1;
                     end else begin
-                        // [Digital Restoration] 补偿保护位权重
+                        // [Digital Restoration] Compensate protection bit weights
                         automatic logic signed [WEIGHT_WIDTH+5:0] final_val = temp_acc;
                         if (target_bit == 18) final_val += shadow_weights[17];
                         if (target_bit == 19) final_val += shadow_weights[18] + shadow_weights[17];
@@ -267,7 +269,7 @@ module sar_calib_ctrl_serial #(
                         if (sar_code[calc_cnt]) temp_acc <= temp_acc + shadow_weights[calc_cnt];
                         calc_cnt <= calc_cnt + 1;
                     end else begin
-                        // [Digital Restoration] 补偿保护位权重
+                        // [Digital Restoration] Compensate protection bit weights
                         automatic logic signed [WEIGHT_WIDTH+5:0] final_val = temp_acc;
                         if (target_bit == 18) final_val += shadow_weights[17];
                         if (target_bit == 19) final_val += shadow_weights[18] + shadow_weights[17];
@@ -276,7 +278,7 @@ module sar_calib_ctrl_serial #(
                 end
 
                 // =============================================================
-                // 结果累加与更新
+                // Result Accumulation and Update
                 // =============================================================
                 S_ACCUMULATE: begin
                     accumulator <= accumulator + meas_val_p + meas_val_n;
@@ -284,12 +286,12 @@ module sar_calib_ctrl_serial #(
                 end
 
                 S_UPDATE_WEIGHT: begin
-                    // 1. 写回外部接口
+                    // 1. Write-back to external interface
                     w_wr_data <= calc_result_wire;
                     w_wr_addr <= target_bit;
                     w_wr_en   <= 1;
                     
-                    // 2. [CRITICAL] 更新 Shadow RAM，供下一位递归使用
+                    // 2. [CRITICAL] Update Shadow RAM for next bit recursive use
                     shadow_weights[target_bit] <= calc_result_wire;
                     
                     if (target_bit == CAP_NUM - 1) begin 
@@ -302,12 +304,12 @@ module sar_calib_ctrl_serial #(
         end
     end
 
-    // [Optimization] 采用四舍五入 (Rounding) 替代向下截断，减少递归累积误差
+    // [Optimization] Use rounding instead of truncation to reduce recursive accumulation error
     // formula: (accumulator + 0.5) >> shift
     assign calc_result_wire = (accumulator + (1 << AVG_SHIFT)) >>> (AVG_SHIFT + 1);
 
     // =========================================================================
-    // 5. 组合逻辑：DAC 驱动矩阵 (含 MSB 保护)
+    // 5. Combinational Logic: DAC Drive Matrix (with MSB Protection)
     // =========================================================================
     always_comb begin
         dac_p_force = 0; dac_n_force = 0;

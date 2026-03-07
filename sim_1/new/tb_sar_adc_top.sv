@@ -1,25 +1,25 @@
 `timescale 1ns/1ps
 
 // =============================================================================
-// 项目名称      : Split-Sampling SAR ADC Verification
-// 文件名        : tb_sar_adc_top.sv
-// 版本          : V17.0 (The Final Fix)
-// 描述          : 1. [核心修复] 后门初始化 Bit 0-5 的权重。
-//                    原因：校准器跳过了低 6 位，导致 RAM 中默认为 0。如果不手动
-//                    填入理想值，会导致 ~32 LSB 的系统性缺失 (Missing Code)。
-//                 2. 保持 FRAC_BITS = 9 以防止溢出。
-//                 3. 预期结果：Linearity INL < 1.0 LSB (全绿)。
+// Project Name  : Split-Sampling SAR ADC Verification
+// File Name     : tb_sar_adc_top.sv
+// Version       : V17.0 (The Final Fix)
+// Note          : 1. [Critical Fix] Must initialize Bit 0-5 weights.
+//                    Original calibration algorithm skipped lower 6 bits, RAM defaults to 0, manual
+//                    loading of ideal values is required, otherwise ~32 LSB systematic offset (Missing Code).
+//                 2. Set FRAC_BITS = 9 to prevent overflow.
+//                 3. Expected Result: Linearity INL < 1.0 LSB (full range).
 // =============================================================================
 
 module tb_sar_adc_top;
 
-    // --- 参数定义 ---
+    // --- Parameter Definition ---
     parameter int CAP_NUM       = 20;
     parameter int WEIGHT_WIDTH  = 30;
     parameter int OUTPUT_WIDTH  = 16;
     parameter int CLK_PERIOD    = 200; 
 
-    // --- 信号声明 ---
+    // --- Signal Declaration ---
     logic clk, rst_n;
     logic start_calib, calib_done, calib_mode_en;
     
@@ -37,14 +37,14 @@ module tb_sar_adc_top;
     logic signed [OUTPUT_WIDTH-1:0] adc_final_out;
     logic adc_out_valid;
 
-    // 硬件 SAR 控制器接口
+    // Hardware SAR controller interface
     logic sar_start;
     logic sar_eoc;
     logic sar_hw_valid;
     logic [CAP_NUM-1:0] sar_result_hw;
     logic tb_comp_out_for_hw; 
 
-    // --- 模块实例化 ---
+    // --- Module Instances ---
     
     virtual_adc_phy #(.CAP_NUM(CAP_NUM)) u_phy (
         .clk(clk),
@@ -82,7 +82,7 @@ module tb_sar_adc_top;
         .dac_p_force(dac_p_force_hw)   
     );
 
-    // FRAC_BITS = 9 (防止溢出)
+    // FRAC_BITS = 9 (prevent overflow)
     sar_reconstruction #(
         .CAP_NUM(CAP_NUM), 
         .WEIGHT_WIDTH(WEIGHT_WIDTH), 
@@ -100,17 +100,17 @@ module tb_sar_adc_top;
         .data_valid_out(adc_out_valid)
     );
 
-    // --- 时钟生成 ---
+    // --- Clock Generation ---
     initial begin 
         clk = 0; 
         forever #(CLK_PERIOD/2) clk = ~clk;
     end
 
-    // --- MUX 逻辑 ---
+    // --- MUX Logic ---
     assign dac_p_force_mux = calib_mode_en ? dac_p_force_calib : dac_p_force_hw;
     assign dac_n_force_mux = calib_mode_en ? dac_n_force_calib : {CAP_NUM{1'b0}};
 
-    // --- 模拟比较器 ---
+    // --- Analog Comparator ---
     longint current_analog_input_scaled; 
     longint current_dac_p_val;           
     
@@ -126,10 +126,10 @@ module tb_sar_adc_top;
     end
 
     // =========================================================================
-    // 主测试流程
+    // Main Test Process
     // =========================================================================
     initial begin
-        // --- 变量声明 ---
+        // --- Variable Declaration ---
         int i, k;
         int timeout;
         longint vin_int_raw; 
@@ -145,7 +145,7 @@ module tb_sar_adc_top;
 
         max_inl = 0;
 
-        // --- STEP 0: 初始化 ---
+        // --- STEP 0: Initialization ---
         task_print_banner("STEP 0: SYSTEM INITIALIZATION");
         rst_n = 0;
         start_calib = 0; 
@@ -156,9 +156,10 @@ module tb_sar_adc_top;
         repeat(10) @(posedge clk);
         rst_n = 1;
         
-        // [核心修复] 手动初始化 Bit 0-5
-        // 这些位被校准器跳过，默认是 0。必须填入理想值，否则会有 ~32 LSB 的误差。
-        // 值来源于 PHY 模型: 256, 512, 1024, 2048, 4096, 8192
+        // [Critical Fix] Manually initialize Bit 0-5
+        // These bits are skipped by calibration algorithm, default to 0, loading ideal values
+        // is required, otherwise ~32 LSB error.
+        // Values from PHY model: 256, 512, 1024, 2048, 4096, 8192
         u_recon.weight_ram[0] = 30'd256;
         u_recon.weight_ram[1] = 30'd512;
         u_recon.weight_ram[2] = 30'd1024;
@@ -169,7 +170,7 @@ module tb_sar_adc_top;
         $display("|  [INFO]   | Clock Period    | %0d ns", CLK_PERIOD);
         $display("|  [INFO]   | LSB Init        | Bit 0-5 manually loaded with ideal weights.");
 
-        // --- STEP 1: 执行校准 ---
+        // --- STEP 1: Execute Calibration ---
         task_print_banner("STEP 1: FOREGROUND CALIBRATION");
         
         @(posedge clk); start_calib = 1; 
@@ -191,10 +192,10 @@ module tb_sar_adc_top;
         $display("|  [WAIT]   | Settling Memory | Waiting 20 cycles...   |");
         repeat(20) @(posedge clk); 
 
-        // --- 诊断: 检查校准准确性 ---
+        // --- Debug: Check Calibration Accuracy ---
         task_print_banner("DEBUG: CALIBRATION ACCURACY CHECK");
         
-        // 计算 K
+        // Calculate K
         gain_k = real'(u_phy.phy_weights[19]) / real'(u_recon.weight_ram[19]);
         
         $display("|  [INFO]   | Phy MSB (MATLAB)| %12.0f           |", real'(u_phy.phy_weights[19]));
@@ -213,8 +214,8 @@ module tb_sar_adc_top;
             abs_err = (restored - phy_val) / 256.0;
             if (abs_err < 0) abs_err = -abs_err;
 
-            // Bit 0-5 已经手动填入，这里也应该能通过检查 (只要 K 接近 1.0)
-            // 放宽一点低位的容差，因为 K 是基于高位算的
+            // Bit 0-5 already manually loaded, should also pass (as long as K is close to 1.0)
+            // Only check higher bits for residual error, since K is based on MSB
             if (k <= 5) begin
                 if (abs_err < 2.0)
                     $display("| Bit %2d    | %15.0f | %13.2f | %14.0f | %12.4f | PASS(Init)|", k, cal_val, restored, phy_val, abs_err);
@@ -234,7 +235,7 @@ module tb_sar_adc_top;
         end
         $display("|-----------|-----------------|---------------|----------------|--------------|--------|");
 
-        // --- STEP 2: 建立系统拟合基准 ---
+        // --- STEP 2: System Gain Fitting ---
         task_print_banner("STEP 2: SYSTEM GAIN FITTING");
         
         run_hardware_sar(0); capture_result(cur_sample);
@@ -250,7 +251,7 @@ module tb_sar_adc_top;
         $display("|  [CALC]   | Fitted Slope    | %0.4f Code/mV", slope);
         $display("|  [CALC]   | Fitted Offset   | %0.2f Code", offset);
 
-        // --- STEP 3: 动态扫描与 INL 检查 ---
+        // --- STEP 3: Dynamic Sweep and INL Test ---
         task_print_banner("STEP 3: LINEARITY CHECK (INL)");
         
         $display("+-----------------+--------------+--------------+--------------+-------------------+");
@@ -272,7 +273,7 @@ module tb_sar_adc_top;
             if (inl_error < 0) max_inl = (inl_error * -1.0 > max_inl) ? (inl_error * -1.0) : max_inl;
             else               max_inl = (inl_error > max_inl) ? inl_error : max_inl;
 
-            // 判据 < 2.0 LSB
+            // Criterion < 2.0 LSB
             if (inl_error > 2.0 || inl_error < -2.0)
                 $display("| %15t |   %10.1f |   %10.1f | %10.2f | FAIL              |", 
                      $time, v_ideal_mv, v_meas_fit, inl_error);
@@ -282,7 +283,7 @@ module tb_sar_adc_top;
         end
         $display("+-----------------+--------------+--------------+--------------+-------------------+");
 
-        // --- STEP 4: 最终总结 ---
+        // --- STEP 4: Final Summary ---
         task_print_banner("STEP 4: FINAL SUMMARY");
         if (max_inl < 2.0) 
             $display("|  [CHECK]  | Linearity (INL) | PASS (Max INL = %0.2f LSB)", max_inl);

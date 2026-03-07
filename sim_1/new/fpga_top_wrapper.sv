@@ -1,34 +1,34 @@
 `timescale 1ns/1ps
 
 module fpga_top_wrapper (
-    input  wire clk,           // 板载时钟 (e.g. 100MHz or 50MHz)
-    input  wire rst_n_btn,     // 复位按键
-    input  wire start_sw,      // 启动开关
-    output wire done_led       // 完成指示灯
+    input  wire clk,           // System clock (e.g. 100MHz or 50MHz)
+    input  wire rst_n_btn,     // Reset button
+    input  wire start_sw,      // Start switch
+    output wire done_led       // Done indicator LED
 );
 
-// --- 内部信号 ---
+// --- Internal Signals ---
     logic comp_out;
     logic [19:0] dac_p_force;
     logic [19:0] dac_n_force;
     logic calib_mode_en;
 
     // =======================================================
-    // [关键修改] 添加 (* mark_debug = "true" *) 属性
-    // 这能强制综合器保留计算逻辑，解决 "55 LUTs" 问题
+    // [Critical Modification] Added (* mark_debug = "true" *) attribute
+    // This forces synthesis to preserve these signals for ILA debugging
     // =======================================================
     (* mark_debug = "true" *) logic w_wr_en;
     (* mark_debug = "true" *) logic [4:0] w_wr_addr;
     (* mark_debug = "true" *) logic signed [29:0] w_wr_data;
 
-    // --- 1. 实例化核心控制器 (DUT) ---
+    // --- 1. Instantiate Calibration Core (DUT) ---
     sar_calib_ctrl_serial #(
         .CAP_NUM(20),
         .WEIGHT_WIDTH(30),
-        .AVG_LOOPS(32)   // FPGA 上跑快点，可以用 32 或 64
+        .AVG_LOOPS(32)   // FPGA resources sufficient, can use 32 or 64
     ) u_core (
         .clk           (clk),
-        .rst_n         (rst_n_btn),    // 实际工程建议加 Debounce (消抖)
+        .rst_n         (rst_n_btn),    // Actual button needs Debounce (omitted)
         .start_calib   (start_sw),
         .calib_done    (done_led),
         .calib_mode_en (calib_mode_en),
@@ -40,7 +40,7 @@ module fpga_top_wrapper (
         .w_wr_data     (w_wr_data)
     );
 
-    // --- 2. 实例化虚拟 ADC 物理模型 ---
+    // --- 2. Instantiate Virtual ADC Physical Model ---
     virtual_adc_phy #(
         .CAP_NUM(20)
     ) u_phy_model (
@@ -51,8 +51,8 @@ module fpga_top_wrapper (
         .comp_out    (comp_out)
     );
 
-    // --- 3. (可选) ILA 调试核实例化 ---
-    // 如果您想在 Vivado 里看到波形，请取消注释并生成 IP
+    // --- 3. (Optional) ILA Debug Core Instantiation ---
+    // Uncomment to add ILA IP in Vivado for hardware debugging
     /*
     ila_0 u_ila (
         .clk(clk), 
