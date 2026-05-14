@@ -1,0 +1,69 @@
+# Vivado generated files
+*.jou
+*.log
+*.str
+*.wdb
+*.wcfg
+*.pb
+*.dcp
+*.rpt
+*.rpx
+*.vds
+*.sdf
+*.xdbg
+*.rlx
+*.sdb
+*.wdf
+*.wdm
+*.wpc
+*.lpr
+
+.Xil/
+*.cache/
+*.hw/
+*.runs/
+*.sim/
+*.ip_user_files/
+*/.Xil/
+*/*.cache/
+*/*.hw/
+*/*.runs/
+*/*.sim/
+*/*.ip_user_files/
+
+# Simulation build outputs
+xsim.dir/
+*.vcd
+*.fst
+*.vvp
+*.o
+*.obj
+*.exe
+
+# Binary snapshots and archives
+*.rar
+*.zip
+*.7z
+*.tar
+*.tar.gz
+archive/git_metadata/
+
+# Large local references
+Digital_process/Digital_process.srcs/REFERENCE/*.pdf
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Script/runtime caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
