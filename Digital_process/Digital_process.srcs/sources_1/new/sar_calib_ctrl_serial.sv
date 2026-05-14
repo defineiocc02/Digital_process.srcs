@@ -220,9 +220,9 @@ module sar_calib_ctrl_serial #(
                 end
 
                 // =============================================================
-                // PHASE P: SAR Search -> Serial Calc
+                // PHASE P/N: SAR Search -> Serial Calc
                 // =============================================================
-                S_PHASE_P_SETUP: begin
+                S_PHASE_P_SETUP, S_PHASE_N_SETUP: begin
                     sar_code <= 0;
                     // [MSB Protection] Avoid protection bits, prevent double counting
                     if (target_bit >= PROTECT_START_BIT) sar_ptr <= PROTECT_SEARCH_TOPBIT;
@@ -230,13 +230,16 @@ module sar_calib_ctrl_serial #(
                     wait_cnt <= COMP_WAIT_CYC;
                 end
 
-                S_PHASE_P_SAR: begin
+                S_PHASE_P_SAR, S_PHASE_N_SAR: begin
                     if (wait_cnt == COMP_WAIT_CYC) begin
                          sar_code[sar_ptr] <= 1; wait_cnt <= wait_cnt - 1; // Trial
                     end else if (wait_cnt > 0) begin
                          wait_cnt <= wait_cnt - 1;
                     end else begin
-                        if (!comp_out_r) sar_code[sar_ptr] <= 0; // Drop if P > N
+                        if (((state == S_PHASE_P_SAR) && !comp_out_r) ||
+                            ((state == S_PHASE_N_SAR) &&  comp_out_r)) begin
+                            sar_code[sar_ptr] <= 0;
+                        end
                         if (sar_ptr > 0) begin
                             sar_ptr <= sar_ptr - 1; wait_cnt <= COMP_WAIT_CYC;
                         end else begin
@@ -245,49 +248,17 @@ module sar_calib_ctrl_serial #(
                     end
                 end
 
-                S_PHASE_P_CALC: begin
+                S_PHASE_P_CALC, S_PHASE_N_CALC: begin
                     if (calc_cnt < CAP_NUM) begin
                         // [Serial Accumulation] Bit-by-bit accumulation, timing optimization
                         if (sar_code[calc_cnt]) temp_acc <= temp_acc + shadow_weights[calc_cnt];
                         calc_cnt <= calc_cnt + 1;
                     end else begin
                         // [Digital Restoration] Compensate protection bit weights
-                        meas_val_p <= signed'(compensated_meas[WEIGHT_WIDTH-1:0]);
-                    end
-                end
-
-                // =============================================================
-                // PHASE N: SAR Search -> Serial Calc
-                // =============================================================
-                S_PHASE_N_SETUP: begin
-                    sar_code <= 0;
-                    if (target_bit >= PROTECT_START_BIT) sar_ptr <= PROTECT_SEARCH_TOPBIT;
-                    else sar_ptr <= target_bit - 1;
-                    wait_cnt <= COMP_WAIT_CYC;
-                end
-
-                S_PHASE_N_SAR: begin
-                    if (wait_cnt == COMP_WAIT_CYC) begin
-                         sar_code[sar_ptr] <= 1; wait_cnt <= wait_cnt - 1;
-                    end else if (wait_cnt > 0) begin
-                         wait_cnt <= wait_cnt - 1;
-                    end else begin
-                        if (comp_out_r) sar_code[sar_ptr] <= 0; // Drop if N > P (Inverse logic)
-                        if (sar_ptr > 0) begin
-                            sar_ptr <= sar_ptr - 1; wait_cnt <= COMP_WAIT_CYC;
-                        end else begin
-                            calc_cnt <= 0; temp_acc <= 0;
-                        end
-                    end
-                end
-
-                S_PHASE_N_CALC: begin
-                    if (calc_cnt < CAP_NUM) begin
-                        if (sar_code[calc_cnt]) temp_acc <= temp_acc + shadow_weights[calc_cnt];
-                        calc_cnt <= calc_cnt + 1;
-                    end else begin
-                        // [Digital Restoration] Compensate protection bit weights
-                        meas_val_n <= signed'(compensated_meas[WEIGHT_WIDTH-1:0]);
+                        if (state == S_PHASE_P_CALC)
+                            meas_val_p <= signed'(compensated_meas[WEIGHT_WIDTH-1:0]);
+                        else
+                            meas_val_n <= signed'(compensated_meas[WEIGHT_WIDTH-1:0]);
                     end
                 end
 
