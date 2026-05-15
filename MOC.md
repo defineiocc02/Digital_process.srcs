@@ -25,5 +25,8 @@
 
 ## Archive
 
-- Full organized snapshot: `archive/full-project-before-core-prune`
+- [archive/README.md](archive/README.md)
+- `archive/deleted-in-039c478/`: first prune archive, including MATLAB and legacy projects.
+- `archive/deleted-in-110ef75/`: minimal-core prune archive, including old top/control/decoder files.
+- Git tag: `archive/full-project-before-core-prune`
 - Previous core commit: `039c478`

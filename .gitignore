@@ -46,9 +46,8 @@ xsim.dir/
 *.7z
 *.tar
 *.tar.gz
-archive/git_metadata/
-archive/
-matlab/
+/archive/git_metadata/
+/matlab/
 
 # Large local references
 Digital_process/Digital_process.srcs/REFERENCE/*.pdf

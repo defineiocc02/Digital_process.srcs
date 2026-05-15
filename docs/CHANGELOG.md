@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.3.1-archive - 2026-05-15
+
+- Restored previously removed files into tracked archive directories.
+- Added `archive/deleted-in-039c478/` for MATLAB, legacy Vivado projects, backup files, old docs, scripts, and reports removed by the first prune.
+- Added `archive/deleted-in-110ef75/` for former top/SAR/Flash/virtual ADC files and duplicate testbenches removed by the minimal-core prune.
+- Updated `.gitignore` so archive contents are versioned.
+- Kept active RTL logic unchanged.
+
 ## v3.3.0-minimal - 2026-05-15
 
 - Reduced mainline to two RTL files: calibration and reconstruction.
