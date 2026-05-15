@@ -136,6 +136,17 @@ module sar_calib_ctrl_serial #(
 
     logic comp_out_r;  // Comparator output registered for synchronization
     logic signed [WEIGHT_WIDTH+5:0] compensated_meas;
+    logic phase_p_active;
+    logic phase_n_active;
+    logic [CAP_NUM-1:0] target_drive_code;
+    logic [CAP_NUM-1:0] protected_sar_code;
+
+    assign phase_p_active = (state == S_PHASE_P_SETUP) ||
+                            (state == S_PHASE_P_SAR)   ||
+                            (state == S_PHASE_P_CALC);
+    assign phase_n_active = (state == S_PHASE_N_SETUP) ||
+                            (state == S_PHASE_N_SAR)   ||
+                            (state == S_PHASE_N_CALC);
 
     always_comb begin
         compensated_meas = temp_acc;
@@ -143,6 +154,19 @@ module sar_calib_ctrl_serial #(
             compensated_meas = compensated_meas + shadow_weights[PROTECT_LOW_BIT];
         else if (target_bit == CAP_NUM - 1)
             compensated_meas = compensated_meas + shadow_weights[PROTECT_START_BIT] + shadow_weights[PROTECT_LOW_BIT];
+    end
+
+    always_comb begin
+        target_drive_code = '0;
+        target_drive_code[target_bit] = 1'b1;
+
+        protected_sar_code = sar_code;
+        if (target_bit == PROTECT_START_BIT)
+            protected_sar_code[PROTECT_LOW_BIT] = 1'b1;
+        else if (target_bit == CAP_NUM - 1) begin
+            protected_sar_code[PROTECT_START_BIT] = 1'b1;
+            protected_sar_code[PROTECT_LOW_BIT] = 1'b1;
+        end
     end
 
     // =========================================================================
@@ -297,29 +321,15 @@ module sar_calib_ctrl_serial #(
     // 5. Combinational Logic: DAC Drive Matrix (with MSB Protection)
     // =========================================================================
     always_comb begin
-        dac_p_force = 0; dac_n_force = 0;
-        
-        // --- Phase P Drive ---
-        if (state == S_PHASE_P_SAR || state == S_PHASE_P_SETUP || state == S_PHASE_P_CALC) begin
-            dac_p_force[target_bit] = 1; 
-            dac_n_force = sar_code;       
-            // [MSB Protection Mapping]
-            if (target_bit == PROTECT_START_BIT) dac_n_force[PROTECT_LOW_BIT] = 1; 
-            if (target_bit == CAP_NUM - 1) begin
-                dac_n_force[PROTECT_START_BIT] = 1;
-                dac_n_force[PROTECT_LOW_BIT] = 1;
-            end
-        end 
-        // --- Phase N Drive ---
-        else if (state == S_PHASE_N_SAR || state == S_PHASE_N_SETUP || state == S_PHASE_N_CALC) begin
-            dac_n_force[target_bit] = 1; 
-            dac_p_force = sar_code;       
-            // [MSB Protection Mapping]
-            if (target_bit == PROTECT_START_BIT) dac_p_force[PROTECT_LOW_BIT] = 1; 
-            if (target_bit == CAP_NUM - 1) begin
-                dac_p_force[PROTECT_START_BIT] = 1;
-                dac_p_force[PROTECT_LOW_BIT] = 1;
-            end
+        dac_p_force = '0;
+        dac_n_force = '0;
+
+        if (phase_p_active) begin
+            dac_p_force = target_drive_code;
+            dac_n_force = protected_sar_code;
+        end else if (phase_n_active) begin
+            dac_p_force = protected_sar_code;
+            dac_n_force = target_drive_code;
         end
     end
 

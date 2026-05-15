@@ -1,29 +1,28 @@
 # Project Organization
 
-当前仓库采用核心工程版结构，只保留能支撑 Vivado 打开、RTL 开发和基本仿真的文件。
+## Keep
 
-## 保留规则
+- Two RTL files:
+  - `sar_reconstruction.sv`
+  - `sar_calib_ctrl_serial.sv`
+- Two testbench files:
+  - `tb_sar_recon.sv`
+  - `tb_gain_comp_check_lsb.sv`
+- Vivado project and one XDC.
+- Concise docs under `docs/`.
 
-- 保留活动 Vivado 工程：`Digital_process/Digital_process.xpr`
-- 保留活动 RTL：`Digital_process/Digital_process.srcs/sources_1/new/`
-- 保留活动 testbench：`Digital_process/Digital_process.srcs/sim_1/new/`
-- 保留活动约束：`Digital_process/Digital_process.srcs/constrs_1/new/`
-- 保留顶层文档：`README.md`、`MOC.md`、`docs/`
+## Remove From Mainline
 
-## 删除规则
+- System integration wrapper.
+- SAR controller.
+- Flash decoder.
+- Virtual PHY model.
+- System-level testbench.
+- MATLAB scripts, old docs, backup copies, generated outputs.
 
-- 不保留重复 RTL/TB 备份目录。
-- 不保留旧 Vivado 工程目录。
-- 不保留 Vivado 生成目录：`.runs`、`.sim`、`.cache`、`.hw`。
-- 不保留大二进制和参考 PDF。
-- 不保留未被核心工程引用的 MATLAB 辅助脚本。
+## Archive Policy
 
-## 归档方式
+Do not keep duplicated files in the working tree. Use Git history:
 
-使用 Git 历史和标签归档。当前核心化前的完整整理版标签为：
-
-```bash
-git checkout archive/full-project-before-core-prune
-```
-
-这样主线目录保持轻量，历史资料仍可追溯。
+- `archive/full-project-before-core-prune`
+- commit `039c478` for the previous core source set.

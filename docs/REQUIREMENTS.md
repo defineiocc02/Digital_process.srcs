@@ -1,20 +1,17 @@
 # Requirements
 
-## Scope
+## Functional Scope
 
-本仓库只维护 16-bit split-sampling SAR ADC 数字后端的核心工程。
+只维护两项功能：
 
-## Must Keep
+1. SAR ADC 校准控制。
+2. SAR ADC 数字重构。
 
-- Vivado 工程可打开。
-- RTL 顶层、校准、重构、SAR 控制、Flash 译码、虚拟 AFE 模型齐全。
-- 系统级和关键模块级 testbench 齐全。
-- 约束文件保留。
-- 版本说明和恢复标签清晰。
+## Required Files
 
-## Must Avoid
+- `sar_calib_ctrl_serial.sv`
+- `sar_reconstruction.sv`
+- `tb_gain_comp_check_lsb.sv`
+- `tb_sar_recon.sv`
 
-- 重复 RTL/TB 备份进入主线。
-- 旧工程源码和活动工程混放。
-- Vivado 生成物进入 Git。
-- 大二进制快照、PDF 参考资料和未引用脚本污染核心代码库。
+其它模块不进入最小主线。

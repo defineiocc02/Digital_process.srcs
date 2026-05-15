@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.3.0-minimal - 2026-05-15
+
+- Reduced mainline to two RTL files: calibration and reconstruction.
+- Kept only two corresponding testbenches.
+- Removed `fpga_top_wrapper`, `sar_adc_controller`, `flash_decoder_adder`, `virtual_adc_phy`.
+- Removed system-level and flash decoder testbenches.
+- Updated `Digital_process.xpr` to reference only minimal RTL/TB files.
+- Further merged duplicated P/N DAC drive logic inside `sar_calib_ctrl_serial`.
+
 ## v3.2.0-core - 2026-05-15
 
 - Added Git archive tag `archive/full-project-before-core-prune` for the full organized snapshot.
@@ -7,7 +16,6 @@
 - Moved `fpga_top_wrapper.sv` from `sim_1/new` to `sources_1/new`.
 - Updated `Digital_process.xpr` to reference the top wrapper from the RTL source set.
 - Merged duplicated P/N phase setup, SAR, and calc sequential logic in `sar_calib_ctrl_serial.sv`.
-- Rewrote top-level README, MOC, architecture, verification, requirements, and project organization docs for the core-only structure.
 
 ## v3.1.0-organized - 2026-05-15
 

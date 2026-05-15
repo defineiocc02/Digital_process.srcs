@@ -2,23 +2,15 @@
 
 ## Current
 
-- Version: `v3.2.0-core`
+- Version: `v3.3.0-minimal`
 - Date: 2026-05-15
-- Branch: `master`
-- Purpose: keep only the core Vivado/RTL/verification project files.
+- Purpose: minimal source tree for calibration and reconstruction only.
 
-## Archive Tag
+## Recovery Points
 
-The pre-prune organized snapshot is tagged as:
+- Full organized snapshot: `archive/full-project-before-core-prune`
+- Previous core source commit: `039c478`
 
-```bash
-git checkout archive/full-project-before-core-prune
-```
+## Policy
 
-Use this tag only when old docs, MATLAB scripts, binary snapshot references, or legacy Vivado projects are needed.
-
-## Version Policy
-
-- `core`: current lean working tree, suitable for active RTL development.
-- `archive/*`: Git tags used for historical recovery.
-- Vivado generated files are never part of versioned source.
+The working tree should stay small. Do not add duplicated helper modules unless they are required by the two kept RTL cores or their testbenches.

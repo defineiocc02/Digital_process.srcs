@@ -1,62 +1,48 @@
-# SAR ADC V3 Core
+# SAR ADC V3 Minimal Core
 
-这是 16-bit split-sampling SAR ADC 数字后端的核心工程版。当前主线只保留能打开、能综合/仿真、能继续开发的最小文件集；历史工程、旧备份、MATLAB 辅助脚本和重复文档已经从工作树移除，归档通过 Git 历史和标签完成。
+这是当前仓库的最小核心版，只保留两个核心功能块及其对应 testbench：
 
-## 当前版本
+- 数字重构：`sar_reconstruction.sv` + `tb_sar_recon.sv`
+- 前景校准：`sar_calib_ctrl_serial.sv` + `tb_gain_comp_check_lsb.sv`
 
-- Version: `v3.2.0-core`
-- Archive tag: `archive/full-project-before-core-prune`
-- Main commit goal: core RTL, core testbench, Vivado project, concise docs only
+旧的系统顶层、SAR 控制器、flash decoder、virtual PHY、系统闭环 TB、MATLAB 脚本和历史工程均已从主线移除；需要时通过 Git 历史恢复。
 
-## 工程入口
+## 版本
 
-- Vivado project: `Digital_process/Digital_process.xpr`
-- Vivado version: 2018.3 project format
-- FPGA part: `xc7a35tfgg484-2`
-- RTL top: `fpga_top_wrapper`
-- Main simulation top: `tb_sar_adc_top`
+- Version: `v3.3.0-minimal`
+- Previous core commit: `039c478`
+- Full organized archive tag: `archive/full-project-before-core-prune`
 
-## 核心文件
+## 文件结构
 
 ```text
-Digital_process/
-├── Digital_process.xpr
-└── Digital_process.srcs/
-    ├── sources_1/new/
-    │   ├── fpga_top_wrapper.sv
-    │   ├── sar_calib_ctrl_serial.sv
-    │   ├── sar_reconstruction.sv
-    │   ├── sar_adc_controller.sv
-    │   ├── flash_decoder_adder.sv
-    │   └── virtual_adc_phy.v
-    ├── sim_1/new/
-    │   ├── tb_sar_adc_top.sv
-    │   ├── tb_sar_recon.sv
-    │   ├── tb_gain_comp_check_lsb.sv
-    │   └── tb_flash_decoder.sv
-    └── constrs_1/new/
-        └── sar_calib_fpga.xdc
+sar_adc_v3/
+├── Digital_process/
+│   ├── Digital_process.xpr
+│   └── Digital_process.srcs/
+│       ├── sources_1/new/
+│       │   ├── sar_calib_ctrl_serial.sv
+│       │   └── sar_reconstruction.sv
+│       ├── sim_1/new/
+│       │   ├── tb_gain_comp_check_lsb.sv
+│       │   └── tb_sar_recon.sv
+│       └── constrs_1/new/
+│           └── sar_calib_fpga.xdc
+├── docs/
+├── MOC.md
+└── README.md
 ```
 
-## 模块职责
+## Vivado 默认入口
 
-- `sar_calib_ctrl_serial.sv`: 前景递归校准控制器，负责 DAC force、比较器反馈搜索、权重写回。
-- `sar_reconstruction.sv`: 根据校准权重重构 16-bit signed 输出。
-- `sar_adc_controller.sv`: SAR 转换控制器，用于系统级闭环验证。
-- `flash_decoder_adder.sv`: thermometer code 到 binary 的小型译码器。
-- `virtual_adc_phy.v`: 仿真用电容权重与比较器模型。
-- `fpga_top_wrapper.sv`: FPGA 工程顶层包装。
+- Project: `Digital_process/Digital_process.xpr`
+- Default synthesis top: `sar_reconstruction`
+- Default simulation top: `tb_sar_recon`
+- Calibration simulation top: switch to `tb_gain_comp_check_lsb` in Vivado when needed.
 
-## 本轮核心化改动
+## 本轮进一步精简
 
-1. 删除重复 RTL/TB 备份、旧 Vivado 工程、MATLAB 辅助目录和历史文档目录。
-2. 将 `fpga_top_wrapper.sv` 从仿真目录移动到 RTL 源码目录。
-3. 合并 `sar_calib_ctrl_serial.sv` 中 P/N 两相重复的 setup、SAR、calc 顺序逻辑。
-4. 保留顶层 `docs/` 作为唯一版本说明和工程说明入口。
-
-## 使用方式
-
-1. 打开 `Digital_process/Digital_process.xpr`。
-2. 运行 `tb_sar_adc_top` 做系统闭环验证。
-3. 运行 `tb_sar_recon`、`tb_gain_comp_check_lsb`、`tb_flash_decoder` 做模块级回归。
-4. 需要恢复旧资料时使用 Git 标签：`archive/full-project-before-core-prune`。
+- 删除 `fpga_top_wrapper`、`sar_adc_controller`、`flash_decoder_adder`、`virtual_adc_phy`。
+- 删除 `tb_sar_adc_top`、`tb_flash_decoder`。
+- `.xpr` 只引用两份核心 RTL 和两份对应 TB。
+- `sar_calib_ctrl_serial` 进一步合并 P/N 相 DAC drive 组合逻辑。
