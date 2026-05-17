@@ -4,11 +4,13 @@
 
 - `Digital_process/Digital_process.srcs/sources_1/new/sar_reconstruction.sv`
 - `Digital_process/Digital_process.srcs/sources_1/new/sar_calib_ctrl_serial.sv`
+- `Digital_process/Digital_process.srcs/sources_1/new/srm_residue_estimator.sv`
 
 ## Testbench
 
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon.sv`
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_gain_comp_check_lsb.sv`
+- `Digital_process/Digital_process.srcs/sim_1/new/tb_srm_residue_estimator.sv`
 
 ## Project
 
@@ -22,6 +24,7 @@
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - [docs/PROJECT_ORGANIZATION.md](docs/PROJECT_ORGANIZATION.md)
+- [docs/REPRODUCTION_REPORT_2026-05-18.md](docs/REPRODUCTION_REPORT_2026-05-18.md)
 
 ## Archive
 

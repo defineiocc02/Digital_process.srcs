@@ -2,12 +2,14 @@
 
 ## Keep
 
-- Two RTL files:
+- Three RTL files:
   - `sar_reconstruction.sv`
   - `sar_calib_ctrl_serial.sv`
-- Two testbench files:
+  - `srm_residue_estimator.sv`
+- Three testbench files:
   - `tb_sar_recon.sv`
   - `tb_gain_comp_check_lsb.sv`
+  - `tb_srm_residue_estimator.sv`
 - Vivado project and one XDC.
 - Concise docs under `docs/`.
 

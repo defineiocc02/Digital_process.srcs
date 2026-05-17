@@ -2,9 +2,9 @@
 
 ## Current
 
-- Version: `v3.3.1-archive`
-- Date: 2026-05-15
-- Purpose: minimal active source tree, with all removed files preserved under `archive/`.
+- Version: `v3.4.0-reproduction`
+- Date: 2026-05-18
+- Purpose: active digital reproduction of calibration, reconstruction, and SRM residue estimation.
 
 ## Recovery Points
 
@@ -15,7 +15,6 @@
 
 ## Policy
 
-The active Vivado project should stay small. Do not add duplicated helper modules
-unless they are required by the two kept RTL cores or their testbenches. Files
-removed from active use should be placed under `archive/` before being dropped
-from the main project structure.
+The active Vivado project should stay small. Keep only RTL/TB files required for
+the reproduced digital algorithm. Files removed from active use should be placed
+under `archive/` before being dropped from the main project structure.

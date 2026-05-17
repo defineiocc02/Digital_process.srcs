@@ -29,6 +29,7 @@
 //   w_wr_en        : Weight write enable (from calibration controller)
 //   w_wr_addr      : Weight write address (0~19)
 //   w_wr_data      : Calibrated weight value (30-bit signed)
+//   srm_residue    : SRM residue correction in the same Q format as weights
 //   adc_dout       : Reconstructed ADC output (16-bit signed)
 //   data_valid_out : Output valid flag
 //
@@ -60,6 +61,7 @@ module sar_reconstruction #(
     input  logic                          w_wr_en,       // Write enable
     input  logic [4:0]                    w_wr_addr,     // Weight address (0~19)
     input  logic signed [WEIGHT_WIDTH-1:0] w_wr_data,    // Calibrated weight value
+    input  logic signed [WEIGHT_WIDTH-1:0] srm_residue,  // SRM residue correction
     
     // --- Data Path Output (To User/Bus) ---
     output logic signed [OUTPUT_WIDTH-1:0] adc_dout,      // Reconstructed ADC output
@@ -109,7 +111,7 @@ module sar_reconstruction #(
                 for (int g=0; g<4; g++) begin
                     automatic logic signed [39:0] acc_group = 0;
                     for (int i=0; i<GROUP_SIZE; i++) begin
-                        int idx = g * GROUP_SIZE + i;
+                        automatic int idx = g * GROUP_SIZE + i;
                         if (idx < CAP_NUM) begin
                             // [CRITICAL DESIGN] Force signed type conversion
                             if (raw_bits[idx]) 
@@ -180,8 +182,8 @@ module sar_reconstruction #(
             data_valid_out <= 0;
         end else begin
             if (vld_pipe_s2) begin
-                // Step 1: Divide by 2 (arithmetic right shift, preserves sign bit)
-                val_step1_div2 = sum_stage2 >>> 1;
+                // Step 1: Divide by 2 and add SRM residue correction.
+                val_step1_div2 = (sum_stage2 >>> 1) + signed'(40'(srm_residue));
                 
                 // Step 2: Add 0.5 LSB rounding compensation (Round to Nearest)
                 // [CRITICAL DESIGN] Must use '40'sd1' because it's signed arithmetic

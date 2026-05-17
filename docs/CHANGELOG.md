@@ -1,5 +1,15 @@
 # Changelog
 
+## v3.4.0-reproduction - 2026-05-18
+
+- Added `srm_residue_estimator.sv` to reproduce the digital SRM count-to-residue boundary.
+- Added `tb_srm_residue_estimator.sv`.
+- Added `srm_residue` correction input to `sar_reconstruction.sv`.
+- Extended `tb_sar_recon.sv` with SRM residue injection verification.
+- Installed and validated the local Codex Skill `vivado-xsim`.
+- Ran Vivado 2018.3 XSIM for reconstruction, calibration, and SRM estimator testbenches.
+- Added a full reproduction report under `docs/`.
+
 ## v3.3.1-archive - 2026-05-15
 
 - Restored previously removed files into tracked archive directories.

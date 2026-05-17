@@ -33,6 +33,7 @@ module tb_sar_recon;
     logic w_wr_en;
     logic [4:0] w_wr_addr;
     logic signed [WEIGHT_WIDTH-1:0] w_wr_data;
+    logic signed [WEIGHT_WIDTH-1:0] srm_residue;
     
     // --- 3. 实例化 DUT (Device Under Test) ---
     sar_reconstruction #(
@@ -48,6 +49,7 @@ module tb_sar_recon;
         .w_wr_en        (w_wr_en),
         .w_wr_addr      (w_wr_addr),
         .w_wr_data      (w_wr_data),
+        .srm_residue    (srm_residue),
         .adc_dout       (adc_dout),
         .data_valid_out (data_valid_out)
     );
@@ -249,6 +251,45 @@ module tb_sar_recon;
         else              
             $display(" RESULT: FAIL (Lost packets, rx=%0d)", rx_cnt);
     endtask
+    // Test 4: SRM residue correction injection
+    task test_srm_residue_correction();
+        bit ok;
+        integer val_zero;
+        integer val_plus;
+        integer val_minus;
+
+        $display("\n==================================================");
+        $display(" TEST 4: SRM Residue Correction Injection");
+        $display("==================================================");
+
+        raw_bits = generate_ideal_bits(0.0);
+
+        srm_residue = 0;
+        @(negedge clk); recon_start = 1;
+        @(negedge clk); recon_start = 0;
+        wait_for_result(ok);
+        val_zero = $signed(adc_dout);
+
+        srm_residue = 256;
+        @(negedge clk); recon_start = 1;
+        @(negedge clk); recon_start = 0;
+        wait_for_result(ok);
+        val_plus = $signed(adc_dout);
+
+        srm_residue = -256;
+        @(negedge clk); recon_start = 1;
+        @(negedge clk); recon_start = 0;
+        wait_for_result(ok);
+        val_minus = $signed(adc_dout);
+
+        srm_residue = 0;
+        $display(" Zero=%0d Plus=%0d Minus=%0d", val_zero, val_plus, val_minus);
+
+        if ((val_plus - val_zero) == 1 && (val_zero - val_minus) == 1)
+            $display(" RESULT: PASS (SRM residue shifts output by signed Q8 LSB)");
+        else
+            $display(" RESULT: FAIL (Unexpected SRM residue response)");
+    endtask
 
     // --- 6. 主控流程 ---
     initial begin
@@ -257,7 +298,7 @@ module tb_sar_recon;
         $dumpvars(0, tb_sar_recon);
 
         // 系统复位
-        rst_n = 0; w_wr_en = 0; recon_start = 0; raw_bits = 0;
+        rst_n = 0; w_wr_en = 0; recon_start = 0; raw_bits = 0; srm_residue = 0;
         #50 rst_n = 1; 
         #20;
 
@@ -265,6 +306,7 @@ module tb_sar_recon;
         test_linearity();
         test_calibration_update();
         test_pipeline_throughput();
+        test_srm_residue_correction();
 
         $display("\n==================================================");
         $display("                ALL TESTS COMPLETED               ");

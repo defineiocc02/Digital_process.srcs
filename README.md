@@ -1,14 +1,14 @@
 # SAR ADC V3 Minimal Core
 
 This repository keeps the active Vivado project intentionally small. The main
-project contains only the calibration and digital reconstruction cores plus their
-direct testbenches. Files removed from the active project are preserved under
-`archive/`.
+project contains the calibration, digital reconstruction, and SRM residue
+estimation blocks needed to reproduce the digital algorithm boundary. Files
+removed from the active project are preserved under `archive/`.
 
 ## Version
 
-- Version: `v3.3.1-archive`
-- Latest commit before this archive update: `110ef75`
+- Version: `v3.4.0-reproduction`
+- Reproduction report: `docs/REPRODUCTION_REPORT_2026-05-18.md`
 - Full organized archive tag: `archive/full-project-before-core-prune`
 
 ## Active Project
@@ -20,10 +20,12 @@ sar_adc_v3/
 |   `-- Digital_process.srcs/
 |       |-- sources_1/new/
 |       |   |-- sar_calib_ctrl_serial.sv
-|       |   `-- sar_reconstruction.sv
+|       |   |-- sar_reconstruction.sv
+|       |   `-- srm_residue_estimator.sv
 |       |-- sim_1/new/
 |       |   |-- tb_gain_comp_check_lsb.sv
-|       |   `-- tb_sar_recon.sv
+|       |   |-- tb_sar_recon.sv
+|       |   `-- tb_srm_residue_estimator.sv
 |       `-- constrs_1/new/
 |           `-- sar_calib_fpga.xdc
 |-- archive/
@@ -39,9 +41,20 @@ sar_adc_v3/
 - Default simulation top: `tb_sar_recon`
 - Calibration simulation top: switch to `tb_gain_comp_check_lsb` when needed.
 
+## Vivado XSIM
+
+The local Codex Skill `vivado-xsim` was created at:
+
+```text
+C:\Users\Administrator\.codex\skills\vivado-xsim
+```
+
+It wraps the working Vivado 2018.3 `xvlog/xelab/xsim` batch flow.
+
 ## Archive
 
 - `archive/deleted-in-039c478/`: MATLAB scripts, legacy Vivado projects, backup RTL/TB, old docs, scripts, and reports removed by the first prune.
 - `archive/deleted-in-110ef75/`: former top wrapper, SAR controller, flash decoder, virtual ADC model, and duplicate TBs removed by the minimal-core prune.
 
-The active RTL logic was not changed in the archive update.
+The archive is retained for recovery and comparison, but it is not part of the
+active Vivado source set.

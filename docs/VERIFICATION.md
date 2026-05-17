@@ -1,20 +1,39 @@
 # Verification
 
-## Kept Testbenches
+## Testbenches
 
-| Testbench | Target |
-| --- | --- |
-| `tb_sar_recon.sv` | `sar_reconstruction` |
-| `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` |
+| Testbench | Target | Purpose |
+| --- | --- | --- |
+| `tb_sar_recon.sv` | `sar_reconstruction` | Weighted reconstruction, weight update response, pipeline throughput, SRM residue injection |
+| `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` | Monte Carlo foreground calibration with offset/noise and gain compensation |
+| `tb_srm_residue_estimator.sv` | `srm_residue_estimator` | 22-decision SRM counter and LUT behavior |
 
-## Vivado
+## Vivado XSIM
 
-默认 simulation top 为 `tb_sar_recon`。校准验证时，在 Vivado 中切换 simulation top 到 `tb_gain_comp_check_lsb`。
+Vivado 2018.3 command-line simulation is available through:
 
-## Local Status
+```text
+D:\Academic\Vivado2018\Vivado\2018.3\bin\xvlog.bat
+D:\Academic\Vivado2018\Vivado\2018.3\bin\xelab.bat
+D:\Academic\Vivado2018\Vivado\2018.3\bin\xsim.bat
+```
 
-当前命令行环境未发现 `vivado`、`xsim`、`verilator` 或 `iverilog`，本轮执行的是静态引用检查：
+The reusable Codex Skill is installed at:
 
-- `.xpr` 引用文件存在性检查。
-- RTL/TB 文件集检查。
-- Git 跟踪文件集检查。
+```text
+C:\Users\Administrator\.codex\skills\vivado-xsim
+```
+
+## Latest Run
+
+Date: 2026-05-18
+
+- `tb_srm_residue_estimator`: PASS.
+- `tb_sar_recon`: PASS, including SRM residue injection.
+- `tb_gain_comp_check_lsb`: PASS, 5 Monte Carlo runs, worst residual error `0.4532 LSB`.
+
+Known warning:
+
+- Vivado 2018.3 warns that `ABS_ERR_LIMIT` in the calibration TB should be
+  explicitly declared `automatic` or `static`; this is a testbench style warning
+  and does not change the result.

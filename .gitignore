@@ -33,6 +33,8 @@
 
 # Simulation build outputs
 xsim.dir/
+sim_work/
+.tmp_literature/
 *.vcd
 *.fst
 *.vvp
