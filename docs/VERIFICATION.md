@@ -37,3 +37,9 @@ Known warning:
 - Vivado 2018.3 warns that `ABS_ERR_LIMIT` in the calibration TB should be
   explicitly declared `automatic` or `static`; this is a testbench style warning
   and does not change the result.
+
+## Maintenance Rule
+
+For any future RTL behavior change, rerun all three testbenches and update the
+latest-run section with the new date, simulator version, pass/fail status, and
+worst calibration residual.

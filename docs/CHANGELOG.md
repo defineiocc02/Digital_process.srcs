@@ -9,6 +9,7 @@
 - Installed and validated the local Codex Skill `vivado-xsim`.
 - Ran Vivado 2018.3 XSIM for reconstruction, calibration, and SRM estimator testbenches.
 - Added a full reproduction report under `docs/`.
+- Strengthened RTL/TB comments and report traceability for industrial maintenance and academic review.
 
 ## v3.3.1-archive - 2026-05-15
 

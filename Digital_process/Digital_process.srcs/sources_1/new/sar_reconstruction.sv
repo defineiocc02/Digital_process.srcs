@@ -37,8 +37,10 @@
 //   1. Weight storage resets lower trusted bits to ideal values, then accepts calibration writes
 //   2. Reconstruction uses two-stage pipeline: first stage accumulates, second stage rounds/saturates
 //      [Update] For timing optimization, first stage accumulation split into Pipeline Stage 1 (Partial) and Stage 2 (Global)
-//   3. +0.5 LSB ensures correct rounding, compensating for Floor truncation -0.5 LSB systematic offset
-//   4. All intermediate calculations use explicit signed arithmetic to prevent Verilog type inference issues
+//   3. srm_residue is added after differential normalization and before output
+//      rounding, matching the SRM-assisted reconstruction model.
+//   4. +0.5 LSB ensures correct rounding, compensating for Floor truncation -0.5 LSB systematic offset
+//   5. All intermediate calculations use explicit signed arithmetic to prevent Verilog type inference issues
 // =============================================================================
 
 module sar_reconstruction #(
@@ -183,6 +185,9 @@ module sar_reconstruction #(
         end else begin
             if (vld_pipe_s2) begin
                 // Step 1: Divide by 2 and add SRM residue correction.
+                // srm_residue is already expressed in the same Q format as the
+                // calibrated capacitor weights, so it must be injected before
+                // FRAC_BITS output scaling.
                 val_step1_div2 = (sum_stage2 >>> 1) + signed'(40'(srm_residue));
                 
                 // Step 2: Add 0.5 LSB rounding compensation (Round to Nearest)

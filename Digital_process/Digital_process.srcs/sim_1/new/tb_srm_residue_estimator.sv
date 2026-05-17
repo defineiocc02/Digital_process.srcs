@@ -1,5 +1,22 @@
 `timescale 1ns/1ps
 
+// =============================================================================
+// File Name     : tb_srm_residue_estimator.sv
+// Target        : srm_residue_estimator
+// Description   : Unit verification for the SRM count-to-residue digital block.
+//
+// Verification Plan :
+//   1. Exercise the negative edge, near-negative edge, center, near-positive
+//      edge, and positive edge count cases.
+//   2. Check that done pulses only after 22 accepted decisions.
+//   3. Check final ones_count and residue_q against the golden Q8 LUT.
+//   4. Check LUT symmetry around the zero-residue midpoint.
+//
+// Pass Criteria :
+//   Simulation prints "RESULT: PASS SRM residue estimator LUT and counter
+//   behavior" and exits without any FAIL message.
+// =============================================================================
+
 module tb_srm_residue_estimator;
 
     parameter int DECISION_COUNT = 22;
@@ -38,6 +55,8 @@ module tb_srm_residue_estimator;
 
     initial forever #5 clk = ~clk;
 
+    // Golden table mirrors the documented reproduction LUT. Keeping it local
+    // to the TB makes the acceptance criterion explicit and easy to audit.
     task init_expected_lut();
         begin
             expected_lut[0]  = -258;
@@ -66,6 +85,9 @@ module tb_srm_residue_estimator;
         end
     endtask
 
+    // Drive one full SRM acquisition with a deterministic number of "1"
+    // decisions. Ones are placed first because this block only counts totals;
+    // decision order should not affect the final estimate.
     task run_count_case(input int ones);
         int i;
         begin

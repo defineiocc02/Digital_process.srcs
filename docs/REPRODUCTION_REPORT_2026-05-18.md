@@ -12,6 +12,16 @@ SRM-assisted self-calibration and bit-weight reconstruction. It does not attempt
 to reproduce transistor-level sampling, autozero, flash ADC, or analog noise
 circuits.
 
+## Academic Traceability
+
+| Paper / thesis location | Extracted requirement | Reproduced artifact |
+| --- | --- | --- |
+| JSSC 2025 abstract and Sections III-D/III-E | SRM improves residue/noise estimation and helps calibration accuracy | `srm_residue_estimator.sv`, `tb_srm_residue_estimator.sv` |
+| Dissertation Section 4.5, equations (4.17)-(4.19) | Measure each target bit in positive and negative directions, then subtract to cancel offset | `sar_calib_ctrl_serial.sv`, `tb_gain_comp_check_lsb.sv` |
+| Dissertation Section 4.5, equations (4.20)-(4.21) | LSB reference DAC must provide symmetric redundancy | calibration TB residual error criterion |
+| Dissertation Section 4.5, high-bit discussion for b18/b19 | Force protection bits during top-bit calibration to limit top-plate swing | `sar_calib_ctrl_serial.sv` protection logic |
+| Dissertation Section 4.4 and Figure 4.14 discussion | Use about 20 to 25 SRM decisions; paper implementation uses 22 extra decisions | `srm_residue_estimator.sv` with `DECISION_COUNT = 22` |
+
 ## Extracted Digital Algorithm
 
 The papers describe three digital responsibilities:
@@ -65,6 +75,10 @@ The implemented LUT is symmetric:
 This is a compact reproduction of the archived MATLAB `erf_inv` LUT concept,
 adapted to the paper's 22-decision SRM phase.
 
+Maintenance note: if the comparator noise sigma, SRM decision count, or
+fixed-point format changes, regenerate and re-verify this LUT. The present RTL is
+qualified for the 22-decision, sigma = 0.5 LSB reproduction point.
+
 ## Vivado Simulation Setup
 
 Vivado installation:
@@ -81,6 +95,16 @@ C:\Users\Administrator\.codex\skills\vivado-xsim
 
 The tests were run with `xvlog.bat`, `xelab.bat`, and `xsim.bat` in isolated
 `sim_work/` directories.
+
+Representative command pattern:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Users\Administrator\.codex\skills\vivado-xsim\scripts\run_xsim.ps1 `
+  -VivadoBin D:\Academic\Vivado2018\Vivado\2018.3\bin `
+  -WorkDir sim_work\tb_srm_residue_estimator `
+  -Top tb_srm_residue_estimator `
+  -Files Digital_process\Digital_process.srcs\sources_1\new\srm_residue_estimator.sv,Digital_process\Digital_process.srcs\sim_1\new\tb_srm_residue_estimator.sv
+```
 
 ## Results
 
@@ -134,6 +158,19 @@ Worst observed result: `0.4532 LSB`, still below the criterion.
   not synthesized RTL blocks.
 - `tb_gain_comp_check_lsb.sv` still has a Vivado 2018.3 style warning about
   explicit `automatic/static` declaration for a testbench variable.
+
+## Maintenance Checklist
+
+- Keep active RTL limited to the reproduction boundary: calibration,
+  reconstruction, and SRM residue estimation.
+- Archive non-active experiments before removing them from the active Vivado
+  project.
+- After any RTL behavior change, rerun all three XSIM testbenches and update
+  this report or `docs/VERIFICATION.md` with the new date and results.
+- Treat the `srm_residue` interface as a fixed-point contract: producer and
+  consumer must agree on sign, width, and `FRAC_BITS`.
+- Do not use synthesis success alone as proof of reproduction; keep the unit and
+  Monte Carlo testbench evidence together with the version commit.
 
 ## Conclusion
 

@@ -1,13 +1,39 @@
 `timescale 1ns/1ps
 
 // =============================================================================
+// File Name     : srm_residue_estimator.sv
 // Module Name   : srm_residue_estimator
 // Description   : Statistical residue measurement (SRM) digital estimator.
 //
 // Functionality :
-//   Counts 22 repeated noisy comparator decisions and maps the observed
-//   probability to a signed residue correction using a fixed normal-inverse LUT.
-//   The LUT assumes sigma = 0.5 LSB and Q(FRAC_BITS) output scaling.
+//   Counts 22 repeated noisy comparator decisions after the normal SAR bit
+//   cycling phase and maps the observed probability to a signed residue
+//   correction using a fixed normal-inverse LUT. The output is added inside
+//   sar_reconstruction before final rounding and saturation.
+//
+// Academic Traceability :
+//   Reproduces the digital SRM boundary described by Huang's split-sampling
+//   SAR ADC work: the analog residue is observed through multiple noisy latch
+//   decisions, and the digital backend converts the count of "1" decisions
+//   into an estimated residue correction.
+//
+// Fixed-Point Convention :
+//   residue_q uses the same signed fixed-point weight domain as
+//   sar_reconstruction.srm_residue. The stored LUT is Q8 for sigma = 0.5 LSB;
+//   FRAC_BITS scales this Q8 value to the project reconstruction format.
+//
+// Interface Contract :
+//   - Pulse start for one clk to begin a new SRM acquisition.
+//   - While busy is high, present one valid comparator decision whenever
+//     decision_valid is high.
+//   - After DECISION_COUNT accepted decisions, done pulses for one clk and
+//     residue_q / ones_count hold the completed estimate.
+//   - A new start pulse clears any in-progress count and restarts the sequence.
+//
+// Parameter Limits :
+//   DECISION_COUNT is intentionally kept as a parameter for readability, but
+//   this LUT is qualified for the Huang 22-decision SRM phase only. Rebuilding
+//   the LUT is required if DECISION_COUNT or sigma changes.
 //
 // Notes :
 //   - This is the digital reproduction boundary for Huang's SRM phase.
@@ -34,6 +60,14 @@ module srm_residue_estimator #(
 
     localparam int COUNT_WIDTH = 5;
 
+    // Count-to-residue LUT.
+    //
+    // Construction:
+    //   p(c) = (c + 0.5) / 23, c = 0..22
+    //   residue_q8 = round(0.5 * normal_inverse_cdf(p) * 2^8)
+    //
+    // The 0.5 offset avoids infinite end points and matches the practical
+    // finite-count estimator used in the reproduction model.
     function automatic logic signed [RESIDUE_WIDTH-1:0] residue_lut(input logic [COUNT_WIDTH-1:0] count);
         logic signed [15:0] q8_value;
         begin
@@ -73,6 +107,11 @@ module srm_residue_estimator #(
 
     assign next_ones_count = ones_count + (decision_bit ? 5'd1 : 5'd0);
 
+    // One-shot acquisition FSM.
+    //
+    // The data path accepts sparse decision_valid pulses; this keeps the block
+    // reusable for both asynchronous comparator wrappers and cycle-accurate
+    // testbench stimulus.
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             busy           <= 1'b0;
