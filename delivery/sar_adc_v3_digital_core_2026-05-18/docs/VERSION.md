@@ -2,12 +2,12 @@
 
 ## Current
 
-- Version: `v3.5.3-gap-analysis`
+- Version: `v3.5.4-fixed-point-contract`
 - Date: 2026-05-18
-- Purpose: verified digital-core delivery package with industrial-grade TB
-  comments, reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review,
-  detailed Chinese reproduction/verification report, and technical analysis of
-  the gap to the original algorithm/chip implementation.
+- Purpose: verified digital-core delivery package with an explicit fixed-point
+  contract, separated binary-normalized and Q8 split-weight reconstruction TBs,
+  industrial-grade TB comments, reproducible XSIM/synthesis scripts,
+  FPGA/ASIC signoff review, and detailed Chinese technical reports.
 
 ## Recovery Points
 
