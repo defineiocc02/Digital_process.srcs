@@ -110,6 +110,31 @@ Board-level constraints are valid only when the selected FPGA wrapper exposes
 matching ports. Debug constraints must be enabled only after debug taps and ILA
 connectivity are deliberately reviewed.
 
+## Lightweight CI / Lint
+
+This repository provides a lightweight open-source CI path for repository
+consistency and RTL lint.
+
+```bash
+python3 scripts/check_repo_consistency.py
+bash scripts/lint_verilator.sh
+```
+
+The GitHub Actions workflow (`.github/workflows/rtl_lint.yml`) runs both on
+every push and pull request.
+
+Vivado XSIM and synthesis are still run **locally** because they require a
+licensed Vivado installation:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_core_synth_checks.ps1
+```
+
+The CI workflow does not replace Vivado signoff. It only catches structural
+regressions, missing files, stale filenames, and basic SystemVerilog lint
+issues.
+
 ## Archive
 
 - `archive/deleted-in-039c478/`: MATLAB scripts, legacy Vivado projects, backup RTL/TB, old docs, scripts, and reports removed by the first prune.

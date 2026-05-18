@@ -57,6 +57,17 @@ Use the batch scripts under `scripts/` to select the intended synthesis top.
 
 Core builds must not read board-level or debug constraints by default.
 
+## Lightweight CI / Lint
+
+```bash
+python3 scripts/check_repo_consistency.py
+bash scripts/lint_verilator.sh
+```
+
+The CI workflow (`.github/workflows/rtl_lint.yml`) runs repository consistency
+and Verilator lint on every push and pull request. It does not replace Vivado
+signoff.
+
 ## Important Limit
 
 This is a core delivery package, not a complete board bitstream or ASIC tapeout

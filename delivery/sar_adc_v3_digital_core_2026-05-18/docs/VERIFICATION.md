@@ -78,7 +78,21 @@ Additional package-entry check:
 - `delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1`:
   PASS, using package-local `rtl/` and `tb/` files.
 
-Known warnings and limits:
+## Lightweight CI
+
+The repository includes a lightweight GitHub Actions workflow
+(`.github/workflows/rtl_lint.yml`) that runs on every push and pull request:
+
+1. `scripts/check_repo_consistency.py` — verifies that required RTL, TB,
+   constraint, and contract files exist; detects stale legacy filenames;
+   validates core XDC purity and build target completeness.
+2. `scripts/lint_verilator.sh` — runs Verilator `--lint-only -Wall` on all
+   five RTL files to catch syntax, width, and port regressions.
+
+Vivado XSIM and synthesis remain **local** signoff steps because they require a
+Vivado installation and license.
+
+## Known warnings and limits:
 
 - Vivado reports a local Tcl store permission warning on this Windows machine;
   this is an environment warning, not an RTL warning.

@@ -1,0 +1,26 @@
+name: RTL Lint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator python3
+
+      - name: Repository consistency check
+        run: |
+          python3 scripts/check_repo_consistency.py
+
+      - name: Verilator RTL lint
+        run: |
+          bash scripts/lint_verilator.sh
