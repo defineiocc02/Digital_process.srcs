@@ -2,19 +2,26 @@
 
 **Date:** 2026-05-18  
 **Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)  
-**Final:** `d4118df` (v3.5.4 with 7-commit engineering closure)  
+**Final:** `39500d7`  
 **Author:** Zhao Yi, with Claude Opus 4.7  
-**Scope:** 7 commits, 40 files, +3329 / -82 lines  
+**Scope:** 8 commits total:
+  - 7 engineering closure commits (body of work)
+  - 1 final audit report commit (this document)
+
+Aggregate: 42 files, +3933 / -82 lines  
 **Principle:** No algorithmic behavior changes. All core RTL, testbench, fixed-point contract, and build targets remain functionally identical.
 
 ---
 
 ## Executive Summary
 
-The 7-commit closure pass transforms the SAR ADC V3 digital core from "good
+The 8-commit closure pass transforms the SAR ADC V3 digital core from "good
 module-level RTL with documentation" into "engineering-credible deliverable with
 explicit build targets, constraint hygiene, timing contract, safety guards,
 and CI/lint infrastructure."
+
+Commit 8 adds this audit report only. It does not modify RTL, TB, build
+scripts, constraints, or CI behavior.
 
 The original audit identified 13 issues across priority levels. This closure
 resolves the top engineering risks while intentionally deferring mixed-signal
