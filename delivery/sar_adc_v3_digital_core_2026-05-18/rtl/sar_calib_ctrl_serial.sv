@@ -57,17 +57,17 @@ module sar_calib_ctrl_serial #(
     // --- Global Signals ---
     input  logic                          clk,
     input  logic                          rst_n,
-
+    
     // --- Control Plane ---
     input  logic                          start_calib,    // Start pulse
     output logic                          calib_done,     // Complete flag
     output logic                          calib_mode_en,  // Status indicator
-
+    
     // --- Analog Front End (AFE) ---
     input  logic                          comp_out,       // Comparator output (1: Vp > Vn)
     output logic [CAP_NUM-1:0]            dac_p_force,    // P-side DAC force control
     output logic [CAP_NUM-1:0]            dac_n_force,    // N-side DAC force control
-
+    
     // --- Register File Write-Back ---
     output logic                          w_wr_en,
     output logic [4:0]                    w_wr_addr,
@@ -85,22 +85,52 @@ module sar_calib_ctrl_serial #(
     localparam int PROTECT_SEARCH_TOPBIT = CAP_NUM - 4;
 
     // =========================================================================
+    // Parameter Guards — lock the configuration validated for SAR ADC V3
+    // =========================================================================
+    initial begin : p_parameter_guard
+        if (CAP_NUM != 20) begin
+            $error("sar_calib_ctrl_serial: MSB protection flow is qualified for CAP_NUM=20 only.");
+        end
+        if (WEIGHT_WIDTH < 30) begin
+            $error("sar_calib_ctrl_serial: WEIGHT_WIDTH must be >= 30 for the current Q8 split-weight range.");
+        end
+        if (COMP_WAIT_CYC < 1) begin
+            $error("sar_calib_ctrl_serial: COMP_WAIT_CYC must be >= 1.");
+        end
+        if (AVG_LOOPS < 1) begin
+            $error("sar_calib_ctrl_serial: AVG_LOOPS must be >= 1.");
+        end
+        if ((AVG_LOOPS & (AVG_LOOPS - 1)) != 0) begin
+            $error("sar_calib_ctrl_serial: AVG_LOOPS must be a power of two (AVG_SHIFT uses >> division).");
+        end
+        if (MAX_CALIB_BIT < 0) begin
+            $error("sar_calib_ctrl_serial: MAX_CALIB_BIT must be non-negative.");
+        end
+        if (MAX_CALIB_BIT >= CAP_NUM - 1) begin
+            $error("sar_calib_ctrl_serial: MAX_CALIB_BIT must leave at least one calibratable bit.");
+        end
+        if (REF_WEIGHT_LSB <= 0) begin
+            $error("sar_calib_ctrl_serial: REF_WEIGHT_LSB must be positive.");
+        end
+    end
+
+    // =========================================================================
     // 1. State Machine Definition (FSM)
     // =========================================================================
     typedef enum logic [3:0] {
         S_IDLE,           // Idle state
         S_INIT_TARGET,    // Initialize target bit
-
+        
         // Phase P Sequence
         S_PHASE_P_SETUP,  // Phase P setup: set protection bits and search range
         S_PHASE_P_SAR,    // Phase P execute: binary search
         S_PHASE_P_CALC,   // Phase P calculate: [v2.0 New] serial weight accumulation
-
+        
         // Phase N Sequence
         S_PHASE_N_SETUP,  // Phase N setup: reverse connection
         S_PHASE_N_SAR,    // Phase N execute: binary search
         S_PHASE_N_CALC,   // Phase N calculate: [v2.0 New] serial weight accumulation
-
+        
         S_ACCUMULATE,     // Accumulate operation: Sum += P + N
         S_UPDATE_WEIGHT,  // Update weight: calculate average and write to Shadow RAM
         S_DONE            // Calibration complete
@@ -115,15 +145,15 @@ module sar_calib_ctrl_serial #(
     logic [CAP_IDX_WIDTH-1:0]  target_bit;  // Current target bit being calibrated (6~19)
     logic [AVG_CNT_WIDTH-1:0]  avg_cnt;     // Averaging counter
     logic [WAIT_CNT_WIDTH-1:0] wait_cnt;    // Settling time counter
-
+    
     // SAR core logic
     logic [CAP_IDX_WIDTH-1:0] sar_ptr;   // Current trial bit pointer
     logic [CAP_NUM-1:0]     sar_code;  // SAR search codeword
-
+    
     // Serial computation logic [v2.0 New]
     logic [CALC_CNT_WIDTH-1:0] calc_cnt;  // Serial accumulation counter
     logic signed [WEIGHT_WIDTH+5:0] temp_acc; // Temporary accumulator (overflow protection)
-
+    
     // Arithmetic unit
     logic signed [WEIGHT_WIDTH+AVG_SHIFT+2:0] accumulator;        // Total average accumulator
     logic signed [WEIGHT_WIDTH-1:0]           meas_val_p;         // Phase P measurement result
@@ -182,27 +212,27 @@ module sar_calib_ctrl_serial #(
         case (state)
             S_IDLE:           if (start_calib) next_state = S_INIT_TARGET; else next_state = S_IDLE;
             S_INIT_TARGET:    next_state = S_PHASE_P_SETUP;
-
+            
             // Phase P: Setup -> SAR Loop -> Calc Loop -> Next
             S_PHASE_P_SETUP:  next_state = S_PHASE_P_SAR;
-            S_PHASE_P_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_P_CALC;
+            S_PHASE_P_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_P_CALC; 
                               else next_state = S_PHASE_P_SAR;
             S_PHASE_P_CALC:   if (calc_cnt == CAP_NUM) next_state = S_PHASE_N_SETUP; // Wait for serial calculation complete
                               else next_state = S_PHASE_P_CALC;
-
+            
             // Phase N: Setup -> SAR Loop -> Calc Loop -> Next
             S_PHASE_N_SETUP:  next_state = S_PHASE_N_SAR;
-            S_PHASE_N_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_N_CALC;
+            S_PHASE_N_SAR:    if (wait_cnt == 0 && sar_ptr == 0) next_state = S_PHASE_N_CALC; 
                               else next_state = S_PHASE_N_SAR;
             S_PHASE_N_CALC:   if (calc_cnt == CAP_NUM) next_state = S_ACCUMULATE;    // Wait for serial calculation complete
 
             // Loop and update judgment
             S_ACCUMULATE:     if (avg_cnt == AVG_LOOPS - 1) next_state = S_UPDATE_WEIGHT;
                               else next_state = S_PHASE_P_SETUP;
-
+                              
             S_UPDATE_WEIGHT:  if (target_bit == CAP_NUM - 1) next_state = S_DONE;
                               else next_state = S_INIT_TARGET;
-
+            
             S_DONE:           next_state = S_DONE;
             default:          next_state = S_IDLE;
         endcase
@@ -218,7 +248,7 @@ module sar_calib_ctrl_serial #(
             accumulator <= 0; w_wr_en <= 0; w_wr_addr <= 0; w_wr_data <= 0;
             comp_out_r <= 0; meas_val_p <= 0; meas_val_n <= 0;
             calc_cnt <= 0; temp_acc <= 0;
-
+            
             // [ASIC Safe Initialization]
             // Initialize reference weights during reset; the recursive algorithm
             // starts above MAX_CALIB_BIT and uses these LSBs as its baseline.
@@ -228,7 +258,7 @@ module sar_calib_ctrl_serial #(
                 else
                     shadow_weights[i] <= '0;
             end
-
+            
         end else begin
             w_wr_en <= 0;
             comp_out_r <= comp_out; // Input synchronization
@@ -238,7 +268,7 @@ module sar_calib_ctrl_serial #(
                     calib_done <= 0; calib_mode_en <= 0;
                     target_bit <= MAX_CALIB_BIT + 1;
                 end
-
+                
                 S_INIT_TARGET: begin
                     calib_mode_en <= 1; accumulator <= 0; avg_cnt <= 0;
                 end
@@ -308,6 +338,21 @@ module sar_calib_ctrl_serial #(
                     end else begin
                         target_bit <= target_bit + 1;
                     end
+                end
+
+                default: begin
+                    calib_done    <= 1'b0;
+                    calib_mode_en <= 1'b0;
+                    target_bit    <= MAX_CALIB_BIT + 1;
+                    avg_cnt       <= '0;
+                    sar_code      <= '0;
+                    sar_ptr       <= '0;
+                    wait_cnt      <= '0;
+                    accumulator   <= '0;
+                    meas_val_p    <= '0;
+                    meas_val_n    <= '0;
+                    calc_cnt      <= '0;
+                    temp_acc      <= '0;
                 end
             endcase
         end

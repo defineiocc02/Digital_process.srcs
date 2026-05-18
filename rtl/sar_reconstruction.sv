@@ -102,7 +102,31 @@ module sar_reconstruction #(
     logic               vld_pipe_s1;
     
     // 20 inputs / 4 groups = 5 inputs per group
-    localparam int GROUP_SIZE = 5; 
+    localparam int GROUP_SIZE = 5;
+
+    // =========================================================================
+    // Parameter Guards — lock the configuration validated for SAR ADC V3
+    // =========================================================================
+    initial begin : p_parameter_guard
+        if (CAP_NUM != 20) begin
+            $error("sar_reconstruction: 4x5 partial-sum pipeline is qualified for CAP_NUM=20 only.");
+        end
+        if (WEIGHT_WIDTH < 30) begin
+            $error("sar_reconstruction: WEIGHT_WIDTH must be >= 30 for the current calibrated weight range.");
+        end
+        if (OUTPUT_WIDTH != 16) begin
+            $error("sar_reconstruction: output saturation constants are qualified for OUTPUT_WIDTH=16 only.");
+        end
+        if (FRAC_BITS != 8) begin
+            $error("sar_reconstruction: current project fixed-point contract requires FRAC_BITS=8.");
+        end
+        if (MAX_CALIB_BIT < 0 || MAX_CALIB_BIT >= CAP_NUM) begin
+            $error("sar_reconstruction: MAX_CALIB_BIT must be in [0, CAP_NUM-1].");
+        end
+        if (INIT_WEIGHT_LSB <= 0) begin
+            $error("sar_reconstruction: INIT_WEIGHT_LSB must be positive.");
+        end
+    end
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

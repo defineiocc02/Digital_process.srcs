@@ -60,6 +60,21 @@ module srm_residue_estimator #(
 
     localparam int COUNT_WIDTH = 5;
 
+    // =========================================================================
+    // Parameter Guards — lock the LUT-qualified configuration
+    // =========================================================================
+    initial begin : p_parameter_guard
+        if (DECISION_COUNT != 22) begin
+            $error("srm_residue_estimator: residue LUT is qualified for DECISION_COUNT=22 only.");
+        end
+        if (RESIDUE_WIDTH < 16) begin
+            $error("srm_residue_estimator: RESIDUE_WIDTH is unexpectedly small.");
+        end
+        if (FRAC_BITS != 8) begin
+            $error("srm_residue_estimator: LUT values are Q8; FRAC_BITS must be 8 unless LUT scaling is updated.");
+        end
+    end
+
     // Count-to-residue LUT.
     //
     // Construction:

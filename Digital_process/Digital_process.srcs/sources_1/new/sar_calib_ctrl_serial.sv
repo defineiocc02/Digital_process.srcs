@@ -85,6 +85,36 @@ module sar_calib_ctrl_serial #(
     localparam int PROTECT_SEARCH_TOPBIT = CAP_NUM - 4;
 
     // =========================================================================
+    // Parameter Guards — lock the configuration validated for SAR ADC V3
+    // =========================================================================
+    initial begin : p_parameter_guard
+        if (CAP_NUM != 20) begin
+            $error("sar_calib_ctrl_serial: MSB protection flow is qualified for CAP_NUM=20 only.");
+        end
+        if (WEIGHT_WIDTH < 30) begin
+            $error("sar_calib_ctrl_serial: WEIGHT_WIDTH must be >= 30 for the current Q8 split-weight range.");
+        end
+        if (COMP_WAIT_CYC < 1) begin
+            $error("sar_calib_ctrl_serial: COMP_WAIT_CYC must be >= 1.");
+        end
+        if (AVG_LOOPS < 1) begin
+            $error("sar_calib_ctrl_serial: AVG_LOOPS must be >= 1.");
+        end
+        if ((AVG_LOOPS & (AVG_LOOPS - 1)) != 0) begin
+            $error("sar_calib_ctrl_serial: AVG_LOOPS must be a power of two (AVG_SHIFT uses >> division).");
+        end
+        if (MAX_CALIB_BIT < 0) begin
+            $error("sar_calib_ctrl_serial: MAX_CALIB_BIT must be non-negative.");
+        end
+        if (MAX_CALIB_BIT >= CAP_NUM - 1) begin
+            $error("sar_calib_ctrl_serial: MAX_CALIB_BIT must leave at least one calibratable bit.");
+        end
+        if (REF_WEIGHT_LSB <= 0) begin
+            $error("sar_calib_ctrl_serial: REF_WEIGHT_LSB must be positive.");
+        end
+    end
+
+    // =========================================================================
     // 1. State Machine Definition (FSM)
     // =========================================================================
     typedef enum logic [3:0] {
@@ -299,15 +329,30 @@ module sar_calib_ctrl_serial #(
                     w_wr_data <= calc_result_wire;
                     w_wr_addr <= target_bit;
                     w_wr_en   <= 1;
-                    
+
                     // 2. [CRITICAL] Update Shadow RAM for next bit recursive use
                     shadow_weights[target_bit] <= calc_result_wire;
-                    
-                    if (target_bit == CAP_NUM - 1) begin 
-                        calib_done <= 1; calib_mode_en <= 0; 
+
+                    if (target_bit == CAP_NUM - 1) begin
+                        calib_done <= 1; calib_mode_en <= 0;
                     end else begin
                         target_bit <= target_bit + 1;
                     end
+                end
+
+                default: begin
+                    calib_done    <= 1'b0;
+                    calib_mode_en <= 1'b0;
+                    target_bit    <= MAX_CALIB_BIT + 1;
+                    avg_cnt       <= '0;
+                    sar_code      <= '0;
+                    sar_ptr       <= '0;
+                    wait_cnt      <= '0;
+                    accumulator   <= '0;
+                    meas_val_p    <= '0;
+                    meas_val_n    <= '0;
+                    calc_cnt      <= '0;
+                    temp_acc      <= '0;
                 end
             endcase
         end
