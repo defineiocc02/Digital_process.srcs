@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-18  
 **Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)  
-**Final:** `cd73236` (tag: `v3.6.0-engineering-closure`)  
+**Final:** `v3.6.0-engineering-closure` tag (see git tag for exact hash)  
 **Author:** Zhao Yi, with Claude Opus 4.7  
 **Scope:** 11 commits total:
   - 7 engineering closure commits (body of work)
@@ -306,7 +306,7 @@ The following items from the original audit are intentionally deferred:
 The 11-commit closure is complete and self-consistent. Each commit is independently
 reviewable and revertible. No algorithmic behavior has changed.
 
-**Tag:** `v3.6.0-engineering-closure` → `cd73236`
+**Tag:** `v3.6.0-engineering-closure`
 
 Further pre-tapeout work (Monte Carlo, ASIC SDC, CDC formal, full SAR controller)
 should proceed from this baseline as separate feature branches or milestones,
