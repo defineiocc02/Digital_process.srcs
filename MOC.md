@@ -8,8 +8,8 @@
 
 ## Testbench
 
-- `Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv`
-- `Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv`
+- `Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv` — binary-normalized 20-bit raw-code → signed 16-bit reconstruction smoke test
+- `Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv` — Q8 split-cap weight consistency with bit-exact manual model
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_gain_comp_check_lsb.sv`
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_srm_residue_estimator.sv`
 

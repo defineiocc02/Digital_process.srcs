@@ -47,7 +47,10 @@ sar_adc_v3/
 
 - Project: `Digital_process/Digital_process.xpr`
 - Default synthesis top: `sar_reconstruction`
-- Default simulation top: `tb_sar_recon_binary_norm`
+- Default simulation top: `tb_sar_recon_binary_norm` — verifies binary-normalized
+  20-bit raw-code to signed 16-bit reconstruction only. It does **not** verify
+  calibrated Q8 split-cap weight consistency; for that use
+  `tb_recon_q8_split_weights`.
 - Calibration simulation top: switch to `tb_gain_comp_check_lsb` when needed.
 - Batch XSIM regression: `scripts/run_all_xsim.ps1`
 - Batch synthesis check: `scripts/run_core_synth_checks.ps1`

@@ -34,3 +34,9 @@ and repeatable Vivado batch scripts.
 This is a core delivery package, not a complete board bitstream or ASIC tapeout
 database. Final integration still needs wrapper, I/O constraints, analog
 boundary timing, CDC/RDC review, and implementation signoff.
+
+### TB Scope Note
+
+`tb/tb_sar_recon_binary_norm.sv` verifies binary-normalized 20-bit raw-code to
+signed 16-bit reconstruction only. It does **not** verify calibrated Q8
+split-cap weight consistency; use `tb/tb_recon_q8_split_weights.sv` for that.
