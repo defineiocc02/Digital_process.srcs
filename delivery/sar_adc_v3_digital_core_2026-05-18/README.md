@@ -23,6 +23,7 @@ and repeatable Vivado batch scripts.
 - Synthesis: PASS for all three RTL tops on `xc7a35tfgg484-2`.
 - ASIC: RTL prototype only; see `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`.
 - TB maintenance: see `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`.
+- Fixed-point contract: see `docs/FIXED_POINT_CONTRACT.md`.
 - Technical gap analysis: see
   `docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md`.
 - Detailed Chinese final report:
