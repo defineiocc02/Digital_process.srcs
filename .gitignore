@@ -61,6 +61,7 @@ desktop.ini
 .vscode/
 .idea/
 .claude/
+restart_codex.bat
 *.swp
 *.swo
 *~

@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.5.2-industrial-tb - 2026-05-18
+
+- Strengthened all three active testbenches with industrial-style English
+  headers, interface assumptions, scoreboard notes, modeling assumptions, and
+  maintenance comments.
+- Added `default_nettype none` hygiene to the active testbenches.
+- Added `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md` to document TB coverage,
+  pass/fail policy, and future maintenance rules.
+- Synced the updated TBs and guide into the delivery package and reran the full
+  Vivado XSIM regression.
+
 ## v3.5.1-cn-report - 2026-05-18
 
 - Added a detailed Chinese final reproduction and verification report.

@@ -2,11 +2,11 @@
 
 ## Current
 
-- Version: `v3.5.1-cn-report`
+- Version: `v3.5.2-industrial-tb`
 - Date: 2026-05-18
-- Purpose: verified digital-core delivery package with polished TBs,
-  reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review, and detailed
-  Chinese reproduction/verification report.
+- Purpose: verified digital-core delivery package with industrial-grade TB
+  comments, reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review, and
+  detailed Chinese reproduction/verification report.
 
 ## Recovery Points
 

@@ -8,6 +8,16 @@
 | `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` | Monte Carlo foreground calibration with offset/noise and gain compensation |
 | `tb_srm_residue_estimator.sv` | `srm_residue_estimator` | 22-decision SRM counter and LUT behavior |
 
+Industrial TB maintenance guide:
+
+```text
+docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md
+```
+
+All active TBs use English-first comments, centralized `record_check`
+scoreboards, `$fatal` on failure, transcript-level PASS/FAIL summaries, and
+`default_nettype none` to catch accidental implicit nets.
+
 ## Vivado XSIM
 
 Vivado 2018.3 command-line simulation is available through:
@@ -30,6 +40,13 @@ Repository-local regression command:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 ```
 
+Delivery-package regression command:
+
+```powershell
+cd delivery\sar_adc_v3_digital_core_2026-05-18
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+```
+
 ## Latest Run
 
 Date: 2026-05-18
@@ -49,6 +66,11 @@ Synthesis check:
   with a 100 MHz clock.
 - Post-synthesis worst setup slack: `3.999 ns`, `7.480 ns`, and `5.450 ns`
   respectively.
+
+Additional package-entry check:
+
+- `delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1`:
+  PASS, using package-local `rtl/` and `tb/` files.
 
 Known warnings and limits:
 

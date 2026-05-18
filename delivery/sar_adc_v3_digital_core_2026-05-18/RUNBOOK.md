@@ -10,6 +10,18 @@ D:\Academic\Vivado2018\Vivado\2018.3\bin
 
 ## XSIM Examples
 
+For TB scope, pass/fail policy, and maintenance rules, read:
+
+```text
+docs\TB_INDUSTRIAL_VERIFICATION_GUIDE.md
+```
+
+From the package root, run the complete package-local regression:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+```
+
 From the package root, run one testbench at a time:
 
 ```powershell

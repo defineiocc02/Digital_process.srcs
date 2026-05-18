@@ -1,16 +1,36 @@
 `timescale 1ns/1ps
+`default_nettype none
 
 // =============================================================================
 // File Name     : tb_sar_recon.sv
 // Target        : sar_reconstruction
 // Purpose       : Production-style unit testbench for the calibrated digital
 //                 reconstruction path.
+// Tool Scope    : Vivado XSIM 2018.3 batch simulation.
+// Language      : SystemVerilog testbench; not intended for synthesis.
+//
+// Design Intent:
+//   This TB verifies the digital reconstruction datapath used after SAR bit
+//   decisions and calibration-weight loading. It checks that raw capacitor
+//   decisions, calibrated bit weights, and SRM residue correction combine into
+//   the expected signed output code.
 //
 // Verification Scope:
 //   1. Ideal linearity sweep over 20 input points.
 //   2. Calibration weight write sensitivity.
 //   3. Full-rate pipeline valid propagation.
 //   4. SRM residue correction injection in the reconstruction fixed-point domain.
+//
+// Interface Assumptions:
+//   - `data_valid_in` is a one-cycle pulse synchronous to `clk`.
+//   - `w_wr_en` writes one Q4.4-style reconstruction weight per clock cycle.
+//   - `srm_residue` is a signed Q8 correction term applied before output scaling.
+//   - The DUT drives `data_valid_out` when `adc_dout` is stable.
+//
+// Testbench Architecture:
+//   - Driver tasks generate resets, weight writes, and sample-valid pulses.
+//   - Local golden helpers compute ideal raw decisions and expected output codes.
+//   - `record_check` is the single scoreboard gate; every failure calls `$fatal`.
 //
 // Pass Criteria:
 //   - No FAIL line is printed.
@@ -20,12 +40,16 @@
 
 module tb_sar_recon;
 
+    // Core configuration mirrors the delivered RTL defaults. Keep these values
+    // aligned with the DUT instance so the TB remains a direct unit-level signoff
+    // check rather than a separate behavioral model.
     localparam int CAP_NUM       = 20;
     localparam int WEIGHT_WIDTH  = 30;
     localparam int OUTPUT_WIDTH  = 16;
     localparam int FRAC_BITS     = 8;
     localparam int CLK_PERIOD_NS = 10;
 
+    // DUT clock/reset and conversion interface.
     logic clk = 1'b0;
     logic rst_n;
     logic recon_start;
@@ -33,11 +57,14 @@ module tb_sar_recon;
     logic signed [OUTPUT_WIDTH-1:0] adc_dout;
     logic data_valid_out;
 
+    // Calibration-weight write port and SRM correction input.
     logic w_wr_en;
     logic [4:0] w_wr_addr;
     logic signed [WEIGHT_WIDTH-1:0] w_wr_data;
     logic signed [WEIGHT_WIDTH-1:0] srm_residue;
 
+    // Scoreboard counters are deliberately simple so batch logs can be parsed
+    // without opening waveforms.
     int checks_total = 0;
     int checks_failed = 0;
 
@@ -61,6 +88,9 @@ module tb_sar_recon;
 
     initial forever #(CLK_PERIOD_NS/2) clk = ~clk;
 
+    // Convert a normalized analog input range [-1.0, +1.0] into the raw SAR
+    // decision vector expected by the reconstruction block. Saturation keeps
+    // randomized or boundary test points inside the representable code space.
     function automatic logic [CAP_NUM-1:0] generate_ideal_bits(input real voltage);
         logic [63:0] full_scale_code;
         real scaled_v;
@@ -77,12 +107,15 @@ module tb_sar_recon;
         end
     endfunction
 
+    // Integer absolute value helper used by all code-domain tolerances.
     function automatic int abs_int(input int value);
         begin
             abs_int = (value < 0) ? -value : value;
         end
     endfunction
 
+    // Human-readable section separator. CI parsing only depends on PASS/FAIL
+    // lines; this text exists for engineering log review.
     task automatic print_section(input string title);
         begin
             $display("");
@@ -92,6 +125,8 @@ module tb_sar_recon;
         end
     endtask
 
+    // Centralized checker. A failure immediately terminates simulation so a
+    // scripted regression receives a non-zero return path from XSIM.
     task automatic record_check(input bit pass, input string label);
         begin
             checks_total++;
@@ -105,6 +140,7 @@ module tb_sar_recon;
         end
     endtask
 
+    // Reset all TB-driven inputs to deterministic values before releasing reset.
     task automatic reset_dut();
         begin
             rst_n = 1'b0;
@@ -120,6 +156,8 @@ module tb_sar_recon;
         end
     endtask
 
+    // Wait for the DUT's result handshake. The timeout protects batch runs from
+    // hanging forever if a pipeline-valid bug is introduced later.
     task automatic wait_for_result(output bit success);
         int timeout;
         begin
@@ -134,6 +172,8 @@ module tb_sar_recon;
         end
     endtask
 
+    // Apply one reconstruction sample using the same one-cycle valid convention
+    // expected at the block boundary.
     task automatic drive_sample(input logic [CAP_NUM-1:0] bits, output bit success);
         begin
             raw_bits = bits;
@@ -145,6 +185,8 @@ module tb_sar_recon;
         end
     endtask
 
+    // Load a monotonic ideal weight table. The table is intentionally simple
+    // here; calibration non-ideality is covered by tb_gain_comp_check_lsb.
     task automatic load_ideal_weights();
         logic [63:0] calc_w;
         begin
@@ -164,6 +206,7 @@ module tb_sar_recon;
         end
     endtask
 
+    // Regression 1: end-to-end code-domain linearity with ideal weights.
     task automatic test_linearity();
         real vin;
         int expected;
@@ -198,6 +241,7 @@ module tb_sar_recon;
         end
     endtask
 
+    // Regression 2: prove the programmable weight memory affects the result.
     task automatic test_weight_update();
         logic [63:0] base_w;
         logic [63:0] err_w;
@@ -233,6 +277,7 @@ module tb_sar_recon;
         end
     endtask
 
+    // Regression 3: issue back-to-back samples and confirm valid propagation.
     task automatic test_pipeline_throughput();
         int rx_count;
         int timeout;
@@ -270,6 +315,7 @@ module tb_sar_recon;
         end
     endtask
 
+    // Regression 4: inject signed SRM Q8 residue terms and check one-code steps.
     task automatic test_srm_residue_injection();
         int zero_code;
         int plus_code;
@@ -324,3 +370,5 @@ module tb_sar_recon;
     end
 
 endmodule
+
+`default_nettype wire

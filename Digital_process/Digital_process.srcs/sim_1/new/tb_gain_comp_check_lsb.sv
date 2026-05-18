@@ -1,10 +1,19 @@
 `timescale 1ns/1ps
+`default_nettype none
 
 // =============================================================================
 // File Name     : tb_gain_comp_check_lsb.sv
 // Target        : sar_calib_ctrl_serial
 // Purpose       : Monte Carlo verification for the foreground recursive
 //                 capacitor bit-weight calibration loop.
+// Tool Scope    : Vivado XSIM 2018.3 batch simulation.
+// Language      : SystemVerilog testbench; not intended for synthesis.
+//
+// Design Intent:
+//   This TB verifies the foreground calibration controller against a behavioral
+//   split-capacitor DAC/comparator environment. It stresses the recursive
+//   positive/negative measurement sequence with capacitor mismatch, comparator
+//   offset, comparator noise, and final gain compensation.
 //
 // Verification Scope:
 //   1. Generate process-mismatched physical capacitor weights.
@@ -13,6 +22,19 @@
 //   4. Capture calibrated weights and apply system gain compensation.
 //   5. Check the residual bit-weight error from bit 6 through bit 19.
 //
+// Modeling Assumptions:
+//   - The analog CDAC is represented as real-valued capacitor weights in Q8
+//     units. This is a calibration-algorithm model, not a transistor-level model.
+//   - Comparator offset is static per run; noise is sampled each clock edge.
+//   - LSB section bits 0..5 are treated as trusted reference weights.
+//   - The MSB weight anchors gain compensation after calibration completes.
+//
+// Testbench Architecture:
+//   - `manufacture_chip` creates deterministic Monte Carlo mismatch from seeds.
+//   - The comparator monitor translates DAC force vectors into `comp_out`.
+//   - The write monitor captures the DUT's calibrated weight table.
+//   - `analyze_run` is the scoreboard and reports residual error in LSB.
+//
 // Pass Criteria:
 //   - Every Monte Carlo run must have max residual error < 0.5 LSB.
 //   - Any failing run calls $fatal so batch simulation returns a failing status.
@@ -20,6 +42,8 @@
 
 module tb_gain_comp_check_lsb;
 
+    // Calibration configuration. Keep these aligned with the RTL parameters and
+    // reproduction report so Monte Carlo residuals remain comparable over time.
     localparam int CAP_NUM       = 20;
     localparam int WEIGHT_WIDTH  = 30;
     localparam int MC_RUNS       = 5;
@@ -29,6 +53,7 @@ module tb_gain_comp_check_lsb;
     localparam real OFFSET_LSB        = 5.0;
     localparam real NOISE_RMS_LSB     = 0.5;
 
+    // DUT control and comparator interface.
     logic clk = 1'b0;
     logic rst_n;
     logic start_calib;
@@ -39,10 +64,12 @@ module tb_gain_comp_check_lsb;
     logic [CAP_NUM-1:0] dac_p_force;
     logic [CAP_NUM-1:0] dac_n_force;
 
+    // Calibrated weight writeback stream from the DUT.
     logic w_wr_en;
     logic [4:0] w_wr_addr;
     logic signed [WEIGHT_WIDTH-1:0] w_wr_data;
 
+    // Behavioral analog model state and scoreboarding state.
     real phy_weights [CAP_NUM];
     real stored_cal_vals [CAP_NUM];
     real worst_run_error_lsb = 0.0;
@@ -71,6 +98,7 @@ module tb_gain_comp_check_lsb;
 
     initial forever #(CLK_PERIOD_NS/2) clk = ~clk;
 
+    // Section banners make long Monte Carlo logs navigable without a waveform.
     task automatic print_section(input string title);
         begin
             $display("");
@@ -80,6 +108,8 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Centralized checker. A failing calibration point stops simulation
+    // immediately so batch regressions cannot hide marginal runs.
     task automatic record_check(input bit pass, input string label);
         begin
             checks_total++;
@@ -93,12 +123,16 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Real-valued absolute value helper used by residual-error scoring.
     function automatic real abs_real(input real value);
         begin
             abs_real = (value < 0.0) ? -value : value;
         end
     endfunction
 
+    // Nominal split-array capacitor weights expressed in LSB units. The non
+    // binary values model the split-sampling architecture documented in the
+    // reproduction report and are the reference before process mismatch.
     function automatic real ideal_weight_lsb(input int bit_idx);
         begin
             case (bit_idx)
@@ -126,6 +160,7 @@ module tb_gain_comp_check_lsb;
         end
     endfunction
 
+    // Clear captured DUT writeback values before every Monte Carlo run.
     task automatic clear_measurements();
         begin
             for (int i = 0; i < CAP_NUM; i++) begin
@@ -134,6 +169,8 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Build one deterministic virtual chip. Seeds are explicit so failures are
+    // reproducible and a problematic run can be replayed exactly.
     task automatic manufacture_chip(input int seed_in);
         int local_seed;
         real base_q;
@@ -153,6 +190,7 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Apply reset and issue the one-cycle foreground calibration command.
     task automatic reset_and_start_calibration();
         begin
             rst_n = 1'b0;
@@ -166,6 +204,8 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Watchdog-protected completion wait. The high timeout covers the recursive
+    // averaging loop while still catching controller deadlocks.
     task automatic wait_for_calibration_done(output bit success);
         int timeout;
         begin
@@ -180,6 +220,8 @@ module tb_gain_comp_check_lsb;
         end
     endtask
 
+    // Comparator behavioral model. It is clocked to match the digital controller
+    // sampling cadence and includes static offset plus per-cycle Gaussian noise.
     always_ff @(posedge clk or negedge rst_n) begin
         real vp;
         real vn;
@@ -200,12 +242,17 @@ module tb_gain_comp_check_lsb;
         end
     end
 
+    // Capture the calibrated weight table exactly as the reconstruction block
+    // would receive it through the shared writeback interface.
     always_ff @(posedge clk) begin
         if (w_wr_en) begin
             stored_cal_vals[w_wr_addr] = real'(w_wr_data);
         end
     end
 
+    // Apply MSB-anchored gain compensation and score every calibrated bit in
+    // physical LSB units. Bits 6..19 are checked because bits 0..5 form the
+    // trusted LSB reference section in this model.
     task automatic analyze_run(input int run_idx, output real max_abs_err_lsb);
         real gain_factor;
         real restored_val;
@@ -274,3 +321,5 @@ module tb_gain_comp_check_lsb;
     end
 
 endmodule
+
+`default_nettype wire

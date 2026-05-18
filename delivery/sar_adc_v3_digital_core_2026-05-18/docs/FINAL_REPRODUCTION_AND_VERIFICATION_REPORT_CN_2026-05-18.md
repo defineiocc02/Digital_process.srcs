@@ -427,3 +427,30 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_core_synth_check
 本仓库已经完成用户要求的核心代码保护、TB 工程化、完整仿真、完整综合编译、算法复现说明、交付包和 Git 归档流程。当前最可靠的表述是：
 
 > 本项目已完整复现 Huang split-sampling SAR ADC 中可由数字 RTL 表达的校准、SRM 残差估计和数字重构算法边界；三套 testbench 均通过 Vivado XSIM，三份 RTL 均通过 Vivado standalone synthesis。下一阶段若面向 FPGA 上板或 ASIC 流片，需要补充系统集成和物理签核流程。
+
+## 12. 追加交付记录：工业级 TB 注释与交付包清晰度
+
+应用户继续要求，本轮在不改动核心 RTL 算法逻辑的前提下，对三份 active testbench 进行了工业维护层面的注释增强：
+
+- `tb_sar_recon.sv`：补充 Design Intent、Interface Assumptions、Testbench Architecture、driver/scoreboard 注释，以及 SRM Q8 residue 注入检查说明。
+- `tb_srm_residue_estimator.sv`：补充 SRM 22-decision 到 signed Q8 LUT 的验证边界、start/decision/done 握手假设、golden LUT 维护说明。
+- `tb_gain_comp_check_lsb.sv`：补充 Monte Carlo 行为 analog model、capacitor mismatch、comparator offset/noise、writeback monitor、gain compensation 和 residual error scoring 注释。
+- 三份 TB 均加入 `default_nettype none`，用于暴露未来维护中可能误写出的隐式 net。
+- 新增 `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`，集中说明 TB 覆盖、失败策略、注释规范和后续维护检查单。
+- 已同步到 `delivery/sar_adc_v3_digital_core_2026-05-18/tb/` 与包内 `docs/`。
+
+追加验证：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+```
+
+结果：
+
+- `tb_sar_recon`：PASS，`48` checks，`0` failed。
+- `tb_srm_residue_estimator`：PASS，`17` checks，`0` failed。
+- `tb_gain_comp_check_lsb`：PASS，`10` checks，`0` failed，worst residual error `0.4937 LSB`。
+- 总结：`XSIM OVERALL RESULT : PASS`。
+- 交付包入口 `delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1` 也已运行通过，确认包内 `rtl/` 与 `tb/` 可以脱离 Vivado project 源目录独立复现。
+
+该追加工作只增强 TB 可读性、可审计性和交付包维护性；未改变核心 RTL 算法行为。
