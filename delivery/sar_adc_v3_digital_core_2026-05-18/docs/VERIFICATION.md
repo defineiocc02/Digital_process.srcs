@@ -24,6 +24,12 @@ The reusable Codex Skill is installed at:
 C:\Users\Administrator\.codex\skills\vivado-xsim
 ```
 
+Repository-local regression command:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+```
+
 ## Latest Run
 
 Date: 2026-05-18
@@ -50,6 +56,8 @@ Known warnings and limits:
   this is an environment warning, not an RTL warning.
 - Standalone synthesis does not replace final FPGA/ASIC signoff. See
   `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`.
+- Detailed Chinese execution and algorithm report:
+  `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`.
 
 ## Maintenance Rule
 

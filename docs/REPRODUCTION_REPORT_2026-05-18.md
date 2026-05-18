@@ -142,13 +142,13 @@ Five Monte Carlo runs passed the `< 0.5 LSB` residual error criterion.
 
 | Run | Max residual INL error |
 | --- | ---: |
-| 0 | 0.3127 LSB |
-| 1 | 0.4261 LSB |
-| 2 | 0.3315 LSB |
-| 3 | 0.3241 LSB |
-| 4 | 0.4532 LSB |
+| 0 | 0.3864 LSB |
+| 1 | 0.3797 LSB |
+| 2 | 0.3425 LSB |
+| 3 | 0.2807 LSB |
+| 4 | 0.4937 LSB |
 
-Worst observed result: `0.4532 LSB`, still below the criterion.
+Worst observed result: `0.4937 LSB`, still below the criterion.
 
 ## Known Limitations
 
@@ -156,8 +156,8 @@ Worst observed result: `0.4532 LSB`, still below the criterion.
   circuitry; it is represented by comparator decision streams in testbench.
 - The split-sampling capacitor network and autozero bandwidth/noise model are
   not synthesized RTL blocks.
-- `tb_gain_comp_check_lsb.sv` still has a Vivado 2018.3 style warning about
-  explicit `automatic/static` declaration for a testbench variable.
+- Standalone digital verification does not replace mixed-signal validation of
+  comparator noise, DAC settling, and split-sampling charge behavior.
 
 ## Maintenance Checklist
 

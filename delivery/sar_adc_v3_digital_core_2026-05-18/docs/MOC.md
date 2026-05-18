@@ -25,11 +25,14 @@
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - [docs/PROJECT_ORGANIZATION.md](docs/PROJECT_ORGANIZATION.md)
 - [docs/REPRODUCTION_REPORT_2026-05-18.md](docs/REPRODUCTION_REPORT_2026-05-18.md)
+- [docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md](docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md)
 - [docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md](docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md)
 
 ## Scripts
 
 - `scripts/run_core_synth_checks.ps1`
+- `scripts/run_all_xsim.ps1`
+- `scripts/run_xsim.ps1`
 - `scripts/synth_one_top.tcl`
 
 ## Delivery

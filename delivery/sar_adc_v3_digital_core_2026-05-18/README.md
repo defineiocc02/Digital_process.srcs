@@ -22,6 +22,8 @@ and repeatable Vivado batch scripts.
 - XSIM: PASS for all three testbenches.
 - Synthesis: PASS for all three RTL tops on `xc7a35tfgg484-2`.
 - ASIC: RTL prototype only; see `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`.
+- Detailed Chinese final report:
+  `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`.
 
 ## Important Limit
 

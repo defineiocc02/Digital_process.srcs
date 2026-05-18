@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.5.1-cn-report - 2026-05-18
+
+- Added a detailed Chinese final reproduction and verification report.
+- Added repo-local XSIM runner scripts for one-command simulation regression.
+- Converted the active legacy XDC comments to English to keep code-side
+  comments English-first.
+- Updated reproduction results to the latest Monte Carlo residual values.
+- Refreshed the delivery package docs/scripts/checksum list.
+
 ## v3.5.0-delivery - 2026-05-18
 
 - Standardized all active testbenches with explicit PASS/FAIL checks, sectioned

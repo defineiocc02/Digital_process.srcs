@@ -7,8 +7,9 @@ removed from the active project are preserved under `archive/`.
 
 ## Version
 
-- Version: `v3.5.0-delivery`
+- Version: `v3.5.1-cn-report`
 - Reproduction report: `docs/REPRODUCTION_REPORT_2026-05-18.md`
+- Chinese final report: `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`
 - FPGA/ASIC review: `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`
 - Delivery package: `delivery/sar_adc_v3_digital_core_2026-05-18/`
 - Full organized archive tag: `archive/full-project-before-core-prune`
@@ -44,6 +45,7 @@ sar_adc_v3/
 - Default synthesis top: `sar_reconstruction`
 - Default simulation top: `tb_sar_recon`
 - Calibration simulation top: switch to `tb_gain_comp_check_lsb` when needed.
+- Batch XSIM regression: `scripts/run_all_xsim.ps1`
 - Batch synthesis check: `scripts/run_core_synth_checks.ps1`
 
 ## Vivado XSIM

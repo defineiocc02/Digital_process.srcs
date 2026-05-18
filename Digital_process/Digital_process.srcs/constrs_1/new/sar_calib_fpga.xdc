@@ -1,30 +1,30 @@
 ## =========================================================
-## 1. 时序约束
+## 1. Timing constraint
 ## =========================================================
 create_clock -period 20.000 -name sys_clk_pin [get_ports clk]
 
 ## =========================================================
-## 2. 管脚约束 (根据 ACX720-V3 手册确认)
+## 2. Pin constraints (check against the ACX720-V3 manual)
 ## =========================================================
 
-# --- 时钟 CLK (手册 P29 表6: FPGA_GCLK1 -> Y18) ---
+# --- Clock CLK (manual P29 table 6: FPGA_GCLK1 -> Y18) ---
 set_property PACKAGE_PIN Y18 [get_ports clk]
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
 
-# --- 复位按键 (手册 P26 表3: S0 -> F15) ---
+# --- Reset button (manual P26 table 3: S0 -> F15) ---
 set_property PACKAGE_PIN F15 [get_ports rst_n_btn]
 set_property IOSTANDARD LVCMOS33 [get_ports rst_n_btn]
 
-# --- 启动开关 (手册 P27 表4: SW0 -> G22) ---
+# --- Start switch (manual P27 table 4: SW0 -> G22) ---
 set_property PACKAGE_PIN G22 [get_ports start_sw]
 set_property IOSTANDARD LVCMOS33 [get_ports start_sw]
 
-# --- 完成 LED (手册 P28 表5: LED0 -> M22) ---
+# --- Done LED (manual P28 table 5: LED0 -> M22) ---
 set_property PACKAGE_PIN M22 [get_ports done_led]
 set_property IOSTANDARD LVCMOS33 [get_ports done_led]
 
 ## =========================================================
-## 3. 配置
+## 3. Configuration
 ## =========================================================
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]

@@ -2,10 +2,11 @@
 
 ## Current
 
-- Version: `v3.5.0-delivery`
+- Version: `v3.5.1-cn-report`
 - Date: 2026-05-18
 - Purpose: verified digital-core delivery package with polished TBs,
-  reproducible XSIM/synthesis scripts, and FPGA/ASIC signoff review.
+  reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review, and detailed
+  Chinese reproduction/verification report.
 
 ## Recovery Points
 
