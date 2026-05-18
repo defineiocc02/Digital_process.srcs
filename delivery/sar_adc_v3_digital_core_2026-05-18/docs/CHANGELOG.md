@@ -1,5 +1,15 @@
 # Changelog
 
+## v3.5.3-gap-analysis - 2026-05-18
+
+- Added a detailed Chinese technical gap analysis comparing the delivered RTL/TB
+  against Huang's original split-sampling SAR ADC algorithm boundary.
+- Documented the reproduction distance for calibration, SRM residue estimation,
+  digital reconstruction, MATLAB/model differences, and remaining FPGA/ASIC
+  signoff work.
+- Updated the main README, MOC, version metadata, and delivery package links.
+- No RTL or TB behavior changes in this version.
+
 ## v3.5.2-industrial-tb - 2026-05-18
 
 - Strengthened all three active testbenches with industrial-style English

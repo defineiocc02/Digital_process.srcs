@@ -454,3 +454,22 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 - 交付包入口 `delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1` 也已运行通过，确认包内 `rtl/` 与 `tb/` 可以脱离 Vivado project 源目录独立复现。
 
 该追加工作只增强 TB 可读性、可审计性和交付包维护性；未改变核心 RTL 算法行为。
+
+## 13. 追加交付记录：原算法差异与复现距离详析
+
+应用户进一步要求，新增专门技术文档：
+
+```text
+docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md
+```
+
+该文档从 calibration、SRM residue estimation、digital reconstruction、MATLAB/论文模型差异、FPGA/ASIC readiness 等角度，详细解释了当前 RTL/TB 与原算法、原芯片实现之间的距离。
+
+核心判断如下：
+
+- 当前工程已经较完整复现纯数字可表达的算法边界：递归 bit-weight calibration、P/N offset cancellation、32 次平均、top-bit protection、SRM 22-decision count-to-residue LUT、calibrated fixed-point reconstruction。
+- 当前工程只用 TB 行为模型近似模拟侧：CDAC mismatch、comparator offset/noise、decision stream。
+- 当前工程没有复现 transistor-level split-sampling analog front-end、clock multiplier、DAC settling、comparator/latch 物理统计、layout parasitic、PVT 和 mixed-signal signoff。
+- 最坏 calibration residual 为 `0.4937 LSB`，低于 `0.5 LSB` 但余量只有 `0.0063 LSB`，因此数字算法能在当前模型下通过，但仍需要扩大 Monte Carlo 和 mixed-signal 验证来证明真实 silicon margin。
+
+该追加工作未改动 RTL/TB 行为，因此未重复运行 Vivado；上一轮 active 与 delivery XSIM 均已 PASS。

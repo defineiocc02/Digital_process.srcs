@@ -2,11 +2,12 @@
 
 ## Current
 
-- Version: `v3.5.2-industrial-tb`
+- Version: `v3.5.3-gap-analysis`
 - Date: 2026-05-18
 - Purpose: verified digital-core delivery package with industrial-grade TB
-  comments, reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review, and
-  detailed Chinese reproduction/verification report.
+  comments, reproducible XSIM/synthesis scripts, FPGA/ASIC signoff review,
+  detailed Chinese reproduction/verification report, and technical analysis of
+  the gap to the original algorithm/chip implementation.
 
 ## Recovery Points
 

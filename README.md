@@ -10,6 +10,7 @@ removed from the active project are preserved under `archive/`.
 - Version: `v3.5.2-industrial-tb`
 - Reproduction report: `docs/REPRODUCTION_REPORT_2026-05-18.md`
 - Chinese final report: `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`
+- Technical gap analysis: `docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md`
 - TB verification guide: `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`
 - FPGA/ASIC review: `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`
 - Delivery package: `delivery/sar_adc_v3_digital_core_2026-05-18/`
