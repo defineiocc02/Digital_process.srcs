@@ -9,6 +9,7 @@ removed from the active project are preserved under `archive/`.
 
 - Version: `v3.5.4-fixed-point-contract`
 - Fixed-point contract: `docs/FIXED_POINT_CONTRACT.md`
+- Mixed-signal timing contract: `docs/MIXED_SIGNAL_TIMING_CONTRACT.md` — Defines timing assumptions for comparator, SRM, reconstruction inputs, reset, and FPGA/ASIC integration boundaries.
 - Reproduction report: `docs/REPRODUCTION_REPORT_2026-05-18.md`
 - Chinese final report: `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`
 - Technical gap analysis: `docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md`

@@ -41,6 +41,7 @@ Use the batch scripts under `scripts/` to select the intended synthesis top.
 - ASIC: RTL prototype only; see `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`.
 - TB maintenance: see `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`.
 - Fixed-point contract: see `docs/FIXED_POINT_CONTRACT.md`.
+- Mixed-signal timing contract: see `docs/MIXED_SIGNAL_TIMING_CONTRACT.md`.
 - Technical gap analysis: see
   `docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md`.
 - Detailed Chinese final report:

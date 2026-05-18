@@ -32,6 +32,10 @@
 - [docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md](docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md)
 - [docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md](docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md)
 
+## Timing / Integration Contracts
+
+- [docs/MIXED_SIGNAL_TIMING_CONTRACT.md](docs/MIXED_SIGNAL_TIMING_CONTRACT.md) — Mixed-signal timing contract for comparator output, SRM decision capture, reconstruction data validity, reset behavior, and FPGA/ASIC top-level separation.
+
 ## Scripts
 
 - `scripts/run_core_synth_checks.ps1`
