@@ -47,13 +47,11 @@ switch -- $BUILD_TARGET {
         set TOP      "sar_calib_fpga_top"
         set XDC_LIST [list \
             [file join $CONSTR_DIR "core_synth.xdc"] \
-            [file join $CONSTR_DIR "fpga_board_legacy.xdc"] \
-            [file join $CONSTR_DIR "debug_ila.xdc"] \
         ]
 
         if {![file exists [file join $RTL_DIR "sar_calib_fpga_top.sv"]]} {
-            puts "ERROR: build_fpga_demo requires rtl/sar_calib_fpga_top.sv."
-            puts "This target is reserved until the FPGA top skeleton is added (Commit 3)."
+            puts "ERROR: build_fpga_demo requires sar_calib_fpga_top.sv."
+            puts "This target is reserved until the FPGA top skeleton is added."
             exit 1
         }
     }
