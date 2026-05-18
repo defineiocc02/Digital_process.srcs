@@ -96,6 +96,20 @@ This project uses separate FPGA and ASIC top-level wrappers.
 The FPGA top and ASIC digital top are intentionally separate because their
 ports, constraints, debug strategy, and synthesis assumptions are different.
 
+## Constraint Strategy
+
+| XDC | Purpose | Used by default |
+|---|---|---|
+| `constraints/core_synth.xdc` | Minimal 100 MHz core clock constraint | Yes |
+| `constraints/sar_calib_fpga_legacy_board_hint.xdc` | Historical FPGA board pin hints (ACX720-V3) | No — opt-in via `USE_BOARD_XDC=1` |
+| `constraints/debug_ila_template.xdc` | ILA/debug tap template (comment-only) | No — opt-in via `USE_DEBUG_XDC=1` |
+
+Core builds must not read board-level or debug constraints by default.
+
+Board-level constraints are valid only when the selected FPGA wrapper exposes
+matching ports. Debug constraints must be enabled only after debug taps and ILA
+connectivity are deliberately reviewed.
+
 ## Archive
 
 - `archive/deleted-in-039c478/`: MATLAB scripts, legacy Vivado projects, backup RTL/TB, old docs, scripts, and reports removed by the first prune.

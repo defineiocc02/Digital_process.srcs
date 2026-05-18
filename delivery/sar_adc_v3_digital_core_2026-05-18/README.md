@@ -47,6 +47,16 @@ Use the batch scripts under `scripts/` to select the intended synthesis top.
 - Detailed Chinese final report:
   `docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md`.
 
+## Constraint Strategy
+
+| XDC | Purpose | Used by default |
+|---|---|---|
+| `constraints/core_synth.xdc` | Minimal 100 MHz core clock constraint | Yes |
+| `constraints/sar_calib_fpga_legacy_board_hint.xdc` | Historical FPGA board pin hints | No — opt-in via `USE_BOARD_XDC=1` |
+| `constraints/debug_ila_template.xdc` | ILA/debug tap template (comment-only) | No — opt-in via `USE_DEBUG_XDC=1` |
+
+Core builds must not read board-level or debug constraints by default.
+
 ## Important Limit
 
 This is a core delivery package, not a complete board bitstream or ASIC tapeout

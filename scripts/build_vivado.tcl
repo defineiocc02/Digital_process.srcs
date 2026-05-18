@@ -71,6 +71,31 @@ puts "INFO: PART         = $PART"
 puts "INFO: RTL_DIR      = $RTL_DIR"
 
 # ----------------------------------------------------------------------
+# Optional XDC: board and debug constraints are opt-in only.
+# Core builds must not read board-level or ILA constraints by default.
+# ----------------------------------------------------------------------
+set BOARD_XDC [file join $CONSTR_DIR "sar_calib_fpga_legacy_board_hint.xdc"]
+set DEBUG_XDC [file join $CONSTR_DIR "debug_ila_template.xdc"]
+
+if {[info exists ::env(USE_BOARD_XDC)] && $::env(USE_BOARD_XDC) eq "1"} {
+    if {[file exists $BOARD_XDC]} {
+        puts "INFO: opt-in board XDC  $BOARD_XDC"
+        lappend XDC_LIST $BOARD_XDC
+    } else {
+        puts "WARNING: USE_BOARD_XDC=1 but board XDC not found: $BOARD_XDC"
+    }
+}
+
+if {[info exists ::env(USE_DEBUG_XDC)] && $::env(USE_DEBUG_XDC) eq "1"} {
+    if {[file exists $DEBUG_XDC]} {
+        puts "INFO: opt-in debug XDC  $DEBUG_XDC"
+        lappend XDC_LIST $DEBUG_XDC
+    } else {
+        puts "WARNING: USE_DEBUG_XDC=1 but debug XDC not found: $DEBUG_XDC"
+    }
+}
+
+# ----------------------------------------------------------------------
 # Create in-memory project (must precede read_verilog / read_xdc)
 # ----------------------------------------------------------------------
 create_project -in_memory -part $PART
