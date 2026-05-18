@@ -11,7 +11,7 @@ and repeatable Vivado batch scripts.
 | Directory | Contents |
 | --- | --- |
 | `rtl/` | Three active synthesizable SystemVerilog RTL cores |
-| `tb/` | Three active XSIM testbenches with industrial-style English comments |
+| `tb/` | Four active XSIM testbenches with industrial-style English comments |
 | `docs/` | Version, architecture, verification, reproduction, and signoff review docs |
 | `scripts/` | XSIM and synthesis batch scripts |
 | `constraints/` | Legacy board XDC hint, not final signoff constraints |
@@ -19,7 +19,7 @@ and repeatable Vivado batch scripts.
 
 ## Status
 
-- XSIM: PASS for all three testbenches.
+- XSIM: PASS for all four testbenches.
 - Synthesis: PASS for all three RTL tops on `xc7a35tfgg484-2`.
 - ASIC: RTL prototype only; see `docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md`.
 - TB maintenance: see `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`.

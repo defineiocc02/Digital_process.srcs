@@ -18,7 +18,8 @@ The active project reproduces the digital algorithm boundary for a split-samplin
 ## Required Testbenches
 
 - `tb_gain_comp_check_lsb.sv`
-- `tb_sar_recon.sv`
+- `tb_sar_recon_binary_norm.sv`
+- `tb_recon_q8_split_weights.sv`
 - `tb_srm_residue_estimator.sv`
 
 ## Non-Goals

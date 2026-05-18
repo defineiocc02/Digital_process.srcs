@@ -182,7 +182,7 @@ Worst observed result: `0.4937 LSB`, still below the criterion.
   reconstruction, and SRM residue estimation.
 - Archive non-active experiments before removing them from the active Vivado
   project.
-- After any RTL behavior change, rerun all three XSIM testbenches and update
+- After any RTL behavior change, rerun all four XSIM testbenches and update
   this report or `docs/VERIFICATION.md` with the new date and results.
 - Treat the `srm_residue` interface as a fixed-point contract: producer and
   consumer must agree on sign, width, and `FRAC_BITS`.

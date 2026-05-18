@@ -2,7 +2,7 @@
 
 日期：2026-05-18
 
-版本目标：`v3.5.1-cn-report`
+版本目标：`v3.5.4-fixed-point-contract`
 
 仓库路径：`D:\ReedZhao\Document\ADC_Digital_PROCESS\proc_vivado\sar_adc_v3`
 
@@ -17,9 +17,9 @@
 本轮完成了以下工作：
 
 - 检查并统一活动代码注释风格：RTL/TB/scripts/constraints 侧以英文注释为主；中文说明集中放入报告。
-- 标准化三套 testbench：输出分节、表格化、显式 PASS/FAIL、失败时 `$fatal`，便于 CI 或批处理判断。
+- 标准化四套 testbench：输出分节、表格化、显式 PASS/FAIL、失败时 `$fatal`，便于 CI 或批处理判断。
 - 新增一键复跑脚本：`scripts/run_all_xsim.ps1` 和 `scripts/run_core_synth_checks.ps1`。
-- 使用 Vivado 2018.3 完整运行 `xvlog -> xelab -> xsim` 三套仿真。
+- 使用 Vivado 2018.3 完整运行 `xvlog -> xelab -> xsim` 四套仿真。
 - 使用 Vivado 2018.3 对三个 RTL top 做 standalone 综合与 100 MHz post-synth timing 检查。
 - 建立冻结交付包：`delivery/sar_adc_v3_digital_core_2026-05-18/`，并生成 `SHA256SUMS.txt`。
 
@@ -27,7 +27,8 @@
 
 | 项目 | 结果 | 说明 |
 | --- | --- | --- |
-| `tb_sar_recon` | PASS | 48 checks，0 failed |
+| `tb_sar_recon_binary_norm` | PASS | 49 checks，0 failed |
+| `tb_recon_q8_split_weights` | PASS | 17 checks，0 failed |
 | `tb_srm_residue_estimator` | PASS | 17 checks，0 failed |
 | `tb_gain_comp_check_lsb` | PASS | 10 checks，0 failed，最坏残差 `0.4937 LSB` |
 | `sar_reconstruction` 综合 | PASS | 100 MHz WNS `3.999 ns` |
@@ -125,7 +126,8 @@ SAR conversion 结束后，DAC top plate 上还存在 residual voltage。作者�
 
 | 文件 | 目标 RTL | 本轮整理内容 |
 | --- | --- | --- |
-| `tb_sar_recon.sv` | `sar_reconstruction` | 增加统一 `record_check`、清晰分节、线性扫描表格、权重写入敏感性、流水吞吐、SRM 注入检查 |
+| `tb_sar_recon_binary_norm.sv` | `sar_reconstruction` | Binary-normalized 20-bit raw code 到 signed 16-bit output 的 smoke test；显式化 `BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM` |
+| `tb_recon_q8_split_weights.sv` | `sar_reconstruction` | Q8 split-cap 权重、SRM residue、`/2` differential normalization、rounding、saturation 的 bit-exact fixed-point contract 检查 |
 | `tb_srm_residue_estimator.sv` | `srm_residue_estimator` | 增加表格化 count/LUT 检查、done pulse 检查、symmetry 检查、失败 `$fatal` |
 | `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` | Monte Carlo 校准平台整理为工程化输出，显式记录 offset/noise/mismatch、gain compensation 和 residual error |
 
@@ -142,7 +144,7 @@ TB 的核心目标从“能跑”提升为“可维护、可批处理签核”�
 | 文件 | 用途 |
 | --- | --- |
 | `scripts/run_xsim.ps1` | 单个 TB 的 `xvlog/xelab/xsim` batch wrapper |
-| `scripts/run_all_xsim.ps1` | 一键运行三套活动 TB |
+| `scripts/run_all_xsim.ps1` | 一键运行四套活动 TB |
 | `scripts/run_core_synth_checks.ps1` | 一键综合三个 RTL top |
 | `scripts/synth_one_top.tcl` | Vivado standalone synthesis Tcl，生成 utilization/timing/checkpoint |
 
@@ -167,12 +169,19 @@ rg -n "[\p{Han}]" Digital_process\Digital_process.srcs\sources_1\new `
 
 ### 5.2 TB 整理
 
-`tb_sar_recon.sv`：
+`tb_sar_recon_binary_norm.sv`：
 
 - 整理 header，明确 Verification Scope 和 Pass Criteria。
 - 统一 reset、sample driving、result waiting、weight loading 等 task。
 - 修正 Vivado 2018.3 对 `%+5d` 和三目字符串格式化兼容性不佳导致的输出混乱问题。
+- 将历史 `<< 4` 改为命名参数 `BINARY_NORM_SHIFT`，明确该 TB 只验证 binary-normalized reconstruction。
 - 增加 SRM residue `+256/-256` 对应输出 `+1/-1 code` 的固定点合同检查。
+
+`tb_recon_q8_split_weights.sv`：
+
+- 新增 Q8 split-cap 权重一致性 TB。
+- 使用本地 bit-exact model 检查 DUT 的加权和、`/2` normalization、Q8 residue、rounding 和 saturation 行为。
+- 覆盖 all-zero、all-one、alternating、single-MSB、pseudo-random code 和非饱和 residue 注入样例。
 
 `tb_srm_residue_estimator.sv`：
 
@@ -202,7 +211,7 @@ rg -n "[\p{Han}]" Digital_process\Digital_process.srcs\sources_1\new `
 交付包内容包括：
 
 - `rtl/`：三份核心 RTL；
-- `tb/`：三份工程化 TB；
+- `tb/`：四份工程化 TB；
 - `docs/`：报告、版本、架构、验证说明；
 - `scripts/`：仿真/综合脚本；
 - `constraints/`：legacy board XDC hint；
@@ -221,7 +230,7 @@ $files` 调用时，`-Files` 数组的第二个路径会被误解释为 `Snapsho
 - 保留 `scripts/run_xsim.ps1` 作为单 TB runner；
 - 将 `scripts/run_all_xsim.ps1` 改为在同一 PowerShell 进程内用 `& $Runner`
   调用，直接传递 string array；
-- 修复后重新运行完整 XSIM，三套 TB 全部 PASS。
+- 修复后重新运行完整 XSIM，四套 TB 全部 PASS。
 
 这条记录写入报告是为了便于后续维护者理解为什么 runner 脚本采用“同进程调用”而不是再次启动 `powershell -File`。
 
@@ -258,13 +267,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 输出日志位置：
 
-- `sim_work/tb_sar_recon/xsim.log`
+- `sim_work/tb_sar_recon_binary_norm/xsim.log`
+- `sim_work/tb_recon_q8_split_weights/xsim.log`
 - `sim_work/tb_srm_residue_estimator/xsim.log`
 - `sim_work/tb_gain_comp_check_lsb/xsim.log`
 
 ### 6.3 XSIM 结果
 
-`tb_sar_recon`：
+`tb_sar_recon_binary_norm`：
 
 | 检查项 | 结果 |
 | --- | --- |
@@ -272,7 +282,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 | calibration weight write sensitivity | PASS |
 | pipeline throughput | PASS |
 | SRM residue injection | PASS |
-| checks total | 48 |
+| checks total | 49 |
+| checks failed | 0 |
+
+`tb_recon_q8_split_weights`：
+
+| 检查项 | 结果 |
+| --- | --- |
+| Q8 split-cap weight load | PASS |
+| bit-exact reconstruction model agreement | PASS |
+| non-saturated SRM residue unit behavior | PASS |
+| positive/negative saturation behavior | PASS |
+| checks total | 17 |
 | checks failed | 0 |
 
 `tb_srm_residue_estimator`：
@@ -411,7 +432,7 @@ GitHub 状态：
 ## 10. 维护建议
 
 1. 所有 RTL/TB/scripts 注释继续以英文为主；中文分析、复现实验和学术解释放在 `docs/*CN*.md` 报告中。
-2. 活动 Vivado project 只保留三份核心 RTL 和三份 TB，避免重新引入重复 wrapper、旧模型和 MATLAB 试验脚本。
+2. 活动 Vivado project 只保留三份核心 RTL 和四份 TB，避免重新引入重复 wrapper、旧模型和 MATLAB 试验脚本。
 3. 每次修改 RTL 行为后必须执行：
 
 ```powershell
@@ -426,16 +447,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_core_synth_check
 
 本仓库已经完成用户要求的核心代码保护、TB 工程化、完整仿真、完整综合编译、算法复现说明、交付包和 Git 归档流程。当前最可靠的表述是：
 
-> 本项目已完整复现 Huang split-sampling SAR ADC 中可由数字 RTL 表达的校准、SRM 残差估计和数字重构算法边界；三套 testbench 均通过 Vivado XSIM，三份 RTL 均通过 Vivado standalone synthesis。下一阶段若面向 FPGA 上板或 ASIC 流片，需要补充系统集成和物理签核流程。
+> 本项目已完整复现 Huang split-sampling SAR ADC 中可由数字 RTL 表达的校准、SRM 残差估计和数字重构算法边界；四套 testbench 均通过 Vivado XSIM，三份 RTL 均通过 Vivado standalone synthesis。下一阶段若面向 FPGA 上板或 ASIC 流片，需要补充系统集成和物理签核流程。
 
 ## 12. 追加交付记录：工业级 TB 注释与交付包清晰度
 
-应用户继续要求，本轮在不改动核心 RTL 算法逻辑的前提下，对三份 active testbench 进行了工业维护层面的注释增强：
+应用户继续要求，本轮在不改动核心 RTL 算法逻辑的前提下，对 active testbench 进行了工业维护层面的注释增强：
 
-- `tb_sar_recon.sv`：补充 Design Intent、Interface Assumptions、Testbench Architecture、driver/scoreboard 注释，以及 SRM Q8 residue 注入检查说明。
+- `tb_sar_recon_binary_norm.sv`：补充 Design Intent、Interface Assumptions、Testbench Architecture、driver/scoreboard 注释，以及 SRM Q8 residue 注入检查说明。
+- `tb_recon_q8_split_weights.sv`：补充 Q8 split-cap weight contract、manual model 和 residue unit checks。
 - `tb_srm_residue_estimator.sv`：补充 SRM 22-decision 到 signed Q8 LUT 的验证边界、start/decision/done 握手假设、golden LUT 维护说明。
 - `tb_gain_comp_check_lsb.sv`：补充 Monte Carlo 行为 analog model、capacitor mismatch、comparator offset/noise、writeback monitor、gain compensation 和 residual error scoring 注释。
-- 三份 TB 均加入 `default_nettype none`，用于暴露未来维护中可能误写出的隐式 net。
+- 四份 TB 均加入 `default_nettype none`，用于暴露未来维护中可能误写出的隐式 net。
 - 新增 `docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md`，集中说明 TB 覆盖、失败策略、注释规范和后续维护检查单。
 - 已同步到 `delivery/sar_adc_v3_digital_core_2026-05-18/tb/` 与包内 `docs/`。
 
@@ -447,7 +469,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 结果：
 
-- `tb_sar_recon`：PASS，`48` checks，`0` failed。
+- `tb_sar_recon_binary_norm`：PASS，`49` checks，`0` failed。
+- `tb_recon_q8_split_weights`：PASS，`17` checks，`0` failed。
 - `tb_srm_residue_estimator`：PASS，`17` checks，`0` failed。
 - `tb_gain_comp_check_lsb`：PASS，`10` checks，`0` failed，worst residual error `0.4937 LSB`。
 - 总结：`XSIM OVERALL RESULT : PASS`。
@@ -472,4 +495,43 @@ docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md
 - 当前工程没有复现 transistor-level split-sampling analog front-end、clock multiplier、DAC settling、comparator/latch 物理统计、layout parasitic、PVT 和 mixed-signal signoff。
 - 最坏 calibration residual 为 `0.4937 LSB`，低于 `0.5 LSB` 但余量只有 `0.0063 LSB`，因此数字算法能在当前模型下通过，但仍需要扩大 Monte Carlo 和 mixed-signal 验证来证明真实 silicon margin。
 
-该追加工作未改动 RTL/TB 行为，因此未重复运行 Vivado；上一轮 active 与 delivery XSIM 均已 PASS。
+该追加工作未改动核心 RTL 行为；后续 fixed-point contract 拆分后，active 与 delivery XSIM 已重新完整复跑并保持 PASS。
+
+## 14. 追加交付记录：Fixed-Point Contract 与 Q8 Split-Weight TB
+
+针对用户指出的 fixed-point 标尺闭合问题，本轮新增：
+
+```text
+docs/FIXED_POINT_CONTRACT.md
+Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv
+Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv
+```
+
+关键修正：
+
+- 原 `tb_sar_recon.sv` 被明确拆分为 `tb_sar_recon_binary_norm.sv`，其语义是 binary-normalized 20-bit raw code 到 signed 16-bit output 的 smoke test。
+- 历史 `<< 4` 不再作为 magic number 出现，而是定义为：
+
+```text
+BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM
+                  = 16 + 8 - 20
+                  = 4
+```
+
+- 新增 `tb_recon_q8_split_weights.sv`，使用 split-cap ideal weight table 的 Q8 integer 权重，验证 `weight_ram`、`srm_residue`、`/2` differential normalization、rounding、saturation 与本地 bit-exact model 一致。
+- `FIXED_POINT_CONTRACT.md` 明确规定：
+  - `w_wr_data` 与 `weight_ram[i]` 同为 signed Q8 reconstruction weight；
+  - `srm_residue = 256` 表示非饱和情况下最终输出增加 1 code；
+  - `adc_dout` 是 signed two's-complement 16-bit output code；
+  - binary-normalized TB 与 Q8 split-cap contract TB 是两个不同验证层次。
+
+该追加工作直接回应了此前“TB 各自成立但系统标尺可能未闭合”的风险。
+
+本轮重新运行结果：
+
+- Active source tree：`scripts/run_all_xsim.ps1`，四套 TB 全部 PASS。
+- Delivery package：`delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1`，四套 TB 全部 PASS。
+- `tb_sar_recon_binary_norm`：PASS，`49` checks，`0` failed。
+- `tb_recon_q8_split_weights`：PASS，`17` checks，`0` failed。
+- `tb_srm_residue_estimator`：PASS，`17` checks，`0` failed。
+- `tb_gain_comp_check_lsb`：PASS，`10` checks，`0` failed，worst residual error `0.4937 LSB`。

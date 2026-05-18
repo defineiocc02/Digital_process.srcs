@@ -31,7 +31,8 @@ D:\Academic\Vivado2018\Vivado\2018.3\bin
 
 | Testbench | Result | Key evidence |
 | --- | --- | --- |
-| `tb_sar_recon` | PASS | 48 checks, 0 failed; linearity, weight update, pipeline throughput, SRM injection |
+| `tb_sar_recon_binary_norm` | PASS | Binary-normalized linearity, weight update, pipeline throughput, SRM injection |
+| `tb_recon_q8_split_weights` | PASS | Q8 split-cap weight and SRM residue fixed-point contract |
 | `tb_srm_residue_estimator` | PASS | 17 checks, 0 failed; LUT edge/center/symmetry cases |
 | `tb_gain_comp_check_lsb` | PASS | 10 checks, 0 failed; 5 Monte Carlo runs; worst residual error `0.4937 LSB` |
 

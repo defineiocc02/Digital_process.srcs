@@ -53,15 +53,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 Date: 2026-05-18
 
 - `tb_sar_recon_binary_norm`: PASS after the fixed-point contract split;
-  includes ideal binary-normalized linearity, weight write sensitivity,
-  full-rate pipeline throughput, and SRM residue injection.
+  49 checks, 0 failed; includes ideal binary-normalized linearity, weight
+  write sensitivity, full-rate pipeline throughput, and SRM residue injection.
 - `tb_recon_q8_split_weights`: PASS after introduction; checks Q8 split-cap
   ideal weights, non-saturated residue unit behavior, and bit-exact agreement
-  with the manual reconstruction model.
+  with the manual reconstruction model; 17 checks, 0 failed.
 - `tb_srm_residue_estimator`: PASS, 17 checks, 0 failed; includes edge,
   midpoint, and symmetry LUT cases.
 - `tb_gain_comp_check_lsb`: PASS, 5 Monte Carlo runs, 10 checks, 0 failed;
   worst residual error `0.4937 LSB`.
+- Active source tree and frozen delivery package were both run through
+  `scripts/run_all_xsim.ps1`; both ended with `XSIM OVERALL RESULT : PASS`.
 
 Synthesis check:
 

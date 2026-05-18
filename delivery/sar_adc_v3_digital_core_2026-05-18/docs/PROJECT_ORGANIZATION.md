@@ -6,8 +6,9 @@
   - `sar_reconstruction.sv`
   - `sar_calib_ctrl_serial.sv`
   - `srm_residue_estimator.sv`
-- Three testbench files:
-  - `tb_sar_recon.sv`
+- Four testbench files:
+  - `tb_sar_recon_binary_norm.sv`
+  - `tb_recon_q8_split_weights.sv`
   - `tb_gain_comp_check_lsb.sv`
   - `tb_srm_residue_estimator.sv`
 - Vivado project and one XDC.

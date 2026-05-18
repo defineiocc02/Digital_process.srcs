@@ -402,8 +402,8 @@ archive/deleted-in-039c478/archive/legacy_vivado_projects/
 
 补充状态：当前仓库已经新增 `docs/FIXED_POINT_CONTRACT.md` 和
 `tb_recon_q8_split_weights.sv`，用于把 binary-normalized reconstruction
-smoke test 与 Q8 split-cap weight contract test 明确分开。原
-`tb_sar_recon` 的历史 `<< 4` 标尺现在表达为 `BINARY_NORM_SHIFT =
+smoke test 与 Q8 split-cap weight contract test 明确分开。当前
+`tb_sar_recon_binary_norm` 的历史 `<< 4` 标尺现在表达为 `BINARY_NORM_SHIFT =
 OUTPUT_WIDTH + FRAC_BITS - CAP_NUM`，不再被解释为校准控制器 Q8 权重的替代验证。
 
 ## 8. 当前复现可信度分级

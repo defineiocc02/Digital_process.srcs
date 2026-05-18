@@ -58,6 +58,9 @@ The papers describe three digital responsibilities:
 | SRM residue correction injection | `sar_reconstruction.sv` |
 | 22-decision SRM count-to-residue estimator | `srm_residue_estimator.sv` |
 
+The fixed-point contract is documented separately in
+`docs/FIXED_POINT_CONTRACT.md`.
+
 ## SRM Estimator Details
 
 The SRM estimator uses `DECISION_COUNT = 22`. For a count `c`, the LUT maps the
@@ -124,15 +127,29 @@ Checked counts:
 
 The test also checks edge and center symmetry.
 
-### `tb_sar_recon`
+### `tb_sar_recon_binary_norm`
 
 Status: PASS
 
-- Linearity: 20 swept input points all matched the expected signed 16-bit code.
+- Binary-normalized linearity: 20 swept input points matched the expected signed
+  16-bit code.
 - Weight update: +10% MSB weight perturbation shifted output as expected.
 - Throughput: 5 continuous input samples produced 5 outputs.
 - SRM injection: `srm_residue = +256` shifted output by +1 code and
   `srm_residue = -256` shifted output by -1 code.
+
+This test uses `BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM`; it is
+not a split-cap calibrated weight contract test.
+
+### `tb_recon_q8_split_weights`
+
+Status: PASS
+
+- Loads split-cap ideal weights as signed Q8 reconstruction weights.
+- Checks negative full-scale, positive full-scale, alternating, single-MSB, and
+  deterministic random raw-bit vectors.
+- Checks non-saturated `srm_residue = +256` shifts the manual model by +1 code.
+- Compares every DUT output against the local bit-exact fixed-point model.
 
 ### `tb_gain_comp_check_lsb`
 
@@ -165,7 +182,7 @@ Worst observed result: `0.4937 LSB`, still below the criterion.
   reconstruction, and SRM residue estimation.
 - Archive non-active experiments before removing them from the active Vivado
   project.
-- After any RTL behavior change, rerun all three XSIM testbenches and update
+- After any RTL behavior change, rerun all four XSIM testbenches and update
   this report or `docs/VERIFICATION.md` with the new date and results.
 - Treat the `srm_residue` interface as a fixed-point contract: producer and
   consumer must agree on sign, width, and `FRAC_BITS`.
