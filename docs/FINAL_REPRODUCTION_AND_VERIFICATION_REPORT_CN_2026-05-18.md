@@ -473,3 +473,33 @@ docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md
 - 最坏 calibration residual 为 `0.4937 LSB`，低于 `0.5 LSB` 但余量只有 `0.0063 LSB`，因此数字算法能在当前模型下通过，但仍需要扩大 Monte Carlo 和 mixed-signal 验证来证明真实 silicon margin。
 
 该追加工作未改动 RTL/TB 行为，因此未重复运行 Vivado；上一轮 active 与 delivery XSIM 均已 PASS。
+
+## 14. 追加交付记录：Fixed-Point Contract 与 Q8 Split-Weight TB
+
+针对用户指出的 fixed-point 标尺闭合问题，本轮新增：
+
+```text
+docs/FIXED_POINT_CONTRACT.md
+Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv
+Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv
+```
+
+关键修正：
+
+- 原 `tb_sar_recon.sv` 被明确拆分为 `tb_sar_recon_binary_norm.sv`，其语义是 binary-normalized 20-bit raw code 到 signed 16-bit output 的 smoke test。
+- 历史 `<< 4` 不再作为 magic number 出现，而是定义为：
+
+```text
+BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM
+                  = 16 + 8 - 20
+                  = 4
+```
+
+- 新增 `tb_recon_q8_split_weights.sv`，使用 split-cap ideal weight table 的 Q8 integer 权重，验证 `weight_ram`、`srm_residue`、`/2` differential normalization、rounding、saturation 与本地 bit-exact model 一致。
+- `FIXED_POINT_CONTRACT.md` 明确规定：
+  - `w_wr_data` 与 `weight_ram[i]` 同为 signed Q8 reconstruction weight；
+  - `srm_residue = 256` 表示非饱和情况下最终输出增加 1 code；
+  - `adc_dout` 是 signed two's-complement 16-bit output code；
+  - binary-normalized TB 与 Q8 split-cap contract TB 是两个不同验证层次。
+
+该追加工作直接回应了此前“TB 各自成立但系统标尺可能未闭合”的风险。

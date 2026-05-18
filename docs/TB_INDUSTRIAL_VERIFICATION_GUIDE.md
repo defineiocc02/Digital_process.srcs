@@ -8,7 +8,8 @@
 
 | Testbench | DUT | 主要目的 |
 | --- | --- | --- |
-| `tb_sar_recon.sv` | `sar_reconstruction` | 验证校准权重重构、权重写入响应、流水 valid 传递、SRM 残差注入 |
+| `tb_sar_recon_binary_norm.sv` | `sar_reconstruction` | 验证 binary-normalized 20-bit raw code 到 signed 16-bit 输出的重构 smoke path |
+| `tb_recon_q8_split_weights.sv` | `sar_reconstruction` | 验证 Q8 split-cap 权重、SRM residue 和 reconstruction fixed-point contract |
 | `tb_srm_residue_estimator.sv` | `srm_residue_estimator` | 验证 22 次 SRM comparator decision 到 signed Q8 residue 的 LUT 映射 |
 | `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` | 用 Monte Carlo 行为模型验证前台递归校准、噪声/offset 鲁棒性和 gain compensation |
 
@@ -34,14 +35,23 @@
 
 ## 当前覆盖解释
 
-### `tb_sar_recon.sv`
+### `tb_sar_recon_binary_norm.sv`
 
-- 使用 `generate_ideal_bits` 构造归一化输入到 raw SAR decision 的理想映射。
-- 使用 `load_ideal_weights` 写入可审计的单调权重表，避免把校准复杂性混入重构单元测试。
+- 使用 `generate_ideal_bits` 构造归一化输入到 ideal binary raw SAR decision 的映射。
+- 使用 `BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM` 写入 binary-normalized 权重，避免历史 `<< 4` 被误解成 Q8 split-cap 权重。
 - `test_linearity` 检查 20 个输入点，误差容限为 `+/-1 code`。
 - `test_weight_update` 验证 MSB 权重写入确实影响输出，防止权重端口失效。
 - `test_pipeline_throughput` 验证连续 sample valid 不丢失。
 - `test_srm_residue_injection` 验证 signed Q8 residue 对最终输出产生预期的一码修正。
+- 该 TB 不验证 calibration controller 输出权重与 split-cap reconstruction 的完整标尺一致性。
+
+### `tb_recon_q8_split_weights.sv`
+
+- 使用 split-cap ideal weight table，把每个权重转换为 Q8 integer。
+- 将 Q8 split weights 写入 `sar_reconstruction.weight_ram`。
+- 用本地 manual model 逐 bit 计算 `+W_i/-W_i`、`/2`、SRM residue、rounding、saturation。
+- 覆盖 full-scale、alternating、single-MSB、deterministic random、正负 residue 注入等向量。
+- 该 TB 的目标是 fixed-point contract 闭合，不等同于 ADC SNDR/SFDR/INL/DNL 系统性能验证。
 
 ### `tb_srm_residue_estimator.sv`
 

@@ -16,10 +16,17 @@ if ((Test-Path -LiteralPath (Join-Path $RepoRoot 'rtl')) -and
     Write-Host "XSIM source layout : delivery package"
     $tests = @(
         @{
-            Top = 'tb_sar_recon'
+            Top = 'tb_sar_recon_binary_norm'
             Files = @(
                 'rtl/sar_reconstruction.sv',
-                'tb/tb_sar_recon.sv'
+                'tb/tb_sar_recon_binary_norm.sv'
+            )
+        },
+        @{
+            Top = 'tb_recon_q8_split_weights'
+            Files = @(
+                'rtl/sar_reconstruction.sv',
+                'tb/tb_recon_q8_split_weights.sv'
             )
         },
         @{
@@ -41,10 +48,17 @@ if ((Test-Path -LiteralPath (Join-Path $RepoRoot 'rtl')) -and
     Write-Host "XSIM source layout : active Vivado repository"
     $tests = @(
         @{
-            Top = 'tb_sar_recon'
+            Top = 'tb_sar_recon_binary_norm'
             Files = @(
                 'Digital_process/Digital_process.srcs/sources_1/new/sar_reconstruction.sv',
-                'Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon.sv'
+                'Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv'
+            )
+        },
+        @{
+            Top = 'tb_recon_q8_split_weights'
+            Files = @(
+                'Digital_process/Digital_process.srcs/sources_1/new/sar_reconstruction.sv',
+                'Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv'
             )
         },
         @{

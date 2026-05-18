@@ -2,18 +2,21 @@
 `default_nettype none
 
 // =============================================================================
-// File Name     : tb_sar_recon.sv
+// File Name     : tb_sar_recon_binary_norm.sv
 // Target        : sar_reconstruction
-// Purpose       : Production-style unit testbench for the calibrated digital
-//                 reconstruction path.
+// Purpose       : Production-style unit testbench for the binary-normalized
+//                 reconstruction smoke-test path.
 // Tool Scope    : Vivado XSIM 2018.3 batch simulation.
 // Language      : SystemVerilog testbench; not intended for synthesis.
 //
 // Design Intent:
-//   This TB verifies the digital reconstruction datapath used after SAR bit
-//   decisions and calibration-weight loading. It checks that raw capacitor
-//   decisions, calibrated bit weights, and SRM residue correction combine into
-//   the expected signed output code.
+//   This TB verifies the reconstruction datapath using an ideal 20-bit binary
+//   raw-code model normalized into a signed 16-bit output range. It is a
+//   smoke/regression test for pipeline timing, signed arithmetic, rounding,
+//   saturation, weight-write sensitivity, and SRM residue injection.
+//
+//   It does NOT prove split-capacitor Q8 calibrated-weight consistency. That
+//   contract is covered by tb_recon_q8_split_weights.sv.
 //
 // Verification Scope:
 //   1. Ideal linearity sweep over 20 input points.
@@ -23,7 +26,10 @@
 //
 // Interface Assumptions:
 //   - `data_valid_in` is a one-cycle pulse synchronous to `clk`.
-//   - `w_wr_en` writes one Q4.4-style reconstruction weight per clock cycle.
+//   - `w_wr_en` writes one binary-normalized Q8 reconstruction weight per clk.
+//   - Ideal binary test weight:
+//       W_i = 2^i * 2^(OUTPUT_WIDTH + FRAC_BITS - CAP_NUM)
+//           = 2^i * 16 for the default 20-bit to 16-bit test.
 //   - `srm_residue` is a signed Q8 correction term applied before output scaling.
 //   - The DUT drives `data_valid_out` when `adc_dout` is stable.
 //
@@ -38,7 +44,7 @@
 //   - Any failed check calls $fatal so batch simulation returns a failing status.
 // =============================================================================
 
-module tb_sar_recon;
+module tb_sar_recon_binary_norm;
 
     // Core configuration mirrors the delivered RTL defaults. Keep these values
     // aligned with the DUT instance so the TB remains a direct unit-level signoff
@@ -48,6 +54,7 @@ module tb_sar_recon;
     localparam int OUTPUT_WIDTH  = 16;
     localparam int FRAC_BITS     = 8;
     localparam int CLK_PERIOD_NS = 10;
+    localparam int BINARY_NORM_SHIFT = OUTPUT_WIDTH + FRAC_BITS - CAP_NUM;
 
     // DUT clock/reset and conversion interface.
     logic clk = 1'b0;
@@ -185,8 +192,9 @@ module tb_sar_recon;
         end
     endtask
 
-    // Load a monotonic ideal weight table. The table is intentionally simple
-    // here; calibration non-ideality is covered by tb_gain_comp_check_lsb.
+    // Load a monotonic binary-normalized ideal weight table. The scale factor
+    // maps a 20-bit ideal binary raw code into the signed 16-bit output domain
+    // while keeping the DUT's internal Q8 arithmetic.
     task automatic load_ideal_weights();
         logic [63:0] calc_w;
         begin
@@ -195,7 +203,7 @@ module tb_sar_recon;
             for (int i = 0; i < CAP_NUM; i++) begin
                 w_wr_en   = 1'b1;
                 w_wr_addr = i[4:0];
-                calc_w    = (longint'(1) << i) << 4;
+                calc_w    = (longint'(1) << i) << BINARY_NORM_SHIFT;
                 w_wr_data = calc_w[WEIGHT_WIDTH-1:0];
                 @(negedge clk);
             end
@@ -256,7 +264,7 @@ module tb_sar_recon;
             record_check(ok, "baseline conversion produced data_valid_out");
             before_update = $signed(adc_dout);
 
-            base_w = (longint'(1) << (CAP_NUM - 1)) << 4;
+            base_w = (longint'(1) << (CAP_NUM - 1)) << BINARY_NORM_SHIFT;
             err_w  = (base_w * 11) / 10;
 
             @(negedge clk);
@@ -350,10 +358,13 @@ module tb_sar_recon;
     endtask
 
     initial begin
-        $dumpfile("tb_sar_recon.vcd");
-        $dumpvars(0, tb_sar_recon);
+        $dumpfile("tb_sar_recon_binary_norm.vcd");
+        $dumpvars(0, tb_sar_recon_binary_norm);
 
-        print_section("SAR RECONSTRUCTION TESTBENCH START");
+        record_check(BINARY_NORM_SHIFT >= 0,
+                     "binary normalization shift is non-negative for this TB");
+
+        print_section("SAR RECONSTRUCTION BINARY-NORMALIZED TESTBENCH START");
         reset_dut();
 
         test_linearity();
@@ -361,7 +372,7 @@ module tb_sar_recon;
         test_pipeline_throughput();
         test_srm_residue_injection();
 
-        print_section("SAR RECONSTRUCTION TESTBENCH SUMMARY");
+        print_section("SAR RECONSTRUCTION BINARY-NORMALIZED TESTBENCH SUMMARY");
         $display("Checks total : %0d", checks_total);
         $display("Checks failed: %0d", checks_failed);
         record_check(checks_failed == 0, "all sar_reconstruction checks passed");

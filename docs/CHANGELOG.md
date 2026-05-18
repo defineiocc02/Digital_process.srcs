@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.5.4-fixed-point-contract - 2026-05-18
+
+- Added `docs/FIXED_POINT_CONTRACT.md` to define Q8 units, reconstruction
+  arithmetic, SRM residue semantics, binary-normalized TB scale, and split-cap
+  Q8 weight contract.
+- Renamed the reconstruction smoke test to `tb_sar_recon_binary_norm.sv` and
+  replaced the historical `<< 4` magic scale with `BINARY_NORM_SHIFT`.
+- Added `tb_recon_q8_split_weights.sv` to verify Q8 split-cap weights,
+  `srm_residue`, and `sar_reconstruction` against a bit-exact manual model.
+- Updated XSIM regression scripts and Vivado project metadata for the expanded
+  four-testbench verification set.
+
 ## v3.5.3-gap-analysis - 2026-05-18
 
 - Added a detailed Chinese technical gap analysis comparing the delivered RTL/TB

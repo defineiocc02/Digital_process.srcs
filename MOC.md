@@ -8,7 +8,8 @@
 
 ## Testbench
 
-- `Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon.sv`
+- `Digital_process/Digital_process.srcs/sim_1/new/tb_sar_recon_binary_norm.sv`
+- `Digital_process/Digital_process.srcs/sim_1/new/tb_recon_q8_split_weights.sv`
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_gain_comp_check_lsb.sv`
 - `Digital_process/Digital_process.srcs/sim_1/new/tb_srm_residue_estimator.sv`
 
@@ -20,6 +21,7 @@
 ## Docs
 
 - [docs/VERSION.md](docs/VERSION.md)
+- [docs/FIXED_POINT_CONTRACT.md](docs/FIXED_POINT_CONTRACT.md)
 - [docs/CHANGELOG.md](docs/CHANGELOG.md)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)

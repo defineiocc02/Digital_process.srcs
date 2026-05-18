@@ -8,7 +8,8 @@
 
 ## Testbenches
 
-- `tb/tb_sar_recon.sv`
+- `tb/tb_sar_recon_binary_norm.sv`
+- `tb/tb_recon_q8_split_weights.sv`
 - `tb/tb_gain_comp_check_lsb.sv`
 - `tb/tb_srm_residue_estimator.sv`
 
@@ -25,6 +26,7 @@
 - `docs/README.md`
 - `docs/MOC.md`
 - `docs/VERSION.md`
+- `docs/FIXED_POINT_CONTRACT.md`
 - `docs/CHANGELOG.md`
 - `docs/ARCHITECTURE.md`
 - `docs/REQUIREMENTS.md`
