@@ -2,26 +2,27 @@
 
 **Date:** 2026-05-18  
 **Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)  
-**Final:** `39500d7`  
+**Final:** `cd73236` (tag: `v3.6.0-engineering-closure`)  
 **Author:** Zhao Yi, with Claude Opus 4.7  
-**Scope:** 8 commits total:
+**Scope:** 11 commits total:
   - 7 engineering closure commits (body of work)
-  - 1 final audit report commit (this document)
+  - 4 documentation / metadata commits (audit report, alignment, LICENSE+Copilot, README)
 
-Aggregate: 42 files, +3933 / -82 lines  
+Aggregate: 46 files, +4534 / -166 lines  
 **Principle:** No algorithmic behavior changes. All core RTL, testbench, fixed-point contract, and build targets remain functionally identical.
 
 ---
 
 ## Executive Summary
 
-The 8-commit closure pass transforms the SAR ADC V3 digital core from "good
+The 11-commit closure pass transforms the SAR ADC V3 digital core from "good
 module-level RTL with documentation" into "engineering-credible deliverable with
 explicit build targets, constraint hygiene, timing contract, safety guards,
-and CI/lint infrastructure."
+CI/lint infrastructure, and a project-house bilingual README."
 
-Commit 8 adds this audit report only. It does not modify RTL, TB, build
-scripts, constraints, or CI behavior.
+Commits 8–11 add documentation, LICENSE, Copilot configuration, and README
+presentation only. They do not modify RTL, TB, build scripts, constraints,
+or CI behavior.
 
 The original audit identified 13 issues across priority levels. This closure
 resolves the top engineering risks while intentionally deferring mixed-signal
@@ -302,8 +303,11 @@ The following items from the original audit are intentionally deferred:
 
 ## Recommendation
 
-The 7-commit closure is complete and self-consistent. Each commit is independently reviewable and revertible. No algorithmic behavior has changed.
+The 11-commit closure is complete and self-consistent. Each commit is independently
+reviewable and revertible. No algorithmic behavior has changed.
 
-**Next step:** Push to GitHub remote and tag as `v3.6.0-engineering-closure`.
+**Tag:** `v3.6.0-engineering-closure` → `cd73236`
 
-Further pre-tapeout work (Monte Carlo, ASIC SDC, CDC formal, full SAR controller) should proceed from this baseline as separate feature branches or milestones, not as amendments to the closure commits.
+Further pre-tapeout work (Monte Carlo, ASIC SDC, CDC formal, full SAR controller)
+should proceed from this baseline as separate feature branches or milestones,
+not as amendments to the closure commits.
