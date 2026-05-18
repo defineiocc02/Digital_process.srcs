@@ -43,17 +43,34 @@ sar_adc_v3/
 `-- README.md
 ```
 
-## Vivado Entry Points
+## Authoritative Build Targets
 
-- Project: `Digital_process/Digital_process.xpr`
-- Default synthesis top: `sar_reconstruction`
+The Vivado `.xpr` file is **not** the authoritative build source.  
+Use the batch scripts under `scripts/` to select the intended synthesis top.
+
+| Target | Top Module | Purpose |
+|---|---|---|
+| `build_calib_core` | `sar_calib_ctrl_serial` | Standalone calibration controller synthesis |
+| `build_recon_core` | `sar_reconstruction` | Standalone reconstruction datapath synthesis |
+| `build_fpga_demo` | `sar_calib_fpga_top` | FPGA board/demo top, reserved until the FPGA wrapper is added |
+
+```powershell
+.\scripts\build.ps1 -Target build_calib_core
+.\scripts\build.ps1 -Target build_recon_core
+```
+
+`build_fpga_demo` is intentionally guarded until `sar_calib_fpga_top.sv` exists.
+
+### Simulation & Legacy Entry Points
+
 - Default simulation top: `tb_sar_recon_binary_norm` — verifies binary-normalized
   20-bit raw-code to signed 16-bit reconstruction only. It does **not** verify
   calibrated Q8 split-cap weight consistency; for that use
   `tb_recon_q8_split_weights`.
 - Calibration simulation top: switch to `tb_gain_comp_check_lsb` when needed.
 - Batch XSIM regression: `scripts/run_all_xsim.ps1`
-- Batch synthesis check: `scripts/run_core_synth_checks.ps1`
+- Legacy batch synthesis check: `scripts/run_core_synth_checks.ps1`
+- Vivado GUI project (non-authoritative): `Digital_process/Digital_process.xpr`
 
 ## Vivado XSIM
 

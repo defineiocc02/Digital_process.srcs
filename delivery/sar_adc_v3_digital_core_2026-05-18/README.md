@@ -17,6 +17,24 @@ and repeatable Vivado batch scripts.
 | `constraints/` | Legacy board XDC hint, not final signoff constraints |
 | `vivado/` | Reference `.xpr` only; source files in this package are the authority |
 
+## Authoritative Build Targets
+
+The Vivado `.xpr` file is **not** the authoritative build source.  
+Use the batch scripts under `scripts/` to select the intended synthesis top.
+
+| Target | Top Module | Purpose |
+|---|---|---|
+| `build_calib_core` | `sar_calib_ctrl_serial` | Standalone calibration controller synthesis |
+| `build_recon_core` | `sar_reconstruction` | Standalone reconstruction datapath synthesis |
+| `build_fpga_demo` | `sar_calib_fpga_top` | FPGA board/demo top, reserved until the FPGA wrapper is added |
+
+```powershell
+.\scripts\build.ps1 -Target build_calib_core
+.\scripts\build.ps1 -Target build_recon_core
+```
+
+`build_fpga_demo` is intentionally guarded until `sar_calib_fpga_top.sv` exists.
+
 ## Status
 
 - XSIM: PASS for all four testbenches.
