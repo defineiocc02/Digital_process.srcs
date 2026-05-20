@@ -50,7 +50,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 ## Latest Run
 
-Date: 2026-05-18
+Date: 2026-05-20
 
 - `tb_sar_recon_binary_norm`: PASS after the fixed-point contract split;
   49 checks, 0 failed; includes ideal binary-normalized linearity, weight
@@ -67,11 +67,11 @@ Date: 2026-05-18
 
 Synthesis check:
 
-- `scripts/run_core_synth_checks.ps1`: PASS for `sar_reconstruction`,
-  `srm_residue_estimator`, and `sar_calib_ctrl_serial` on `xc7a35tfgg484-2`
-  with a 100 MHz clock.
-- Post-synthesis worst setup slack: `3.999 ns`, `7.480 ns`, and `5.450 ns`
-  respectively.
+- `scripts/build.ps1`: PASS for `build_calib_core`, `build_recon_core`,
+  `build_fpga_demo`, and `build_asic_skeleton` on `xc7a35tfgg484-2` with a
+  100 MHz clock.
+- Post-synthesis worst setup slack: `5.449 ns`, `3.999 ns`, `5.441 ns`,
+  and `3.957 ns` respectively.
 
 Additional package-entry check:
 

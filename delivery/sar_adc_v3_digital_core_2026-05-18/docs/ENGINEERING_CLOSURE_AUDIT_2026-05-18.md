@@ -1,14 +1,14 @@
 # SAR ADC V3 Engineering Closure Audit Report
 
-**Date:** 2026-05-18  
-**Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)  
-**Final:** `v3.6.0-engineering-closure` tag (see git tag for exact hash)  
-**Author:** Zhao Yi, with Claude Opus 4.7  
+**Date:** 2026-05-18
+**Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)
+**Final:** `v3.6.0-engineering-closure` tag (see git tag for exact hash)
+**Author:** Zhao Yi, with Claude Opus 4.7
 **Scope:** 11 commits total:
   - 7 engineering closure commits (body of work)
   - 4 documentation / metadata commits (audit report, alignment, LICENSE+Copilot, README)
 
-Aggregate: 46 files, +4534 / -166 lines  
+Aggregate: 46 files, +4534 / -166 lines
 **Principle:** No algorithmic behavior changes. All core RTL, testbench, fixed-point contract, and build targets remain functionally identical.
 
 ---
@@ -290,7 +290,7 @@ The following items from the original audit are intentionally deferred:
 | Dimension | Pre-Closure | Post-Closure |
 |-----------|-------------|--------------|
 | RTL quality | Good | Good + safety guards |
-| Build reproducibility | Script-based but top implicit | Explicit 3-target authoritative entry |
+| Build reproducibility | Script-based but top implicit | Explicit 4-target authoritative entry, including ASIC skeleton |
 | Top-level strategy | Missing | Dual-top (FPGA + ASIC) with clear separation |
 | Constraint hygiene | Legacy board XDC mixed with core | Clean split, opt-in board/debug |
 | Timing assumptions | Implicit / unclear | Documented in mixed-signal contract |
@@ -311,3 +311,14 @@ reviewable and revertible. No algorithmic behavior has changed.
 Further pre-tapeout work (Monte Carlo, ASIC SDC, CDC formal, full SAR controller)
 should proceed from this baseline as separate feature branches or milestones,
 not as amendments to the closure commits.
+
+## Post-Closure Cleanliness Update
+
+After the v3.6.0 tag, the repository was tightened with:
+
+- `build_asic_skeleton`, a Vivado synthesis target for `sar_adc_digital_top`.
+- Repository consistency coverage for all four build targets.
+- Trailing-whitespace cleanup in README/docs/RTL mirrors.
+- LaTeX auxiliary output ignores for local paper drafting.
+
+This update does not change algorithmic RTL behavior.

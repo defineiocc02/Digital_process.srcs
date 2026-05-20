@@ -8,6 +8,7 @@ if {![info exists ::env(BUILD_TARGET)]} {
     puts "  build_calib_core"
     puts "  build_recon_core"
     puts "  build_fpga_demo"
+    puts "  build_asic_skeleton"
     exit 1
 }
 
@@ -55,12 +56,22 @@ switch -- $BUILD_TARGET {
             exit 1
         }
     }
+    "build_asic_skeleton" {
+        set TOP      "sar_adc_digital_top"
+        set XDC_LIST [list [file join $CONSTR_DIR "core_synth.xdc"]]
+
+        if {![file exists [file join $RTL_DIR "sar_adc_digital_top.sv"]]} {
+            puts "ERROR: build_asic_skeleton requires sar_adc_digital_top.sv."
+            exit 1
+        }
+    }
     default {
         puts "ERROR: Unknown BUILD_TARGET = '$BUILD_TARGET'"
         puts "Valid targets:"
         puts "  build_calib_core"
         puts "  build_recon_core"
         puts "  build_fpga_demo"
+        puts "  build_asic_skeleton"
         exit 1
     }
 }
@@ -123,6 +134,14 @@ if {$BUILD_TARGET eq "build_fpga_demo"} {
     set fpga_top [file join $RTL_DIR "sar_calib_fpga_top.sv"]
     if {[file exists $fpga_top]} {
         read_verilog -sv $fpga_top
+    }
+}
+
+# Optional ASIC-oriented integration skeleton
+if {$BUILD_TARGET eq "build_asic_skeleton"} {
+    set asic_top [file join $RTL_DIR "sar_adc_digital_top.sv"]
+    if {[file exists $asic_top]} {
+        read_verilog -sv $asic_top
     }
 }
 

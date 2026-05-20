@@ -5,6 +5,8 @@
 - `Digital_process/Digital_process.srcs/sources_1/new/sar_reconstruction.sv`
 - `Digital_process/Digital_process.srcs/sources_1/new/sar_calib_ctrl_serial.sv`
 - `Digital_process/Digital_process.srcs/sources_1/new/srm_residue_estimator.sv`
+- `Digital_process/Digital_process.srcs/sources_1/new/sar_calib_fpga_top.sv`
+- `Digital_process/Digital_process.srcs/sources_1/new/sar_adc_digital_top.sv`
 
 ## Testbench
 
@@ -39,9 +41,14 @@
 ## Scripts
 
 - `scripts/run_core_synth_checks.ps1`
+- `scripts/build.ps1`
+- `scripts/build_vivado.tcl`
 - `scripts/run_all_xsim.ps1`
 - `scripts/run_xsim.ps1`
 - `scripts/synth_one_top.tcl`
+- `scripts/check_repo_consistency.py`
+- `scripts/lint_verilator.ps1`
+- `scripts/lint_verilator.sh`
 
 ## Delivery
 

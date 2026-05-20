@@ -11,7 +11,10 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 RTL_DIR = ROOT / "rtl"
-TB_DIR = ROOT / "Digital_process" / "Digital_process.srcs" / "sim_1" / "new"
+if (ROOT / "tb").exists():
+    TB_DIR = ROOT / "tb"
+else:
+    TB_DIR = ROOT / "Digital_process" / "Digital_process.srcs" / "sim_1" / "new"
 CONSTR_DIR = ROOT / "constraints"
 DOCS_DIR = ROOT / "docs"
 
@@ -47,6 +50,7 @@ REQUIRED_BUILD_TARGETS = [
     "build_calib_core",
     "build_recon_core",
     "build_fpga_demo",
+    "build_asic_skeleton",
 ]
 
 CORE_XDC = CONSTR_DIR / "core_synth.xdc"

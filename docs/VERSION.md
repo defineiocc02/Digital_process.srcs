@@ -2,12 +2,12 @@
 
 ## Current
 
-- Version: `v3.5.4-fixed-point-contract`
-- Date: 2026-05-18
-- Purpose: verified digital-core delivery package with an explicit fixed-point
-  contract, separated binary-normalized and Q8 split-weight reconstruction TBs,
-  industrial-grade TB comments, reproducible XSIM/synthesis scripts,
-  FPGA/ASIC signoff review, and detailed Chinese technical reports.
+- Version: `v3.6.1-cleanliness`
+- Date: 2026-05-20
+- Purpose: engineering-cleanliness baseline with explicit Vivado targets for
+  calibration, reconstruction, FPGA demo, and ASIC skeleton synthesis; retained
+  fixed-point contract, four-TB XSIM regression, CI/lint scaffolding, and
+  synchronized delivery package metadata.
 
 ## Recovery Points
 

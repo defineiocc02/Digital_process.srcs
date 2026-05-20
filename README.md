@@ -8,7 +8,7 @@
 - **重构 (Reconstruction)**：使用校准权重对 SAR 原始数据进行加权求和，输出 16 位数字码
 - **SRM 残差估计 (SRM Residue Estimation)**：22 次噪声比较器判决统计 + LUT 映射，提供亚 LSB 残差修正
 
-当前版本为 **v3.6.0 工程闭合基线**：三核心 RTL 通过 XSIM 仿真和 FPGA 综合（Artix-7 xc7a35tfgg484-2, 100 MHz），约束层拆分完毕，CI/lint 基础设施就绪。
+当前版本为 **v3.6.1 工程整洁度基线**：三核心 RTL 通过 XSIM 仿真，核心、FPGA demo 与 ASIC skeleton 均有明确 Vivado build target（Artix-7 xc7a35tfgg484-2, 100 MHz），约束层拆分完毕，CI/lint 基础设施就绪。
 
 ## 🏗️ 目录结构
 
@@ -63,6 +63,7 @@ sar_adc_v3/
 .\scripts\build.ps1 -Target build_calib_core
 .\scripts\build.ps1 -Target build_recon_core
 .\scripts\build.ps1 -Target build_fpga_demo
+.\scripts\build.ps1 -Target build_asic_skeleton
 ```
 
 ### 2. 运行仿真
@@ -157,6 +158,7 @@ bash scripts/lint_verilator.sh
 | `build_calib_core` | `sar_calib_ctrl_serial` | 校准核心独立综合 | core_synth.xdc |
 | `build_recon_core` | `sar_reconstruction` | 重构核心独立综合 | core_synth.xdc |
 | `build_fpga_demo` | `sar_calib_fpga_top` | FPGA 演示综合 | core_synth.xdc |
+| `build_asic_skeleton` | `sar_adc_digital_top` | ASIC 数字集成 skeleton 综合 | core_synth.xdc |
 
 板级约束和 ILA 模板**默认不启用**，通过环境变量 opt-in：
 
@@ -179,7 +181,8 @@ $env:USE_DEBUG_XDC = "1"
 |------------|------|-----|-----|-----|
 | `build_calib_core` | PASS | 511 | 821 | 5.450 ns |
 | `build_recon_core` | PASS | 950 | 818 | 3.999 ns |
-| `build_fpga_demo` | PASS | — | — | — |
+| `build_fpga_demo` | PASS | 462 | 821 | 5.441 ns |
+| `build_asic_skeleton` | PASS | 1518 | 1661 | 3.957 ns |
 
 ## 📚 文档
 
@@ -206,9 +209,9 @@ $env:USE_DEBUG_XDC = "1"
 ## 📝 版本管理
 
 ### 当前版本
-- **版本号**：v3.6.0-engineering-closure
+- **版本号**：v3.6.1-cleanliness
 - **发布日期**：2026-05-18
-- **状态**：Engineering Closure Baseline
+- **状态**：Engineering Cleanliness Baseline
 - **Tag**：`v3.6.0-engineering-closure`
 
 ### 版本历史
@@ -251,8 +254,8 @@ $env:USE_DEBUG_XDC = "1"
 
 ## 👥 作者
 
-**Zhao Yi**  
-邮箱：717880671@qq.com  
+**Zhao Yi**
+邮箱：717880671@qq.com
 GitHub：[defineiocc02](https://github.com/defineiocc02)
 
 ## 📄 许可证

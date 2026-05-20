@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.6.1-cleanliness - 2026-05-20
+
+- Added `build_asic_skeleton` so `sar_adc_digital_top.sv` is covered by the
+  authoritative Vivado batch build flow.
+- Updated repository consistency checks and README/verification metadata for
+  all four build targets.
+- Cleaned trailing whitespace in active documentation and RTL mirrors.
+- Added LaTeX auxiliary-file ignore rules for local paper drafting artifacts.
+
 ## v3.5.4-fixed-point-contract - 2026-05-18
 
 - Added `docs/FIXED_POINT_CONTRACT.md` to define Q8 units, reconstruction

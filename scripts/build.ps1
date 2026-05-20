@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("build_calib_core", "build_recon_core", "build_fpga_demo")]
+    [ValidateSet("build_calib_core", "build_recon_core", "build_fpga_demo", "build_asic_skeleton")]
     [string]$Target
 )
 

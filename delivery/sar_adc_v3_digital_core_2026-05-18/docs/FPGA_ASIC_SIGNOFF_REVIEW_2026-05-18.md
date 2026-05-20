@@ -43,7 +43,10 @@ Generated logs are under `sim_work/<tb_name>/xsim.log`.
 Command:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_core_synth_checks.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build.ps1 -Target build_calib_core
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build.ps1 -Target build_recon_core
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build.ps1 -Target build_fpga_demo
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build.ps1 -Target build_asic_skeleton
 ```
 
 Target part: `xc7a35tfgg484-2`
@@ -53,6 +56,8 @@ Target part: `xc7a35tfgg484-2`
 | `sar_reconstruction` | PASS | 950 | 818 | 0 | 0 | 3.999 ns |
 | `srm_residue_estimator` | PASS | 26 | 22 | 0 | 0 | 7.480 ns |
 | `sar_calib_ctrl_serial` | PASS | 511 | 821 | 0 | 0 | 5.450 ns |
+| `sar_calib_fpga_top` | PASS | 462 | 821 | 0 | 0 | 5.441 ns |
+| `sar_adc_digital_top` | PASS | 1518 | 1661 | 0 | 0 | 3.957 ns |
 
 Generated reports and checkpoints are under `sim_work/synth/<top>/`.
 

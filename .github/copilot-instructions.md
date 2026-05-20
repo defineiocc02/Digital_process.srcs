@@ -34,6 +34,7 @@ Do **not** rely on `.xpr` top settings. Use the build scripts:
 .\scripts\build.ps1 -Target build_calib_core
 .\scripts\build.ps1 -Target build_recon_core
 .\scripts\build.ps1 -Target build_fpga_demo
+.\scripts\build.ps1 -Target build_asic_skeleton
 ```
 
 ## Testbench
@@ -60,7 +61,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 ## Pre-Commit Checks
 
-1. All three build targets pass: `build_calib_core`, `build_recon_core`, `build_fpga_demo`.
+1. All four build targets pass: `build_calib_core`, `build_recon_core`, `build_fpga_demo`, `build_asic_skeleton`.
 2. `python3 scripts/check_repo_consistency.py` passes.
 3. If RTL interfaces change, sync testbench instantiation and `rtl/` ↔ `Digital_process/` ↔ `delivery/`.
 4. Simulation-only files must not enter the synthesis path.

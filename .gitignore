@@ -42,6 +42,16 @@ sim_work/
 *.obj
 *.exe
 
+# LaTeX build outputs
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+
 # Binary snapshots and archives
 *.rar
 *.zip
