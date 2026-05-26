@@ -50,7 +50,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 ## Latest Run
 
-Date: 2026-05-20
+Date: 2026-05-26
 
 - `tb_sar_recon_binary_norm`: PASS after the fixed-point contract split;
   49 checks, 0 failed; includes ideal binary-normalized linearity, weight
@@ -62,8 +62,22 @@ Date: 2026-05-20
   midpoint, and symmetry LUT cases.
 - `tb_gain_comp_check_lsb`: PASS, 5 Monte Carlo runs, 10 checks, 0 failed;
   worst residual error `0.4937 LSB`.
-- Active source tree and frozen delivery package were both run through
-  `scripts/run_all_xsim.ps1`; both ended with `XSIM OVERALL RESULT : PASS`.
+- Active source tree was rerun through `scripts/run_all_xsim.ps1` on
+  2026-05-26 and ended with `XSIM OVERALL RESULT : PASS`; the frozen delivery
+  package remains unchanged from its previously verified baseline.
+
+Python convergence-analysis run:
+
+- `python -B analysis\surrogate\replicate_huang2025_calibration_convergence.py`:
+  PASS, deterministic 80-chip paired Monte Carlo sweep with an explicit
+  quantized 16-bit output boundary.
+- Proxy qualification reports direct RTL-Q8 mapping saturation of `23.9151%`;
+  the proxy therefore remains trend-only and is not an RTL/analog golden
+  closed loop.
+- Descriptive trend markers are first met at `Navg=32` with SS+SRM and
+  `Navg=256` without SS+SRM, a model-reported `8.0x` ratio.
+- Full interpretation and limits are documented in
+  `docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md`.
 
 Synthesis check:
 
@@ -72,6 +86,11 @@ Synthesis check:
   100 MHz clock.
 - Post-synthesis worst setup slack: `5.449 ns`, `3.999 ns`, `5.441 ns`,
   and `3.957 ns` respectively.
+- Current post-synthesis utilization (`Slice LUTs / Slice Registers`):
+  `529 / 821`, `950 / 818`, `462 / 821`, and `1518 / 1661` respectively.
+- Vivado emitted non-critical optimization/floorplanning advisory warnings
+  for standalone/flattened synthesis; no synthesis target emitted an error or
+  critical warning.
 
 Additional package-entry check:
 

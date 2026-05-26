@@ -2,12 +2,12 @@
 
 ## Current
 
-- Version: `v3.6.1-cleanliness`
-- Date: 2026-05-20
-- Purpose: engineering-cleanliness baseline with explicit Vivado targets for
-  calibration, reconstruction, FPGA demo, and ASIC skeleton synthesis; retained
-  fixed-point contract, four-TB XSIM regression, CI/lint scaffolding, and
-  synchronized delivery package metadata.
+- Version: `v3.7.0-surrogate-analysis`
+- Date: 2026-05-26
+- Purpose: integrate a bounded Huang 2025 calibration-convergence analysis
+  model with explicit 16-bit output quantization and external-LSB noise units;
+  retain the RTL/TB fixed-point baseline while documenting the remaining
+  analog-to-RTL reproduction boundary.
 
 ## Recovery Points
 

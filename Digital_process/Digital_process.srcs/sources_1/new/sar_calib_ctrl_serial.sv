@@ -21,7 +21,7 @@
 //
 // Parameters    :
 //   CAP_NUM       : Total capacitor bit count (default 20)
-//   WEIGHT_WIDTH  : Weight fixed-point bit width (default 30, Q18.12)
+//   WEIGHT_WIDTH  : Signed weight storage width (default 30, Q8 project domain)
 //   COMP_WAIT_CYC : Comparator/DAC settling time cycles (default 16)
 //   AVG_LOOPS     : Averaging count (default 32, must be power of 2)
 //   MAX_CALIB_BIT : Highest bit of calibration-free LSB segment (default 5)
@@ -48,7 +48,7 @@
 
 module sar_calib_ctrl_serial #(
     parameter int CAP_NUM       = 20,            // Total capacitor bit count (Bit 0 ~ Bit 19)
-    parameter int WEIGHT_WIDTH  = 30,            // Weight fixed-point bit width (Q18.12, reference 256.0)
+    parameter int WEIGHT_WIDTH  = 30,            // Signed Q8 weight width; 256 = 1 output-code LSB
     parameter int COMP_WAIT_CYC = 16,            // Comparator/DAC settling time (clock cycles)
     parameter int AVG_LOOPS     = 32,            // Averaging count (must be power of 2)
     parameter int MAX_CALIB_BIT = 5,             // Trusted LSB segment highest bit (Bit 0-5 calibration-free)

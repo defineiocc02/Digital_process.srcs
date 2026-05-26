@@ -14,6 +14,8 @@
 - Vivado project and one XDC.
 - Concise docs under `docs/`.
 - Reproducible batch scripts under `scripts/`.
+- Reproducible bounded statistical models under `analysis/`; generated
+  analysis outputs remain ignored and are regenerated from source.
 - Frozen delivery handoff under `delivery/`.
 
 ## Remove From Mainline

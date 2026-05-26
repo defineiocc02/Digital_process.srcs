@@ -33,6 +33,7 @@
 - [docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md](docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md)
 - [docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md](docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md)
 - [docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md](docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md)
+- [docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md](docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md) - corrected convergence-surrogate integration and code review report.
 
 ## Timing / Integration Contracts
 
@@ -49,6 +50,12 @@
 - `scripts/check_repo_consistency.py`
 - `scripts/lint_verilator.ps1`
 - `scripts/lint_verilator.sh`
+
+## Analysis Models
+
+- [analysis/surrogate/README.md](analysis/surrogate/README.md)
+- `analysis/surrogate/replicate_huang2025_calibration_convergence.py` - quantized 16-bit, paired Monte Carlo convergence surrogate; not an RTL golden model.
+- `analysis/surrogate/outputs/` - generated CSV/JSON/PNG artifacts, intentionally ignored by Git.
 
 ## Delivery
 

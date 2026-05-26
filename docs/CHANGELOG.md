@@ -1,5 +1,20 @@
 # Changelog
 
+## v3.7.0-surrogate-analysis - 2026-05-26
+
+- Added `analysis/surrogate/replicate_huang2025_calibration_convergence.py`
+  for reproducible, paired Monte Carlo study of calibration-noise averaging.
+- Corrected the proposed surrogate by quantizing performance evaluation to an
+  explicit 16-bit output domain and injecting paper-referenced noise in
+  external output-LSB units.
+- Added proxy-domain and direct RTL-Q8 saturation diagnostics so the
+  reconstruction-derived table is not presented as a verified analog SAR
+  decision vector.
+- Added a detailed Chinese code-review and model-integration report, and kept
+  generated CSV/JSON/PNG outputs outside Git.
+- Corrected stale `Q18.12` comments in the calibration controller mirrors to
+  the active Q8 fixed-point contract; no RTL behavior changed.
+
 ## v3.6.1-cleanliness - 2026-05-20
 
 - Added `build_asic_skeleton` so `sar_adc_digital_top.sv` is covered by the

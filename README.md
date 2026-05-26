@@ -8,7 +8,7 @@
 - **重构 (Reconstruction)**：使用校准权重对 SAR 原始数据进行加权求和，输出 16 位数字码
 - **SRM 残差估计 (SRM Residue Estimation)**：22 次噪声比较器判决统计 + LUT 映射，提供亚 LSB 残差修正
 
-当前版本为 **v3.6.1 工程整洁度基线**：三核心 RTL 通过 XSIM 仿真，核心、FPGA demo 与 ASIC skeleton 均有明确 Vivado build target（Artix-7 xc7a35tfgg484-2, 100 MHz），约束层拆分完毕，CI/lint 基础设施就绪。
+当前版本为 **v3.7.0 分析模型接入基线**：三核心 RTL 保持 XSIM/Vivado 验证基线，并新增经过 16-bit 输出量化和外部 LSB 标尺修正的 Huang 2025 校准收敛趋势分析模型；该模型明确不替代 RTL golden model 或完整 ADC 性能证明。
 
 ## 🏗️ 目录结构
 
@@ -140,7 +140,7 @@ bash scripts/lint_verilator.sh
 | 参数 | 值 | 说明 |
 |------|-----|------|
 | CAP_NUM | 20 | 电容总位数 |
-| WEIGHT_WIDTH | 30 | 权重位宽（有符号, Q18.12） |
+| WEIGHT_WIDTH | 30 | 权重位宽（有符号, Q8 工程重构域；256 = 1 输出码 LSB） |
 | OUTPUT_WIDTH | 16 | 输出数据位宽 |
 | FRAC_BITS | 8 | 权重小数位数（Q8） |
 | AVG_LOOPS | 32 | 校准平均次数（2 的幂） |
@@ -179,7 +179,7 @@ $env:USE_DEBUG_XDC = "1"
 
 | 综合 Target | 结果 | LUT | FF | WNS |
 |------------|------|-----|-----|-----|
-| `build_calib_core` | PASS | 511 | 821 | 5.450 ns |
+| `build_calib_core` | PASS | 529 | 821 | 5.449 ns |
 | `build_recon_core` | PASS | 950 | 818 | 3.999 ns |
 | `build_fpga_demo` | PASS | 462 | 821 | 5.441 ns |
 | `build_asic_skeleton` | PASS | 1518 | 1661 | 3.957 ns |
@@ -201,6 +201,7 @@ $env:USE_DEBUG_XDC = "1"
 - [docs/REPRODUCTION_REPORT_2026-05-18.md](docs/REPRODUCTION_REPORT_2026-05-18.md) — 算法复现报告
 - [docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md](docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md) — 中文复现与验证终报
 - [docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md](docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md) — 中文算法差距分析
+- [docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md](docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md) — Huang 2025 校准收敛代理模型审阅与接入报告
 - [docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md](docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md) — FPGA/ASIC 签核评审
 
 ### 交付包
@@ -209,9 +210,9 @@ $env:USE_DEBUG_XDC = "1"
 ## 📝 版本管理
 
 ### 当前版本
-- **版本号**：v3.6.1-cleanliness
-- **发布日期**：2026-05-18
-- **状态**：Engineering Cleanliness Baseline
+- **版本号**：v3.7.0-surrogate-analysis
+- **发布日期**：2026-05-26
+- **状态**：Engineering Analysis Baseline
 - **Tag**：`v3.6.0-engineering-closure`
 
 ### 版本历史
@@ -270,4 +271,4 @@ GitHub：[defineiocc02](https://github.com/defineiocc02)
 
 ---
 
-*最后更新时间：2026-05-18*
+*最后更新时间：2026-05-26*

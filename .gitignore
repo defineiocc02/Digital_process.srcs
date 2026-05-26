@@ -82,3 +82,4 @@ __pycache__/
 .venv/
 venv/
 node_modules/
+/analysis/surrogate/outputs/
