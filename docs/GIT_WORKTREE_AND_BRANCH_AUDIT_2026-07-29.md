@@ -38,8 +38,8 @@ worktree and contained NF10/NF1 report material.
 |---|---:|---|
 | local and remote `main` | Canonical release history | Active integration and delivery branch |
 | retired `codex/huang-calibration-convergence` | Fast-forwarded into `main` | Safe to remove after remote verification |
-| retired local/remote `master` | No unique commits; remote was 7 commits behind unified `main` | Safe to remove after default-branch verification |
-| `origin/legacy-main` | 16 commits unique, 36 commits behind unified `main` | Divergent historical branch; do not delete without archival |
+| retired local/remote `master` | No unique commits; both refs were ancestors of unified `main` | Removed after default-branch verification |
+| `origin/legacy-main` | 16 unique commits; query behind count live | Divergent historical branch; do not delete without archival |
 
 The remote default branch is `origin/main`. The completed calibration/report
 branch was a strict descendant and was integrated with `git merge --ff-only`,
