@@ -32,33 +32,33 @@ Recoverable archive:
 The archive contains 20 files totaling 271,845 bytes. It was not a Git
 worktree and contained NF10/NF1 report material.
 
-## Current branch topology
+## Unified branch topology
 
 | Ref | Relationship to `origin/main` | Maintenance judgment |
 |---|---:|---|
-| `codex/huang-calibration-convergence` | Strict descendant, 0 behind; query ahead count live | Active delivery branch; retain until merged |
-| local `main` | tracks `origin/main` | Canonical integration branch |
-| local `master` | 1 commit ahead, 0 behind | Redundant local branch after its unique commit is preserved |
-| `origin/master` | identical to `origin/main` | Redundant remote alias |
-| `origin/legacy-main` | 16 commits unique, 29 commits behind | Divergent historical branch; do not delete without archival |
+| local and remote `main` | Canonical release history | Active integration and delivery branch |
+| retired `codex/huang-calibration-convergence` | Fast-forwarded into `main` | Safe to remove after remote verification |
+| retired local/remote `master` | No unique commits; remote was 7 commits behind unified `main` | Safe to remove after default-branch verification |
+| `origin/legacy-main` | 16 commits unique, 36 commits behind unified `main` | Divergent historical branch; do not delete without archival |
 
-The remote default branch is `origin/main`. The active calibration branch is a
-strict descendant of `origin/main`, so it can be reviewed and merged without
-discarding current `main` history.
+The remote default branch is `origin/main`. The completed calibration/report
+branch was a strict descendant and was integrated with `git merge --ff-only`,
+so no merge commit or parallel main history was created.
 
-## Safe convergence sequence
+## Completed convergence
 
-1. Finish and push the current report update on
-   `codex/huang-calibration-convergence`.
-2. Review and merge that branch into `main`.
-3. Verify the merged commit and required release artifacts on `main`.
-4. Create an annotated tag and a Git bundle for the unique `legacy-main`
-   history before considering remote branch removal.
-5. Preserve the one unique local `master` commit by tag, merge, or patch before
-   deleting the local branch.
-6. Delete `origin/master` only after confirming GitHub's default branch remains
-   `main` and no external automation still targets `master`.
-7. Run `git fetch --prune` and `git worktree prune` after the branch cleanup.
+1. Rebuilt and verified the report with the latest academic PDF Skill.
+2. Pushed the completed topic branch as a recovery point.
+3. Switched the only registered worktree to local `main`.
+4. Fast-forwarded `main` to the completed release history.
+5. Pushed `main` and verified the remote commit.
+6. Removed the merged local and remote topic branch.
+7. Verified that local/remote `master` contained no unique commits and removed
+   both aliases after confirming GitHub's default branch is `main`.
+8. Ran `git fetch --prune` and `git worktree prune --verbose`.
+
+The remaining non-main branch is `legacy-main`. It is not a worktree and
+requires a separate history-archival decision before deletion.
 
 ## Commands for a later approved cleanup
 
@@ -66,18 +66,16 @@ The commands below are intentionally not executed by this audit because they
 delete branch references.
 
 ```powershell
-# Inspect unique history first.
+# Inspect unique legacy history first.
 git log --oneline origin/main..origin/legacy-main
-git log --oneline origin/main..master
 
 # Example preservation operations.
 git tag -a archive/legacy-main-20260729 origin/legacy-main `
   -m "Archive divergent legacy-main before branch cleanup"
 git bundle create legacy-main-20260729.bundle origin/legacy-main
 
-# Only after review and explicit approval:
-git branch -d master
-git push origin --delete master
+# Only after legacy review and explicit approval:
+git push origin --delete legacy-main
 git fetch --prune
 git worktree prune --verbose
 ```
