@@ -36,7 +36,7 @@ worktree and contained NF10/NF1 report material.
 
 | Ref | Relationship to `origin/main` | Maintenance judgment |
 |---|---:|---|
-| `codex/huang-calibration-convergence` | 3 commits ahead, 0 behind | Active delivery branch; retain until merged |
+| `codex/huang-calibration-convergence` | 4 commits ahead, 0 behind after this audit | Active delivery branch; retain until merged |
 | local `main` | tracks `origin/main` | Canonical integration branch |
 | local `master` | 1 commit ahead, 0 behind | Redundant local branch after its unique commit is preserved |
 | `origin/master` | identical to `origin/main` | Redundant remote alias |
@@ -93,4 +93,3 @@ git worktree prune --verbose
   storage, not as the authoritative project archive.
 - Keep project releases in Git, the delivery package, and the 16-bit project
   zone backup. Do not use a temporary worktree as the only copy.
-
