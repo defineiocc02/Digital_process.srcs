@@ -46,11 +46,19 @@ sim_work/
 *.aux
 *.bbl
 *.blg
+*.bcf
 *.fdb_latexmk
 *.fls
+*.lof
+*.lot
+*.nav
 *.out
+*.run.xml
+*.snm
 *.synctex.gz
 *.toc
+*.vrb
+*.xdv
 
 # Binary snapshots and archives
 *.rar
@@ -68,6 +76,7 @@ Digital_process/Digital_process.srcs/REFERENCE/*.pdf
 .DS_Store
 Thumbs.db
 desktop.ini
+/-p/
 .vscode/
 .idea/
 .claude/
@@ -83,3 +92,4 @@ __pycache__/
 venv/
 node_modules/
 /analysis/surrogate/outputs/
+/analysis/*/report/qa_pages*/

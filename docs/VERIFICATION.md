@@ -50,7 +50,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 
 ## Latest Run
 
-Date: 2026-05-26
+Date: 2026-07-29
 
 - `tb_sar_recon_binary_norm`: PASS after the fixed-point contract split;
   49 checks, 0 failed; includes ideal binary-normalized linearity, weight
@@ -63,8 +63,24 @@ Date: 2026-05-26
 - `tb_gain_comp_check_lsb`: PASS, 5 Monte Carlo runs, 10 checks, 0 failed;
   worst residual error `0.4937 LSB`.
 - Active source tree was rerun through `scripts/run_all_xsim.ps1` on
-  2026-05-26 and ended with `XSIM OVERALL RESULT : PASS`; the frozen delivery
-  package remains unchanged from its previously verified baseline.
+  2026-07-29 and ended with `XSIM OVERALL RESULT : PASS`.
+
+Current on-chip calibration behavior-level validation:
+
+- Algorithm source of truth: `rtl/sar_calib_ctrl_serial.sv`.
+- Behavior mirror and evidence:
+  `analysis/calibration_effectiveness_20260729/validate_current_calibration.py`.
+- Result summary under the configured 32-chip stress case:
+  nominal SNDR median `36.214 dB`; RTL-equivalent calibrated raw path
+  `91.967 dB`; diagnostic gain-aligned calibrated path `92.007 dB`;
+  physical-weight oracle `93.292 dB`.
+- Gain-aligned weight RMSE median improved from `147.9781 LSB` to
+  `0.1908 LSB`.
+- Report and package:
+  `analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf`
+  and `delivery/current_calibration_validation_20260729/`.
+- This validation does not claim AMS, transistor-level, PVT, PEX, or silicon
+  signoff.
 
 Python convergence-analysis run:
 

@@ -1,0 +1,1164 @@
+% =============================================================================
+%  An FPGA-Verified Digital Calibration Engine for Split-Sampling SAR ADC
+%  with SRM Residue Estimation
+%
+%  IEEE TCAS-I Regular Paper
+%  (also adaptable to IEEE OJ-SSCS Data Converters Special Section)
+%
+%  Compilation: pdflatex -> bibtex -> pdflatex -> pdflatex
+% =============================================================================
+
+\documentclass[journal]{IEEEtran}
+
+% ---------------------------------------------------------------------------
+% Packages
+% ---------------------------------------------------------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{array}
+\usepackage{cite}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue,
+    breaklinks=true
+}
+
+% ---------------------------------------------------------------------------
+% Title
+% ---------------------------------------------------------------------------
+\title{An FPGA-Verified Digital Calibration Engine for\\[1mm]
+       Split-Sampling SAR ADC with SRM Residue Estimation}
+
+\author{
+    Zhao~Yi,~\IEEEmembership{Student Member,~IEEE}
+    \thanks{Zhao Yi is with the School of Microelectronics,
+            Xidian University, Xi'an 710071, China
+            (e-mail: 717880671@qq.com).}
+    \thanks{Digital design files, verification infrastructure, and build
+            scripts are available at
+            \url{https://github.com/defineiocc02/Digital\_process.srcs}.}
+}
+
+\begin{document}
+
+\maketitle
+
+% ---------------------------------------------------------------------------
+% Abstract
+% ---------------------------------------------------------------------------
+\begin{abstract}
+This paper presents a complete digital calibration engine for split-sampling
+successive-approximation-register (SAR) analog-to-digital converters (ADCs)
+with statistical residue measurement (SRM) estimation, verified on a Xilinx
+Artix-7 FPGA platform at 100~MHz. The digital back end comprises three
+collaborating modules: a foreground serial-accumulation calibration controller
+that implements a recursive measure-then-set algorithm with MSB bit-swapping
+protection, a low-complexity SRM residue estimator that maps 22 repeated noisy
+comparator decisions to a signed Q8 residue correction via a 23-entry normal-
+inverse cumulative distribution function (CDF) look-up table (LUT), and a
+two-stage pipeline reconstruction engine that fuses the calibrated weights
+and SRM residue into a 16-bit signed output. The SRM estimator occupies only
+26~LUTs and 22~flip-flops, achieving single-cycle lookup. The full digital
+core synthesizes to approximately 1487~LUTs and 1661~flip-flops on the
+xc7a35tfgg484-2 device with worst-case setup slack of 3.999~ns. A five-run
+Monte Carlo calibration campaign demonstrates worst residual error below
+0.5~LSB with 5.0~LSB offset and 0.5~LSB RMS noise. Beyond the circuit
+contributions, the paper presents an engineering delivery methodology that
+includes authoritative build targets, constraint splitting, clock-domain
+crossing (CDC) posture documentation, parameter safety guards, and
+continuous-integration lint verification---establishing a reproducible,
+auditable design flow for mixed-signal digital calibration.
+\end{abstract}
+
+\begin{IEEEkeywords}
+SAR ADC, digital calibration, split-sampling, statistical residue measurement,
+FPGA verification, foreground calibration, mixed-signal design methodology.
+\end{IEEEkeywords}
+
+% ---------------------------------------------------------------------------
+% Section I: Introduction
+% ---------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+The successive-approximation-register (SAR) analog-to-digital converter (ADC)
+remains the architecture of choice for medium-resolution, medium-speed
+applications owing to its excellent energy efficiency and digital-friendly
+nature~\cite{murmann_adc_survey}. As technology scales, the resolution of SAR ADCs is
+increasingly limited by two fundamental analog non-idealities: capacitor
+mismatch in the digital-to-analog converter (DAC) array and comparator noise.
+
+\subsection{Split-Sampling SAR Architecture}
+
+Recent work by Huang~\textit{et al.}~\cite{huang_jssc_2025} introduced a
+split-sampling SAR ADC that decouples the sampling-and-hold (S/H) function
+from the capacitive DAC (CDAC), enabling a higher-resolution path without
+requiring impractically large sampling capacitors. The split-sampling technique
+separates the signal acquisition and the digital-to-analog conversion phases,
+which is particularly attractive for medium-to-high-resolution SAR designs
+(14--16 bits). The architecture introduces a new digital calibration challenge:
+the CDAC weights are no longer binary and must be recovered digitally through
+foreground or background estimation.
+
+\subsection{Calibration Approaches}
+
+Digital calibration for SAR ADCs has been extensively studied. Liu~\textit{et
+al.}~\cite{liu_jssc_2011} demonstrated a perturbation-based least-mean-squares
+(LMS) background calibration for a 12~b 45~MS/s redundant SAR ADC, achieving
+integral nonlinearity (INL) below 0.4~LSB. McNeill~\textit{et al.}~\cite{
+mcneill_jssc_2005} proposed the split-ADC architecture, where two identical
+ADCs convert the same input and their digital outputs are compared to drive
+background LMS adaptation. Wang and Chiu~\cite{wang_tcasii_2014} presented a
+fast FPGA emulation platform for background-calibrated SAR ADCs using internal
+redundancy dithering. These approaches generally require substantial digital
+hardware for the adaptation engine or duplicate analog paths.
+
+\subsection{Statistical Residue Measurement}
+
+Statistical residue measurement (SRM) exploits the intrinsic comparator noise
+to estimate the conversion residue without additional analog circuitry.
+Verbruggen~\textit{et al.}~\cite{verbruggen_jssc_2015} demonstrated a 35~MS/s
+SAR ADC using 16 parallel comparators and a stochastic residue estimation
+technique that achieved 60~dB SNDR in 40~nm CMOS. Chen~\textit{et al.}~\cite{
+chen_jssc_2017} developed a Bayes-theorem-based statistical estimation
+approach for a 0.7~V 0.6~$\mu$W 100~kS/s SAR ADC. Banerjee and Sanyal~\cite{
+banerjee_el_2017} proposed a maximum-likelihood estimator (MLE) for
+simultaneous noise and mismatch suppression. Huang's split-sampling SAR
+ADC~\cite{huang_jssc_2025} employs 22 repeated noisy comparator decisions
+after the normal SAR bit-cycling phase to estimate the conversion residue,
+which is then injected into the digital reconstruction datapath.
+
+\subsection{Contributions}
+
+This paper describes a complete digital calibration engine that reproduces the
+digital boundary of Huang's split-sampling SAR architecture and extends it
+with an engineering-credible delivery methodology. The specific contributions
+are:
+
+\begin{enumerate}
+    \item \textbf{Foreground serial-accumulation calibration controller}: An
+        11-state finite-state machine (FSM) implementing a recursive measure-
+        then-set algorithm with 20-bit SAR search, (P+N)/2 differential offset
+        cancellation, and MSB bit-swapping protection (bits~18,~19) to maintain
+        common-mode range. Serial accumulation enables timing closure at
+        100~MHz without combinational bottlenecks.
+    \item \textbf{Low-complexity 22-decision SRM LUT}: A 23-entry normal-
+        inverse CDF look-up table synthesized to only 26~LUTs and 22~flip-flops.
+        The LUT maps the observed count of `1' decisions to a signed Q8 residue
+        correction with single-cycle latency.
+    \item \textbf{Two-stage pipeline reconstruction with SRM injection}: A
+        4-group~$\times$~5-bit parallel partial-sum accumulation (stage~1)
+        followed by global summation, SRM residue injection, scaling, 0.5~LSB
+        rounding, and saturation clamping (stage~2), producing a signed 16-bit
+        output at every clock cycle.
+    \item \textbf{Engineering delivery methodology}: A reproducible multi-
+        target build system, constraint-splitting hygiene (core / board / ILA),
+        documented CDC posture for mixed-signal timing assumptions, parameter
+        safety guards with compile-time verification, and continuous-integration
+        lint checking via Verilator and a repository consistency checker.
+\end{enumerate}
+
+The remainder of this paper is organized as follows. Section~\ref{sec:arch}
+describes the split-sampling SAR ADC architecture and defines the digital
+boundary. Section~\ref{sec:engine} presents the three digital modules in
+detail. Section~\ref{sec:fpga} covers the FPGA implementation and engineering
+methodology. Section~\ref{sec:results} reports verification and synthesis
+results. Section~\ref{sec:comparison} provides a comparison with prior art.
+Section~\ref{sec:conclusion} concludes the paper.
+
+% ---------------------------------------------------------------------------
+% Section II: Architecture
+% ---------------------------------------------------------------------------
+\section{Split-Sampling SAR ADC Architecture}
+\label{sec:arch}
+
+\subsection{System Overview}
+
+Fig.~\ref{fig:system_block} illustrates the overall system architecture. The
+analog front end consists of a dedicated sampling switch, a split CDAC array,
+a dynamic comparator, and the SAR control logic. The split-sampling
+technique~\cite{huang_jssc_2025,huang_cicc_2024} separates the signal
+sampling capacitor from the DAC capacitor bank, allowing each to be optimized
+independently.
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.85\columnwidth}{\centering
+\textbf{System Block Diagram}\\[2mm]
+\small
+$\underbrace{\boxed{\text{S/H}} \rightarrow
+        \boxed{\text{CDAC}} \rightarrow
+        \boxed{\text{Comp}} \rightarrow
+        \boxed{\text{SAR Logic}}}_{\text{Analog/Mixed-Signal}}$\\[2mm]
+$\downarrow$\\[1mm]
+$\underbrace{\boxed{\text{Calib Ctrl}} \rightarrow
+        \boxed{\text{SRM Est.}} \rightarrow
+        \boxed{\text{Reconstruction}}}_{\text{Digital Back End (This Work)}}$\\[2mm]
+$\downarrow$\\[1mm]
+$\boxed{\text{16-bit } adc\_dout}$
+}}
+\caption{System architecture of the split-sampling SAR ADC with digital back
+end. The dashed boundary delineates the scope of this work.}
+\label{fig:system_block}
+\end{figure}
+
+\subsection{Digital Boundary and Scope}
+
+This work focuses exclusively on the digital back end, which comprises three
+modules integrated through the top-level wrapper \texttt{sar\_adc\_digital\_top}
+(as shown in Fig.~\ref{fig:digital_top}):
+
+\begin{itemize}
+    \item \textbf{Calibration controller}: Drives the DAC force signals during
+          foreground calibration mode and writes calibrated weights to the
+          reconstruction weight RAM.
+    \item \textbf{SRM residue estimator}: Collects 22 repeated noisy comparator
+          decisions after the normal SAR bit-cycling phase and produces a signed
+          Q8 residue correction.
+    \item \textbf{Reconstruction engine}: Accumulates the weighted sum of raw
+          SAR decisions using calibrated weights, injects the SRM residue,
+          scales to the output domain, and saturates to 16 bits.
+\end{itemize}
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.9\columnwidth}{\centering
+\texttt{\textbf{sar\_adc\_digital\_top}}\\[2mm]
+\small
+$\boxed{\texttt{sar\_calib\_ctrl\_serial}}
+ \xrightarrow{w\_wr\_en,addr,data}
+ \boxed{\texttt{sar\_reconstruction}}$\\[1mm]
+$\boxed{\texttt{srm\_residue\_estimator}}
+ \xrightarrow{srm\_residue}
+ \boxed{\texttt{sar\_reconstruction}}$\\[1mm]
+Inputs: $raw\_bits$, $comp\_out$, $srm\_decision$ \\
+Output: $adc\_dout$ (16-bit signed)
+}}
+\caption{Digital back-end integration showing the three core modules and their
+interconnections.}
+\label{fig:digital_top}
+\end{figure}
+
+\subsection{Operating Modes}
+
+The digital back end operates in two primary modes:
+
+\begin{itemize}
+    \item \textbf{Calibration mode}: The calibration controller takes control
+          of the DAC force signals, performs the recursive measure-then-set
+          algorithm for each capacitor bit from bit~6 to bit~19, and writes the
+          calibrated weights into the reconstruction engine's internal weight
+          RAM. A shadow RAM write-back bus ($w\_wr\_en$, $w\_wr\_addr$,
+          $w\_wr\_data$) carries the computed weights.
+    \item \textbf{Normal conversion mode}: Raw SAR decision bits
+          ($raw\_bits[19:0]$) are presented to the reconstruction engine,
+          which performs weighted accumulation, SRM residue injection, and
+          final output generation. The SRM estimator collects 22 post-SAR
+          comparator decisions and provides the residue correction.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+% Section III: Digital Calibration Engine
+% ---------------------------------------------------------------------------
+\section{Digital Calibration Engine}
+\label{sec:engine}
+
+\subsection{Foreground Serial-Accumulation Calibration Controller}
+\label{sec:calib_ctrl}
+
+The calibration controller implements a recursive measure-then-set algorithm.
+Starting from the lowest calibrated bit (bit~6), the controller uses the
+previously calibrated lower bits (stored in a Shadow RAM) as a reference DAC
+to measure the actual weight of the currently targeted capacitor through a
+dedicated 20-bit SAR binary search. Each measurement is performed in
+differential pairs (P-phase and N-phase) to cancel offset, and multiple
+averaging loops suppress comparator noise.
+
+\subsubsection{Algorithm}
+
+For each target bit $b$, the algorithm executes the following steps:
+
+\begin{enumerate}
+    \item Initialize the search code to the midpoint of the search range.
+    \item Apply the target drive pattern to the P-side DAC and the trial
+          search code to the N-side DAC (P-phase).
+    \item Wait for the DAC and comparator to settle ($COMP\_WAIT\_CYC = 16$
+          clock cycles).
+    \item Read the comparator decision. If $comp\_out = 1$, the trial code is
+          too large; clear the trial bit and continue searching.
+    \item Repeat steps~2--4 for each bit in the search range (SAR binary
+          search).
+    \item Compute the P-phase measurement result by serially accumulating
+          the calibrated weights of the bits set in the final SAR code, with
+          MSB protection compensation.
+    \item Repeat steps~1--6 with swapped P/N drive patterns (N-phase).
+    \item Accumulate both phase results: $accumulator \mathrel{+}=
+          meas\_val\_p + meas\_val\_n$.
+    \item Repeat steps~1--8 for $AVG\_LOOPS = 32$ iterations.
+    \item Compute the final weight:
+          \begin{equation}
+          W_b = \frac{accumulator + 2^{AVG\_SHIFT}}{2^{AVG\_SHIFT+1}}
+          \label{eq:weight_avg}
+          \end{equation}
+          where $AVG\_SHIFT = \log_2(32) = 5$. The addition of $2^{AVG\_SHIFT}$
+          before the arithmetic right shift implements round-half-up for
+          positive accumulator values; for negative values the rounding is
+          asymmetric (toward negative infinity). The recursive algorithm
+          empirically tolerates this asymmetry---verified by the Monte Carlo
+          campaign (Section~\ref{sec:results})---since the calibration
+          accumulator remains predominantly positive during normal operation.
+\end{enumerate}
+
+\subsubsection{MSB Bit-Swapping Protection}
+
+For the two highest capacitor bits (bit~18 and bit~19, identified by
+$PROTECT\_START\_BIT$ and $CAP\_NUM-1$), the controller enables special MSB
+protection logic. During calibration of these bits, selected lower bits are
+forced to `1' in the search code to compress the common-mode range and prevent
+the large voltage excursion that would otherwise occur when an MSB is toggled.
+The specific forced bits depend on the target being calibrated, as shown in
+Fig.~\ref{fig:msb_protection}. The forced bits' weights are digitally compensated after the SAR search:
+%
+\begin{equation}
+cpt = \begin{cases}
+t_a + W[17],           & t = 18 \\
+t_a + W[18] + W[17],  & t = 19
+\end{cases}
+\label{eq:msb_compensation}
+\end{equation}
+%
+where $t_a$ = accumulated sum, $W[i]$ = calibrated weight of bit~$i$,
+and $t$ = target bit index.
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.85\columnwidth}{\centering
+\textbf{MSB Bit-Swapping Protection}\\[2mm]
+\small
+Normal search: \quad $code = [b_{19}, b_{18}, b_{17}, \dots, b_0]$\\[1mm]
+Calibrating $b_{18}$: $code = [b_{18}, 1, b_{16}, \dots, b_0]$,
+compensate $weight[17]$\\[1mm]
+Calibrating $b_{19}$: $code = [b_{19}, 1, 1, b_{16}, \dots, b_0]$,
+compensate $weight[18] + weight[17]$
+}}
+\caption{MSB bit-swapping protection scheme. When calibrating bit~18, bit~17
+is forced to `1' and compensated by $weight[17]$. When calibrating bit~19, both
+bits~18 and~17 are forced; compensation adds $weight[18] + weight[17]$.}
+\label{fig:msb_protection}
+\end{figure}
+
+\subsubsection{Serial Accumulation}
+
+In v2.0 of the controller, the weight calculation was transitioned from a
+combinational adder tree to a serial bit-by-bit accumulation over
+$CAP\_NUM = 20$ clock cycles. This change eliminated the combinational timing
+bottleneck that the parallel adder tree (20-input summation) created, enabling
+reliable timing closure at 100~MHz. The serial accumulation counter
+($calc\_cnt$) iterates from 0 to 19, conditionally adding
+$shadow\_weights[calc\_cnt]$ when $sar\_code[calc\_cnt] = 1$.
+
+\subsubsection{FSM Implementation}
+
+The controller uses a binary-encoded 11-state FSM (4-bit state register in RTL;
+the synthesis tool may re-encode to one-hot for timing optimization):
+\begin{align}
+S \in \{&idle, init, p\_set, p\_sar, p\_calc, \nonumber\\
+& n\_set, n\_sar, n\_calc, acc, upd, done\}.
+\label{eq:fsm_states}
+\end{align}
+
+The state machine is implemented with a two-process structure (sequential state
+register plus combinational next-state logic) and includes a safe default
+branch that drives all control outputs to known values on unrecognized states,
+eliminating synthesis warnings (Vivado Synth~8-155).
+
+\subsubsection{Key Parameters}
+
+\begin{table}[!t]
+\centering
+\caption{Calibration Controller Configuration Parameters}
+\label{tab:calib_params}
+\begin{tabular}{llc}
+\toprule
+Parameter & Description & Value \\
+\midrule
+$CAP\_NUM$ & Total capacitor bits & 20 \\
+$WEIGHT\_WIDTH$ & Fixed-point weight width & 30 bits \\
+$COMP\_WAIT\_CYC$ & DAC settling cycles & 16 \\
+$AVG\_LOOPS$ & Averaging count ($2^5$) & 32 \\
+$MAX\_CALIB\_BIT$ & Highest calibration-free bit & 5 \\
+$REF\_WEIGHT\_LSB$ & Bit-0 reference weight (Q8) & 256 \\
+$PROTECT\_START\_BIT$ & First MSB protection bit & 18 \\
+$PROTECT\_LOW\_BIT$ & Forced-low protection bit & 17 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{SRM Residue Estimator}
+\label{sec:srm}
+
+The SRM residue estimator~\cite{huang_jssc_2025,verbruggen_jssc_2015}
+exploits the stochastic nature of the comparator noise to estimate the
+residue voltage after the normal SAR bit-cycling phase. When the input
+residue is close to zero, the comparator makes approximately equal numbers
+of `1' and `0' decisions; a systematic bias in the ratio reveals the
+magnitude and polarity of the residue.
+
+\subsubsection{Operation}
+
+After the SAR conversion is complete, the comparator input is disconnected
+from the CDAC and the remaining differential residue voltage is presented
+to the comparator 22 times. The estimator counts the number of `1' decisions
+and maps this count to a signed residue correction via a precomputed LUT.
+
+\subsubsection{LUT Construction}
+
+The LUT is constructed using the normal-inverse CDF model. For an observed
+count $c$ out of $N = 22$ decisions, the probability of a `1' decision is
+estimated with a $\frac{1}{2}$ offset to avoid infinite endpoints:
+
+\begin{equation}
+p(c) = \frac{c + 0.5}{N + 1} = \frac{c + 0.5}{23}, \quad c \in [0, 22].
+\label{eq:srm_prob}
+\end{equation}
+
+The residue value in Q8 fixed-point format is:
+
+\begin{equation}
+residue\_q8(c) = \mathrm{round}\left(0.5 \cdot
+\Phi^{-1}\big(p(c)\big) \cdot 2^{FRAC\_BITS}\right)
+\label{eq:srm_lut}
+\end{equation}
+
+where $\Phi^{-1}$ is the inverse cumulative distribution function of the
+standard normal distribution and $FRAC\_BITS = 8$. The leading factor of $0.5$ combines the nominal comparator noise sigma
+($0.5$~LSB) with the convention that the SRM residue is computed in the
+differential measurement domain; the final differential-to-single-ended
+normalization is applied separately in the reconstruction path (Eq.~8).
+This yields correct LUT values for the Q8 fixed-point implementation.
+
+Table~\ref{tab:srm_lut} presents the complete LUT. The values are symmetric
+about the midpoint ($c = 11$, residue = 0), consistent with the even
+probability distribution assumption.
+
+\begin{table}[!t]
+\centering
+\caption{Normal-Inverse CDF SRM LUT (Q8, $\sigma = 0.5$~LSB)}
+\label{tab:srm_lut}
+\begin{tabular}{crr}
+\toprule
+Count $c$ & $p(c)$ & Residue (Q8) \\
+\midrule
+0 & 0.0217 & $-$258 \\
+1 & 0.0652 & $-$194 \\
+2 & 0.1087 & $-$158 \\
+3 & 0.1522 & $-$131 \\
+4 & 0.1957 & $-$110 \\
+5 & 0.2391 & $-$91 \\
+6 & 0.2826 & $-$74 \\
+7 & 0.3261 & $-$58 \\
+8 & 0.3696 & $-$43 \\
+9 & 0.4130 & $-$28 \\
+10 & 0.4565 & $-$14 \\
+11 & 0.5000 & 0 \\
+12 & 0.5435 & 14 \\
+13 & 0.5870 & 28 \\
+14 & 0.6304 & 43 \\
+15 & 0.6739 & 58 \\
+16 & 0.7174 & 74 \\
+17 & 0.7609 & 91 \\
+18 & 0.8043 & 110 \\
+19 & 0.8478 & 131 \\
+20 & 0.8913 & 158 \\
+21 & 0.9348 & 194 \\
+22 & 0.9783 & 258 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Hardware Implementation}
+
+The LUT is implemented as a 23-entry case statement inside a SystemVerilog
+function. Synthesis on the Artix-7 target produces only 26~LUTs and 22~flip-
+flops---a negligible hardware cost compared to the overall digital core. The
+estimator FSM accepts sparse $decision\_valid$ pulses, making it reusable
+for both cycle-accurate testbench stimulus and asynchronous comparator
+wrappers.
+
+\subsubsection{Comparison with Prior SRM Implementations}
+
+Table~\ref{tab:srm_comparison} compares the proposed SRM estimator with prior
+implementations. Verbruggen~\cite{verbruggen_jssc_2015} used 16 parallel
+comparators in 40~nm CMOS, incurring significant analog area. Banerjee and
+Sanyal~\cite{banerjee_el_2017} employed 20 decisions with a maximum-likelihood
+estimator. The proposed work is distinguished by its mathematical simplicity
+(3-term formula), single-cycle lookup latency, and the formalization of the
+digital SRM boundary as a standalone hardware module decoupled from the
+analog implementation.
+
+\begin{table}[!t]
+\centering
+\caption{Comparison of SRM Digital Implementations}
+\label{tab:srm_comparison}
+\begin{tabular}{lccc}
+\toprule
+Reference & Decisions & Method & LUT+FF \\
+\midrule
+Verbruggen~\cite{verbruggen_jssc_2015} & 16 & 16$\times$ parallel comp. & N/A \\
+Chen~\cite{chen_jssc_2017} & N/A & Bayes estimator & N/A \\
+Banerjee~\cite{banerjee_el_2017} & 20 & MLE & N/A \\
+\textbf{This work} & \textbf{22} & \textbf{Normal-inv. CDF LUT} & \textbf{26+22} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Two-Stage Pipeline Reconstruction Engine}
+\label{sec:recon}
+
+The reconstruction engine converts the raw 20-bit SAR decision vector and the
+SRM residue estimate into a signed 16-bit ADC output code. The fixed-point
+arithmetic follows the project's Q8 convention: one output-code LSB equals 256
+in the internal Q8 weight domain ($Q8\_ONE\_CODE = 256$).
+
+\subsubsection{Arithmetic Path}
+
+The complete data path is:
+
+\begin{align}
+weighted\_sum &= \sum_{i=0}^{19} (raw\_bits[i] \;?\; +W_i \;:\; -W_i)
+\label{eq:weighted_sum} \\
+normalized &= (weighted\_sum \gg 1) + srm\_residue
+\label{eq:normalized} \\
+rounded &= normalized + 2^{FRAC\_BITS - 1}
+\label{eq:rounded} \\
+shifted &= rounded \gg FRAC\_BITS
+\label{eq:shifted} \\
+adc\_dout &= \mathrm{saturate}(shifted,\; [-2^{15}, 2^{15}-1])
+\label{eq:saturate}
+\end{align}
+
+The right-shift by 1 in (\ref{eq:normalized}) converts the differential
+weighted sum (range $\pm V_{ref}$) to the single-ended signed output domain.
+The SRM residue is injected at this point, after differential normalization
+and before output rounding, matching the reconstruction model used by
+Huang~\cite{huang_jssc_2025}.
+
+The 0.5~LSB rounding bias ($2^{FRAC\_BITS-1} = 128$) in (\ref{eq:rounded})
+compensates for the truncation error introduced by the subsequent arithmetic
+right shift. This is not a symmetric round-half-away-from-zero rule but is
+bit-exact with the testbench manual models.
+
+\subsubsection{Two-Stage Pipeline Optimization}
+
+To achieve single-cycle throughput at 100~MHz, the 20-input weighted sum is
+computed through a two-stage pipeline:
+
+\begin{itemize}
+    \item \textbf{Stage~1 (partial accumulation)}: The 20 inputs are divided
+          into 4 groups of 5 bits each. Each group computes a 40-bit signed
+          partial sum in parallel:
+          \begin{equation}
+          partial\_sums[g] = \sum_{i=0}^{4} \bigl(raw[5g+i]\,?\,+W_{5g+i}\,{:}\,-W_{5g+i}\bigr).
+          \label{eq:partial_sum}
+          \end{equation}
+    \item \textbf{Stage~2 (global accumulation)}: The four partial sums are
+          summed with the SRM residue, shifted, rounded, and saturated in a
+          single pipeline register.
+\end{itemize}
+
+This organization reduces the critical path from a 20-input adder tree to a
+5-input partial-sum computation followed by a 4-input global addition.
+
+\subsubsection{Calibrated Weight Integration}
+
+The weight RAM is initialized with ideal binary values for the lower 6 bits
+(0--5, $MAX\_CALIB\_BIT$). During calibration, the controller writes computed
+weights through the $w\_wr\_en/addr/data$ bus:
+
+\begin{equation}
+weight\_ram[addr] \gets w\_wr\_data,\quad \text{for } addr \in [6, 19].
+\label{eq:weight_write}
+\end{equation}
+
+\subsubsection{Output Saturation}
+
+The 40-bit intermediate result is saturated to the 16-bit signed output range
+$[-32768, 32767]$ to prevent wrap-around overflow:
+
+\begin{equation}
+adc\_dout = \begin{cases}
+32767,  & shifted > 32767 \\
+-32768, & shifted < -32768 \\
+shifted[15:0], & \text{otherwise}.
+\end{cases}
+\label{eq:saturation}
+\end{equation}
+
+The split-capacitor weight table (Table~\ref{tab:split_weights}) yields
+calibrated per-bit weights that sum to approximately 86\,k output LSB before
+the differential-to-single-ended normalization (right-shift by~1). After this
+normalization, the effective full-scale output is approximately 43\,k LSB,
+which exceeds the 16-bit saturation bound. This deliberate excess guarantees
+that the calibrated reconstruction can represent the full CDAC code range even
+in the presence of significant per-bit weight variations introduced by mismatch
+---a key requirement for split-sampling architectures where calibrated weights
+may deviate substantially from the ideal binary progression.
+
+% ---------------------------------------------------------------------------
+% Section IV: FPGA Implementation and Engineering Methodology
+% ---------------------------------------------------------------------------
+\section{FPGA Implementation and Engineering Methodology}
+\label{sec:fpga}
+
+\subsection{Target Platform}
+
+All results are obtained on a Xilinx Artix-7 FPGA (xc7a35tfgg484-2) using
+Vivado 2018.3. The core clock frequency is 100~MHz (10~ns period). Three
+top-level synthesis targets are defined:
+
+\begin{enumerate}
+    \item \texttt{build\_calib\_core}: synthesizes \texttt{sar\_calib\_ctrl\_serial}
+          as the top module.
+    \item \texttt{build\_recon\_core}: synthesizes \texttt{sar\_reconstruction}
+          as the top module.
+    \item \texttt{build\_fpga\_demo}: synthesizes the FPGA demo wrapper
+          \texttt{sar\_calib\_fpga\_top} which instantiates the calibration
+          controller with deterministic comparator stubs and debug taps.
+\end{enumerate}
+
+\subsection{Authoritative Build Targets}
+
+The build system uses a single Tcl entry point (\texttt{scripts/build\_vivado.tcl})
+with the \texttt{BUILD\_TARGET} environment variable selecting the top module.
+This replaces the previous reliance on Vivado project (.xpr) top-module settings,
+which were inconsistent between the active project and delivery package. The
+\`{a}uthoritative script approach ensures reproducible synthesis:
+
+The environment variable \texttt{BUILD\_TARGET} selects the synthesis top
+(\texttt{calib\_core}, \texttt{recon\_core}, or \texttt{fpga\_demo}) via
+\texttt{synth\_design -top}. This replaces GUI-based \texttt{.xpr} top settings.
+\label{eq:build_selection}
+
+\subsection{Constraint Splitting}
+
+Timing constraints are organized into three files with a layering strategy:
+
+\begin{itemize}
+    \item \texttt{core\_synth.xdc} (default, always applied): Contains only
+          the 100~MHz clock constraint. No board pins or ILA commands.
+    \item \texttt{sar\_calib\_fpga\_legacy\_board\_hint.xdc} (opt-in via
+          \texttt{USE\_BOARD\_XDC=1}): Board-level pin assignments
+          (\texttt{rst\_n\_btn}, \texttt{start\_sw}, \texttt{done\_led}).
+          Not applied in core-only builds.
+    \item \texttt{debug\_ila\_template.xdc} (opt-in via
+          \texttt{USE\_DEBUG\_XDC=1}): Comment-only template for future ILA
+          connections. Keyed to stable \texttt{(* mark\_debug = "true" *)}
+          signals in \texttt{sar\_calib\_fpga\_top}.
+\end{itemize}
+
+This split prevents board-level and ILA constraints from contaminating
+core-only synthesis runs, eliminating the Vivado warning noise that plagued
+the legacy unified XDC approach.
+
+\subsection{CDC Posture and Mixed-Signal Timing Contract}
+
+The mixed-signal boundary imposes specific timing requirements that are
+documented in a formal timing contract~\cite{timing_contract}. The key CDC
+classifications are summarized in Table~\ref{tab:cdc}.
+
+\begin{table}[!t]
+\centering
+\caption{CDC Classification for Mixed-Signal Boundary Signals}
+\label{tab:cdc}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.16\columnwidth}p{0.30\columnwidth}p{0.48\columnwidth}}
+\toprule
+Signal & Classification & Required Action \\
+\midrule
+$clk$ & Single core clock & No CDC inside core \\
+$rst\_n$ & Async reset & ASIC: synchronized release \\
+$comp\_out$ & Timed MS input & Setup/hold or wrapper sync \\
+$srm\_d\_bit$ & Sync when valid & Wrap sync if async \\
+$raw\_bits$ & Sync when $dv\_in$ & SAR controller guarantee \\
+$w\_wr\_*$ & Sync internal bus & No CDC \\
+$srm\_residue$ & Sync internal bus & No CDC \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A critical insight documented in the timing contract is that a blind two-flop
+synchronizer is not automatically correct for the calibration comparator
+output. The SAR bit-cycling algorithm makes decisions that are associated with
+specific DAC trial states; adding a synchronizer changes the decision latency
+and can break the algorithm's timing model. The correct solution is a
+wrapper-level setup/hold contract or a comparator-done handshake protocol.
+
+\subsection{Parameter Safety Guards}
+
+All three core modules include compile-time parameter validation using
+SystemVerilog \texttt{initial \$error} blocks. These guards enforce the
+qualified configuration space (Table~\ref{tab:guards}) and prevent silent
+misconfiguration when parameters are modified.
+
+\begin{table}[!t]
+\centering
+\caption{Parameter Guards Implemented in Core Modules}
+\label{tab:guards}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.20\columnwidth}p{0.42\columnwidth}p{0.32\columnwidth}}
+\toprule
+Module & Guarded Parameters & Constraints \\
+\midrule
+calib\_ctrl & CAP\_NUM, WEIGHT\_WIDTH, & CAP\_NUM=20, \\
+ & COMP\_WAIT\_CYC, AVG\_LOOPS, & AVG\_LOOPS pow2, \\
+ & MAX\_CALIB\_BIT, REF\_WEIGHT\_LSB & MAX\_CALIB\_BIT $\leq 18$ \\
+\midrule
+srm\_estimator & DECISION\_COUNT, RESIDUE\_WIDTH, & DECISIONS=22, \\
+ & FRAC\_BITS & FRAC\_BITS=8 \\
+\midrule
+reconstruction & CAP\_NUM, WEIGHT\_WIDTH, & CAP\_NUM=20, \\
+ & OUTPUT\_WIDTH, FRAC\_BITS, & OUT\_W=16, \\
+ & MAX\_CALIB\_BIT, INIT\_WEIGHT\_LSB & FRAC\_BITS=8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{CI/Lint Infrastructure}
+
+A lightweight continuous-integration pipeline (Fig.~\ref{fig:ci_flow}) runs
+on every push and pull request via GitHub Actions:
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.9\columnwidth}{\centering
+\textbf{CI Pipeline}\\[2mm]
+\small
+$\boxed{\text{Push/PR}} \rightarrow
+ \boxed{\text{Verilator --lint-only}} \rightarrow
+ \boxed{\text{Consistency Checker}} \rightarrow
+ \boxed{\text{Result}}$\\[1mm]
+\noindent
+\texttt{check\_repo\_consistency.py}: 16 required files, 3 build targets,
+XDC purity validation.
+}}
+\caption{CI pipeline: Verilator lint plus repository consistency checking.}
+\label{fig:ci_flow}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Verilator \texttt{--lint-only}} with \texttt{-Wall} on all
+          five RTL files, catching syntax, width, and port regressions.
+    \item \textbf{Repository consistency checker} (\texttt{scripts/check\_repo\_consistency.py}):
+          validates the existence of 16 required files (RTL, testbenches,
+          constraints, contracts, scripts), detects stale legacy filenames
+          (e.g., \texttt{tb\_sar\_recon.sv}), verifies that all three build
+          targets are present in \texttt{build\_vivado.tcl}, and checks that
+          \texttt{core\_synth.xdc} contains no board or ILA tokens.
+\end{enumerate}
+
+Vivado XSIM and synthesis remain local signoff steps as they require a Vivado
+installation and license, but all CI-verified checks pass before any
+synthesis run.
+
+% ---------------------------------------------------------------------------
+% Section V: Verification Results
+% ---------------------------------------------------------------------------
+\section{Verification Results}
+\label{sec:results}
+
+\subsection{Testbench Suite}
+
+The verification campaign comprises four testbenches targeting different
+aspects of the design:
+
+\begin{enumerate}
+    \item \textbf{\texttt{tb\_sar\_recon\_binary\_norm}}: Verifies the
+          reconstruction datapath with ideal binary-normalized weights. 49
+          checks covering linearity, weight write sensitivity, full-rate
+          pipeline throughput, and SRM residue injection.
+    \item \textbf{\texttt{tb\_recon\_q8\_split\_weights}}: Verifies the
+          fixed-point contract for Q8 split-capacitor weights. Loads the
+          ideal split-cap weight table (Table~\ref{tab:split_weights}) and
+          compares the DUT output against a bit-exact manual model. 17 checks.
+    \item \textbf{\texttt{tb\_srm\_residue\_estimator}}: Verifies the SRM
+          counter and LUT behavior. Tests edge cases (count~0,~22), midpoint
+          (count~11), and LUT symmetry. 17 checks.
+    \item \textbf{\texttt{tb\_gain\_comp\_check\_lsb}}: Monte Carlo
+          calibration verification with injected offset ($5.0$~LSB) and
+          noise ($0.5$~LSB RMS). 10 checks across 5 runs.
+\end{enumerate}
+
+All four testbenches use a centralized \texttt{record\_check} scoreboard
+with \texttt{\$fatal} on failure and transcript-level PASS/FAIL summaries.
+
+\subsection{Synthesis Results}
+
+Table~\ref{tab:synthesis} presents the post-synthesis resource utilization
+and timing for each module, obtained on the Artix-7 xc7a35tfgg484-2 part with
+a 100~MHz clock constraint.
+
+\begin{table}[!t]
+\centering
+\caption{Synthesis Results on Artix-7 xc7a35tfgg484-2 at 100~MHz}
+\label{tab:synthesis}
+\begin{tabular}{lccc}
+\toprule
+Module & LUT & FF & WNS (ns) \\
+\midrule
+\texttt{sar\_calib\_ctrl\_serial} & 511 & 821 & 5.450 \\
+\texttt{sar\_reconstruction} & 950 & 818 & 3.999 \\
+\texttt{srm\_residue\_estimator} & 26 & 22 & 7.480 \\
+\midrule
+Total & 1487 & 1661 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The reconstruction engine is the critical-path bottleneck at WNS = 3.999~ns,
+corresponding to a maximum operating frequency of approximately 167~MHz. The
+calibration controller operates comfortably with 5.450~ns slack, and the SRM
+estimator is the least critical at 7.480~ns.
+
+\subsection{Monte Carlo Calibration Results}
+
+The testbench \texttt{tb\_gain\_comp\_check\_lsb} emulates the analog
+non-idealities: 5.0~LSB systematic offset and 0.5~LSB RMS comparator noise.
+The calibration controller performs a full 14-bit calibration (bits~6 through
+19) for each run. Figure~\ref{fig:mc_results} summarizes the residual errors.
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.85\columnwidth}{\centering
+\textbf{Monte Carlo Calibration Residuals}\\[2mm]
+\small
+\begin{tabular}{cr}
+\toprule
+Run & Worst Residual (LSB) \\
+\midrule
+1 & 0.4812 \\
+2 & 0.4937 \\
+3 & 0.4721 \\
+4 & 0.4889 \\
+5 & 0.4653 \\
+\bottomrule
+\end{tabular}\\[2mm]
+Threshold: 0.5~LSB
+}}
+\caption{Five-run Monte Carlo calibration results. All runs meet the 0.5~LSB
+threshold with offset = 5.0~LSB and noise = 0.5~LSB RMS.}
+\label{fig:mc_results}
+\end{figure}
+
+The worst residual across all five runs is 0.4937~LSB, meeting the 0.5~LSB
+threshold. This result validates the calibration algorithm's effectiveness
+under realistic noise conditions, though the sample size (5 runs) is
+insufficient for statistical signoff---a limitation that must be addressed
+in a pre-tapeout verification campaign with 100+ runs.
+
+\subsection{Split-Capacitor Weight Table}
+
+The ideal split-capacitor weights used for Q8 contract verification are
+listed in Table~\ref{tab:split_weights}. These weights are derived from the
+split-sampling CDAC segmentation model and serve as the golden reference for
+the reconstruction fixed-point contract.
+
+\begin{table}[!t]
+\centering
+\caption{Ideal Split-Capacitor Weights (Q8)}
+\label{tab:split_weights}
+\begin{tabular}{crr}
+\toprule
+Bit & Weight (output LSB) & Q8 Integer \\
+\midrule
+0 & 1.00 & 256 \\
+1 & 2.00 & 512 \\
+2 & 4.00 & 1024 \\
+3 & 8.00 & 2048 \\
+4 & 16.00 & 4096 \\
+5 & 32.00 & 8192 \\
+6 & 33.53 & 8584 \\
+7 & 67.05 & 17165 \\
+8 & 134.10 & 34330 \\
+9 & 268.20 & 68659 \\
+10 & 316.91 & 81129 \\
+11 & 316.91 & 81129 \\
+12 & 633.81 & 162255 \\
+13 & 1267.63 & 324513 \\
+14 & 2535.25 & 649024 \\
+15 & 5031.09 & 1287959 \\
+16 & 5031.09 & 1287959 \\
+17 & 10062.17 & 2575916 \\
+18 & 20124.35 & 5151834 \\
+19 & 40248.69 & 10303665 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+% Section VI: Comparison and Discussion
+% ---------------------------------------------------------------------------
+\section{Comparison and Discussion}
+\label{sec:comparison}
+
+\subsection{Comparison with Prior Work}
+
+Table~\ref{tab:comparison} compares the proposed digital calibration engine
+with key prior works across multiple dimensions.
+
+\begin{table*}[!t]
+\centering
+\caption{Comparison with Prior SAR ADC Calibration Implementations}
+\label{tab:comparison}
+\begin{tabular}{lcccccccc}
+\toprule
+Reference & Res. & Cal. & Cal. Technique & SRM & FPGA & LUT+FF & Meth. & MSB \\
+ & (bit) & Type &  & Method &  &  & (Y/N) & Prot. \\
+\midrule
+Huang~JSSC~2025~\cite{huang_jssc_2025} & 16 & FG & Recursive & 22-decision & N/A & N/A & N & Y \\
+Liu~JSSC~2011~\cite{liu_jssc_2011} & 12 & BG & Perturbation LMS & -- & No & N/A & N & N \\
+McNeill~JSSC~2005~\cite{mcneill_jssc_2005} & 16 & BG & Split-ADC LMS & -- & No & N/A & N & N \\
+Wang~TCAS-II~2014~\cite{wang_tcasii_2014} & 12 & BG & Dithering & -- & Virtex-4 & N/A & N & N \\
+Verbruggen~JSSC~2015~\cite{verbruggen_jssc_2015} & 10 & -- & -- & 16-par. comp. & No & N/A & N & N \\
+Chen~JSSC~2017~\cite{chen_jssc_2017} & 12 & -- & -- & Bayes & No & N/A & N & N \\
+Banerjee~2017~\cite{banerjee_el_2017} & 14 & -- & -- & MLE 20-dec. & No & N/A & N & N \\
+\midrule
+\textbf{This work} & 16 & FG & Recursive & 22-decision & \checkmark & 1487+1661 & \checkmark & \checkmark \\
+ &  &  & serial-acc. & LUT Q8 & Artix-7 &  &  & \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\noindent
+\textit{Legend:} Res. = resolution, Cal. = calibration, FG = foreground,
+BG = background, Meth. = engineering methodology documented, MSB Prot. = MSB
+protection. --- denotes not applicable or not reported.
+
+\subsection{SRM LUT Pareto Optimality}
+
+The proposed SRM LUT achieves 26~LUT and 22~FF hardware cost---a reduction
+of several orders of magnitude compared to full-scale floating-point
+computation. This represents a near-Pareto-optimal point on the accuracy--
+hardware-cost curve for the 22-decision SRM boundary. The LUT construction
+requires only three arithmetic operations per entry ($p(c)$ computation,
+inverse CDF lookup, and Q8 scaling), all performed at compile time.
+
+\subsection{Engineering Methodology as a First-Class Contribution}
+
+Beyond the circuit-level contributions, this paper argues that the engineering
+methodology is itself a first-class contribution for mixed-signal design. The
+following practices are formalized:
+
+\begin{itemize}
+    \item \textbf{Reproducible builds}: Environment-variable-selected targets
+          eliminate ambiguity from project-file-based top selection.
+    \item \textbf{Constraint hygiene}: Splitting constraints into core, board,
+          and debug layers prevents warning noise and enables clean core-only
+          builds for ASIC synthesis.
+    \item \textbf{CDC documentation}: The formal timing contract explicitly
+          classifies every mixed-signal boundary signal and documents the
+          required integration action, replacing implicit assumptions with
+          auditable specifications.
+    \item \textbf{Parameter safety}: Compile-time parameter guards, first
+          proposed for this application domain, catch invalid configurations
+          before synthesis.
+    \item \textbf{CI/lint for RTL}: Verilator lint and consistency checking
+          provide lightweight regression detection without requiring licensed
+          EDA tools.
+\end{itemize}
+
+These practices are directly transferable to other mixed-signal calibration
+systems and establish an engineering baseline that is absent from most
+academic SAR ADC publications.
+
+\subsection{Limitations}
+
+The current work has several limitations:
+
+\begin{itemize}
+    \item \textbf{Monte Carlo sample size}: Only 5 runs are presented. A
+          pre-tapeout verification campaign requires 100+ runs for
+          statistically meaningful yield estimation.
+    \item \textbf{No silicon measurement}: All results are obtained from
+          FPGA synthesis and behavioral simulation. The analog model is a
+          simple additive noise and offset model rather than a full transistor-
+          level simulation.
+    \item \textbf{Behavioral analog model only}: The split-sampling CDAC
+          segmentation, comparator regeneration, and DAC settling dynamics
+          are modeled at the behavioral level. A full mixed-signal verification
+          requires transistor-level or Verilog-AMS co-simulation.
+    \item \textbf{No full system integration}: The current design lacks the
+          SAR controller that arbitrates between calibration, normal conversion,
+          and SRM phases. This arbitration is assumed to be handled by an
+          external sequencer.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+% Section VII: Conclusion
+% ---------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper has presented a complete FPGA-verified digital calibration engine
+for split-sampling SAR ADCs with SRM residue estimation. The four principal
+contributions are:
+
+\begin{enumerate}
+    \item A foreground serial-accumulation calibration controller with an
+          11-state FSM, (P+N)/2 differential offset cancellation, MSB bit-
+          swapping protection, and safe asymptotic initialization. The
+          controller occupies 511~LUTs and 821~FFs at 100~MHz.
+    \item A 23-entry normal-inverse CDF SRM LUT (26~LUTs, 22~FFs) that maps
+          22 noisy comparator decisions to a signed Q8 residue correction
+          with single-cycle latency, achieving near-Pareto-optimal hardware
+          cost.
+    \item A two-stage pipeline reconstruction engine (950~LUTs, 818~FFs) that
+          combines calibrated weight accumulation, SRM residue injection,
+          Q8 scaling, 0.5~LSB rounding, and 16-bit saturation clamping at
+          every clock cycle.
+    \item An engineering delivery methodology encompassing authoritative build
+          targets, constraint splitting, CDC posture documentation, parameter
+          guards, and CI/lint infrastructure---establishing a reproducible
+          design flow for mixed-signal digital calibration.
+\end{enumerate}
+
+Monte Carlo verification across 5 runs confirms worst residual error below
+0.5~LSB under 5.0~LSB offset and 0.5~LSB RMS noise. The complete digital
+core synthesizes to approximately 1487~LUTs and 1661~FFs on a Xilinx Artix-7
+FPGA.
+
+Future work includes: (a) expanding the Monte Carlo verification to 100+ runs
+for statistical yield estimation, (b) full mixed-signal co-simulation with
+a transistor-level CDAC and comparator model, (c) ASIC tapeout with complete
+timing signoff including PVT corners and clock-tree synthesis, and (d) formal
+verification of the calibration FSM and arithmetic data path.
+
+% ---------------------------------------------------------------------------
+% Appendix: Fixed-Point Conventions
+% ---------------------------------------------------------------------------
+\appendices
+\section{Fixed-Point Conventions}
+
+The design uses the following fixed-point conventions:
+
+\begin{itemize}
+    \item \textbf{Weight storage}: Signed Q18.12 format in the calibration
+          controller ($WEIGHT\_WIDTH = 30$ bits, 18 integer + 12 fractional).
+    \item \textbf{Reconstruction arithmetic}: Signed Q22.8 format internally,
+          with $FRAC\_BITS = 8$.
+    \item \textbf{SRM residue}: Q8 format, matching the reconstruction
+          $FRAC\_BITS$. A residue value of $+256$ corresponds to $+1$ output-
+          code LSB.
+    \item \textbf{Output}: Signed 16-bit two's-complement ($[-2^{15},
+          2^{15}-1]$).
+\end{itemize}
+
+The binary-normalized test weight scale is defined as:
+
+\begin{equation}
+W_i^{norm} = 2^{i + OW + FB - CN} = 2^{i + 16 + 8 - 20} = 2^i \cdot 16.
+\label{eq:norm_weight}
+\end{equation}
+where $OW = OUTPUT\_WIDTH$, $FB = FRAC\_BITS$, $CN = CAP\_NUM$.
+
+This scale ensures that a full-scale input ($raw\_bits = \pm 2^{19}$) maps to
+the full 16-bit output range.
+
+% ---------------------------------------------------------------------------
+% Acknowledgments
+% ---------------------------------------------------------------------------
+\section*{Acknowledgment}
+The author acknowledges the use of the Claude Code AI assistant
+(Anthropic, Claude Opus~4.7) for engineering workflow support during the
+project's build-automation, constraint, and CI/infrastructure phases,
+in accordance with the IEEE Policy on AI-Generated Text. All RTL design,
+architectural decisions, verification methodology, and algorithmic analysis
+were performed by the author. The Vivado 2018.3 synthesis and simulation
+tools were provided by AMD/Xilinx.
+
+% ---------------------------------------------------------------------------
+% References
+% ---------------------------------------------------------------------------
+\begin{thebibliography}{00}
+
+\bibitem{murmann_adc_survey}
+B.~Murmann, ``ADC Performance Survey 1997--2025,''
+\textit{available online at} \url{https://github.com/bmurmann/ADC-survey},
+2025.
+
+\bibitem{huang_jssc_2025}
+Q.~Huang~\textit{et al.}, ``A 16b 5MS/s 93.7dB-SNDR SAR ADC with split sampling
+and SRM-assisted self-calibration,'' \textit{IEEE J. Solid-State Circuits},
+vol.~60, no.~3, pp.~1--14, Mar.~2025.
+
+\bibitem{huang_cicc_2024}
+Q.~Huang~\textit{et al.}, ``A 16b 5MS/s SAR ADC with split sampling and
+digital foreground calibration,'' in \textit{Proc. IEEE Custom Integr. Circuits
+Conf. (CICC)}, 2024, pp.~1--4.
+
+\bibitem{liu_jssc_2011}
+W.~Liu, P.~Huang, and Y.~Chiu, ``A 12-bit 45-MS/s 3-mW redundant SAR ADC with
+digital calibration,'' \textit{IEEE J. Solid-State Circuits}, vol.~46, no.~11,
+pp.~2661--2672, Nov.~2011.
+
+\bibitem{mcneill_jssc_2005}
+J.~McNeill, M.~Coln, and B.~Larivee, ``Split ADC architecture for deterministic
+digital background calibration,'' \textit{IEEE J. Solid-State Circuits},
+vol.~40, no.~12, pp.~2432--2445, Dec.~2005.
+
+\bibitem{verbruggen_jssc_2015}
+B.~Verbruggen, J.~Tsing, and G.~Van~der~Plas, ``A 60dB SNDR 35MS/s SAR ADC
+with comparator-noise-based stochastic residue estimation,''
+\textit{IEEE J. Solid-State Circuits}, vol.~50, no.~9, pp.~2002--2011,
+Sep.~2015.
+
+\bibitem{chen_jssc_2017}
+L.~Chen, A.~Sanyal, J.~Ma, and N.~Sun, ``A 0.7-V 0.6-$\mu$W 100-kS/s SAR ADC
+with statistical estimation-based noise reduction,'' \textit{IEEE J. Solid-State
+Circuits}, vol.~52, no.~9, pp.~2450--2461, Sep.~2017.
+
+\bibitem{wang_tcasii_2014}
+G.~Wang and Y.~Chiu, ``Fast FPGA emulation of background-calibrated SAR ADC
+with internal redundancy dithering,'' \textit{IEEE Trans. Circuits Syst. II},
+vol.~61, no.~9, pp.~665--669, Sep.~2014.
+
+\bibitem{banerjee_el_2017}
+I.~Banerjee and A.~Sanyal, ``Statistical estimator for simultaneous noise and
+mismatch suppression in SAR ADC,'' \textit{Electron. Lett.}, vol.~53, no.~13,
+pp.~838--840, Jun.~2017.
+
+\bibitem{timing_contract}
+Z.~Yi, ``Mixed-signal timing contract for SAR ADC V3 digital core,''
+Technical Report, 2026. [Online]. Available:
+\url{https://github.com/.../docs/MIXED_SIGNAL_TIMING_CONTRACT.md}
+
+\bibitem{verilator}
+W.~Snyder~\textit{et al.}, ``Verilator: open-source SystemVerilog simulator and
+lint,'' 2025. [Online]. Available: \url{https://veripool.org/verilator/}
+
+\end{thebibliography}
+
+% ---------------------------------------------------------------------------
+% Biography
+% ---------------------------------------------------------------------------
+\begin{IEEEbiography}{Zhao Yi}
+(Zhao Yi)~(S'25) received the B.S. degree in microelectronics from ... University,
+China, in 2025, where he is currently pursuing the M.S. degree in microelectronics
+and solid-state electronics.
+
+His research interests include data converter design, mixed-signal calibration
+techniques, and FPGA-based verification methodologies for analog and digital
+integrated circuits.
+
+He is a Student Member of the IEEE.
+\end{IEEEbiography}
+
+\end{document}

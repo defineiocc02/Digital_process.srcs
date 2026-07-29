@@ -2,12 +2,13 @@
 
 ## Current
 
-- Version: `v3.7.0-surrogate-analysis`
-- Date: 2026-05-26
-- Purpose: integrate a bounded Huang 2025 calibration-convergence analysis
-  model with explicit 16-bit output quantization and external-LSB noise units;
-  retain the RTL/TB fixed-point baseline while documenting the remaining
-  analog-to-RTL reproduction boundary.
+- Version: `v3.8.0-current-calibration-validation`
+- Date: 2026-07-29
+- Purpose: validate the current repository on-chip foreground calibration RTL
+  with an independent behavior-level RTL-equivalent model, refresh Vivado XSIM
+  regression evidence, publish a Chinese academic validation report, and freeze
+  a focused delivery package. External Huang/ADCToolbox/12-bit project material
+  is treated as validation methodology only, not as the implemented algorithm.
 
 ## Recovery Points
 

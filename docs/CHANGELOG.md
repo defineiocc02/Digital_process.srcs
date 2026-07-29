@@ -1,5 +1,23 @@
 # Changelog
 
+## v3.8.0-current-calibration-validation - 2026-07-29
+
+- Added `analysis/calibration_effectiveness_20260729/` as an independent
+  behavior-level verification area for the current project calibration scheme.
+- Implemented `validate_current_calibration.py`, a Python model that mirrors
+  the current `sar_calib_ctrl_serial.sv` P/N recursive foreground calibration
+  and evaluates same-decision reconstruction paths.
+- Added generated behavior evidence showing SNDR median improvement from
+  36.214 dB to 92.007 dB on the diagnostic gain-aligned path, with
+  gain-aligned weight RMSE reduced from 147.9781 LSB to 0.1908 LSB.
+- Regenerated and checked the Chinese academic PDF validation report under
+  `analysis/calibration_effectiveness_20260729/report/`.
+- Reran Vivado 2018.3 XSIM full regression; all four testbenches passed.
+- Added `delivery/current_calibration_validation_20260729/` with behavior
+  code, current RTL/TB snapshots, report source/PDF, QA summaries, and hashes.
+- Updated README/MOC/version metadata to make the current RTL, not open-source
+  code, the calibration source of truth.
+
 ## v3.7.0-surrogate-analysis - 2026-05-26
 
 - Added `analysis/surrogate/replicate_huang2025_calibration_convergence.py`
