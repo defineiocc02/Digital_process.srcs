@@ -93,7 +93,7 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `analysis/full_sar_behavioral_20260729/run_campaign.py` - 512 点断点续跑、FFT、DNL/INL、统计聚合与绘图
 - `analysis/full_sar_behavioral_20260729/outputs/summary.json` - 512/512 完成状态、配置、聚合指标与代表点
 - `analysis/full_sar_behavioral_20260729/outputs/per_chip_decoder_metrics.csv` - 2048 条逐芯片/逐解码器指标
-- [analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf](analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf) - 9 页中文完整行为级验证报告
+- [analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf](analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf) - 32 页中文学术/工业维护版完整行为级验证报告
 
 ## Delivery
 
@@ -110,6 +110,7 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `delivery/full_sar_behavioral_validation_20260729/MANIFEST.md`
 - `delivery/full_sar_behavioral_validation_20260729/SHA256SUMS.txt`
 - `delivery/full_sar_behavioral_validation_20260729/report/full_sar_behavioral_validation_cn.pdf`
+- [docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md](docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md) - Git worktree、Codex 临时目录和分支历史审计
 
 交付包内误生成的 Vivado/XSIM 日志与 `sim_work/` 已按生成物规则清理。
 
@@ -119,6 +120,7 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `archive/deleted-in-039c478/` - 首次裁剪归档，含 MATLAB 和历史 Vivado 工程
 - `archive/deleted-in-110ef75/` - minimal-core 裁剪归档，含旧 top/control/decoder 文件
 - Git tag：`archive/full-project-before-core-prune`
+- `archive/report_versions/20260729_full_sar_behavioral_v1_simple/` - 被 32 页详细版替换的 9 页报告可恢复归档
 - Previous core commit：`039c478`
 
 ## Ignored Local Outputs

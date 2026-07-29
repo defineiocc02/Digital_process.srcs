@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.9.1-detailed-behavioral-report - 2026-07-29
+
+- Rewrote the full-SAR behavioral report as a 32-page chapter-based Chinese
+  academic and industrial-maintenance document.
+- Added detailed fixed-point, P/N calibration, recursive error, top-bit
+  protection, SRM inverse-normal, Q8 reconstruction, FFT, DNL, and INL
+  derivations.
+- Added a complete file-operation audit, RTL-to-Python mapping, experiment
+  protocol, causal decoder ablation, tail analysis, reproducibility commands,
+  evidence boundaries, appendices, glossary, and references.
+- Applied the current XeLaTeX academic style contract with FandolSong Chinese,
+  Latin Modern text, Computer Modern math, 11 pt A4 layout, full-page visual
+  QA, release-gate checks, and explicit CJK ToUnicode maps.
+- Archived the replaced 9-page report under
+  `archive/report_versions/20260729_full_sar_behavioral_v1_simple/`.
+- Added `docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md`, pruned stale
+  worktree registrations, and moved an unregistered Codex temporary directory
+  to a recoverable archive.
+
 ## v3.9.0-full-sar-behavioral - 2026-07-29
 
 - Added `analysis/full_sar_behavioral_20260729/` as an independent full-system

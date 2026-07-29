@@ -2,14 +2,15 @@
 
 ## Current
 
-- Version: `v3.9.0-full-sar-behavioral`
+- Version: `v3.9.1-detailed-behavioral-report`
 - Date: 2026-07-29
 - Purpose: provide an independent, reproducible full-SAR behavioral loop from
   sampled input through 20 signed decisions, current-RTL foreground
   calibration, 22-decision SRM, Q8 reconstruction, and signed 16-bit decoding.
   The baseline includes 512 independent virtual chips, dynamic FFT metrics,
-  full-range DNL/INL analysis, high-resolution tail review, a Chinese report,
-  and a focused delivery package. ADCToolbox is used only as an MIT-licensed
+  full-range DNL/INL analysis, high-resolution tail review, a 32-page Chinese
+  academic and industrial-maintenance report, a Git worktree/branch audit, and
+  a focused delivery package. ADCToolbox is used only as an MIT-licensed
   metrics backend.
 
 ## Recovery Points

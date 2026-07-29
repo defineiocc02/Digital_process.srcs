@@ -102,8 +102,12 @@ Full SAR behavior-level validation:
   code. The worst representative retained `2` missing codes with
   `2.796 LSB` INL peak-to-peak.
 - Python regression: `5 passed`.
-- Report release gate: PASS, 9 pages, SHA-256
-  `992B3187449C8E5C0620FDB5AB43A80C2EB5C8AD6986FA2DE1C323255781EDA8`.
+- Detailed report release gate: PASS, 32 pages, SHA-256
+  `08DA0F43BCE6AD73FD991C9F62FFE3009A6CC866F2C72B3BAA5D85C52A019751`.
+- The report passed `check_pdf_release.py`, `check_reference_style.py`, CJK
+  ToUnicode injection, font embedding inspection, and full 32-page visual QA.
+- Two complete three-pass XeLaTeX release builds with fixed
+  `SOURCE_DATE_EPOCH` produced the same PDF SHA-256.
 - ADCToolbox 0.9.1, commit
   `a8995cf4faf73dde9918589bfeb866c6a77db12d`, is used only for standardized
   spectrum and ramp-histogram metrics under its MIT license.

@@ -43,7 +43,7 @@ analysis. See `behavior/THIRD_PARTY_NOTICES.md`.
 - High-resolution worst representative: `2` missing codes at 8 ramp samples
   per code.
 - Python regression: `5 passed`.
-- PDF release gate: PASS, 9 pages.
+- Detailed PDF release gate: PASS, 32 pages.
 
 The result demonstrates a closed behavior-level signal chain. It is not
 AMS, transistor-level, PVT, PEX, FPGA timing, or silicon-yield signoff.
@@ -71,5 +71,7 @@ aggregate evidence.
 - `behavior/outputs/summary.json`: authoritative aggregate result.
 - `behavior/outputs/per_chip_decoder_metrics.csv`: all 2048 records.
 - `behavior/outputs/highres_*.npz`: representative static evidence.
-- `report/full_sar_behavioral_validation_cn.pdf`: Chinese technical report.
+- `report/full_sar_behavioral_validation_cn.pdf`: detailed Chinese academic
+  and industrial-maintenance report.
+- `report/academic_report_style.tex`: frozen XeLaTeX academic style dependency.
 - `SHA256SUMS.txt`: integrity list for every package file except itself.

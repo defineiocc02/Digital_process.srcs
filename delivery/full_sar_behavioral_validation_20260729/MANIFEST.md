@@ -35,6 +35,7 @@ restart artifacts, not the final evidence record.
 
 - `report/full_sar_behavioral_validation_cn.pdf`
 - `report/full_sar_behavioral_validation_cn.tex`
+- `report/academic_report_style.tex`
 - `report/generate_report_assets.py`
 - `report/generated_metrics.tex`
 - `report/dynamic_table_rows.tex`

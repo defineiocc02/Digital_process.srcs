@@ -2,7 +2,7 @@
 
 本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
 
-当前工程基线为 **v3.9.0-full-sar-behavioral**。本版本以当前 RTL 为算法真值，新增从采样、20 次差分 SAR 判决、前台校准、22 次 SRM、Q8 重构到 16-bit 输出的完整行为级闭环，并完成 512 个独立虚拟芯片的 FFT 与 DNL/INL 统计。ADCToolbox 仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
+当前工程基线为 **v3.9.1-detailed-behavioral-report**。本版本以当前 RTL 为算法真值，保留从采样、20 次差分 SAR 判决、前台校准、22 次 SRM、Q8 重构到 16-bit 输出的 512 芯片完整行为级闭环，并将验证报告升级为 32 页学术/工业维护版。ADCToolbox 仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
 
 ## 目录结构
 
@@ -99,7 +99,7 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 | 512 点完整 SAR 行为模型 | `analysis/full_sar_behavioral_20260729/run_campaign.py` | PASS；512/512 完成；校准+SRM 的 SNDR 中位数 91.018 dB、SFDR 中位数 108.776 dBc、INL 峰峰值中位数 2.015 LSB |
 | 高分辨率静态复核 | `analysis/full_sar_behavioral_20260729/outputs/highres_*.npz` | Best/Median/Worst 每码 8 点；最坏代表点 2 个缺码 |
 | Python 单元/闭环测试 | `analysis/full_sar_behavioral_20260729/test_full_sar_model.py` | PASS；5 tests |
-| PDF 发布检查 | `analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf` | PASS；9 页；SHA-256 `992B3187449C8E5C0620FDB5AB43A80C2EB5C8AD6986FA2DE1C323255781EDA8` |
+| PDF 发布检查 | `analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf` | PASS；32 页；两次确定性构建一致；SHA-256 `08DA0F43BCE6AD73FD991C9F62FFE3009A6CC866F2C72B3BAA5D85C52A019751` |
 
 本轮结果是完整系统行为级证据，不是 AMS、PVT、PEX 或硅片签核。512 点中校准+SRM 路径缺码中位数为 0，但最坏值为 18；该尾部风险保留在报告和逐芯片 CSV 中。
 
@@ -140,6 +140,7 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 - [docs/MIXED_SIGNAL_TIMING_CONTRACT.md](docs/MIXED_SIGNAL_TIMING_CONTRACT.md): 混合信号时序契约
 - [docs/VERIFICATION.md](docs/VERIFICATION.md): 验证状态与维护规则
 - [docs/PROJECT_ORGANIZATION.md](docs/PROJECT_ORGANIZATION.md): 项目组织说明
+- [docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md](docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md): Git worktree、临时目录与分支收敛审计
 - [docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md](docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md): Huang 2025 代理模型接入评审
 - [docs/paper/paper_sar_adc_calibration.tex](docs/paper/paper_sar_adc_calibration.tex): 论文源文件
 - [docs/paper/paper_sar_adc_calibration.pdf](docs/paper/paper_sar_adc_calibration.pdf): 论文 PDF
@@ -152,9 +153,9 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 
 ## 版本信息
 
-- 版本号：`v3.9.0-full-sar-behavioral`
+- 版本号：`v3.9.1-detailed-behavioral-report`
 - 日期：2026-07-29
-- 状态：Full SAR Behavioral Validation Baseline
+- 状态：Detailed Full SAR Behavioral Report Baseline
 - 工程闭合 tag：`v3.6.0-engineering-closure`
 
 ## 许可证

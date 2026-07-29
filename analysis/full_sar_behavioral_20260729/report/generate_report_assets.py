@@ -21,6 +21,7 @@ def command(name: str, value: str) -> str:
 
 def generate_metrics(payload: dict) -> str:
     cfg = payload["config"]
+    trace0 = payload["trace_excerpt"]["chip_0"]
     srm_sndr_gain = (
         metric(payload, "CAL_SRM", "dynamic_sndr_db", "median")
         - metric(payload, "CAL_NO_SRM", "dynamic_sndr_db", "median")
@@ -29,15 +30,61 @@ def generate_metrics(payload: dict) -> str:
         metric(payload, "CAL_NO_SRM", "inl_pp_lsb", "median")
         - metric(payload, "CAL_SRM", "inl_pp_lsb", "median")
     )
+    oracle_sndr_gap = (
+        metric(payload, "ORACLE_SRM", "dynamic_sndr_db", "median")
+        - metric(payload, "CAL_SRM", "dynamic_sndr_db", "median")
+    )
     lines = [
         "% Generated from outputs/summary.json. Do not edit manually.",
         command("ChipCount", str(payload["completed_chips"])),
         command("DecoderRows", str(payload["decoder_rows"])),
         command("FftLength", str(cfg["n_fft"])),
         command("SampleRateMHz", f"{cfg['fs_hz'] / 1e6:.3f}"),
+        command("InputFrequencyMHz", f"{trace0['fin_hz'] / 1e6:.6f}"),
+        command("CoherentBin", str(trace0["fft_bin"])),
+        command("AverageLoops", str(cfg["avg_loops"])),
+        command("SrmDecisions", str(cfg["srm_decisions"])),
+        command("StaticSamplesPerCode", str(cfg["static_samples_per_code"])),
+        command(
+            "RepresentativeSamplesPerCode",
+            str(cfg["representative_samples_per_code"]),
+        ),
+        command(
+            "LowMismatchPercent",
+            f"{100.0 * cfg['low_weight_mismatch_sigma']:.3f}",
+        ),
+        command(
+            "HighMismatchPercent",
+            f"{100.0 * cfg['high_weight_mismatch_sigma']:.3f}",
+        ),
+        command(
+            "CalibrationOffsetLsb",
+            f"{cfg['calibration_comparator_offset_lsb']:.2f}",
+        ),
+        command(
+            "CalibrationNoiseLsb",
+            f"{cfg['calibration_comparator_noise_lsb']:.2f}",
+        ),
+        command("SamplingNoiseLsb", f"{cfg['sampling_noise_lsb']:.2f}"),
+        command(
+            "NormalComparatorNoiseLsb",
+            f"{cfg['normal_comparator_noise_lsb']:.2f}",
+        ),
+        command(
+            "SrmComparatorNoiseLsb",
+            f"{cfg['srm_comparator_noise_lsb']:.2f}",
+        ),
         command(
             "RuntimeSeconds",
             f"{payload['checkpoint_span_seconds']:.2f}",
+        ),
+        command(
+            "NominalSndrMedian",
+            f"{metric(payload, 'NOMINAL_NO_SRM', 'dynamic_sndr_db', 'median'):.3f}",
+        ),
+        command(
+            "CalNoSrmSndrMedian",
+            f"{metric(payload, 'CAL_NO_SRM', 'dynamic_sndr_db', 'median'):.3f}",
         ),
         command(
             "CalSndrMedian",
@@ -50,6 +97,30 @@ def generate_metrics(payload: dict) -> str:
         command(
             "CalSfdrMedian",
             f"{metric(payload, 'CAL_SRM', 'dynamic_sfdr_db', 'median'):.3f}",
+        ),
+        command(
+            "CalSnrMedian",
+            f"{metric(payload, 'CAL_SRM', 'dynamic_snr_db', 'median'):.3f}",
+        ),
+        command(
+            "CalThdMedian",
+            f"{metric(payload, 'CAL_SRM', 'dynamic_thd_db', 'median'):.3f}",
+        ),
+        command(
+            "CalEnobMedian",
+            f"{metric(payload, 'CAL_SRM', 'dynamic_enob', 'median'):.3f}",
+        ),
+        command(
+            "OracleSndrGap",
+            f"{oracle_sndr_gap:.3f}",
+        ),
+        command(
+            "NominalInlMedian",
+            f"{metric(payload, 'NOMINAL_NO_SRM', 'inl_pp_lsb', 'median'):.3f}",
+        ),
+        command(
+            "CalNoSrmInlMedian",
+            f"{metric(payload, 'CAL_NO_SRM', 'inl_pp_lsb', 'median'):.3f}",
         ),
         command(
             "CalInlMedian",
@@ -72,8 +143,28 @@ def generate_metrics(payload: dict) -> str:
             f"{metric(payload, 'CAL_SRM', 'missing_codes', 'median'):.0f}",
         ),
         command(
+            "CalMissingPNinetyFive",
+            f"{metric(payload, 'CAL_SRM', 'missing_codes', 'p95'):.0f}",
+        ),
+        command(
             "CalMissingMax",
             f"{metric(payload, 'CAL_SRM', 'missing_codes', 'max'):.0f}",
+        ),
+        command(
+            "NominalMissingMedian",
+            f"{metric(payload, 'NOMINAL_NO_SRM', 'missing_codes', 'median'):.0f}",
+        ),
+        command(
+            "CalNoSrmMissingMedian",
+            f"{metric(payload, 'CAL_NO_SRM', 'missing_codes', 'median'):.0f}",
+        ),
+        command(
+            "NominalWeightRmseMedian",
+            f"{metric(payload, 'NOMINAL_NO_SRM', 'weight_rmse_gain_aligned_lsb', 'median'):.4f}",
+        ),
+        command(
+            "CalWeightRmseMedian",
+            f"{metric(payload, 'CAL_SRM', 'weight_rmse_gain_aligned_lsb', 'median'):.4f}",
         ),
         command("SrmSndrGain", f"{srm_sndr_gain:.3f}"),
         command("SrmInlReduction", f"{srm_inl_reduction:.3f}"),

@@ -1,98 +1,32 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper,UTF8,fontset=none,openany]{ctexrep}
 
-\usepackage[a4paper,margin=25mm,headheight=15pt]{geometry}
-\usepackage{fontspec}
-\usepackage{xeCJK}
-\setmainfont{Times New Roman}
-\setsansfont{Source Sans 3}
-\setmonofont{Consolas}
-\setCJKmainfont{STSong}[BoldFont={STZhongsong}]
-\setCJKmonofont{Noto Sans SC}
-\setCJKsansfont{Noto Sans SC}[
-  BoldFont={Noto Sans SC},
-  UprightFeatures={RawFeature={+axis={wght=400}}},
-  BoldFeatures={RawFeature={+axis={wght=700}}}
-]
+\newcommand{\ReferenceReportTitle}{20次判决SAR ADC完整行为级验证}
+\input{academic_report_style.tex}
 
-\usepackage{amsmath,amssymb}
-\usepackage{booktabs,tabularx,array}
 \usepackage{graphicx}
-\usepackage{caption}
-\usepackage{xcolor}
-\usepackage{titlesec}
-\usepackage{fancyhdr}
-\usepackage[most]{tcolorbox}
-\usepackage{enumitem}
-\usepackage{needspace}
-\usepackage{placeins}
-\usepackage{microtype}
-\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{siunitx}
 \usepackage{xurl}
+\usepackage{placeins}
+\usepackage{fvextra}
+\usepackage{makecell}
+\usepackage{pdflscape}
 
-\definecolor{DeepNavy}{HTML}{183B5B}
-\definecolor{Navy}{HTML}{2F5D82}
-\definecolor{Teal}{HTML}{287C78}
-\definecolor{Orange}{HTML}{B9652E}
-\definecolor{Green}{HTML}{347657}
-\definecolor{Purple}{HTML}{705B86}
-\definecolor{Ink}{HTML}{202B35}
-\definecolor{Muted}{HTML}{68737D}
-\definecolor{Line}{HTML}{C8D0D6}
-\definecolor{PaleBlue}{HTML}{F0F4F7}
+\graphicspath{{../outputs/}}
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
 
 \hypersetup{
   colorlinks=true,
-  linkcolor=DeepNavy,
-  urlcolor=Teal,
-  citecolor=Purple,
+  linkcolor=RefNavy,
+  urlcolor=RefTeal,
+  citecolor=RefPurple,
   pdfauthor={SAR ADC Digital Processing Project},
-  pdftitle={20-decision SAR ADC complete behavioral validation report},
-  pdfsubject={Foreground calibration, SRM, Q8 reconstruction, FFT, DNL and INL}
-}
-
-\titleformat{\section}
-  {\sffamily\bfseries\Large\color{Ink}}
-  {\color{Navy}\thesection}{0.65em}{}
-  [\vspace{0.25em}\color{Line}\titlerule]
-\titleformat{\subsection}
-  {\sffamily\bfseries\large\color{DeepNavy}}
-  {\thesubsection}{0.6em}{}
-\titlespacing*{\section}{0pt}{2.2ex plus 0.4ex}{1.1ex}
-\titlespacing*{\subsection}{0pt}{1.8ex plus 0.3ex}{0.7ex}
-
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\sffamily 20-decision SAR ADC behavioral validation}
-\fancyhead[R]{\small\sffamily 2026-07-29}
-\fancyfoot[C]{\small\thepage}
-\renewcommand{\headrulewidth}{0.35pt}
-
-\captionsetup{
-  font=small,
-  labelfont={bf,color=DeepNavy},
-  justification=justified,
-  singlelinecheck=true
-}
-\setlength{\parindent}{2em}
-\setlength{\parskip}{0pt}
-\linespread{1.08}
-\raggedbottom
-
-\newtcolorbox{evidencebox}[2]{
-  enhanced,
-  sharp corners,
-  colback=#1!4!white,
-  colframe=#1!55!black,
-  boxrule=0.35pt,
-  leftrule=1.8pt,
-  title={#2},
-  coltitle=#1!70!black,
-  fonttitle=\sffamily\bfseries,
-  colbacktitle=#1!7!white,
-  attach boxed title to top left={xshift=0pt,yshift=0pt},
-  boxed title style={sharp corners,boxrule=0pt},
-  before skip=8pt,
-  after skip=8pt
+  pdftitle={20次判决SAR ADC完整行为级闭环验证报告},
+  pdfsubject={前台权重校准、SRM、Q8重构、512点FFT和DNL/INL验证},
+  pdfkeywords={SAR ADC, foreground calibration, SRM, Q8, FFT, DNL, INL}
 }
 
 \input{generated_metrics.tex}
@@ -100,186 +34,747 @@
 \input{static_table_rows.tex}
 \input{representative_table_rows.tex}
 
+\newcommand{\qformat}{Q8}
+\newcommand{\rtlfile}[1]{\path{rtl/#1}}
+\newcommand{\modelfile}[1]{\path{analysis/full_sar_behavioral_20260729/#1}}
+\newcommand{\commitid}{\texttt{5b25c13}}
+
+\renewtcolorbox{reproductionbox}[1]{
+  enhanced,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefGray},
+  colback=RefPaleGray,coltitle=RefGray,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+
 \begin{document}
 
 \begin{titlepage}
+  \thispagestyle{empty}
   \centering
-  \vspace*{18mm}
-  {\sffamily\small\color{Muted} ENGINEERING VALIDATION REPORT \quad v1.0\par}
-  \vspace{5mm}
-  {\color{DeepNavy}\rule{0.82\textwidth}{0.8pt}\par}
-  \vspace{12mm}
-  {\sffamily\bfseries\fontsize{24}{30}\selectfont
-    20次判决SAR ADC完整行为级闭环验证\par}
-  \vspace{4mm}
-  {\sffamily\Large\color{Teal}
-    前台权重校准、SRM、Q8重构及512点静态/动态统计\par}
-  \vspace{14mm}
-
-  \begin{minipage}{0.82\textwidth}
+  \vspace*{43mm}
+  {\ReferenceCJKTitle\bfseries\fontsize{17.22}{24}\selectfont
+    20次判决SAR ADC完整行为级闭环验证报告\par}
+  \vspace{8mm}
+  {\fontsize{11.96}{18}\selectfont
+    当前片上前台权重校准、22次SRM、Q8重构与512点静态/动态评估\par}
+  \vspace{16mm}
+  {\large
+    基于本工程RTL算法真值与可复现Python系统模型\par}
+  \vspace{18mm}
+  \begin{minipage}{0.76\textwidth}
+    \centering
     \small
-    本报告验证当前工程数字算法在完整系统级行为链路中的表现。算法来源严格限定为
-    本地RTL：前台校准控制器、22次SRM计数查表和Q8加权重构。开源
-    ADCToolbox仅用于标准化FFT及Ramp码密度DNL/INL提取，不替代本工程算法。
+    算法基线提交：\commitid\\[4pt]
+    行为级证据：\ChipCount 个独立虚拟芯片，\DecoderRows 条解码记录\\[4pt]
+    证据等级：系统行为级L2，不替代AMS、PVT、PEX与硅片签核
   \end{minipage}
-
-  \vspace{14mm}
-  \begin{tabular}{@{}ll@{}}
-    \toprule
-    正式统计规模 & \ChipCount 个独立虚拟芯片，\DecoderRows 条解码记录 \\
-    动态记录 & 每点 \FftLength 样本，采样率 \SampleRateMHz\ MHz \\
-    校准+SRM中位SNDR & \CalSndrMedian\ dB \\
-    校准+SRM中位SFDR & \CalSfdrMedian\ dBc \\
-    校准+SRM中位INL峰峰值 & \CalInlMedian\ LSB \\
-    512点核心检查点跨度 & \RuntimeSeconds\ s（6 workers） \\
-    \bottomrule
-  \end{tabular}
-
   \vfill
-  {\small\color{Muted}
-    Evidence level: behavioral L2; not AMS/transistor/PVT/PEX/silicon signoff.\par}
-  \vspace{4mm}
-  {\small 2026年7月29日\par}
+  {\fontsize{11.96}{18}\selectfont 2026年7月29日\par}
 \end{titlepage}
 
-\section*{执行摘要}
-\addcontentsline{toc}{section}{执行摘要}
+\pagenumbering{Roman}
 
-\begin{evidencebox}{Green}{已验证结论}
-512个独立点全部完成校准、20次正常SAR判决、22次SRM观测、Q8解码、
-相干FFT和全16位Ramp分析。相对仅校准路径，SRM使SNDR中位数提高
-\SrmSndrGain\ dB，并使INL峰峰值中位数降低\SrmInlReduction\ LSB。
+\chapter*{摘要}
+\addcontentsline{toc}{chapter}{摘要}
+
+本报告回答一个明确的工程问题：当前仓库中的片上前台自校准方案，能否在
+存在显著电容权重失配、比较器失调与噪声的条件下，恢复20次判决SAR ADC的
+动态性能与静态线性。为避免把外部代理算法误认为本工程实现，报告将
+\rtlfile{sar_calib_ctrl_serial.sv}、\rtlfile{srm_residue_estimator.sv}
+和\rtlfile{sar_reconstruction.sv}定义为唯一算法真值；开源ADCToolbox
+仅承担FFT和Ramp码密度指标提取。
+
+本次工作建立了从有符号输入码、采样噪声、20次差分SAR判决、物理残差、
+22次SRM统计、Q8查表修正到16位饱和输出的完整行为链路。制造离散模型对
+bit 0--5施加\LowMismatchPercent\%权重失配标准差，对bit 6--19施加
+\HighMismatchPercent\%；前台校准比较器同时包含\CalibrationOffsetLsb\
+LSB固定失调与\CalibrationNoiseLsb\ LSB随机噪声。正式实验使用稳定
+SeedSequence生成\ChipCount 个相互独立的虚拟芯片，每点执行\FftLength
+点相干FFT和全16位Ramp码密度分析，并对校准后静态线性的最佳、中位和最坏
+代表点按每码\RepresentativeSamplesPerCode 点重新复核。
+
+结果显示，未校准路径的SNDR中位数仅为\NominalSndrMedian\ dB，INL峰峰值
+中位数为\NominalInlMedian\ LSB；仅加入前台校准后分别改善至
+\CalNoSrmSndrMedian\ dB与\CalNoSrmInlMedian\ LSB；校准与SRM联合后
+SNDR中位数达到\CalSndrMedian\ dB，SFDR中位数达到\CalSfdrMedian\ dBc，
+INL和DNL峰峰值中位数分别为\CalInlMedian\ LSB与\CalDnlMedian\ LSB。
+这证明当前递归P/N校准能够有效估计静态权重失配，SRM则进一步修正残差。
+然而，校准+SRM路径的缺码最坏值仍为\CalMissingMax，最坏代表点在高分辨率
+复核中仍有2个缺码，因此本报告支持“算法有效”，不支持“所有失配样本均已
+达到静态无缺码或流片签核”的绝对结论。
+
+\noindent\textbf{关键词：}SAR ADC；前台自校准；电容权重失配；SRM；
+Q8定点重构；FFT；DNL；INL；Monte Carlo
+
+\begin{evidencebox}{核心结论}
+当前自校准方案对本实验定义的静态有效权重失配具有显著校准能力。证据来自
+完整采样到解码链路，而不是直接把真实权重写回数字端的代理模型；但证据层级
+仍为行为级L2，不能替代晶体管、版图后或硅片验证。
 \end{evidencebox}
 
-校准+SRM路径的SNDR中位数为\CalSndrMedian\ dB，P01为
-\CalSndrPZeroOne\ dB；INL峰峰值中位数为\CalInlMedian\ LSB，
-P95为\CalInlPNinetyFive\ LSB。缺码中位数为\CalMissingMedian，
-但最坏点仍有\CalMissingMax 个缺码，因此该行为级结果支持“算法有效”，
-不支持“512点全部静态无缺码”的绝对结论。
-
-\begin{evidencebox}{Orange}{尚未签核的边界}
-当前模型没有从晶体管或版图提取物理桥接CDAC、电荷注入、参考建立、
-比较器亚稳态时间、PVT和PEX寄生。因此报告不能用于流片签核，也不能把
-行为级512点统计解释为硅片良率。
-\end{evidencebox}
-
+\clearpage
 \tableofcontents
 \clearpage
+\pagenumbering{arabic}
 
-\section{验证对象与算法真值}
+\chapter{研究问题、范围与证据边界}
 
-\subsection{本工程算法来源}
+\section{研究问题}
 
-\begin{tabularx}{\textwidth}{@{}>{\sffamily\bfseries}l X@{}}
-\toprule
-功能 & 唯一算法真值 \\
-\midrule
-前台递归权重校准 & \path{rtl/sar_calib_ctrl_serial.sv} \\
-22次SRM计数与Q8 LUT & \path{rtl/srm_residue_estimator.sv} \\
-有符号Q8重构、舍入、饱和 & \path{rtl/sar_reconstruction.sv} \\
-固定点接口定义 & \path{docs/FIXED_POINT_CONTRACT.md} \\
-\bottomrule
-\end{tabularx}
+本工程使用20个非二进制或冗余判决权重实现16位输出。对于高分辨率SAR ADC，
+高位电容的相对误差虽然较小，但其绝对码权误差会被高位权重放大，造成严重的
+码宽不均、谐波和缺码。数字校准必须回答以下三个问题：
 
-Python模型逐项镜像当前RTL合同：bit 0--5为可信低位；bit 6--19采用P/N两相
-测量、32次平均和递归shadow权重写回；bit 18/19执行高位保护补偿；SRM严格
-采用RTL给出的23项Q8查找表。
-
-\subsection{开源代码复用边界}
-
-ADCToolbox 0.9.1（MIT许可证，审核提交
-\texttt{a8995cf4faf73dde9918589bfeb866c6a77db12d}）用于：
-\begin{itemize}[leftmargin=2em,itemsep=1pt]
-  \item 相干记录的SNDR、SNR、SFDR、THD和ENOB提取；
-  \item 均匀Ramp码密度的DNL、INL及缺码分析；
-  \item 作为独立指标后端，减少自写FFT规则导致的统计口径漂移。
-\end{itemize}
-本工程没有导入ADCToolbox的权重校准算法。第三方说明见
-\path{THIRD_PARTY_NOTICES.md}。
-
-\section{完整行为级信号链}
-
-\subsection{采样与差分SAR判决}
-
-输入以有符号16位输出码域表示。考虑差分\(\pm W_i\)重构和RTL末端除2，
-采样后的Q8目标为
-\[
-  T_{\mathrm{Q8}} = 2\,(x+n_s)\,2^{8}.
-\]
-第\(i\)次比较根据当前物理CDAC和\(A_i\)的残差确定正负决策：
-\[
-  b_i =
-  \begin{cases}
-    1, & T_{\mathrm{Q8}}-A_i+v_{\mathrm{os}}+n_{c,i}\ge 0,\\
-    0, & \text{otherwise},
-  \end{cases}
-\]
-\[
-  A_{i+1}=A_i+(2b_i-1)W_{i,\mathrm{phy}}.
-\]
-模型保留采样噪声、逐bit比较器噪声、比较器失调、参考噪声及DAC建立误差
-接口。正式基线启用采样噪声0.35 LSB和正常比较器噪声0.30 LSB；参考噪声
-与建立误差默认为0，以隔离当前数字算法。
-
-\subsection{SRM完整逻辑}
-
-20次普通SAR判决后，输出码域Q8残差为
-\[
-  r_{\mathrm{Q8}}=\frac{T_{\mathrm{Q8}}-A_{20}}{2}.
-\]
-SRM对该残差进行22次独立噪声比较。动态路径按
-\[
-  p_1=\Phi\!\left(
-  \frac{r_{\mathrm{Q8}}+v_{\mathrm{os,SRM}}}
-       {0.5\times2^8}
-  \right)
-\]
-生成22次判决等价的二项计数，再逐项查询RTL Q8 LUT。该二项计数与
-22个有效判决脉冲在统计上等价，不改变计数分布或查表行为。
-
-\subsection{Q8解码}
-
-所有解码器共享同一组物理决策位，仅数字权重和SRM使能不同：
-\[
-  S=\sum_i (2b_i-1)W_{i,\mathrm{dig}},
-\]
-\[
-  D_{\mathrm{out}}=
-  \operatorname{sat}_{16}\!\left[
-  \left(
-  (S\gg1)+r_{\mathrm{SRM,Q8}}+2^7
-  \right)\gg8
-  \right].
-\]
-该式保持RTL对负数并非严格对称的舍入规则，行为模型没有自行“修正”RTL。
-
-\section{验证协议}
-
-\subsection{512点独立统计}
-
-每个虚拟芯片具有稳定的\texttt{SeedSequence}随机流和独立物理权重失配。
-高位权重相对失配标准差为3\%，可信低6位为0.15\%。每个点完整执行：
-\begin{enumerate}[leftmargin=2em,itemsep=1pt]
-  \item P/N前台权重校准及递归写回；
-  \item \FftLength 点相干正弦正常转换与四种数字解码；
-  \item 全16位均匀Ramp，每码2个确定性采样点；
-  \item ADCToolbox动态和静态指标提取；
-  \item 独立JSON检查点写盘。
+\begin{enumerate}
+  \item 校准控制器能否仅依赖低位参考段和比较器判决，估计bit 6--19的实际
+        有效权重，而不读取行为模型中的“真实权重答案”；
+  \item 校准权重、SRM残差与Q8重构是否共享同一单位、符号和增益约定；
+  \item 校准改善是否能通过独立正常转换、FFT和全量程DNL/INL体现，而不是
+        只在权重RMSE或单元测试中成立。
 \end{enumerate}
 
-\subsection{静态与动态噪声口径}
+\begin{methodbox}{判定标准}
+本报告将“有效校准”定义为：在相同物理失配与相同正常SAR判决流下，使用
+校准写回权重后，SNDR、SFDR、INL、DNL和缺码统计相对名义权重解码显著改善，
+且校准结果接近但不等同于物理权重Oracle上限。
+\end{methodbox}
 
-动态FFT保留采样噪声、逐bit比较器噪声和随机SRM计数。静态Ramp关闭随机
-噪声，并使用22次SRM期望计数的四舍五入值查询同一RTL LUT。这样每码2个
-采样点描述确定性传输曲线，不会因平均桶计数过低产生随机空桶。
-DNL/INL在各解码器实际输出跨度内做端点校正，避免把全局增益误差误判为
-缺码。Best、Median和Worst代表点另用每码8个样本复核。
-
-\section{动态性能结果}
+\section{算法真值与外部复用边界}
 
 \begin{table}[htbp]
 \centering
-\caption{512点动态解码统计。P01/P99为跨虚拟芯片分位数。}
+\caption{本报告的算法真值与证据用途}
+\begin{tabularx}{\textwidth}{@{}p{3.3cm}p{5.0cm}X@{}}
+\toprule
+功能 & 权威文件 & 报告中的用途 \\
+\midrule
+前台递归权重校准 &
+\rtlfile{sar_calib_ctrl_serial.sv} &
+P/N相位、串行SAR搜索、32次平均、Shadow RAM递归更新和bit 18/19保护 \\
+SRM残差估计 &
+\rtlfile{srm_residue_estimator.sv} &
+22次判决计数、23项Q8 LUT及完成握手的功能真值 \\
+Q8数字重构 &
+\rtlfile{sar_reconstruction.sv} &
+$+W_i/-W_i$累加、差分除2、SRM注入、舍入和16位饱和 \\
+定点接口 &
+\path{docs/FIXED_POINT_CONTRACT.md} &
+权重、SRM残差和最终输出的统一单位 \\
+标准化指标 &
+ADCToolbox 0.9.1，MIT &
+仅提取FFT和Ramp码密度指标，不生成校准权重 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Huang等人的split-sampling SAR ADC论文提供了“利用低位参考段测量高位权重”
+的架构背景，但本次验证没有从论文或开源仓库替换当前RTL算法。行为模型中的
+校准状态和结果写回均逐步骤映射本工程控制器。
+
+\section{证据分层}
+
+\begin{table}[htbp]
+\centering
+\caption{本报告与后续签核层级的关系}
+\begin{tabularx}{\textwidth}{@{}
+  >{\raggedright\arraybackslash}p{2.6cm}
+  >{\raggedright\arraybackslash}p{4.7cm}
+  >{\raggedright\arraybackslash}X@{}}
+\toprule
+层级 & 本报告覆盖内容 & 尚未覆盖内容 \\
+\midrule
+行为级L2 &
+有效权重失配、比较器失调/噪声、完整SAR判决、SRM、Q8解码、FFT和DNL/INL &
+电荷域桥接CDAC、开关寄生、电压相关电容、真实参考建立 \\
+RTL级 &
+已有独立XSIM单元回归和综合基线，本报告做功能等效映射 &
+正常SAR、校准、SRM和重构的完整顶层周期级仲裁 \\
+AMS/晶体管级 &
+不覆盖 &
+采样开关、比较器再生/亚稳态、参考缓冲、电源噪声、PVT/Monte Carlo \\
+版图后/硅片 &
+不覆盖 &
+PEX、IR/EM、时钟树、测试接口、晶圆与硅后统计 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{riskbox}{禁止越级解释}
+正确估计权重并不等于完整ADC必然通过。动态采样误差、参考恢复、比较器亚稳态
+和码型相关量化误差可能在权重正确时仍限制SNDR或缺码。因此，本报告将校准
+闭环和全ADC签核明确分离。
+\end{riskbox}
+
+\chapter{工程文件组织与操作审计}
+
+\section{目录架构}
+
+新行为模型放在独立目录，不侵入活动RTL与Vivado工程。核心结构如下：
+
+\noindent\textbf{工程目录}
+\begin{quote}
+\begin{Verbatim}[fontsize=\small,breaklines=true]
+sar_adc_v3/
+|-- rtl/                                  # 当前算法真值，未改动
+|-- Digital_process/                      # Vivado工程与工业级TB
+|-- docs/                                 # 契约、验证、版本和变更记录
+|-- analysis/
+|   `-- full_sar_behavioral_20260729/
+|       |-- full_sar_model.py             # 完整行为核心
+|       |-- run_campaign.py               # 512点并行/断点运行器
+|       |-- test_full_sar_model.py         # 5项回归
+|       |-- spec.yml                      # 冻结实验协议
+|       |-- outputs/                      # JSON/CSV/图/NPZ证据
+|       `-- report/                       # 报告、样式与生成脚本
+|-- delivery/
+|   `-- full_sar_behavioral_validation_20260729/
+|                                           # 可独立交付的冻结快照
+`-- archive/report_versions/              # 被替换报告的可恢复版本
+\end{Verbatim}
+\end{quote}
+
+\section{关键文件职责}
+
+\begin{table}[htbp]
+\centering
+\caption{行为模型与证据文件}\label{tab:file-roles}
+\small
+\begin{tabularx}{\textwidth}{@{}p{5.0cm}p{1.7cm}X@{}}
+\toprule
+文件 & 操作类型 & 具体职责 \\
+\midrule
+\modelfile{full_sar_model.py} &
+新增 &
+定义失配芯片、P/N递归校准、正常SAR、SRM、Q8重构和指标接口 \\
+\modelfile{run_campaign.py} &
+新增 &
+实现512点多进程运行、逐芯片原子检查点、聚合、绘图和代表点复核 \\
+\modelfile{test_full_sar_model.py} &
+新增 &
+覆盖SRM LUT、校准写回、转换形状、单调性、FFT和Ramp闭环 \\
+\modelfile{spec.yml} &
+新增 &
+冻结20判决、16位、Q8、512点、8192点FFT和Ramp采样协议 \\
+\modelfile{outputs/summary.json} &
+生成并保留 &
+权威聚合结果、配置、来源、代表点和证据边界 \\
+\modelfile{outputs/per_chip_decoder_metrics.csv} &
+生成并保留 &
+512芯片乘4解码器，共2048条逐点指标 \\
+\modelfile{outputs/highres_*.npz} &
+生成并保留 &
+最佳/中位/最坏代表点的DNL、INL、码轴和频谱数组 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{报告、交付与维护文件}
+\small
+\begin{tabularx}{\textwidth}{@{}p{5.0cm}p{1.7cm}X@{}}
+\toprule
+文件 & 操作类型 & 具体职责 \\
+\midrule
+\modelfile{report/generate_report_assets.py} &
+新增并扩展 &
+从summary.json自动生成报告宏和结果表，禁止手工抄写核心数字 \\
+\modelfile{report/full_sar_behavioral_validation_cn.tex} &
+替换升级 &
+按最新学术PDF Skill重写的可编辑报告源码 \\
+\path{delivery/full_sar_behavioral_validation_20260729/} &
+新增 &
+行为代码、结果、RTL/TB快照、报告和SHA-256完整交付包 \\
+\path{README.md}, \path{MOC.md} &
+修改 &
+更新工程入口、目录索引、验证入口和交付路径 \\
+\path{docs/VERSION.md}, \path{docs/CHANGELOG.md}, \path{docs/VERIFICATION.md} &
+修改 &
+记录v3.9.0基线、正式结果、限制与维护规则 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{操作数量与Git归档}
+
+算法基线提交\commitid{}共涉及107个文件：根目录文档修改2个，docs修改3个，
+独立analysis区域新增45个，delivery交付区新增57个。其中analysis区域包含
+顶层源文件9个、正式输出29个和报告文件7个。活动\path{rtl/}源文件没有被
+修改，只被读取并复制到交付包作为真值快照。
+
+\begin{table}[htbp]
+\centering
+\caption{算法基线提交的文件操作统计}
+\small
+\begin{tabularx}{\textwidth}{@{}Xrrp{4.2cm}@{}}
+\toprule
+区域 & 新增 & 修改 & 说明 \\
+\midrule
+仓库根目录 & 0 & 2 & README与MOC入口 \\
+\path{docs/} & 0 & 3 & 版本、变更记录与验证文档 \\
+\path{analysis/full_sar_behavioral_20260729/} & 45 & 0 & 模型、结果和报告 \\
+\path{delivery/full_sar_behavioral_validation_20260729/} & 57 & 0 & 冻结交付快照 \\
+\midrule
+合计 & 102 & 5 & 107个文件 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+GitHub远端为\path{defineiocc02/Digital_process.srcs}，分支为
+\path{codex/huang-calibration-convergence}。提交后同时在16位项目区保存：
+可直接阅读的交付目录、精确\path{git archive}源码ZIP、完整Git bundle和
+顶层SHA-256清单。旧版9页简报在Git历史和
+\path{archive/report_versions/20260729_full_sar_behavioral_v1_simple/}
+中均可恢复。
+
+\chapter{数学原理}
+
+\section{Q8权重与差分码域}
+
+本工程规定\qformat{}权重的整数值为
+\begin{equation}
+  \widetilde{W}_i = \operatorname{round}\!\left(2^F W_i\right),
+  \qquad F=8,
+  \label{eq:q8-weight}
+\end{equation}
+其中$W_i$以最终16位输出码的LSB为单位，$\widetilde{W}_i$为RTL中保存的
+整数。因此$256$表示1个最终输出LSB。20个判决位按bit 0到bit 19编号，
+正常转换中每个bit不使用$0/W_i$单边贡献，而使用
+\begin{equation}
+  s_i = 2b_i-1 \in \{-1,+1\}.
+  \label{eq:signed-bit}
+\end{equation}
+由此形成双边差分加权和。重构端除以2，是将$\pm W_i$的双边跨度映射回
+单端有符号输出码域，而不是额外的经验增益修正。
+
+\section{有效权重失配模型}
+
+第$c$个虚拟芯片的有效权重写为
+\begin{equation}
+  W_{i,c}^{\mathrm{phy}}
+  = W_i^{\mathrm{nom}}\left(1+\epsilon_{i,c}\right),
+  \qquad
+  \epsilon_{i,c}\sim \mathcal{N}(0,\sigma_i^2).
+  \label{eq:mismatch}
+\end{equation}
+本实验按当前校准TB的可信参考段划分设置
+\begin{equation}
+  \sigma_i =
+  \begin{cases}
+    0.0015, & 0\le i\le 5,\\
+    0.0300, & 6\le i\le 19.
+  \end{cases}
+  \label{eq:mismatch-piecewise}
+\end{equation}
+也就是低6位参考段采用\LowMismatchPercent\%标准差，高14位采用
+\HighMismatchPercent\%标准差。该模型描述“重构域有效权重”的离散，不将
+权重表错误解释为物理单位电容数量。桥电容、寄生与相关失配必须在后续
+电荷域模型中单独建立。
+
+\section{20次正常SAR判决}
+
+设输入为最终有符号输出码域中的$x[n]$，采样噪声为$\eta_s[n]$。因为重构
+使用双边权重和，模拟搜索目标为
+\begin{equation}
+  T[n]=2^{F+1}\left(x[n]+\eta_s[n]\right).
+  \label{eq:target}
+\end{equation}
+令高位搜索前的累加值$A_{20}[n]=0$。从$i=19$递减到0时，比较器输出
+\begin{equation}
+  b_i[n]=
+  \mathbb{I}\!\left[
+    T[n]-A_{i+1}[n]+2^{F+1}o_c+\eta_{c,i}[n]\ge 0
+  \right],
+  \label{eq:sar-decision}
+\end{equation}
+其中$o_c$是正常转换比较器失调，$\eta_{c,i}$是第$i$次判决噪声。随后
+\begin{equation}
+  A_i[n]=A_{i+1}[n]
+  +(2b_i[n]-1)\,
+  W_i^{\mathrm{phy}}\,
+  g_{\mathrm{ref}}[n]\,
+  \left(1-\varepsilon_{\mathrm{settle}}\right).
+  \label{eq:sar-update}
+\end{equation}
+正式基线中参考噪声和固定建立误差钩子均为0，保留接口是为了后续扩展，
+而不是声称这些模拟误差已经验证。
+
+20次判决后的单端物理残差为
+\begin{equation}
+  r[n]=\frac{T[n]-A_0[n]}{2}.
+  \label{eq:physical-residue}
+\end{equation}
+该残差与最终Q8重构共享单位，是SRM观测和后级数字修正的桥梁。
+
+\section{前台P/N递归权重校准}
+
+\subsection{低位参考段}
+
+复位后，仅bit 0--5的Shadow RAM加载理想参考权重
+\begin{equation}
+  \widehat{W}_i^{(0)}=2^{F+i},\qquad 0\le i\le 5.
+  \label{eq:trusted-reference}
+\end{equation}
+bit 6--19依次校准。校准bit $k$时，只允许使用已经可信或已经校准完成的
+低位权重组成参考DAC，因而形成递归“measure-then-set”结构。
+
+\subsection{P/N相位与失调抵消}
+
+第$m$次平均中，P相位把目标权重接到DAC P端、搜索参考接到N端；N相位
+交换极性。忽略量化细节时，两个测量结果可近似写成
+\begin{align}
+  M_{P,k,m} &\approx W_k^{\mathrm{phy}}+o_{\mathrm{cal}}+n_{P,k,m},
+  \label{eq:p-measure}\\
+  M_{N,k,m} &\approx W_k^{\mathrm{phy}}-o_{\mathrm{cal}}+n_{N,k,m}.
+  \label{eq:n-measure}
+\end{align}
+两相求和消除一阶固定失调：
+\begin{equation}
+  \frac{M_{P,k,m}+M_{N,k,m}}{2}
+  \approx W_k^{\mathrm{phy}}
+  \frac{n_{P,k,m}+n_{N,k,m}}{2}.
+  \label{eq:offset-cancel}
+\end{equation}
+正式实验故意加入\CalibrationOffsetLsb\ LSB校准比较器失调，明显大于
+目标亚LSB残差，以检验P/N抵消是否真正工作；每相随机噪声标准差为
+\CalibrationNoiseLsb\ LSB。
+
+\subsection{32次平均与RTL舍入}
+
+令$N_{\mathrm{avg}}=\AverageLoops=2^{A}$，$A=5$。RTL累加所有P/N测量后
+执行
+\begin{equation}
+  \widehat{W}_k=
+  \left\lfloor
+  \frac{
+    \displaystyle\sum_{m=0}^{N_{\mathrm{avg}}-1}
+    \left(M_{P,k,m}+M_{N,k,m}\right)+2^A
+  }{2^{A+1}}
+  \right\rfloor.
+  \label{eq:calibration-average}
+\end{equation}
+式\eqref{eq:calibration-average}与RTL
+\path{(accumulator + (1 << AVG_SHIFT)) >>> (AVG_SHIFT + 1)}
+位精确对应。加$2^A$实现除以$2N_{\mathrm{avg}}$前的半LSB舍入。
+
+\subsection{递归误差传播}
+
+每得到$\widehat{W}_k$，控制器同时通过\path{w_wr_data}写入重构RAM，并更新
+内部Shadow RAM，供更高位搜索使用。因此第$k$位残差不仅取决于比较器噪声，
+也取决于已校准低位误差：
+\begin{equation}
+  \delta_k
+  \equiv \widehat{W}_k-W_k^{\mathrm{phy}}
+  \approx q_k+\bar n_k+\sum_{i<k}a_{k,i}\delta_i,
+  \label{eq:recursive-error}
+\end{equation}
+其中$q_k$是搜索和Q8量化误差，$\bar n_k$是P/N平均后的噪声，$a_{k,i}$
+由搜索码型决定。式\eqref{eq:recursive-error}解释了为什么低位参考段精度、
+平均次数和逐级舍入决定最终误差底限。
+
+\subsection{bit 18/19保护}
+
+最高两位的目标权重超过普通低位搜索范围。RTL对bit 18强制加入bit 17保护，
+对bit 19强制加入bit 18和bit 17保护，并把搜索上界限制为bit 16。串行数字
+求和完成后，再把被保护权重补回测量值。该机制同时实现：
+
+\begin{enumerate}
+  \item 避免保护位被SAR搜索再次使用而重复计数；
+  \item 扩展高位测量的可达参考范围；
+  \item 保持P/N相位和数字恢复使用同一权重约定。
+\end{enumerate}
+
+\section{SRM残差估计}
+
+设比较器噪声标准差$\sigma_{\mathrm{SRM}}=\SrmComparatorNoiseLsb$ LSB，
+对残差$r$进行$M=\SrmDecisions$次独立观测。单次输出1的概率为
+\begin{equation}
+  p(r)=\Phi\!\left(\frac{r+o_{\mathrm{SRM}}}{\sigma_{\mathrm{SRM}}}\right),
+  \label{eq:srm-probability}
+\end{equation}
+其中$\Phi(\cdot)$为标准正态累积分布函数。计数
+\begin{equation}
+  C\sim\operatorname{Binomial}(M,p),\qquad C\in\{0,\ldots,22\}.
+  \label{eq:srm-binomial}
+\end{equation}
+RTL采用有限端点的plotting position
+\begin{equation}
+  \widehat p(C)=\frac{C+0.5}{M+1}=\frac{C+0.5}{23},
+  \label{eq:srm-position}
+\end{equation}
+并构造Q8残差
+\begin{equation}
+  L[C]=\operatorname{round}
+  \left(
+    2^F\sigma_{\mathrm{SRM}}\Phi^{-1}\!\left(\widehat p(C)\right)
+  \right).
+  \label{eq:srm-lut}
+\end{equation}
+因此$C=11$映射为0，$C=0$和$22$分别映射为$-258$和$+258$。行为模型
+动态路径直接采样式\eqref{eq:srm-binomial}，在统计意义上等价于接收22个
+\path{decision_valid}脉冲；静态Ramp路径使用
+$C=\operatorname{round}(Mp)$，以避免随机空码污染确定性传输曲线，但仍使用
+完全相同的RTL LUT量化。
+
+\section{Q8重构、舍入与饱和}
+
+设数字解码权重为$\widehat W_i$，原始判决为$b_i$，SRM LUT输出为$L[C]$。
+行为模型与RTL共同实现
+\begin{align}
+  S &= \sum_{i=0}^{19}(2b_i-1)\widehat W_i,
+  \label{eq:weighted-sum}\\
+  U &= (S\mathbin{\mathrm{>>>}}1)+L[C],
+  \label{eq:normalized-sum}\\
+  D &= \operatorname{sat}_{16}
+  \left[
+    \left(U+2^{F-1}\right)\mathbin{\mathrm{>>>}}F
+  \right].
+  \label{eq:final-decode}
+\end{align}
+其中$\mathrm{>>>}$是有符号算术右移，$\operatorname{sat}_{16}$将结果限制
+到$[-32768,32767]$。当前统一加$+128$的舍入方式与RTL位精确一致，但对负数
+不是严格对称的round-half-away-from-zero。这是已知定点偏差，不在报告中
+被隐藏。
+
+\section{FFT、DNL与INL定义}
+
+动态测试选择$N=\FftLength$，相干频点$k=\CoherentBin$，满足
+\begin{equation}
+  f_{\mathrm{in}}=\frac{k}{N}f_s
+  =\InputFrequencyMHz\ \mathrm{MHz},
+  \qquad \gcd(k,N)=1.
+  \label{eq:coherent-frequency}
+\end{equation}
+矩形窗下，以基波功率$P_1$、谐波功率$P_h$和其余噪声功率$P_n$定义
+\begin{align}
+  \mathrm{SNDR}&=10\log_{10}\frac{P_1}{P_n+P_h},
+  \label{eq:sndr}\\
+  \mathrm{SNR}&=10\log_{10}\frac{P_1}{P_n},
+  \label{eq:snr}\\
+  \mathrm{THD}&=10\log_{10}\frac{P_h}{P_1},
+  \label{eq:thd}\\
+  \mathrm{ENOB}&=\frac{\mathrm{SNDR}-1.76}{6.02}.
+  \label{eq:enob}
+\end{align}
+SFDR定义为基波与最大非基波谱线之比。
+
+静态测试对全16位输入范围均匀Ramp，每码\StaticSamplesPerCode 点。设
+端点修正后第$j$个输出码的计数为$H_j$，有效码域平均计数为$\overline H$，
+则
+\begin{align}
+  \mathrm{DNL}_j &= \frac{H_j}{\overline H}-1,
+  \label{eq:dnl}\\
+  \mathrm{INL}_j &= \sum_{\ell\le j}\mathrm{DNL}_\ell-C_{\mathrm{ep}},
+  \label{eq:inl}
+\end{align}
+其中$C_{\mathrm{ep}}$表示端点增益/偏移校正。$H_j=0$定义为缺码。报告只在
+各解码器实际覆盖的输出码域上计算线性，避免把全局增益误差错误计为大量缺码。
+
+\chapter{行为模型实现与RTL映射}
+
+\section{完整信号链}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=6mm and 4mm,
+  block/.style={draw=RefTeal,fill=RefPaleTeal,rounded corners=1pt,
+                minimum height=9mm,text width=23mm,align=center,font=\small},
+  digital/.style={draw=RefNavy,fill=RefPaleBlue,rounded corners=1pt,
+                  minimum height=9mm,text width=25mm,align=center,font=\small},
+  metric/.style={draw=RefPurple,fill=RefPalePurple,rounded corners=1pt,
+                 minimum height=9mm,text width=25mm,align=center,font=\small},
+  arrow/.style={-{Latex[length=2mm]},line width=0.6pt,draw=RefGray}
+]
+\node[block] (input) {相干正弦或\\全量程Ramp};
+\node[block,right=of input] (sample) {采样噪声与\\输入码域};
+\node[block,right=of sample] (sar) {20次差分\\SAR判决};
+\node[block,right=of sar] (residue) {物理残差与\\22次SRM};
+\node[digital,below=12mm of sar] (cal) {P/N递归前台校准\\Q8权重写回};
+\node[digital,right=of cal] (recon) {四种解码器\\Q8重构与饱和};
+\node[metric,right=of recon] (metric) {FFT与Ramp\\SNDR、SFDR\\DNL、INL};
+\draw[arrow] (input)--(sample);
+\draw[arrow] (sample)--(sar);
+\draw[arrow] (sar)--(residue);
+\draw[arrow] (sar)--(cal);
+\draw[arrow] (cal)--(recon);
+\draw[arrow] (residue)--(recon);
+\draw[arrow] (recon)--(metric);
+\end{tikzpicture}
+\caption{完整行为级信号链。校准权重由P/N搜索产生，未直接读取真实权重作为结果。}
+\label{fig:full-flow}
+\end{figure}
+
+\section{逐模块对应关系}
+
+\begin{table}[htbp]
+\centering
+\caption{RTL与Python行为实现的对应关系}
+\begin{tabularx}{\textwidth}{@{}p{4.2cm}p{4.4cm}X@{}}
+\toprule
+RTL对象 & Python函数 & 对应内容 \\
+\midrule
+\path{shadow_weights}复位 &
+\path{run_rtl_equivalent_calibration()} &
+bit 0--5加载$2^{F+i}$，其余位从0开始 \\
+P/N SAR状态 &
+\path{_rtl_phase_search()} &
+同一保留/清除极性、从高到低串行搜索 \\
+\path{dac_p_force/dac_n_force} &
+\path{_calibration_comparator_decision()} &
+目标位和受保护参考码的P/N交换 \\
+\path{compensated_meas} &
+\path{_protect_code()}及数字补回 &
+bit 18/19保护位避免重复搜索并恢复测量权重 \\
+\path{calc_result_wire} &
+\path{run_rtl_equivalent_calibration()} &
+$(acc+2^A)\gg(A+1)$位精确舍入 \\
+SRM计数与LUT &
+\path{run_normal_sar_conversion()} &
+动态Binomial计数、静态期望计数、相同23项Q8 LUT \\
+\path{partial_sums/sum_stage2} &
+\path{rtl_reconstruct()} &
+$\sum \pm W_i$的整数Q8累加 \\
+除2、SRM、舍入、饱和 &
+\path{rtl_reconstruct()} &
+与式\eqref{eq:final-decode}一致 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{四种解码器的因果对照}
+
+同一虚拟芯片、同一输入和同一物理SAR判决同时进入四种解码器：
+
+\begin{description}
+  \item[NOMINAL\_NO\_SRM] 使用名义权重且关闭SRM，表示不知道失配的基线；
+  \item[CAL\_NO\_SRM] 使用P/N递归校准权重且关闭SRM，隔离校准本身的效果；
+  \item[CAL\_SRM] 使用校准权重与SRM，是当前目标数字链路；
+  \item[ORACLE\_SRM] 使用行为模型物理权重与SRM，只表示当前模型的解码上限。
+\end{description}
+
+Oracle不参与校准搜索，也不作为算法输入。它的作用是区分“校准权重仍有误差”
+和“即使权重完全已知，正常转换噪声仍存在”。
+
+\section{随机性、可重复性与静态确定性}
+
+所有随机流均由
+\begin{equation}
+  \mathrm{SeedSequence}\left(20260729,\ \mathrm{stream\_id},\ \mathrm{chip\_id}\right)
+  \label{eq:seed}
+\end{equation}
+派生。制造失配、校准噪声、输入相位、正常比较器噪声和SRM计数使用不同
+stream id，避免调用顺序改变整个实验。每个chip的JSON检查点先写临时文件，
+再原子替换正式文件；重复运行会读取已完成检查点并重新聚合。
+
+动态FFT保留随机采样噪声、正常比较器噪声和随机SRM。静态Ramp关闭随机噪声，
+并使用SRM期望计数的四舍五入值，使DNL/INL反映确定性传输曲线，而不是有限
+样本Monte Carlo造成的空直方图箱。
+
+\chapter{实验设计与执行过程}
+
+\section{正式配置}
+
+\begin{table}[htbp]
+\centering
+\caption{512点完整行为级实验参数}
+\begin{tabularx}{\textwidth}{@{}p{5.2cm}p{3.2cm}X@{}}
+\toprule
+参数 & 数值 & 目的 \\
+\midrule
+虚拟芯片数 & \ChipCount & 观察失配分布与尾部 \\
+SAR判决数 & 20 & 对应当前权重表与RTL \\
+输出/定点格式 & signed 16-bit / Q8 & 对应重构接口 \\
+高位/低位失配$\sigma$ &
+\HighMismatchPercent\% / \LowMismatchPercent\% &
+压测高14位，保持低6位参考段可信 \\
+校准平均次数 & \AverageLoops & 验证固定RTL参数 \\
+校准比较器失调/噪声 &
+\CalibrationOffsetLsb / \CalibrationNoiseLsb\ LSB &
+检验P/N抵消和平均能力 \\
+采样/正常比较器噪声 &
+\SamplingNoiseLsb / \NormalComparatorNoiseLsb\ LSB &
+构成正常转换随机噪声底 \\
+SRM判决数/噪声 &
+\SrmDecisions / \SrmComparatorNoiseLsb\ LSB &
+匹配RTL LUT资格条件 \\
+FFT长度/采样率 &
+\FftLength / \SampleRateMHz\ MHz &
+动态性能统计 \\
+相干输入 &
+bin \CoherentBin，\InputFrequencyMHz\ MHz &
+矩形窗、无谱泄漏 \\
+正式Ramp密度 &
+\StaticSamplesPerCode 点/码 &
+512点全量程静态统计 \\
+代表点Ramp密度 &
+\RepresentativeSamplesPerCode 点/码 &
+最佳/中位/最坏尾部复核 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{实验一：数学和实现单元回归}
+
+正式运行前执行5项pytest：
+
+\begin{enumerate}
+  \item 检查SRM LUT端点、中点和反对称性；
+  \item 检查校准后bit 6--19均被写回且权重保持正值；
+  \item 检查完整转换数组形状、SRM计数范围和理想码单调性；
+  \item 运行小规模正弦与Ramp闭环，确认指标接口可用；
+  \item 检查全量程Ramp码密度路径和端点处理。
+\end{enumerate}
+
+源码目录和独立delivery目录分别运行，结果均为
+\path{5 passed}。这一步验证打包后导入路径没有破坏，而不仅是开发目录可运行。
+
+\section{实验二：512点动态FFT}
+
+每个芯片生成一个独立相干相位，正弦幅度为满量程的0.82倍。每个样本依次执行
+20次正常SAR判决、残差计算和SRM统计，再由四个解码器重构。每芯片动态判决量
+为
+\begin{equation}
+  8192\times 20=163\,840
+  \label{eq:dynamic-decisions-chip}
+\end{equation}
+次SAR判决；512点共$83\,886\,080$次。动态SRM对应
+$512\times8192\times22=92\,274\,688$个独立观测，代码以Binomial采样实现
+统计等价加速。
+
+\section{实验三：全量程DNL/INL}
+
+正式静态Ramp包含
+\begin{equation}
+  2^{16}\times 2=131\,072
+  \label{eq:ramp-samples}
+\end{equation}
+个输入点/芯片，512点合计$67\,108\,864$次完整转换，即
+$1\,342\,177\,280$次SAR判决。静态路径不加入随机噪声，使用端点修正后的
+有效输出码域计算DNL、INL和缺码。
+
+\section{实验四：最佳、中位和最坏代表点复核}
+
+依据正式CAL\_SRM静态INL选择chip 50、187和4作为最佳、中位、最坏代表点，
+每个代表点使用每码8点重新运行全量程Ramp。复核目的不是改变样本选择，而是
+判断2点/码粗网格中的尾部是否为采样密度假象。
+
+\section{实验五：断点续跑与证据发布}
+
+正式命令使用6个worker。512个检查点时间跨度为\RuntimeSeconds\ s，标准错误
+日志为空。完成后再次运行同一命令，全部512点从检查点恢复，并重新生成CSV、
+JSON、图和代表点结果。报告数字由生成脚本直接读取summary.json；PDF执行
+三次XeLaTeX、字体/文本/日志检查和逐页视觉QA。
+
+\chapter{动态性能结果}
+
+\section{512点总体结果}
+
+\begin{table}[htbp]
+\centering
+\caption{四种解码路径的动态统计}
+\small
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 解码器 & SNDR P01 & SNDR中位 & SNDR P99 & SFDR中位 & ENOB中位 \\
@@ -290,104 +785,241 @@ DNL/INL在各解码器实际输出跨度内做端点校正，避免把全局增�
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.88\textwidth]{../outputs/fig_sndr_summary.pdf}
-\caption{四种解码器的512点SNDR中位数。校准恢复主要权重误差，SRM继续修正
-普通SAR循环结束后的亚LSB残差。}
-\end{figure}
-
-校准+SRM与Oracle+SRM的SNDR中位数相差
-\(\OracleSndrMedian-\CalSndrMedian=0.971\) dB，说明剩余主要差距来自
-校准权重量化/估计误差及正常转换噪声，而不是SRM接口未工作。
+前台校准使SNDR中位数从\NominalSndrMedian\ dB提高到
+\CalNoSrmSndrMedian\ dB，改善约54.18 dB。加入SRM后进一步提高
+\SrmSndrGain\ dB至\CalSndrMedian\ dB。CAL\_SRM与ORACLE\_SRM的
+SNDR中位差仅\OracleSndrGap\ dB，说明在当前噪声配置下，剩余差距已经由
+权重残差与正常转换噪声共同决定，而不是名义权重失配仍占主导。
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{../outputs/fig_highres_median_spectrum.pdf}
-\caption{代表性中位芯片的相干FFT。未校准路径出现显著权重失配杂散；
-校准+SRM路径接近Oracle噪声底，但SFDR仍低于Oracle，保留了校准误差尾部。}
+\includegraphics[width=0.80\textwidth]{fig_sndr_summary.png}
+\caption{512点SNDR中位数。校准消除主要失配失真，SRM进一步逼近Oracle上限。}
+\label{fig:sndr-summary}
 \end{figure}
 
-\FloatBarrier
-\section{DNL、INL与缺码结果}
+\section{频谱机理分析}
+
+未校准名义权重与真实CDAC权重不一致，码型相关误差被输入正弦调制，形成明显
+谐波和离散杂散，因此其SNR仍可能高于SNDR，而SNDR和SFDR显著恶化。校准后，
+大部分码型相关权重误差被消除，噪声底和剩余谐波开始由采样噪声、比较器噪声、
+Q8权重量化及有限平均决定。SRM对SAR末态残差进行亚LSB估计，主要改善噪声
+与残差相关误差，无法替代高位权重校准。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_highres_median_spectrum.png}
+\caption{中位代表点相干频谱。CAL\_SRM接近ORACLE\_SRM，但Oracle仍具有更高SFDR。}
+\label{fig:median-spectrum}
+\end{figure}
+
+\section{校准误差与Oracle距离}
+
+名义权重的增益对齐RMSE中位数为\NominalWeightRmseMedian\ LSB，校准后为
+\CalWeightRmseMedian\ LSB。使用增益对齐RMSE是为了把全局增益与权重形状
+误差分离。该数字只能说明权重向量接近程度，最终结论仍以独立正常转换指标为准。
+
+\begin{diagnosticbox}{为什么Oracle的SFDR更高}
+CAL\_SRM的SNDR已接近Oracle，但SFDR中位数仍为\CalSfdrMedian\ dBc，而Oracle
+为118.705 dBc。这表明剩余校准误差更容易表现为少数离散杂散，而宽带噪声使
+SNDR差距相对较小。下一轮优化应同时观察权重误差频谱投影，而不是只追求RMSE。
+\end{diagnosticbox}
+
+\chapter{静态线性、缺码与尾部}
+
+\section{512点Ramp结果}
 
 \begin{table}[htbp]
 \centering
-\caption{512点确定性Ramp统计；INL/DNL均为峰峰值，单位LSB。}
+\caption{512点全量程Ramp统计}
+\small
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-解码器 & INL中位 & INL P95 & DNL中位 & DNL P95 & 缺码中位 & 缺码最坏 \\
+解码器 & INL中位 & INL P95 & DNL中位 & DNL P95 & 缺码中位 & 缺码最大 \\
+ & LSB pp & LSB pp & LSB pp & LSB pp & 个 & 个 \\
 \midrule
 \StaticTableRows
 \bottomrule
 \end{tabular}
 \end{table}
 
+未校准INL峰峰值中位数为\NominalInlMedian\ LSB，缺码中位数达到
+\NominalMissingMedian，说明3\%高位有效权重失配足以完全破坏16位静态线性。
+前台校准后INL中位数降至\CalNoSrmInlMedian\ LSB、缺码中位数降至
+\CalNoSrmMissingMedian。SRM进一步将INL中位数降低\SrmInlReduction\ LSB，
+使缺码中位数变为\CalMissingMedian。
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.88\textwidth]{../outputs/fig_inl_summary.pdf}
-\caption{512点INL峰峰值中位数。未校准路径由高位权重失配主导；校准和SRM
-将静态非线性压缩到少数LSB。}
+\begin{minipage}[t]{0.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{fig_inl_summary.png}
+  \subcaption{INL峰峰值中位数}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{fig_missing_codes_summary.png}
+  \subcaption{缺码中位数}
+\end{minipage}
+\caption{512点静态性能摘要。名义路径的大量失配被校准显著压缩。}
+\label{fig:static-summary}
 \end{figure}
+
+\section{分位数与最坏尾部}
+
+CAL\_SRM的缺码中位数为0，P95为\CalMissingPNinetyFive，最大值为
+\CalMissingMax。INL峰峰值P95为\CalInlPNinetyFive\ LSB，DNL峰峰值P95为
+\CalDnlPNinetyFive\ LSB。中位数证明典型校准有效，P95和最大值证明该配置
+尚未实现全样本静态闭合。
+
+\begin{riskbox}{不能用中位数替代良率}
+“缺码中位数为0”只表示至少一半样本无缺码，不表示512点全部通过。当前最大
+缺码18必须保留在工程判断中；否则会把典型性能误写成最坏角保证。
+\end{riskbox}
+
+\section{高分辨率代表点}
 
 \begin{table}[htbp]
 \centering
-\caption{每码8个样本的代表性高分辨率复核。}
+\caption{每码8点的代表性CAL\_SRM复核}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-选择 & Chip & SNDR/dB & INL p-p/LSB & DNL p-p/LSB & 缺码 \\
+代表点 & chip id & SNDR & INL pp & DNL pp & 缺码 \\
+ & & dB & LSB & LSB & 个 \\
 \midrule
 \RepresentativeTableRows
 \bottomrule
 \end{tabular}
 \end{table}
 
+最坏代表点chip 4在更高Ramp密度下仍有2个缺码、INL峰峰值2.796 LSB和
+DNL峰峰值1.722 LSB，说明粗网格的最坏尾部并非完全由统计空码造成。
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{../outputs/fig_highres_median_dnl_inl.pdf}
-\caption{中位代表点的DNL/INL分栏图。各解码器采用独立纵轴，避免未校准
-数百LSB的INL量程遮蔽校准后亚LSB到数LSB的结构。}
+\includegraphics[width=\textwidth]{fig_highres_best_dnl_inl.png}
+\caption{最佳代表点的DNL/INL。各解码器使用独立纵轴，避免未校准量程压缩校准结果。}
+\label{fig:best-linearity}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{../outputs/fig_highres_worst_dnl_inl.pdf}
-\caption{按校准+SRM粗网格INL选择的最坏代表点。每码8点复核仍观察到2个
-缺码，因此尾部静态线性尚未完全闭合。}
+\includegraphics[width=\textwidth]{fig_highres_median_dnl_inl.png}
+\caption{中位代表点的DNL/INL。校准和SRM均显示可辨识的静态改善。}
+\label{fig:median-linearity}
 \end{figure}
 
-\FloatBarrier
-\section{工程判断}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_highres_worst_dnl_inl.png}
+\caption{最坏代表点的DNL/INL。CAL\_SRM仍存在局部负1 LSB码宽和2个缺码。}
+\label{fig:worst-linearity}
+\end{figure}
 
-\begin{evidencebox}{Green}{可以支持的结论}
-当前文件夹内的前台校准算法在完整行为级SAR闭环中有效：它显著恢复高位
-权重失配导致的动态和静态性能；SRM在校准之后仍提供可测的SNDR和INL收益，
-证明校准、SRM和Q8重构三者的单位与符号链路已经闭合。
-\end{evidencebox}
+\chapter{实验思路、结论与差距分析}
 
-\begin{evidencebox}{Orange}{仍需处理的技术风险}
-校准+SRM路径在512点中的缺码最坏值为\CalMissingMax，INL P95为
-\CalInlPNinetyFive\ LSB。后续应优先评估平均次数、Q8权重位宽、顶位保护
-策略和全局增益归一化；不能仅凭中位数0缺码宣布静态线性全部通过。
-\end{evidencebox}
+\section{为什么采用四条解码路径}
 
-\subsection{与流片目标的距离}
+实验没有只比较“校准前/校准后”两个结果，因为那无法区分校准与SRM的贡献，
+也无法判断剩余误差是否来自正常转换。四条路径构成因果消融：
 
-当前证据等级是系统行为级L2。要进入FPGA/ASIC与流片判断，至少还需：
-\begin{itemize}[leftmargin=2em,itemsep=1pt]
-  \item RTL顶层仲裁正常SAR、前台校准、SRM采集和重构握手；
-  \item AMS或Verilog-A电荷域CDAC模型，包括桥电容、寄生和开关时序；
-  \item 比较器失调、噪声、亚稳态和复位时序的PVT/Monte Carlo；
-  \item 参考电压恢复、采样开关非线性、时钟抖动和电源耦合；
-  \item 综合后时序、CDC、复位、门级仿真和功耗分析；
-  \item 版图后PEX与最终硅片码密度/FFT复核。
+\begin{enumerate}
+  \item NOMINAL\_NO\_SRM回答“失配不校准会怎样”；
+  \item CAL\_NO\_SRM回答“前台校准本身修正多少”；
+  \item CAL\_SRM回答“当前目标数字链路最终表现如何”；
+  \item ORACLE\_SRM回答“若权重完全已知，当前行为模型上限在哪里”。
+\end{enumerate}
+
+这种设计比直接比较校准权重与真实权重更严格，因为四条路径必须解释同一组
+独立SAR raw bits，而不是让校准路径重新获得更有利的模拟判决。
+
+\section{自校准有效性的判断}
+
+\begin{passbox}{行为级判断：有效}
+在高14位3\%有效权重失配、5 LSB校准比较器固定失调和0.5 LSB噪声下，
+P/N递归校准把SNDR中位数从\NominalSndrMedian\ dB恢复到
+\CalNoSrmSndrMedian\ dB，并把INL峰峰值中位数从\NominalInlMedian\ LSB
+降到\CalNoSrmInlMedian\ LSB。该改善同时出现在动态和静态独立实验中，
+足以判定当前方案对静态权重失配有效。
+\end{passbox}
+
+SRM不是权重校准器。它在校准闭合后利用残差信息进一步提高SNDR
+\SrmSndrGain\ dB、降低INL峰峰值中位数\SrmInlReduction\ LSB。两者分工
+清楚：前台校准修正大尺度码权误差，SRM修正SAR末态亚LSB残差。
+
+\section{仍未闭合的技术问题}
+
+\subsection{参考段与递归误差}
+
+低6位参考段在当前实验中只有0.15\%失配，并作为校准基准。如果其真实电荷域
+INL、寄生或开关误差更大，这些误差会沿式\eqref{eq:recursive-error}传播到
+高位。后续需要用真实LSB参考DAC码密度或PEX模型替换独立高斯假设。
+
+\subsection{Q8与平均次数}
+
+Q8仅提供$1/256$ LSB权重分辨率；32次平均只降低随机测量噪声，不能消除参考
+段静态误差、搜索量化和相关噪声。尾部芯片可通过扫描AVG\_LOOPS、提高权重
+小数位或增加二次校准来判断主导误差来源。
+
+\subsection{动态模拟非理想}
+
+正式基线未打开参考噪声和固定建立误差钩子，也没有建模：
+
+\begin{itemize}
+  \item 采样开关$R_{\mathrm{on}}(V_{\mathrm{in}})$和电荷注入；
+  \item 桥接CDAC的寄生、码型相关建立和参考回踢；
+  \item 比较器再生时间、亚稳态、kickback和PVT失调；
+  \item 时钟抖动、电源耦合、参考缓冲记忆效应；
+  \item 版图后权重相关失配和温漂后的重校准策略。
 \end{itemize}
 
-\section{复现与文件组织}
+\subsection{RTL系统集成}
 
-\subsection{运行命令}
+三个核心RTL已分别回归和综合，但当前ASIC top仍是skeleton。真正上板或流片
+前必须定义正常SAR、校准DAC force、SRM采集和重构写回之间的仲裁，明确
+\path{calib_done/weight_ready}门控、时钟域、复位顺序和异常重启。
 
-\begin{verbatim}
+\section{推荐下一阶段实验}
+
+\begin{table}[htbp]
+\centering
+\caption{从行为级有效走向工程签核的优先实验}
+\begin{tabularx}{\textwidth}{@{}
+  >{\raggedright\arraybackslash}p{1.3cm}
+  >{\raggedright\arraybackslash}p{4.6cm}
+  >{\raggedright\arraybackslash}X@{}}
+\toprule
+优先级 & 实验 & 通过条件 \\
+\midrule
+P0 &
+LSB参考段物理CDAC与相关失配模型 &
+校准后权重和静态尾部对参考段误差保持可接受裕量 \\
+P0 &
+AVG\_LOOPS与Q格式二维扫描 &
+确定2个高分辨率缺码尾部由噪声还是量化主导 \\
+P1 &
+正常转换、校准、SRM与重构的周期级顶层 &
+握手、权重就绪、吞吐和异常恢复全部断言通过 \\
+P1 &
+桥接CDAC与比较器Verilog-A/AMS模型 &
+行为模型与电荷域传输曲线在码边界处一致 \\
+P2 &
+PVT、Monte Carlo与PEX &
+按明确的INL、DNL、SNDR、SFDR和缺码规格报告真实通过率 \\
+P2 &
+FPGA原型与硅片测试流程 &
+实测raw bits、校准权重、SRM计数和最终码可追溯 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{复现、维护与发布}
+
+\section{运行命令}
+
+\begin{reproductionbox}{Python测试与512点正式运行}
+\begin{Verbatim}[fontsize=\small,breaklines=true]
 $py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\
 envs\upstream-main\Scripts\python.exe"
 
@@ -396,34 +1028,220 @@ test_full_sar_model.py -q
 
 & $py analysis\full_sar_behavioral_20260729\run_campaign.py `
   --chips 512 --workers 6
-\end{verbatim}
+\end{Verbatim}
+\end{reproductionbox}
 
-正式运行产生512个独立检查点；再次执行同一命令会跳过已完成点，并重建
-聚合CSV、JSON、图表和代表性高分辨率复核。
+重复执行正式命令默认启用resume。若需要强制重新计算，使用
+\path{--no-resume}，但应先明确保存现有权威输出，避免无意覆盖可追溯证据。
 
-\subsection{权威证据文件}
+\section{报告生成}
 
-\begin{tabularx}{\textwidth}{@{}>{\ttfamily\small}l X@{}}
+\begin{reproductionbox}{数据驱动报告构建}
+\begin{Verbatim}[fontsize=\small,breaklines=true]
+& $py analysis\full_sar_behavioral_20260729\report\
+generate_report_assets.py
+
+cd analysis\full_sar_behavioral_20260729\report
+xelatex -interaction=nonstopmode -halt-on-error `
+  full_sar_behavioral_validation_cn.tex
+xelatex -interaction=nonstopmode -halt-on-error `
+  full_sar_behavioral_validation_cn.tex
+xelatex -interaction=nonstopmode -halt-on-error `
+  full_sar_behavioral_validation_cn.tex
+\end{Verbatim}
+\end{reproductionbox}
+
+报告发布必须继续执行最新Skill中的两个机械门：
+\path{check_pdf_release.py}和\path{check_reference_style.py}，并用Poppler渲染
+全部页面。仅源文件编译成功不构成发布通过。
+
+\section{权威证据文件}
+
+\begin{longtable}{@{}p{6.4cm}p{8.1cm}@{}}
+\caption{结果复核时的权威证据顺序}\label{tab:evidence-files}\\
 \toprule
-文件 & 内容 \\
+文件 & 使用原则 \\
 \midrule
-outputs/summary.json & 完整配置、512点聚合统计、代表点与算法溯源 \\
-outputs/per\_chip\_decoder\_metrics.csv & 2048条逐芯片、逐解码器指标 \\
-outputs/highres\_*.npz & Best/Median/Worst高分辨率DNL/INL数组 \\
-full\_sar\_model.py & 完整行为模型与指标接口 \\
-run\_campaign.py & 断点续跑、聚合、绘图和代表点复核 \\
-test\_full\_sar\_model.py & SRM LUT、校准、形状、单调性和闭环测试 \\
+\endfirsthead
+\toprule
+文件 & 使用原则 \\
+\midrule
+\endhead
+\modelfile{outputs/summary.json} &
+第一聚合真值；包含配置、来源、512点统计和代表点 \\
+\modelfile{outputs/per_chip_decoder_metrics.csv} &
+逐点复核、分位数重算和尾部芯片筛选 \\
+\modelfile{outputs/checkpoints/chip_*.json} &
+断点恢复文件；本地可再生成，不进入Git交付 \\
+\modelfile{outputs/highres_*.npz} &
+代表点DNL/INL与频谱数组，不依赖图像读取 \\
+\modelfile{full_sar_model.py} &
+数学行为和RTL映射的可执行定义 \\
+\modelfile{run_campaign.py} &
+并行、检查点、统计和绘图流程 \\
+\path{delivery/full_sar_behavioral_validation_20260729/SHA256SUMS.txt} &
+交付包完整性验证 \\
 \bottomrule
-\end{tabularx}
+\end{longtable}
 
-\enlargethispage{5\baselineskip}
-\section{结论}
+\section{维护规则}
 
-本次工作完成了从采样输入到最终有符号16位输出的完整SAR行为级闭环，
-并以512个独立点验证了当前工程前台校准、22次SRM和Q8重构的协同效果。
-校准+SRM达到\CalSndrMedian\ dB SNDR中位数、\CalSfdrMedian\ dBc SFDR
-中位数和\CalInlMedian\ LSB INL峰峰值中位数。结果证明算法链路有效，
-同时保留了P95与最坏缺码尾部，明确指出下一阶段仍需AMS、PVT、PEX和RTL
-顶层集成验证。
+\begin{enumerate}
+  \item 改动任一核心RTL行为时，必须同步更新行为模型、固定点契约和相应TB；
+  \item 改动权重表、Q格式、SRM判决数或LUT时，旧512点结果立即失效；
+  \item 新结果必须保存配置、随机种子、逐点CSV和最坏尾部，不得只保留均值；
+  \item 报告中的核心数字必须由JSON/CSV生成，不手工编辑生成宏；
+  \item 替换正式报告前先归档旧版，更新交付包SHA-256并提交Git。
+\end{enumerate}
+
+\chapter{结论}
+
+本次工作不是简单的校准噪声代理，而是建立了从输入采样到16位数字码的完整
+行为级闭环。当前RTL定义的P/N递归前台校准在\ChipCount 个独立失配样本中
+表现出明确有效性：它将SNDR中位数从\NominalSndrMedian\ dB恢复至
+\CalNoSrmSndrMedian\ dB，将INL峰峰值中位数从\NominalInlMedian\ LSB降低
+至\CalNoSrmInlMedian\ LSB。22次SRM在校准之后进一步把SNDR提高到
+\CalSndrMedian\ dB，并把INL峰峰值中位数降低至\CalInlMedian\ LSB。
+
+因此，针对本模型中的静态有效权重失配，可以给出“自校准有效”的肯定判断。
+该判断同时得到权重接近度、独立正常转换FFT和全量程Ramp三类证据支持。
+但最坏缺码\CalMissingMax 和高分辨率最坏代表点2个缺码说明，现有Q8、
+32次平均、低位参考精度与顶位保护组合尚不能作为所有样本静态无缺码保证。
+
+\begin{evidencebox}{最终工程结论}
+当前方案已经达到可继续工程化的行为级算法基线，而不是概念性示例。下一阶段
+工作重点不应推翻核心校准逻辑，而应把真实LSB参考DAC、桥接CDAC、电荷域建立、
+比较器时序、PVT/PEX和完整RTL顶层逐层接入同一证据链。
+\end{evidencebox}
+
+\appendix
+
+\chapter{Q8名义权重表}
+
+\begin{table}[htbp]
+\centering
+\caption{当前20项split-cap重构域名义权重}
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+bit & 权重/LSB & Q8整数 & bit & 权重/LSB & Q8整数 \\
+\midrule
+0 & 1.00 & 256 & 10 & 316.91 & 81129 \\
+1 & 2.00 & 512 & 11 & 316.91 & 81129 \\
+2 & 4.00 & 1024 & 12 & 633.81 & 162255 \\
+3 & 8.00 & 2048 & 13 & 1267.63 & 324513 \\
+4 & 16.00 & 4096 & 14 & 2535.25 & 649024 \\
+5 & 32.00 & 8192 & 15 & 5031.09 & 1287959 \\
+6 & 33.53 & 8584 & 16 & 5031.09 & 1287959 \\
+7 & 67.05 & 17165 & 17 & 10062.17 & 2575916 \\
+8 & 134.10 & 34330 & 18 & 20124.35 & 5151834 \\
+9 & 268.20 & 68659 & 19 & 40248.69 & 10303665 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+表中小数权重为工程契约值，Q8整数按活动固定点文件冻结。它们是重构域有效
+权重，不是可直接用于版图面积推导的物理单位电容个数。
+
+\chapter{SRM Q8查找表}
+
+\begin{table}[htbp]
+\centering
+\caption{22次SRM计数到Q8残差的完整映射}
+\begin{tabular}{@{}rrrrrrrr@{}}
+\toprule
+$C$ & $L[C]$ & $C$ & $L[C]$ & $C$ & $L[C]$ & $C$ & $L[C]$ \\
+\midrule
+0 & -258 & 6 & -74 & 12 & 14 & 18 & 110 \\
+1 & -194 & 7 & -58 & 13 & 28 & 19 & 131 \\
+2 & -158 & 8 & -43 & 14 & 43 & 20 & 158 \\
+3 & -131 & 9 & -28 & 15 & 58 & 21 & 194 \\
+4 & -110 & 10 & -14 & 16 & 74 & 22 & 258 \\
+5 & -91 & 11 & 0 & 17 & 91 & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{执行与文件操作记录}
+
+\begin{longtable}{@{}p{2.0cm}p{5.0cm}p{7.5cm}@{}}
+\caption{本轮完整行为级验证的主要操作记录}\label{tab:operation-log}\\
+\toprule
+阶段 & 操作对象 & 结果 \\
+\midrule
+\endfirsthead
+\toprule
+阶段 & 操作对象 & 结果 \\
+\midrule
+\endhead
+审计 &
+三份核心RTL与固定点契约 &
+确认校准、SRM和重构为唯一算法真值，活动RTL未修改 \\
+实现 &
+\modelfile{full_sar_model.py} &
+完成失配、P/N递归、20次SAR、22次SRM与Q8解码 \\
+实现 &
+\modelfile{run_campaign.py} &
+加入6进程运行、原子检查点、resume和代表点复核 \\
+单元回归 &
+源码与delivery测试 &
+两处均为5 passed \\
+正式实验 &
+512芯片乘4解码器 &
+512/512完成，2048条CSV记录，stderr为空 \\
+静态复核 &
+chip 50、187、4 &
+每码8点；最坏chip 4保留2个缺码 \\
+报告 &
+XeLaTeX与最新参考样式 &
+核心数字从summary.json生成，逐页发布检查 \\
+版本 &
+Git提交\commitid &
+107个文件，已推送远端分支并生成项目区备份 \\
+\bottomrule
+\end{longtable}
+
+\chapter{术语与缩写}
+
+\begin{description}
+  \item[CDAC] Capacitive Digital-to-Analog Converter，电容数模转换阵列。
+  \item[Foreground calibration] 停止或切换正常转换模式后执行的前台校准。
+  \item[SRM] 本工程中通过多次噪声比较器判决统计估计末态残差的模块。
+  \item[Q8] 带8位小数的定点表示，整数256等于1个最终输出LSB。
+  \item[Oracle] 使用行为模型真实有效权重的诊断上限，不是可实现校准输入。
+  \item[INL/DNL] 积分/微分非线性，本报告以端点修正后的输出LSB计。
+  \item[L2] 系统行为级验证层，不等同于晶体管或版图后签核。
+\end{description}
+
+\begin{thebibliography}{9}
+
+\bibitem{huang2025}
+Q. Huang et al.,
+\emph{A 5-MS/s 16-bit Low-Noise and Low-Power Split Sampling SAR ADC
+With Eased Driving Burden},
+IEEE Journal of Solid-State Circuits, 2025.
+
+\bibitem{adctoolbox}
+ADCToolbox,
+\emph{Open-source ADC analysis toolbox},
+version 0.9.1, commit
+\path{a8995cf4faf73dde9918589bfeb866c6a77db12d},
+MIT License.
+
+\bibitem{calibrtl}
+SAR ADC Digital Processing Project,
+\emph{sar\_calib\_ctrl\_serial.sv},
+algorithm baseline commit \commitid, 2026.
+
+\bibitem{srmrtl}
+SAR ADC Digital Processing Project,
+\emph{srm\_residue\_estimator.sv},
+algorithm baseline commit \commitid, 2026.
+
+\bibitem{reconrtl}
+SAR ADC Digital Processing Project,
+\emph{sar\_reconstruction.sv and Fixed-Point Contract},
+algorithm baseline commit \commitid, 2026.
+
+\end{thebibliography}
 
 \end{document}
