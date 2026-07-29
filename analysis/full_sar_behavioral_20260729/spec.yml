@@ -1,0 +1,32 @@
+block: sar_adc_v3_complete_behavioral_loop
+version: 1.0
+process: behavioral
+supply: normalized
+
+architecture:
+  decision_count: 20
+  output_bits: 16
+  fixed_point: Q8
+  foreground_calibration_source: rtl/sar_calib_ctrl_serial.sv
+  srm_source: rtl/srm_residue_estimator.sv
+  reconstruction_source: rtl/sar_reconstruction.sv
+
+campaign:
+  independent_points: 512
+  fft_samples_per_point: 8192
+  ramp_samples_per_code: 2
+  representative_ramp_samples_per_code: 8
+
+required_checks:
+  - complete_sampling_to_decoding_path
+  - recursive_foreground_calibration
+  - twenty_sar_decisions
+  - twenty_two_srm_decisions
+  - q8_reconstruction_and_saturation
+  - sndr_sfdr_snr_thd_enob
+  - ramp_histogram_dnl_inl
+  - missing_codes
+  - deterministic_static_transfer_without_random_empty_bins
+  - checkpoint_resume
+
+evidence_level: behavioral_L2

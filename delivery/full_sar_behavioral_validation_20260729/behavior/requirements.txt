@@ -1,0 +1,6 @@
+# Metrics backend is pinned to the locally reviewed upstream commit.
+adctoolbox @ git+https://github.com/Arcadia-1/ADCToolbox.git@a8995cf4faf73dde9918589bfeb866c6a77db12d#subdirectory=python
+matplotlib>=3.8
+numpy>=2.0
+scipy>=1.13
+

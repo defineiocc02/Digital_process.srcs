@@ -88,6 +88,12 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `analysis/calibration_effectiveness_20260729/validate_current_calibration.py` - 当前 RTL 校准 FSM 的行为级等效模型与同决策流验证
 - `analysis/calibration_effectiveness_20260729/outputs/summary.json` - 行为级验证摘要
 - [analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf](analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf) - 当前片上校准有效性中文学术报告
+- [analysis/full_sar_behavioral_20260729/README.md](analysis/full_sar_behavioral_20260729/README.md) - 512 点完整 SAR 行为级闭环入口
+- `analysis/full_sar_behavioral_20260729/full_sar_model.py` - 采样、20 次差分 SAR、当前 RTL 前台校准、22 次 SRM 和 Q8 重构模型
+- `analysis/full_sar_behavioral_20260729/run_campaign.py` - 512 点断点续跑、FFT、DNL/INL、统计聚合与绘图
+- `analysis/full_sar_behavioral_20260729/outputs/summary.json` - 512/512 完成状态、配置、聚合指标与代表点
+- `analysis/full_sar_behavioral_20260729/outputs/per_chip_decoder_metrics.csv` - 2048 条逐芯片/逐解码器指标
+- [analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf](analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf) - 9 页中文完整行为级验证报告
 
 ## Delivery
 
@@ -100,6 +106,10 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `delivery/current_calibration_validation_20260729/MANIFEST.md`
 - `delivery/current_calibration_validation_20260729/SHA256SUMS.txt`
 - `delivery/current_calibration_validation_20260729/docs/current_calibration_validation_report_cn.pdf`
+- `delivery/full_sar_behavioral_validation_20260729/` - 完整 SAR 行为模型、聚合证据、当前 RTL 真值快照和报告
+- `delivery/full_sar_behavioral_validation_20260729/MANIFEST.md`
+- `delivery/full_sar_behavioral_validation_20260729/SHA256SUMS.txt`
+- `delivery/full_sar_behavioral_validation_20260729/report/full_sar_behavioral_validation_cn.pdf`
 
 交付包内误生成的 Vivado/XSIM 日志与 `sim_work/` 已按生成物规则清理。
 

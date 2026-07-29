@@ -1,0 +1,429 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=25mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setmainfont{Times New Roman}
+\setsansfont{Source Sans 3}
+\setmonofont{Consolas}
+\setCJKmainfont{STSong}[BoldFont={STZhongsong}]
+\setCJKmonofont{Noto Sans SC}
+\setCJKsansfont{Noto Sans SC}[
+  BoldFont={Noto Sans SC},
+  UprightFeatures={RawFeature={+axis={wght=400}}},
+  BoldFeatures={RawFeature={+axis={wght=700}}}
+]
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{placeins}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xurl}
+
+\definecolor{DeepNavy}{HTML}{183B5B}
+\definecolor{Navy}{HTML}{2F5D82}
+\definecolor{Teal}{HTML}{287C78}
+\definecolor{Orange}{HTML}{B9652E}
+\definecolor{Green}{HTML}{347657}
+\definecolor{Purple}{HTML}{705B86}
+\definecolor{Ink}{HTML}{202B35}
+\definecolor{Muted}{HTML}{68737D}
+\definecolor{Line}{HTML}{C8D0D6}
+\definecolor{PaleBlue}{HTML}{F0F4F7}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DeepNavy,
+  urlcolor=Teal,
+  citecolor=Purple,
+  pdfauthor={SAR ADC Digital Processing Project},
+  pdftitle={20-decision SAR ADC complete behavioral validation report},
+  pdfsubject={Foreground calibration, SRM, Q8 reconstruction, FFT, DNL and INL}
+}
+
+\titleformat{\section}
+  {\sffamily\bfseries\Large\color{Ink}}
+  {\color{Navy}\thesection}{0.65em}{}
+  [\vspace{0.25em}\color{Line}\titlerule]
+\titleformat{\subsection}
+  {\sffamily\bfseries\large\color{DeepNavy}}
+  {\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.2ex plus 0.4ex}{1.1ex}
+\titlespacing*{\subsection}{0pt}{1.8ex plus 0.3ex}{0.7ex}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily 20-decision SAR ADC behavioral validation}
+\fancyhead[R]{\small\sffamily 2026-07-29}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+
+\captionsetup{
+  font=small,
+  labelfont={bf,color=DeepNavy},
+  justification=justified,
+  singlelinecheck=true
+}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\linespread{1.08}
+\raggedbottom
+
+\newtcolorbox{evidencebox}[2]{
+  enhanced,
+  sharp corners,
+  colback=#1!4!white,
+  colframe=#1!55!black,
+  boxrule=0.35pt,
+  leftrule=1.8pt,
+  title={#2},
+  coltitle=#1!70!black,
+  fonttitle=\sffamily\bfseries,
+  colbacktitle=#1!7!white,
+  attach boxed title to top left={xshift=0pt,yshift=0pt},
+  boxed title style={sharp corners,boxrule=0pt},
+  before skip=8pt,
+  after skip=8pt
+}
+
+\input{generated_metrics.tex}
+\input{dynamic_table_rows.tex}
+\input{static_table_rows.tex}
+\input{representative_table_rows.tex}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{18mm}
+  {\sffamily\small\color{Muted} ENGINEERING VALIDATION REPORT \quad v1.0\par}
+  \vspace{5mm}
+  {\color{DeepNavy}\rule{0.82\textwidth}{0.8pt}\par}
+  \vspace{12mm}
+  {\sffamily\bfseries\fontsize{24}{30}\selectfont
+    20次判决SAR ADC完整行为级闭环验证\par}
+  \vspace{4mm}
+  {\sffamily\Large\color{Teal}
+    前台权重校准、SRM、Q8重构及512点静态/动态统计\par}
+  \vspace{14mm}
+
+  \begin{minipage}{0.82\textwidth}
+    \small
+    本报告验证当前工程数字算法在完整系统级行为链路中的表现。算法来源严格限定为
+    本地RTL：前台校准控制器、22次SRM计数查表和Q8加权重构。开源
+    ADCToolbox仅用于标准化FFT及Ramp码密度DNL/INL提取，不替代本工程算法。
+  \end{minipage}
+
+  \vspace{14mm}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    正式统计规模 & \ChipCount 个独立虚拟芯片，\DecoderRows 条解码记录 \\
+    动态记录 & 每点 \FftLength 样本，采样率 \SampleRateMHz\ MHz \\
+    校准+SRM中位SNDR & \CalSndrMedian\ dB \\
+    校准+SRM中位SFDR & \CalSfdrMedian\ dBc \\
+    校准+SRM中位INL峰峰值 & \CalInlMedian\ LSB \\
+    512点核心检查点跨度 & \RuntimeSeconds\ s（6 workers） \\
+    \bottomrule
+  \end{tabular}
+
+  \vfill
+  {\small\color{Muted}
+    Evidence level: behavioral L2; not AMS/transistor/PVT/PEX/silicon signoff.\par}
+  \vspace{4mm}
+  {\small 2026年7月29日\par}
+\end{titlepage}
+
+\section*{执行摘要}
+\addcontentsline{toc}{section}{执行摘要}
+
+\begin{evidencebox}{Green}{已验证结论}
+512个独立点全部完成校准、20次正常SAR判决、22次SRM观测、Q8解码、
+相干FFT和全16位Ramp分析。相对仅校准路径，SRM使SNDR中位数提高
+\SrmSndrGain\ dB，并使INL峰峰值中位数降低\SrmInlReduction\ LSB。
+\end{evidencebox}
+
+校准+SRM路径的SNDR中位数为\CalSndrMedian\ dB，P01为
+\CalSndrPZeroOne\ dB；INL峰峰值中位数为\CalInlMedian\ LSB，
+P95为\CalInlPNinetyFive\ LSB。缺码中位数为\CalMissingMedian，
+但最坏点仍有\CalMissingMax 个缺码，因此该行为级结果支持“算法有效”，
+不支持“512点全部静态无缺码”的绝对结论。
+
+\begin{evidencebox}{Orange}{尚未签核的边界}
+当前模型没有从晶体管或版图提取物理桥接CDAC、电荷注入、参考建立、
+比较器亚稳态时间、PVT和PEX寄生。因此报告不能用于流片签核，也不能把
+行为级512点统计解释为硅片良率。
+\end{evidencebox}
+
+\tableofcontents
+\clearpage
+
+\section{验证对象与算法真值}
+
+\subsection{本工程算法来源}
+
+\begin{tabularx}{\textwidth}{@{}>{\sffamily\bfseries}l X@{}}
+\toprule
+功能 & 唯一算法真值 \\
+\midrule
+前台递归权重校准 & \path{rtl/sar_calib_ctrl_serial.sv} \\
+22次SRM计数与Q8 LUT & \path{rtl/srm_residue_estimator.sv} \\
+有符号Q8重构、舍入、饱和 & \path{rtl/sar_reconstruction.sv} \\
+固定点接口定义 & \path{docs/FIXED_POINT_CONTRACT.md} \\
+\bottomrule
+\end{tabularx}
+
+Python模型逐项镜像当前RTL合同：bit 0--5为可信低位；bit 6--19采用P/N两相
+测量、32次平均和递归shadow权重写回；bit 18/19执行高位保护补偿；SRM严格
+采用RTL给出的23项Q8查找表。
+
+\subsection{开源代码复用边界}
+
+ADCToolbox 0.9.1（MIT许可证，审核提交
+\texttt{a8995cf4faf73dde9918589bfeb866c6a77db12d}）用于：
+\begin{itemize}[leftmargin=2em,itemsep=1pt]
+  \item 相干记录的SNDR、SNR、SFDR、THD和ENOB提取；
+  \item 均匀Ramp码密度的DNL、INL及缺码分析；
+  \item 作为独立指标后端，减少自写FFT规则导致的统计口径漂移。
+\end{itemize}
+本工程没有导入ADCToolbox的权重校准算法。第三方说明见
+\path{THIRD_PARTY_NOTICES.md}。
+
+\section{完整行为级信号链}
+
+\subsection{采样与差分SAR判决}
+
+输入以有符号16位输出码域表示。考虑差分\(\pm W_i\)重构和RTL末端除2，
+采样后的Q8目标为
+\[
+  T_{\mathrm{Q8}} = 2\,(x+n_s)\,2^{8}.
+\]
+第\(i\)次比较根据当前物理CDAC和\(A_i\)的残差确定正负决策：
+\[
+  b_i =
+  \begin{cases}
+    1, & T_{\mathrm{Q8}}-A_i+v_{\mathrm{os}}+n_{c,i}\ge 0,\\
+    0, & \text{otherwise},
+  \end{cases}
+\]
+\[
+  A_{i+1}=A_i+(2b_i-1)W_{i,\mathrm{phy}}.
+\]
+模型保留采样噪声、逐bit比较器噪声、比较器失调、参考噪声及DAC建立误差
+接口。正式基线启用采样噪声0.35 LSB和正常比较器噪声0.30 LSB；参考噪声
+与建立误差默认为0，以隔离当前数字算法。
+
+\subsection{SRM完整逻辑}
+
+20次普通SAR判决后，输出码域Q8残差为
+\[
+  r_{\mathrm{Q8}}=\frac{T_{\mathrm{Q8}}-A_{20}}{2}.
+\]
+SRM对该残差进行22次独立噪声比较。动态路径按
+\[
+  p_1=\Phi\!\left(
+  \frac{r_{\mathrm{Q8}}+v_{\mathrm{os,SRM}}}
+       {0.5\times2^8}
+  \right)
+\]
+生成22次判决等价的二项计数，再逐项查询RTL Q8 LUT。该二项计数与
+22个有效判决脉冲在统计上等价，不改变计数分布或查表行为。
+
+\subsection{Q8解码}
+
+所有解码器共享同一组物理决策位，仅数字权重和SRM使能不同：
+\[
+  S=\sum_i (2b_i-1)W_{i,\mathrm{dig}},
+\]
+\[
+  D_{\mathrm{out}}=
+  \operatorname{sat}_{16}\!\left[
+  \left(
+  (S\gg1)+r_{\mathrm{SRM,Q8}}+2^7
+  \right)\gg8
+  \right].
+\]
+该式保持RTL对负数并非严格对称的舍入规则，行为模型没有自行“修正”RTL。
+
+\section{验证协议}
+
+\subsection{512点独立统计}
+
+每个虚拟芯片具有稳定的\texttt{SeedSequence}随机流和独立物理权重失配。
+高位权重相对失配标准差为3\%，可信低6位为0.15\%。每个点完整执行：
+\begin{enumerate}[leftmargin=2em,itemsep=1pt]
+  \item P/N前台权重校准及递归写回；
+  \item \FftLength 点相干正弦正常转换与四种数字解码；
+  \item 全16位均匀Ramp，每码2个确定性采样点；
+  \item ADCToolbox动态和静态指标提取；
+  \item 独立JSON检查点写盘。
+\end{enumerate}
+
+\subsection{静态与动态噪声口径}
+
+动态FFT保留采样噪声、逐bit比较器噪声和随机SRM计数。静态Ramp关闭随机
+噪声，并使用22次SRM期望计数的四舍五入值查询同一RTL LUT。这样每码2个
+采样点描述确定性传输曲线，不会因平均桶计数过低产生随机空桶。
+DNL/INL在各解码器实际输出跨度内做端点校正，避免把全局增益误差误判为
+缺码。Best、Median和Worst代表点另用每码8个样本复核。
+
+\section{动态性能结果}
+
+\begin{table}[htbp]
+\centering
+\caption{512点动态解码统计。P01/P99为跨虚拟芯片分位数。}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+解码器 & SNDR P01 & SNDR中位 & SNDR P99 & SFDR中位 & ENOB中位 \\
+ & dB & dB & dB & dBc & bit \\
+\midrule
+\DynamicTableRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{../outputs/fig_sndr_summary.pdf}
+\caption{四种解码器的512点SNDR中位数。校准恢复主要权重误差，SRM继续修正
+普通SAR循环结束后的亚LSB残差。}
+\end{figure}
+
+校准+SRM与Oracle+SRM的SNDR中位数相差
+\(\OracleSndrMedian-\CalSndrMedian=0.971\) dB，说明剩余主要差距来自
+校准权重量化/估计误差及正常转换噪声，而不是SRM接口未工作。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../outputs/fig_highres_median_spectrum.pdf}
+\caption{代表性中位芯片的相干FFT。未校准路径出现显著权重失配杂散；
+校准+SRM路径接近Oracle噪声底，但SFDR仍低于Oracle，保留了校准误差尾部。}
+\end{figure}
+
+\FloatBarrier
+\section{DNL、INL与缺码结果}
+
+\begin{table}[htbp]
+\centering
+\caption{512点确定性Ramp统计；INL/DNL均为峰峰值，单位LSB。}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+解码器 & INL中位 & INL P95 & DNL中位 & DNL P95 & 缺码中位 & 缺码最坏 \\
+\midrule
+\StaticTableRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{../outputs/fig_inl_summary.pdf}
+\caption{512点INL峰峰值中位数。未校准路径由高位权重失配主导；校准和SRM
+将静态非线性压缩到少数LSB。}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{每码8个样本的代表性高分辨率复核。}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+选择 & Chip & SNDR/dB & INL p-p/LSB & DNL p-p/LSB & 缺码 \\
+\midrule
+\RepresentativeTableRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../outputs/fig_highres_median_dnl_inl.pdf}
+\caption{中位代表点的DNL/INL分栏图。各解码器采用独立纵轴，避免未校准
+数百LSB的INL量程遮蔽校准后亚LSB到数LSB的结构。}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../outputs/fig_highres_worst_dnl_inl.pdf}
+\caption{按校准+SRM粗网格INL选择的最坏代表点。每码8点复核仍观察到2个
+缺码，因此尾部静态线性尚未完全闭合。}
+\end{figure}
+
+\FloatBarrier
+\section{工程判断}
+
+\begin{evidencebox}{Green}{可以支持的结论}
+当前文件夹内的前台校准算法在完整行为级SAR闭环中有效：它显著恢复高位
+权重失配导致的动态和静态性能；SRM在校准之后仍提供可测的SNDR和INL收益，
+证明校准、SRM和Q8重构三者的单位与符号链路已经闭合。
+\end{evidencebox}
+
+\begin{evidencebox}{Orange}{仍需处理的技术风险}
+校准+SRM路径在512点中的缺码最坏值为\CalMissingMax，INL P95为
+\CalInlPNinetyFive\ LSB。后续应优先评估平均次数、Q8权重位宽、顶位保护
+策略和全局增益归一化；不能仅凭中位数0缺码宣布静态线性全部通过。
+\end{evidencebox}
+
+\subsection{与流片目标的距离}
+
+当前证据等级是系统行为级L2。要进入FPGA/ASIC与流片判断，至少还需：
+\begin{itemize}[leftmargin=2em,itemsep=1pt]
+  \item RTL顶层仲裁正常SAR、前台校准、SRM采集和重构握手；
+  \item AMS或Verilog-A电荷域CDAC模型，包括桥电容、寄生和开关时序；
+  \item 比较器失调、噪声、亚稳态和复位时序的PVT/Monte Carlo；
+  \item 参考电压恢复、采样开关非线性、时钟抖动和电源耦合；
+  \item 综合后时序、CDC、复位、门级仿真和功耗分析；
+  \item 版图后PEX与最终硅片码密度/FFT复核。
+\end{itemize}
+
+\section{复现与文件组织}
+
+\subsection{运行命令}
+
+\begin{verbatim}
+$py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\
+envs\upstream-main\Scripts\python.exe"
+
+& $py -m pytest analysis\full_sar_behavioral_20260729\
+test_full_sar_model.py -q
+
+& $py analysis\full_sar_behavioral_20260729\run_campaign.py `
+  --chips 512 --workers 6
+\end{verbatim}
+
+正式运行产生512个独立检查点；再次执行同一命令会跳过已完成点，并重建
+聚合CSV、JSON、图表和代表性高分辨率复核。
+
+\subsection{权威证据文件}
+
+\begin{tabularx}{\textwidth}{@{}>{\ttfamily\small}l X@{}}
+\toprule
+文件 & 内容 \\
+\midrule
+outputs/summary.json & 完整配置、512点聚合统计、代表点与算法溯源 \\
+outputs/per\_chip\_decoder\_metrics.csv & 2048条逐芯片、逐解码器指标 \\
+outputs/highres\_*.npz & Best/Median/Worst高分辨率DNL/INL数组 \\
+full\_sar\_model.py & 完整行为模型与指标接口 \\
+run\_campaign.py & 断点续跑、聚合、绘图和代表点复核 \\
+test\_full\_sar\_model.py & SRM LUT、校准、形状、单调性和闭环测试 \\
+\bottomrule
+\end{tabularx}
+
+\enlargethispage{5\baselineskip}
+\section{结论}
+
+本次工作完成了从采样输入到最终有符号16位输出的完整SAR行为级闭环，
+并以512个独立点验证了当前工程前台校准、22次SRM和Q8重构的协同效果。
+校准+SRM达到\CalSndrMedian\ dB SNDR中位数、\CalSfdrMedian\ dBc SFDR
+中位数和\CalInlMedian\ LSB INL峰峰值中位数。结果证明算法链路有效，
+同时保留了P95与最坏缺码尾部，明确指出下一阶段仍需AMS、PVT、PEX和RTL
+顶层集成验证。
+
+\end{document}

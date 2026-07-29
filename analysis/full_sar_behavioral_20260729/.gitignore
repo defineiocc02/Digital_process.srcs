@@ -1,0 +1,7 @@
+/__pycache__/
+/.pytest_cache/
+/outputs/checkpoints/
+/outputs/progress.json
+/outputs/campaign_stdout.log
+/outputs/campaign_stderr.log
+/outputs_quick*/

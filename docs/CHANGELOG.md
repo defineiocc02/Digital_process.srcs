@@ -1,5 +1,27 @@
 # Changelog
 
+## v3.9.0-full-sar-behavioral - 2026-07-29
+
+- Added `analysis/full_sar_behavioral_20260729/` as an independent full-system
+  behavioral verification area.
+- Implemented a 20-decision signed differential SAR loop with effective CDAC
+  mismatch, sampling/comparator noise, the current RTL P/N recursive foreground
+  calibration, 22-decision SRM LUT correction, Q8 reconstruction, rounding,
+  and signed 16-bit saturation.
+- Completed a deterministic, restartable 512-chip campaign with four decoder
+  paths and 2048 per-chip decoder records.
+- Added standardized FFT metrics through the MIT-licensed ADCToolbox backend,
+  plus full-range ramp-histogram DNL/INL/missing-code analysis and 8-samples-per-
+  code best/median/worst tail reruns.
+- Recorded calibrated+SRM medians of 91.018 dB SNDR, 108.776 dBc SFDR,
+  2.015 LSB peak-to-peak INL, 1.477 LSB peak-to-peak DNL, and zero missing
+  codes; retained the observed 18-code worst tail instead of treating the
+  median as signoff.
+- Added five Python tests, reproducibility metadata, generated CSV/JSON/NPZ
+  evidence, Type-42 publication figures, and a release-checked Chinese PDF.
+- Added `delivery/full_sar_behavioral_validation_20260729/` and updated the
+  repository MOC, verification record, version metadata, and top-level README.
+
 ## v3.8.0-current-calibration-validation - 2026-07-29
 
 - Added `analysis/calibration_effectiveness_20260729/` as an independent
