@@ -2,7 +2,7 @@
 
 本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
 
-当前工程基线为 **v3.9.1-detailed-behavioral-report**。本版本以当前 RTL 为算法真值，保留从采样、20 次差分 SAR 判决、前台校准、22 次 SRM、Q8 重构到 16-bit 输出的 512 芯片完整行为级闭环，并将验证报告升级为 32 页学术/工业维护版。ADCToolbox 仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
+当前工程基线为 **v3.9.2-main-unified-skill-refresh**。本版本以当前 RTL 为算法真值，保留从采样、20 次差分 SAR 判决、前台校准、22 次 SRM、Q8 重构到 16-bit 输出的 512 芯片完整行为级闭环，并按最新学术技术 PDF Skill 重新发布 32 页学术/工业维护版报告。ADCToolbox 仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
 
 ## 目录结构
 
@@ -99,7 +99,7 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 | 512 点完整 SAR 行为模型 | `analysis/full_sar_behavioral_20260729/run_campaign.py` | PASS；512/512 完成；校准+SRM 的 SNDR 中位数 91.018 dB、SFDR 中位数 108.776 dBc、INL 峰峰值中位数 2.015 LSB |
 | 高分辨率静态复核 | `analysis/full_sar_behavioral_20260729/outputs/highres_*.npz` | Best/Median/Worst 每码 8 点；最坏代表点 2 个缺码 |
 | Python 单元/闭环测试 | `analysis/full_sar_behavioral_20260729/test_full_sar_model.py` | PASS；5 tests |
-| PDF 发布检查 | `analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf` | PASS；32 页；两次确定性构建一致；SHA-256 `08DA0F43BCE6AD73FD991C9F62FFE3009A6CC866F2C72B3BAA5D85C52A019751` |
+| PDF 发布检查 | `analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf` | PASS；32 页；最新 Skill 双门禁与两次确定性构建一致；SHA-256 `9F4B01E4E69AB5FE2E1230CCB57DEBF63A07ECB83540F1954D86A910D1E8D731` |
 
 本轮结果是完整系统行为级证据，不是 AMS、PVT、PEX 或硅片签核。512 点中校准+SRM 路径缺码中位数为 0，但最坏值为 18；该尾部风险保留在报告和逐芯片 CSV 中。
 
@@ -153,9 +153,9 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 
 ## 版本信息
 
-- 版本号：`v3.9.1-detailed-behavioral-report`
+- 版本号：`v3.9.2-main-unified-skill-refresh`
 - 日期：2026-07-29
-- 状态：Detailed Full SAR Behavioral Report Baseline
+- 状态：Main-Unified Detailed Behavioral Report Baseline
 - 工程闭合 tag：`v3.6.0-engineering-closure`
 
 ## 许可证

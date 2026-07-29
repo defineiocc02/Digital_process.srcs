@@ -43,7 +43,8 @@ analysis. See `behavior/THIRD_PARTY_NOTICES.md`.
 - High-resolution worst representative: `2` missing codes at 8 ramp samples
   per code.
 - Python regression: `5 passed`.
-- Detailed PDF release gate: PASS, 32 pages.
+- Latest-Skill detailed PDF release gate: PASS, 32 pages; SHA-256
+  `9F4B01E4E69AB5FE2E1230CCB57DEBF63A07ECB83540F1954D86A910D1E8D731`.
 
 The result demonstrates a closed behavior-level signal chain. It is not
 AMS, transistor-level, PVT, PEX, FPGA timing, or silicon-yield signoff.

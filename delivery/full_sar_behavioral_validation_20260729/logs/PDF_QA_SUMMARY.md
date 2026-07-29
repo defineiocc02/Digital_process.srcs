@@ -31,9 +31,11 @@ Checks:
 - The delivery-local generator resolved
   `behavior/outputs/summary.json`, and the report compiled independently from
   the package `report/` directory to the same release SHA-256.
+- The synchronized latest-Skill style asset SHA-256 is
+  `64E08B6C433CEE4EA480A7DC49B260939DB53D26A7E0F05C8E4AE43325082239`.
 
 SHA-256:
 
 ```text
-08DA0F43BCE6AD73FD991C9F62FFE3009A6CC866F2C72B3BAA5D85C52A019751
+9F4B01E4E69AB5FE2E1230CCB57DEBF63A07ECB83540F1954D86A910D1E8D731
 ```

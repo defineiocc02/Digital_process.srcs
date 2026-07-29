@@ -1,5 +1,22 @@
 # Changelog
 
+## v3.9.2-main-unified-skill-refresh - 2026-07-29
+
+- Synchronized `academic_report_style.tex` with the latest
+  `build-academic-technical-pdf` Skill asset, SHA-256
+  `64E08B6C433CEE4EA480A7DC49B260939DB53D26A7E0F05C8E4AE43325082239`.
+- Updated all semantic block titles to use the same pale background as their
+  bodies and removed title separator rules.
+- Rebuilt the 32-page report twice with a fixed `SOURCE_DATE_EPOCH`; both
+  builds produced SHA-256
+  `9F4B01E4E69AB5FE2E1230CCB57DEBF63A07ECB83540F1954D86A910D1E8D731`.
+- Re-ran Unicode-map injection, PDF release/style gates, full 32-page visual
+  QA, delivery-local compilation, Python tests, and package integrity checks.
+- Archived the preceding 32-page report and style under
+  `archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/`.
+- Fast-forwarded the completed calibration/report history into the canonical
+  `main` branch and retired the merged topic branch after remote verification.
+
 ## v3.9.1-detailed-behavioral-report - 2026-07-29
 
 - Rewrote the full-SAR behavioral report as a 32-page chapter-based Chinese

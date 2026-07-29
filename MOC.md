@@ -121,6 +121,7 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `archive/deleted-in-110ef75/` - minimal-core 裁剪归档，含旧 top/control/decoder 文件
 - Git tag：`archive/full-project-before-core-prune`
 - `archive/report_versions/20260729_full_sar_behavioral_v1_simple/` - 被 32 页详细版替换的 9 页报告可恢复归档
+- `archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/` - 最新 PDF Skill 刷新前的 32 页报告与样式归档
 - Previous core commit：`039c478`
 
 ## Ignored Local Outputs
