@@ -20,6 +20,15 @@ cleanup. The archived files are versioned in Git, but they are not referenced by
     model, system-level testbench, and flash decoder testbench.
   - Source commit for restore: parent of `110ef75`, commit `039c478`.
 
+- `report_versions/20260729_physical_cdac_validation_v1_before_revalidation/`
+  - Chinese Markdown report replaced by the 27-page formal revalidation report.
+  - Preserved to keep the evolution of assumptions and conclusions auditable.
+
+- `assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/`
+  - Formal outputs from the symmetric calibrated-weight-sum normalization trial.
+  - Preserved because the trial exposed new positive-gain clipping tails and was
+    rejected as a default reconstruction policy.
+
 ## Policy
 
 The mainline stays small and only contains the active calibration and

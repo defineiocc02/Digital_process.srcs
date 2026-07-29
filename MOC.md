@@ -83,6 +83,11 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 
 - [analysis/physical_cdac_mismatch_20260729/README.md](analysis/physical_cdac_mismatch_20260729/README.md) - physical 6+4+5+5 segmented-CDAC mismatch, 512-chip calibration, ideal 16-bit gate, and stochastic SRM finite-sample validation
 - [analysis/physical_cdac_mismatch_20260729/VALIDATION_REPORT_CN.md](analysis/physical_cdac_mismatch_20260729/VALIDATION_REPORT_CN.md) - Chinese engineering report and evidence boundary
+- [analysis/physical_cdac_mismatch_20260729/RUN_LOG.md](analysis/physical_cdac_mismatch_20260729/RUN_LOG.md) - Python、512 芯片统计、确定性重放、XSIM 与 PDF QA 的实际运行记录
+- `analysis/physical_cdac_mismatch_20260729/revalidation_spec.yml` - 冻结实验参数与证据边界
+- `analysis/physical_cdac_mismatch_20260729/run_revalidation.py` - 主实验、失配灵敏度与幅度扫描入口
+- `analysis/physical_cdac_mismatch_20260729/outputs_revalidation/` - 正式 CSV/JSON 与矢量/位图图形证据
+- [analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf](analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf) - 27 页中文学术/工业维护版正式报告
 
 - [analysis/surrogate/README.md](analysis/surrogate/README.md)
 - `analysis/surrogate/replicate_huang2025_calibration_convergence.py` - 量化 16-bit、paired Monte Carlo 收敛代理模型
@@ -113,6 +118,11 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - `delivery/full_sar_behavioral_validation_20260729/MANIFEST.md`
 - `delivery/full_sar_behavioral_validation_20260729/SHA256SUMS.txt`
 - `delivery/full_sar_behavioral_validation_20260729/report/full_sar_behavioral_validation_cn.pdf`
+- `delivery/physical_cdac_revalidation_20260729/` - 本轮物理 CDAC、当前片上校准、SRM、Q8 重构和 RTL/XSIM 证据冻结包
+- `delivery/physical_cdac_revalidation_20260729/README.md`
+- `delivery/physical_cdac_revalidation_20260729/MANIFEST.md`
+- `delivery/physical_cdac_revalidation_20260729/SHA256SUMS.txt`
+- `delivery/physical_cdac_revalidation_20260729/report/physical_cdac_revalidation_cn.pdf`
 - [docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md](docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md) - Git worktree、Codex 临时目录和分支历史审计
 
 交付包内误生成的 Vivado/XSIM 日志与 `sim_work/` 已按生成物规则清理。
@@ -125,6 +135,8 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 - Git tag：`archive/full-project-before-core-prune`
 - `archive/report_versions/20260729_full_sar_behavioral_v1_simple/` - 被 32 页详细版替换的 9 页报告可恢复归档
 - `archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/` - 最新 PDF Skill 刷新前的 32 页报告与样式归档
+- `archive/report_versions/20260729_physical_cdac_validation_v1_before_revalidation/` - 本轮正式重写前的物理 CDAC Markdown 报告
+- `archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/` - 对称权重和归一化假设的反例证据；证明其会引入新的上冲削顶尾部
 - Previous core commit：`039c478`
 
 ## Ignored Local Outputs

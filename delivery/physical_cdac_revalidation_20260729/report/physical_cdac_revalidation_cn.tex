@@ -1,0 +1,633 @@
+\documentclass[11pt,a4paper,UTF8,fontset=none,openany]{ctexrep}
+
+\newcommand{\ReferenceReportTitle}{SAR ADC物理失配与片上自校准再验证}
+\input{academic_report_style.tex}
+
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{xurl}
+\usepackage{placeins}
+\usepackage{fvextra}
+\usepackage{makecell}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+
+\graphicspath{{../outputs_revalidation/}}
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=RefNavy,
+  urlcolor=RefTeal,
+  citecolor=RefPurple,
+  pdfauthor={SAR ADC Digital Processing Project},
+  pdftitle={16位分段SAR ADC物理失配与片上自校准完整再验证报告},
+  pdfsubject={物理CDAC失配、P/N前台校准、SRM、Q8重构、FFT、DNL和INL},
+  pdfkeywords={SAR ADC, CDAC mismatch, foreground calibration, SRM, Q8, FFT, DNL, INL}
+}
+
+\input{generated_metrics.tex}
+
+\newcommand{\rtl}[1]{\path{rtl/#1}}
+\newcommand{\model}[1]{\path{analysis/physical_cdac_mismatch_20260729/#1}}
+\newcommand{\out}[1]{\path{analysis/physical_cdac_mismatch_20260729/outputs_revalidation/#1}}
+\newcommand{\qformat}{Q8}
+
+\begin{document}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \centering
+  \vspace*{34mm}
+  {\ReferenceCJKTitle\bfseries\fontsize{17.22}{25}\selectfont
+    16位分段SAR ADC物理失配与片上自校准\par
+    完整重做实验及工程再验证报告\par}
+  \vspace{9mm}
+  {\fontsize{11.96}{18}\selectfont
+    当前RTL P/N递归校准、22次SRM、Q8重构、512芯片Monte Carlo、FFT与DNL/INL\par}
+  \vspace{17mm}
+  \begin{minipage}{0.80\textwidth}
+    \centering\small
+    实验版本：\texttt{\ExperimentVersion}\quad
+    工程版本：\texttt{v3.11.0-physical-cdac-revalidation}\par\vspace{5pt}
+    正式样本：\ChipCount 个物理电容芯片，主动态FFT长度\FftLength 点\par\vspace{5pt}
+    证据等级：行为级L2 + Vivado 2018.3 XSIM RTL回归\par\vspace{5pt}
+    证据边界：不是PDK、AMS、PVT、PEX或硅片签核\par
+  \end{minipage}
+  \vfill
+  {\fontsize{11.96}{18}\selectfont 2026年7月29日\par}
+\end{titlepage}
+
+\pagenumbering{Roman}
+
+\chapter*{摘要}
+\addcontentsline{toc}{chapter}{摘要}
+
+本报告针对用户提出的核心疑问重新建立证据链：在不加入采样噪声、正常比较器噪声、参考噪声和建立误差的情况下，当前工程文件夹中的片上前台自校准是否能抑制物理电容失配；理想16位转换是否能够达到约\SI{98.08}{dB}的量化极限；关闭SRM时性能下降究竟来自额外噪声还是未估计的转换残差；以及当前RTL在FPGA和ASIC实现前还存在哪些风险。
+
+本轮不再直接扰动最终数字权重，而是从归档MATLAB中的$6+4+5+5$分段CDAC结构出发，对位电容、桥接电容、节点寄生和比较器输入电容进行物理层抽样，再求解四节点电容矩阵获得20个有效判决权重。单位电容中心为\SI{8}{fF}，单位电容相对失配标准差为$1.2\%$，并按面积律$\sigma_C/C=\sigma_u/\sqrt{N}$缩放；节点寄生和比较器输入电容采用项目MATLAB的$2\%$假设。必须强调：这些数值是项目假设，不是工艺厂PDK签核值。
+
+理想门限首先得到均匀16位量化器SNDR为\IdealDirectSndr\,dB。对无物理失配的分段CDAC，完全不注入SRM残差时为\IdealNoSrmSndr\,dB；注入精确物理残差后恢复为\IdealExactResidueSndr\,dB；使用当前LUT的确定性期望计数为\IdealExpectedSrmSndr\,dB；使用真实22次二项分布判决的随机SRM中位数为\IdealStochasticSrmSndr\,dB。由此可证，“不开SRM下降”不是脚本偷偷打开了普通转换噪声，而是冗余20判决后仍有亚码残差没有被估计；有限22次SRM本身则引入约\SI{0.9}{dB}的统计估计代价。
+
+正式实验完成512/512个物理芯片。标称权重解码的满幅SNDR中位数约\SI{58.33}{dB}，而当前RTL等效前台校准后达到\CurrentFullMedian\,dB；在$-1.72$\,dBFS回退输入下达到\CurrentBackoffMedian\,dB。当前校准将增益对齐后的权重RMS误差中位数从\NominalWeightRmseMedian\,LSB降低到\CurrentWeightRmseMedian\,LSB，并把缺码中位数从\NominalMissingMedian 降至\CurrentMissingMedian。然而满幅最差样本仍因总权重增益偏高而饱和，SNDR最低为\CurrentFullMinimum\,dB。为区分“相对权重校准”与“满幅余量管理”，本轮新增不使用物理真值的单边余量保护候选：仅当校准权重总和超过标称总和时缩小，不允许主动放大。该候选把满幅最差值提升到\GuardFullMinimum\,dB，并使512/512样本均超过\SI{90}{dB}；它不改善回退条件下的相对权重误差，因此不能被误称为新的校准算法。
+
+\begin{evidencebox}{总判定}
+在本报告明确的物理失配假设与零普通转换噪声条件下，当前工程中的P/N递归前台校准能够显著消除由CDAC失配引起的静态和动态误差；它是有效的算法基线。当前证据支持“行为级算法有效”，不支持“完整复现论文芯片”或“可直接流片签核”。论文中的2-bit flash首判、split-sampling、VCM/AZ时序、开关注入、参考建立和晶体管噪声仍未进入本Python链路。
+\end{evidencebox}
+
+\noindent\textbf{关键词：}SAR ADC；分段CDAC；物理电容失配；前台自校准；P/N失调消除；SRM；Q8；FFT；DNL；INL
+
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{任务、证据层级与验收定义}
+
+\section{本轮任务的工程化解释}
+
+本轮“完整重做”不是重复运行旧脚本，而是修正三个会改变结论的实验混淆：
+\begin{enumerate}
+  \item 将理想16位量化极限、分段CDAC残差和22次SRM统计误差分开；
+  \item 将满幅饱和测试和回退输入下的相对线性测试分开；
+  \item 将当前RTL算法、物理真值上限和分析候选分开，禁止把oracle权重写回当成校准成功。
+\end{enumerate}
+
+\section{证据层级}
+
+\begin{table}[htbp]
+\centering\small
+\caption{本报告采用的证据层级}
+\begin{tabularx}{\textwidth}{p{0.14\textwidth}X X}
+\toprule
+层级 & 本轮证据 & 能够支持的结论 \\
+\midrule
+L0 文档 & 论文、学位论文、RTL注释、固定点合同 & 算法意图与接口定义 \\
+L1 单元 & 11个Python测试、4个XSIM testbench & 函数与RTL局部行为一致 \\
+L2 系统行为 & 物理CDAC求解、完整SAR判决、SRM、Q8、512芯片FFT和Ramp & 静态失配条件下的算法有效性 \\
+L3 AMS/电路 & 本轮未执行 & 开关、VCM、AZ、flash、参考建立与噪声闭环 \\
+L4 硅片 & 论文测量，不是本地工程测量 & 论文芯片性能，不可转嫁为本工程签核 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{riskbox}{禁止越界的结论}
+行为模型中得到\SI{95}{dB}附近SNDR，不等价于FPGA板级或ASIC硅片必然达到该数值。FPGA只能验证数字逻辑；ASIC还需AMS、PVT、PEX、时钟、CDC、复位、DFT、功耗和时序签核。
+\end{riskbox}
+
+\section{验收门限}
+
+理想满幅$N$位ADC仅含均匀量化误差时，经典近似为
+\begin{equation}
+\mathrm{SNDR}_{q}\approx 6.02N+1.76\ \mathrm{dB}.
+\end{equation}
+当$N=16$时得到\SI{98.08}{dB}。本轮将\SI{97.9}{dB}设为理想算术闭合门限，要求直接量化器、精确物理残差和确定性SRM路径均通过。随机22次SRM作为当前硬件统计实现单独报告，不强制达到确定性极限。
+
+\chapter{论文算法原理与项目实现边界}
+
+\section{论文芯片的总体链路}
+
+Huang等人的16位\SI{5}{MS/s} ADC使用约\SI{20}{pF}采样电容网络、\SI{1}{pF}小CDAC、2-bit flash、两级AZ预放大器、异步SAR逻辑、校准逻辑和SRM计数器\cite{huang2025,huang2024}。20个CDAC判决用于实现16位分辨率和冗余；flash先粗量化两位以压缩后续DAC顶板摆幅，剩余18位由异步SAR完成。6位LSB段在正常转换中参与bit cycling，在前台校准时复用为参考DAC测量14个高位。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=8mm and 8mm,
+  block/.style={draw=RefNavy,fill=RefPaleBlue,minimum height=9mm,minimum width=24mm,align=center},
+  note/.style={draw=RefTeal,fill=RefPaleTeal,minimum height=9mm,minimum width=24mm,align=center},
+  arr/.style={-{Latex[length=2.2mm]},thick,draw=RefGray}
+]
+\node[block] (sample) {SS采样与\\2-bit flash};
+\node[block,right=of sample] (sar) {20次冗余\\SAR判决};
+\node[note,right=of sar] (srm) {22次SRM\\残差统计};
+\node[block,right=of srm] (recon) {校准权重\\Q8重构};
+\draw[arr] (sample)--(sar);
+\draw[arr] (sar)--(srm);
+\draw[arr] (srm)--(recon);
+\node[note,below=of sar] (cal) {6位LSB参考DAC\\P/N递归前台校准};
+\draw[arr] (cal)--(recon);
+\end{tikzpicture}
+\caption{论文机制与本工程数字核心的逻辑关系。SS、flash和模拟时序尚未在本地Python模型中实现。}
+\end{figure}
+
+\section{P/N双方向权重测量}
+
+论文对第$k$位的正、负方向测量可写为
+\begin{align}
+D_{k,+} &= W_k+V_{os}+n_{+},\\
+D_{k,-} &=-W_k+V_{os}+n_{-}.
+\end{align}
+两方向相减并除以2：
+\begin{equation}
+\widehat{W}_k=\frac{D_{k,+}-D_{k,-}}{2}
+=W_k+\frac{n_{+}-n_{-}}{2}.
+\end{equation}
+静态失调$V_{os}$被一阶消除。当前\rtl{sar_calib_ctrl_serial.sv}在P/N状态中采用相反比较极性，把两次结果都编码为正幅值，最终执行
+\begin{equation}
+\widehat{W}_k=operatorname{round}\left[
+\frac{1}{2L}\sum_{\ell=0}^{L-1}
+\left(M_{k,+}^{(\ell)}+M_{k,-}^{(\ell)}\right)
+\right],\qquad L=32.
+\end{equation}
+因此一次\texttt{AVG\_LOOPS}包含一个P/N对，物理上有64次方向测量；若两次噪声独立同分布，最终标准差缩小为原来的$1/8$。这与学位论文式(4.17)--(4.19)的含义一致。
+
+\section{递归参考与高位保护}
+
+校准从bit 6开始，bit 0--5以$256\cdot 2^i$的Q8标称值作为可信参考。每完成一个高位，结果写入shadow RAM，并参与下一位的参考DAC搜索。因此误差沿递归链传播，低位参考精度、比较器噪声和定点舍入都会影响高位。
+
+对bit 18和bit 19，论文因为正常转换中的2-bit flash在校准时不可用而采用特殊切换，将顶板摆幅限制到约$\pm W_{17}$。当前RTL的保护逻辑为：校准bit 18时强制bit 17，校准bit 19时强制bit 17和bit 18，并在数字测量值中补回对应权重。这一逻辑在本轮Python模型中逐位镜像。
+
+\section{SS与SRM为何能缩短校准时间}
+
+论文报告短接输入噪声由\SI{111}{\micro V_{rms}}降低到\SI{38}{\micro V_{rms}}。均值估计方差与$\sigma^2/N$成正比，因此达到相同测量方差所需样本数比例近似为
+\begin{equation}
+\frac{N_{\mathrm{off}}}{N_{\mathrm{on}}}
+\approx\left(\frac{111}{38}\right)^2\approx 8.53,
+\end{equation}
+与论文所述约10倍平均时间改善一致。论文Fig.16中，开启SS+SRM、平均时间64时约得到\SI{94}{dB}平均SNDR、\SI{108}{dBc}平均SFDR和高于\SI{100}{dBc}的$3\sigma$下界。
+
+\begin{diagnosticbox}{本项目与论文的距离}
+当前RTL实现的是权重测量控制、22次计数到Q8残差、以及数字重构。它没有实现Cs/CDAC同时采样VCM、AZ网络、2-bit flash首判、$\phi_{s,dc}$阻尼开关或异步模拟时序。因此，本轮能验证数字算法对给定物理权重和比较结果的处理，不能验证论文完整前端。
+\end{diagnosticbox}
+
+\chapter{固定点、SRM与正常转换数学模型}
+
+\section{Q8权重合同}
+
+工程统一规定$2^8=256$对应1个最终输出码LSB。原始判决$b_i\in\{0,1\}$映射为符号$s_i=2b_i-1$，重构为
+\begin{align}
+S &= \sum_{i=0}^{19}s_i\widehat{W}_i,\\
+U &= (S\gg 1)+\widehat{R}_{\mathrm{SRM}},\\
+D_{out} &= \operatorname{sat}_{16}\left[
+\left(U+2^7\right)\gg 8\right].
+\end{align}
+其中$\gg1$来自差分$+W_i/-W_i$动态范围到单端有符号码域的换算，SRM残差必须在去除Q8小数位之前加入。当前舍入对负数不是严格对称的round-to-nearest-even，但Python与RTL保持位精确一致。
+
+\section{正常SAR判决与物理残差}
+
+给定目标输入码$x$，模拟目标为$T=2x\cdot256$。从高位到低位依次比较
+\begin{equation}
+b_i=\mathbb{I}\left[T-S_{i+1}+o_c+n_c\ge0\right],\qquad
+S_i=S_{i+1}+(2b_i-1)W_i.
+\end{equation}
+本轮主实验令普通采样噪声$n_s=0$、正常比较器噪声$n_c=0$、正常比较器失调$o_c=0$、参考增益噪声和建立误差均为0。完成20次判决后的真实单端残差为
+\begin{equation}
+R_{phys}=\frac{T-S_0}{2}.
+\end{equation}
+
+\section{22次SRM统计估计}
+
+SRM阶段保持DAC不动，对同一个残差进行22次二值比较。若SRM比较噪声标准差为$\sigma_R=0.5$输出LSB，则
+\begin{align}
+p&=\Phi\left(\frac{R_{phys}}{\sigma_R}\right),\\
+C&\sim\mathrm{Binomial}(22,p),\\
+\widehat{R}_{Q8}&=\operatorname{round}\left[
+0.5\Phi^{-1}\left(\frac{C+0.5}{23}\right)2^8\right].
+\end{align}
+RTL LUT共有23项，端点采用半计数修正避免$\Phi^{-1}(0)$与$\Phi^{-1}(1)$发散。静态DNL/INL若直接使用随机计数，会把随机空码误报为传输缺码，因此静态实验采用$C=\operatorname{round}(22p)$；动态FFT则保留真实二项分布采样。
+
+\section{为什么关闭SRM仍会下降}
+
+理想门限结果见表\ref{tab:ideal-gate}。
+\begin{table}[htbp]
+\centering\small
+\caption{零普通转换噪声下的理想算术门限}
+\label{tab:ideal-gate}
+\begin{tabular}{lrr}
+\toprule
+路径 & SNDR/dB & 解释 \\
+\midrule
+直接均匀16位量化 & \IdealDirectSndr & 理论参考 \\
+分段CDAC、无SRM & \IdealNoSrmSndr & 20次冗余判决后的残差未估计 \\
+分段CDAC、精确物理残差 & \IdealExactResidueSndr & 模型闭合上限 \\
+分段CDAC、确定性SRM LUT & \IdealExpectedSrmSndr & LUT量化，不含随机计数 \\
+分段CDAC、随机22次SRM & \IdealStochasticSrmSndr & 当前硬件有限样本统计代价 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{passbox}{问题修复结论}
+先前“不开SRM下降是否因为开了噪声”的疑问已通过四条独立基线回答：普通转换噪声全部为0；精确物理残差恢复\SI{98.079}{dB}，证明SAR判决和Q8重构闭合；无SRM仅为\SI{95.087}{dB}，说明下降来自未补偿残差；随机SRM约\SI{97.145}{dB}，其剩余差距来自22次有限统计，而不是采样或正常比较器噪声。
+\end{passbox}
+
+\chapter{物理CDAC失配模型}
+
+\section{拓扑与参数来源}
+
+物理模型来自\path{archive/deleted-in-039c478/matlab/cap_array_calib_16b.m}中的$6+4+5+5$分段结构。四段单位数分别为
+\begin{equation}
+\{1,2,4,8,16,32\},\quad
+\{2,4,8,16\},\quad
+\{2,2,4,8,16\},\quad
+\{8,8,16,32,64\},
+\end{equation}
+相邻段桥接电容为$\{4,4,12\}C_u$。$C_u=\SI{8}{fF}$，每个节点寄生标称$0.05C_u$，末节点另接\SI{5}{fF}比较器输入电容。
+
+\section{面积律抽样}
+
+对由$N$个单位电容组成的元件，采用
+\begin{equation}
+\frac{\sigma_C}{C}=\frac{\sigma_u}{\sqrt{N}},\qquad \sigma_u=1.2\%.
+\end{equation}
+位电容和桥电容均先抽样，再求有效权重；没有对最终权重直接乘一个任意$3\%$随机数。512颗芯片的实际位电容相对误差RMS中位数为$0.557\%$，有效权重相对误差RMS中位数为$0.696\%$，有效权重最大绝对相对误差中位数为$1.665\%$。
+
+\section{四节点电容矩阵求解}
+
+令节点电压向量为$\bm{v}$，注入电荷为$\bm{q}$，则
+\begin{equation}
+\bm{C}\bm{v}=\bm{q}.
+\end{equation}
+$\bm{C}$的对角项为该段位电容总和、相邻桥电容、节点寄生及末节点比较器电容之和；相邻非对角项为桥电容负值。逐个bit连接$V_{ref}$形成电荷矩阵，解得末节点电压即该bit的有效模拟权重。最后以无失配物理bit 0电压为1 LSB，将电压映射到Q8。
+
+\begin{riskbox}{失配数字的含义}
+$1.2\%$是\SI{8}{fF}单位电容的RMS中心，不是每个最终bit权重均有$1.2\%$或$3\%$误差。大电容按$1/\sqrt{N}$减小局部失配，但桥接网络、寄生和相关传播会重新塑造有效权重误差。本报告不将该中心解释为180\,nm工艺的普适常数。
+\end{riskbox}
+
+\chapter{实验设计与可重复性}
+
+\section{五类原始路径与一个新增保护路径}
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{解码器路径及其用途}
+\begin{tabularx}{\textwidth}{p{0.25\textwidth}X p{0.20\textwidth}}
+\toprule
+路径 & 权重来源与用途 & 是否可作为当前实现 \\
+\midrule
+\texttt{NOMINAL\_SRM} & 标称权重，观察未校准物理失配 & 是，未校准基线 \\
+\texttt{CAL\_CURRENT\_SRM} & 当前RTL等效P/N递归校准，32个P/N对 & 是，核心结论 \\
+\texttt{CAL\_SUM\_NORM\_SRM} & 校准权重总和对称缩放到标称总和 & 否，分析候选 \\
+\texttt{CAL\_HEADROOM\_GUARD\_SRM} & 仅当总和过大时缩小，禁止放大 & 否，分析候选 \\
+\texttt{CAL\_ZERO\_COMP\_ERROR\_SRM} & 校准比较失调和噪声置零 & 否，因果消融 \\
+\texttt{ORACLE\_SRM} & 直接使用物理求解权重 & 否，仅作上限 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{动态条件}
+
+主实验每颗芯片采用8192点相干正弦。满幅幅度为32766.5码，用于验证理想16位门限和rail饱和；回退幅度为26868.94码，即约$-1.72$\,dBFS，用于排除rail clipping后观察相对权重线性。两者均保留随机22次SRM，且普通转换噪声全部关闭。
+
+\section{静态条件}
+
+全16位Ramp覆盖65536个输入码，每码2个采样点。静态SRM采用确定性期望计数，计算DNL、INL、缺码、相对oracle的仿射对齐码误差。DNL和INL依据有效码宽归一化；oracle路径在该离散行为模型中为0，表示分析算法基准，不代表实际硅片零DNL/INL。
+
+\section{扫描设计}
+
+失配扫描覆盖单位电容$\sigma_u=0,0.5,1.0,1.2,1.5,2.0,3.0\%$，每点128颗芯片，动态幅度使用回退条件。幅度扫描覆盖$0.70,0.82,0.90,0.95,0.99995$满幅比例，共128颗芯片。所有对比使用相同物理芯片和稳定\texttt{SeedSequence}，只改变目标变量。
+
+\section{可重复性证据}
+
+两次独立8芯片回放对\texttt{per\_chip\_main\_metrics.csv}、物理参数、失配扫描、幅度扫描和\texttt{summary.json}共7个文件进行SHA-256比较，全部逐字节一致；正式512芯片结果的前8颗也与回放逐行一致。所有512个主任务、896个失配扫描任务和128个幅度任务均完成，stderr为空。
+
+\chapter{正式结果：动态性能}
+
+\section{512芯片总体统计}
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{512芯片动态结果。满幅最大饱和率为逐芯片最大值。}
+\begin{tabular}{lrrrrrr}
+\toprule
+解码器 & 满幅中位 & 满幅P5 & 满幅最差 & 回退中位 & 满幅SFDR中位 & 最大饱和/\% \\
+\midrule
+\input{dynamic_table_rows.tex}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_revalidation_main.pdf}
+\caption{512芯片主结果。误差棒为P5--P95。权重和Ramp误差经过增益或仿射对齐。}
+\end{figure}
+
+未校准标称权重的满幅SNDR中位数约\SI{58.33}{dB}，表明约$0.7\%$ RMS的有效权重误差足以严重破坏16位线性。当前校准把中位数恢复到\CurrentFullMedian\,dB，接近随机SRM物理权重上限\SI{97.14}{dB}；剩余约\SI{1.9}{dB}差距主要由有限校准测量误差和Q8写回引起。
+
+\section{通过率与尾部}
+
+\begin{table}[htbp]
+\centering\small
+\caption{关键SNDR门限通过数}
+\begin{tabular}{lrrrr}
+\toprule
+路径 & 满幅$\ge90$ & 满幅$\ge94$ & 满幅$\ge95$ & 回退$\ge94$ \\
+\midrule
+\input{pass_table_rows.tex}
+\end{tabular}
+\end{table}
+
+当前校准有504/512颗满幅超过\SI{90}{dB}，8颗因总权重增益略高发生rail饱和。对称总和归一化能修复这些低比例芯片，但当校准总和偏低时会主动放大，产生新饱和，导致满幅$\ge94$通过数从491降到477。该现象证明“全局归一化”不能无条件加入RTL。
+
+单边余量保护定义为
+\begin{equation}
+g_{guard}=\min\left(1,\frac{\sum_i W_{i,nom}}{\sum_i\widehat{W}_i}\right),
+\qquad W_{i,guard}=g_{guard}\widehat{W}_i.
+\end{equation}
+全局缩放不改变理想非饱和波形的SNDR，却能避免过增益触碰rail。该候选使512/512颗满幅均超过\SI{90}{dB}、499/512超过\SI{94}{dB}，最差值达到\GuardFullMinimum\,dB。
+
+\begin{landscape}
+\begin{table}[p]
+\centering\scriptsize
+\caption{当前校准最差10颗满幅芯片及两种增益候选}
+\begin{tabular}{rrrrrrr}
+\toprule
+chip & 当前SNDR & 当前饱和/\% & 对称归一SNDR & 单边保护SNDR & 保护后饱和/\% & 保护比例 \\
+\midrule
+\input{tail_table_rows.tex}
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{diagnosticbox}{单边保护不能解决什么}
+它只处理满幅增益余量，不改变bit间相对权重，也不提高回退输入SNDR。其回退中位数仍为\CurrentBackoffMedian\,dB。因此该候选的准确命名应是“数字输出余量保护”，不是“更精确的电容校准”。进入RTL前还需确定系统允许的满量程定义、增益标定接口和饱和策略。
+\end{diagnosticbox}
+
+\chapter{正式结果：静态线性}
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{确定性全范围Ramp静态结果}
+\begin{tabular}{lrrrrrr}
+\toprule
+解码器 & DNL min中位 & DNL max中位 & INL min中位 & INL max中位 & 缺码中位 & 缺码最大 \\
+\midrule
+\input{static_table_rows.tex}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_revalidation_static.pdf}
+\caption{确定性全范围静态传输。随机SRM计数未用于DNL/INL，以免将统计空码当作结构缺码。}
+\end{figure}
+
+当前校准后DNL最大值中位数为\CurrentDnlMedian\,LSB，INL最大值中位数为\CurrentInlMedian\,LSB，缺码中位数为0；最坏缺码仍有\CurrentMissingMaximum 个。与论文测得校准后INL约$-0.9/+0.9$\,LSB相比，本模型中位数接近，但最坏尾部和测量方法不同，不能直接声称复现论文硅片结果。
+
+当前校准的增益对齐权重RMS误差中位数仅\CurrentWeightRmseMedian\,LSB，而Ramp相对oracle的仿射对齐码RMS误差中位数约\SI{0.451}{LSB}。后者还包含Q8取整、SRM LUT离散和输出舍入，因此不应要求与权重RMS完全相等。
+
+\chapter{失配强度与输入幅度扫描}
+
+\section{单位电容失配扫描}
+
+\begin{table}[htbp]
+\centering\small
+\caption{$-1.72$\,dBFS条件下的SNDR中位数随单位电容失配变化}
+\begin{tabular}{rrrrr}
+\toprule
+$\sigma_u$/\% & 标称权重 & 当前校准 & 单边保护 & 物理权重上限 \\
+\midrule
+\input{sigma_table_rows.tex}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_revalidation_sigma_sweep.pdf}
+\caption{128芯片/失配点的回退输入扫描。普通转换噪声关闭。}
+\end{figure}
+
+在$\sigma_u=0$时，标称权重已经正确，当前校准反而因有限32个P/N对和校准比较器误差从约\SI{95.39}{dB}降至\SI{93.77}{dB}。这不是校准逻辑失败，而是“没有失配时仍执行有噪测量”的必然代价。随着失配增大，未校准路径从\SI{64.17}{dB}（$0.5\%$）降到\SI{48.58}{dB}（$3\%$），当前校准仍维持约\SI{93.46}{dB}。这说明当前算法对所扫描的静态物理失配具有强鲁棒性，但也提示实际芯片可考虑校准旁路或质量门控。
+
+\section{输入幅度扫描}
+
+\begin{table}[htbp]
+\centering\small
+\caption{SNDR中位数随输入幅度变化}
+\begin{tabular}{rrrrr}
+\toprule
+满幅比例 & 标称权重 & 当前校准 & 单边保护 & 物理权重上限 \\
+\midrule
+\input{amplitude_table_rows.tex}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_revalidation_amplitude_sweep.pdf}
+\caption{128芯片幅度扫描。接近满幅时同时观察SNDR和饱和率。}
+\end{figure}
+
+从0.70到0.95满幅，当前校准与单边保护几乎重合，证明全局缩放不改变非饱和相对线性。仅在0.99995满幅附近，未校准和少量当前校准样本出现rail clipping；单边保护将极端尾部压回正常范围。
+
+\chapter{RTL、Testbench与编译验证}
+
+\section{当前核心RTL评价}
+
+\begin{table}[htbp]
+\centering\small
+\caption{核心RTL职责与本轮结论}
+\begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+\toprule
+文件 & 评价 \\
+\midrule
+\rtl{sar_calib_ctrl_serial.sv} & 实现bit 6--19递归P/N测量、32次平均、串行累加、shadow权重更新和bit 18/19保护，是本项目片上校准权威实现。 \\
+\rtl{srm_residue_estimator.sv} & 实现22次decision计数和23项Q8逆正态LUT，参数保护清楚；只能用于22次/Q8合同。 \\
+\rtl{sar_reconstruction.sv} & 实现20权重$+/-$求和、差分除2、SRM注入、Q8舍入和16位饱和；复位后高位权重为0，系统必须在正常转换前完成权重加载。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{XSIM实测结果}
+
+本轮使用Vivado 2018.3命令行XSIM重新编译、展开和运行四个testbench，结果全部PASS：
+\begin{itemize}
+  \item \path{tb_sar_recon_binary_norm.sv}：49项检查，0失败；
+  \item \path{tb_recon_q8_split_weights.sv}：17项检查，0失败；
+  \item \path{tb_srm_residue_estimator.sv}：17项检查，0失败；
+  \item \path{tb_gain_comp_check_lsb.sv}：5次Monte Carlo全部通过，最坏残差\SI{0.4937}{LSB}，门限\SI{0.5}{LSB}。
+\end{itemize}
+Python回归共11项，全部通过。测试覆盖物理求解标称闭合、面积律、稳定随机数、理想算术门限、SRM统计边界、总和归一化、单边保护以及已知tail芯片128。
+
+\section{综合与FPGA/ASIC风险}
+
+已有Vivado综合记录显示\texttt{synth\_design completed successfully}，0 errors，并生成\path{sar_reconstruction.dcp}。但约束日志含\texttt{No constraints selected for write}及Critical Warnings，意味着该结果只证明逻辑可综合，不等价于完整板级时序闭合。
+
+\begin{riskbox}{FPGA/ASIC前必须关闭的项目}
+\begin{enumerate}
+  \item 比较器输出进入数字时钟域的同步、亚稳态概率和decision-valid握手；
+  \item 校准模式与正常异步SAR、flash、SRM对CDAC控制权的互斥仲裁；
+  \item 校准完成/权重有效门控，禁止复位后高位权重为0时正常输出；
+  \item 完整时钟、I/O delay、false path和multicycle约束；
+  \item ASIC reset、存储实现、DFT、功耗、PVT、门级SDF和AMS联合仿真；
+  \item 单边余量保护若进入RTL，需要明确量程校准政策和定点乘法实现。
+\end{enumerate}
+\end{riskbox}
+
+\chapter{与论文完整复现的差距}
+
+\section{已复现}
+
+本工程已经行为级复现：20个有符号冗余判决、6位低位参考、bit 6--19递归权重测量、P/N失调抵消、32个P/N平均循环、bit 18/19保护、22次SRM计数、逆正态Q8 LUT、加权重构、16位饱和、动态FFT和全范围DNL/INL。
+
+\section{尚未复现}
+
+\begin{enumerate}
+  \item \textbf{split-sampling与VCM时序：}Python以目标有符号码直接进入CDAC SAR，未模拟Cs、CDAC和flash同步跟踪、顶板断开、Cs返回跟踪以及输入共模采样。用户提出的“VCM切换一开始的一次”属于此缺口。
+  \item \textbf{2-bit flash首判：}模型使用20权重直接搜索，没有把flash码作为前两位粗量化和顶板摆幅压缩状态机。
+  \item \textbf{AZ与模拟噪声：}未模拟预放大器AZ采样、宽带噪声混叠、$f_{c,az}$和$T_{SRM}$频率响应；SRM噪声仅是行为级高斯比较模型。
+  \item \textbf{开关非理想：}$R_{on}(V_{in})$、电荷注入、clock feedthrough、参考记忆、建立、kickback和动态失真均未进入本轮零普通噪声实验。
+  \item \textbf{工艺统计：}失配中心来自项目MATLAB，不是180\,nm PDK模型，也未包含布局相关梯度、邻近、共心布局或寄生提取相关性。
+\end{enumerate}
+
+\section{复现距离的技术判断}
+
+若将“论文数字算法”定义为权重校准、SRM估计和重构，本项目已达到可执行行为基线并有RTL单元回归；若将“完整论文ADC”定义为采样、flash、AZ、异步时序、模拟前端、PVT和测量性能，则仍处于L2系统行为阶段。合理的下一阶段不是继续堆代理SNDR，而是建立AMS/Verilog-A顶层，把论文Fig.6时序逐相位实现，并使真实比较器输出驱动现有RTL。
+
+\chapter{文件组织、操作记录与维护说明}
+
+\section{本轮新增与修改}
+
+\begin{longtable}{p{0.43\textwidth}p{0.48\textwidth}}
+\toprule
+文件 & 用途 \\
+\midrule
+\endhead
+\model{run_revalidation.py} & v3正式实验入口、理想门限、512芯片、扫描、绘图与JSON汇总 \\
+\model{revalidation_spec.yml} & 冻结架构、物理中心、样本数、解码器和必过门限 \\
+\model{test_revalidation.py} & 新增理想残差、稳定回放、对称归一和单边保护回归 \\
+\model{report_revalidation/generate_report_assets.py} & 从正式CSV/JSON生成LaTeX宏与表格 \\
+\model{report_revalidation/physical_cdac_revalidation_cn.tex} & 本详细中文报告源文件 \\
+\out{summary.json} & 完整配置、统计、证据边界和实验状态 \\
+\out{per_chip_main_metrics.csv} & 512芯片乘6路径，共3072条主记录 \\
+\out{per_chip_physical_metrics.csv} & 逐芯片物理电容与有效权重统计 \\
+\out{per_chip_sigma_metrics.csv} & 7个失配点乘128芯片的逐点结果 \\
+\out{per_chip_amplitude_metrics.csv} & 5个幅度点乘128芯片的逐点结果 \\
+\bottomrule
+\end{longtable}
+
+对称总和归一化的v2中间结果没有删除，已归档到\path{archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/}，用于追溯“修复旧tail却产生新tail”的原因。
+
+\section{标准复现命令}
+
+\begin{reproductionbox}{PowerShell复现}
+\begin{Verbatim}[breaklines=true,fontsize=\small]
+$py = "$HOME\Desktop\ADCToolbox_EVAL_20260728\envs"
+$py = Join-Path $py "upstream-main\Scripts\python.exe"
+& $py -m pytest analysis\physical_cdac_mismatch_20260729\test_physical_cdac.py `
+  analysis\physical_cdac_mismatch_20260729\test_revalidation.py -q
+& $py analysis\physical_cdac_mismatch_20260729\run_revalidation.py `
+  --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 6
+powershell -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
+\end{Verbatim}
+\end{reproductionbox}
+
+\section{版本管理原则}
+
+核心RTL未因分析候选而修改。任何未来把单边余量保护引入RTL的工作都必须新建接口合同、TB和版本条目，不能静默替换当前重构逻辑。所有正式输出附SHA-256清单；Git提交应包含源码、正式CSV/JSON、图、PDF报告、MOC、VERSION、CHANGELOG和交付包，不包含\path{sim_work/}、缓存或临时回放目录。
+
+\chapter{最终结论与下一步}
+
+\section{回答核心问题}
+
+\begin{passbox}{当前自校准是否能消除失配影响}
+能。在$6+4+5+5$物理CDAC、单位电容$1.2\%$ RMS中心、零普通转换噪声的512芯片实验中，未校准满幅SNDR中位数约\SI{58.33}{dB}，当前RTL等效校准后为\CurrentFullMedian\,dB；缺码中位数由991降到0，INL最大值中位数约\CurrentInlMedian\,LSB。失配扫描到$3\%$时，校准后回退SNDR中位数仍约\SI{93.46}{dB}。因此对本模型定义的静态物理失配，校准是有效的。
+\end{passbox}
+
+\section{需要保持克制的结论}
+
+当前校准不是无代价的：在零物理失配时，有噪校准会比直接使用标称权重低约\SI{1.6}{dB}；满幅极端样本存在总权重增益引起的rail clipping；静态最坏样本仍有30个缺码。单边余量保护解决的是饱和tail，不解决相对权重或模拟前端误差。
+
+\section{建议的工程路线}
+
+\begin{enumerate}
+  \item 保持现有三块核心RTL为算法基线，不把分析候选直接合入；
+  \item 新建完整mixed-signal top，明确sample、flash、SAR、SRM、calibration与reconstruction的所有握手；
+  \item 用Verilog-A实现Cs/CDAC、VCM、2-bit flash、AZ比较器和参考建立，逐相位复现论文Fig.6；
+  \item 在AMS中重复本报告的理想门限、失配扫描和满幅/回退双条件；
+  \item 从目标工艺PDK和版图提取真实失配与寄生，再替换项目MATLAB中心；
+  \item 单独评审是否加入输出余量保护、校准旁路和校准质量判定。
+\end{enumerate}
+
+\appendix
+
+\chapter{指标定义}
+
+相干FFT去除直流后，基波功率为$P_1$，其余频点总功率为噪声加失真$P_{N+D}$：
+\begin{align}
+\mathrm{SNDR}&=10\log_{10}\frac{P_1}{P_{N+D}},\\
+\mathrm{SFDR}&=10\log_{10}\frac{P_1}{\max_{k\ne1}P_k},\\
+\mathrm{ENOB}&=\frac{\mathrm{SNDR}-1.76}{6.02}.
+\end{align}
+静态Ramp中，码宽相对平均码宽定义DNL，累计DNL并去除整体偏移定义INL。本报告动态SRM为随机计数，静态SRM为期望计数，两者不可混用。
+
+\chapter{已知限制清单}
+
+\begin{enumerate}
+  \item 物理模型是四节点线性电容网络，不含电压相关寄生；
+  \item 每个物理元件失配独立，不含空间相关和系统梯度；
+  \item 校准比较器采用固定\SI{5}{LSB}失调与\SI{0.5}{LSB}高斯噪声代理；
+  \item 普通转换噪声被刻意关闭，本轮只研究失配消除；
+  \item 22次SRM高斯噪声标尺为行为参数，不是晶体管噪声积分结果；
+  \item 8192点FFT适合工程比较，但不是论文测量记录长度的完全复刻；
+  \item 512点Monte Carlo支持分布描述，不构成量产yield签核；
+  \item XSIM是数字RTL单元验证，不包含AMS、SDF或板级I/O。
+\end{enumerate}
+
+\chapter{参考文献}
+
+\begin{thebibliography}{9}
+\bibitem{huang2025}
+Q. Huang, S. Huang, Y. Chen, Y. Fan, and J. Yuan,
+``A 5-MS/s 16-bit Low-Noise and Low-Power Split Sampling SAR ADC With Eased Driving Burden,''
+\emph{IEEE Journal of Solid-State Circuits}, vol. 60, no. 3, 2025,
+doi: \href{https://doi.org/10.1109/JSSC.2025.3526595}{10.1109/JSSC.2025.3526595}.
+
+\bibitem{huang2024}
+Q. Huang,
+\emph{Advanced Clock Multiplier and SAR ADC Design Techniques for High-Resolution Signal Chain Systems},
+Ph.D. dissertation, 2024, Chapter 4.
+
+\bibitem{adctoolbox}
+Arcadia-1, ``ADCToolbox,'' MIT-licensed ADC analysis and calibration utilities,
+\url{https://github.com/Arcadia-1/ADCToolbox}.
+本工程仅复用指标分析思想；片上校准算法权威仍为本仓库RTL。
+
+\bibitem{projectrtl}
+SAR ADC Digital Processing Project,
+\rtl{sar_calib_ctrl_serial.sv}, \rtl{srm_residue_estimator.sv},
+and \rtl{sar_reconstruction.sv}, repository revision v3.11.0.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,128 @@
+% Mandatory SAR-ADC reference-led academic style for XeLaTeX.
+% Load from an 11pt A4 ctexrep/report document.
+\usepackage[margin=2.25cm,headheight=14pt,headsep=10pt,footskip=18pt]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\XeTeXgenerateactualtext=1
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{lmmono10-regular.otf}[
+  BoldFont={lmmonolt10-bold.otf},
+  ItalicFont={lmmono10-italic.otf},
+  BoldItalicFont={lmmonolt10-boldoblique.otf}
+]
+\setCJKmainfont{FandolSong-Regular}[
+  BoldFont={FandolSong-Bold},
+  ItalicFont={FandolKai-Regular},
+  BoldItalicFont={FandolSong-Bold}
+]
+\setCJKsansfont{FandolSong-Regular}[BoldFont={FandolSong-Bold}]
+\setCJKmonofont{FandolSong-Regular}[BoldFont={FandolSong-Bold}]
+\newCJKfontfamily\ReferenceCJKTitle{FandolSong-Bold}[BoldFont={FandolSong-Bold}]
+
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{booktabs,tabularx,longtable,array,multirow}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{caption,subcaption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\definecolor{RefNavy}{HTML}{163A5F}
+\definecolor{RefTeal}{HTML}{167C80}
+\definecolor{RefGreen}{HTML}{288C3C}
+\definecolor{RefOrange}{HTML}{D97706}
+\definecolor{RefPurple}{HTML}{705B86}
+\definecolor{RefGray}{HTML}{6B7280}
+\definecolor{RefPaleBlue}{HTML}{EAF2F8}
+\definecolor{RefPaleTeal}{HTML}{E8F5F4}
+\definecolor{RefPaleGreen}{HTML}{E1F5E1}
+\definecolor{RefPaleOrange}{HTML}{FFF3E0}
+\definecolor{RefPalePurple}{HTML}{F2EDF7}
+\definecolor{RefPaleGray}{HTML}{F3F4F6}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\linespread{1.12}
+\setlist{nosep,leftmargin=2em}
+\renewcommand{\arraystretch}{1.22}
+\captionsetup{font=small,labelfont=bf,justification=centering,singlelinecheck=true}
+
+\titleformat{\chapter}[hang]
+  {\centering\ReferenceCJKTitle\bfseries\fontsize{20.66}{30}\selectfont}
+  {第\,\thechapter\,章}{1.4em}{}
+\titlespacing*{\chapter}{0pt}{18pt}{34pt}
+\titleformat{\section}
+  {\Needspace{5\baselineskip}\centering\ReferenceCJKTitle\bfseries\fontsize{14.35}{22}\selectfont}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{21pt}{12pt}
+\titleformat{\subsection}
+  {\Needspace{4\baselineskip}\centering\ReferenceCJKTitle\bfseries\fontsize{12}{18}\selectfont}
+  {\thesubsection}{0.8em}{}
+\titlespacing*{\subsection}{0pt}{16pt}{8pt}
+\titleformat{\subsubsection}
+  {\Needspace{3\baselineskip}\ReferenceCJKTitle\bfseries\normalsize}
+  {\thesubsubsection}{0.7em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\ReferenceReportTitle}
+\fancyhead[R]{\small\nouppercase{\leftmark}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+\newtcolorbox{methodbox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefNavy},
+  colback=RefPaleBlue,colbacktitle=RefPaleBlue,coltitle=RefNavy,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+\newtcolorbox{evidencebox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefTeal},
+  colback=RefPaleTeal,colbacktitle=RefPaleTeal,coltitle=RefTeal,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+\newtcolorbox{passbox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefGreen},
+  colback=RefPaleGreen,colbacktitle=RefPaleGreen,coltitle=RefGreen,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+\newtcolorbox{riskbox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefOrange},
+  colback=RefPaleOrange,colbacktitle=RefPaleOrange,coltitle=RefOrange,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+\newtcolorbox{diagnosticbox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefPurple},
+  colback=RefPalePurple,colbacktitle=RefPalePurple,coltitle=RefPurple,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}
+\newtcolorbox{reproductionbox}[1]{
+  enhanced,breakable,sharp corners,boxrule=0pt,
+  borderline west={1.4pt}{0pt}{RefGray},
+  colback=RefPaleGray,colbacktitle=RefPaleGray,coltitle=RefGray,titlerule=0pt,
+  left=7pt,right=7pt,top=5pt,bottom=6pt,
+  fonttitle=\bfseries,title={#1},before skip=7pt,after skip=7pt
+}

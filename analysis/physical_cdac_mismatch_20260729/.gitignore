@@ -1,3 +1,6 @@
 /outputs_smoke*/
+/outputs_revalidation_smoke*/
 /campaign*.log
+/revalidation*.log
 /__pycache__/
+/report_revalidation/qa_pages*/

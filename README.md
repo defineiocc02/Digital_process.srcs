@@ -2,7 +2,7 @@
 
 本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
 
-当前工程基线为 **v3.9.2-main-unified-skill-refresh**。本版本以当前 RTL 为算法真值，保留从采样、20 次差分 SAR 判决、前台校准、22 次 SRM、Q8 重构到 16-bit 输出的 512 芯片完整行为级闭环，并按最新学术技术 PDF Skill 重新发布 32 页学术/工业维护版报告。ADCToolbox 仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
+当前工程基线为 **v3.11.0-physical-cdac-revalidation**。本版本以当前 RTL 为算法真值，从 `6+4+5+5` 物理分段CDAC、电容面积律失配、20次差分SAR判决、P/N递归前台校准、22次SRM、Q8重构到16-bit输出完成512芯片再验证，并发布27页中文学术/工业维护报告。ADCToolbox仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
 
 ## 目录结构
 
@@ -19,6 +19,8 @@ sar_adc_v3/
 |                                 # 当前 RTL 片上校准行为级有效性验证
 |-- analysis/full_sar_behavioral_20260729/
 |                                 # 512 点完整 SAR 行为级闭环与报告
+|-- analysis/physical_cdac_mismatch_20260729/
+|                                 # 物理CDAC失配、当前校准与SRM正式再验证
 |-- delivery/                    # 冻结交付包与行为级验证包
 |-- archive/                     # 历史裁剪归档
 |-- MOC.md                       # 内容索引
@@ -70,6 +72,18 @@ $py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\envs\upstream-mai
 运行支持逐芯片检查点和断点续跑；正式聚合结果位于
 `analysis/full_sar_behavioral_20260729/outputs/`。
 
+### 物理CDAC失配正式再验证
+
+```powershell
+& $py -m pytest `
+  analysis\physical_cdac_mismatch_20260729\test_physical_cdac.py `
+  analysis\physical_cdac_mismatch_20260729\test_revalidation.py -q
+& $py analysis\physical_cdac_mismatch_20260729\run_revalidation.py `
+  --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 6
+```
+
+正式证据位于 `analysis/physical_cdac_mismatch_20260729/outputs_revalidation/`。
+
 ### Vivado GUI 工程
 
 ```text
@@ -91,6 +105,16 @@ GUI 工程便于调试和查看工程状态；脚本入口仍是可复现构建�
 Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sources_1/new/`。维护时优先修改 `rtl/`，再同步到 Vivado 工程镜像。
 
 ## 验证基线
+
+2026-07-29 物理CDAC失配与当前片上自校准再验证：
+
+| 验证层 | 入口 | 结果 |
+| --- | --- | --- |
+| 理想16位算术门限 | `run_revalidation.py` | PASS；直接量化98.079 dB，精确物理残差98.079 dB，确定性SRM 98.045 dB，随机22次SRM中位97.145 dB |
+| 512芯片物理失配 | `outputs_revalidation/summary.json` | PASS；当前校准满幅中位95.256 dB，回退中位93.577 dB，DNL max中位0.968 LSB，INL max中位0.993 LSB，缺码中位0 |
+| 满幅余量tail | `CAL_HEADROOM_GUARD_SRM` | 分析候选；最差值55.619 -> 93.129 dB，512/512超过90 dB；尚未进入RTL |
+| Python回归与回放 | `test_revalidation.py` | PASS；11 tests；8芯片双重回放7个CSV/JSON逐字节一致 |
+| 详细PDF | `report_revalidation/physical_cdac_revalidation_cn.pdf` | PASS；27页；发布/字体/ToUnicode/逐页视觉/确定性重建门限全通过 |
 
 2026-07-29 完整行为级闭环验证：
 
@@ -148,14 +172,16 @@ Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sour
 - [analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf](analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf): 当前片上校准有效性验证报告
 - [analysis/full_sar_behavioral_20260729/README.md](analysis/full_sar_behavioral_20260729/README.md): 完整 SAR 行为模型、运行口径与结果入口
 - [analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf](analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf): 512 点完整行为级验证报告
+- [analysis/physical_cdac_mismatch_20260729/README.md](analysis/physical_cdac_mismatch_20260729/README.md): 物理CDAC失配正式再验证入口
+- [analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf](analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf): 27页详细中文再验证报告
 - [delivery/current_calibration_validation_20260729/README.md](delivery/current_calibration_validation_20260729/README.md): 当前校准验证交付包入口
 - [delivery/full_sar_behavioral_validation_20260729/README.md](delivery/full_sar_behavioral_validation_20260729/README.md): 完整行为级交付包入口
 
 ## 版本信息
 
-- 版本号：`v3.9.2-main-unified-skill-refresh`
+- 版本号：`v3.11.0-physical-cdac-revalidation`
 - 日期：2026-07-29
-- 状态：Main-Unified Detailed Behavioral Report Baseline
+- 状态：Main-Unified Physical-CDAC Revalidation Baseline
 - 工程闭合 tag：`v3.6.0-engineering-closure`
 
 ## 许可证

@@ -1,0 +1,60 @@
+block: sar_adc_v3_physical_cdac_revalidation
+version: 3.0
+evidence_level: behavioral_L2_plus_RTL_regression
+
+architecture:
+  output_bits: 16
+  decision_count: 20
+  fixed_point: Q8
+  foreground_calibration_source: rtl/sar_calib_ctrl_serial.sv
+  srm_source: rtl/srm_residue_estimator.sv
+  reconstruction_source: rtl/sar_reconstruction.sv
+  physical_cdac_segments: [6, 4, 5, 5]
+  bridge_units: [4, 4, 12]
+
+physical_center:
+  unit_capacitance_fF: 8.0
+  unit_cap_sigma_rms_pct: 1.2
+  node_parasitic_sigma_rms_pct: 2.0
+  comparator_input_cap_sigma_rms_pct: 2.0
+  authority: archive/deleted-in-039c478/matlab/cap_array_calib_16b.m
+  warning: project assumption, not foundry PDK signoff
+
+campaign:
+  main_chips: 512
+  fft_samples: 8192
+  static_samples_per_code: 2
+  sigma_sweep_chips_per_point: 128
+  sigma_sweep_pct: [0.0, 0.5, 1.0, 1.2, 1.5, 2.0, 3.0]
+  amplitude_sweep_chips: 128
+  amplitude_ratios: [0.70, 0.82, 0.90, 0.95, 0.99995]
+  dynamic_srm: stochastic_22_decisions
+  static_srm: deterministic_expected_count
+
+dynamic_conditions:
+  full_scale:
+    amplitude_code: 32766.5
+    purpose: ideal SNDR and gain/saturation stress
+  backoff:
+    amplitude_code: 26868.94
+    purpose: relative-weight linearity without rail clipping
+
+decoders:
+  - NOMINAL_SRM
+  - CAL_CURRENT_SRM
+  - CAL_SUM_NORM_SRM
+  - CAL_HEADROOM_GUARD_SRM
+  - CAL_ZERO_COMP_ERROR_SRM
+  - ORACLE_SRM
+
+required_gates:
+  - ideal_16bit_direct_quantizer_sndr_ge_97p9_db
+  - nominal_segmented_cdac_expected_srm_sndr_ge_97p9_db
+  - physical_solver_nominal_weight_match
+  - deterministic_seed_replay
+  - unit_cap_area_law
+  - 512_of_512_main_completion
+  - full_16bit_ramp_dnl_inl
+  - stochastic_srm_separated_from_static_expected_count
+  - rtl_xsim_regression
+  - report_traceability_and_sha256
