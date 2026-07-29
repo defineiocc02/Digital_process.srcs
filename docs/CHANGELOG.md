@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.10.0-physical-cdac-mismatch-validation - 2026-07-29
+
+- Withdrew and archived the unsupported direct 3% effective-weight stress test.
+- Added a physical 6+4+5+5 segmented-CDAC solver based on the archived project
+  MATLAB topology, with unit-cap area-law mismatch, bridge mismatch, node
+  parasitic variation, and comparator-input-capacitance variation.
+- Added an automatic ideal 16-bit acceptance gate: 98.079 dB for the direct
+  quantizer and 98.045 dB for nominal segmented CDAC plus expected-count SRM.
+- Corrected dynamic SRM validation to use the paper-faithful 22 stochastic
+  comparisons; the current RTL profile measures approximately 97.15 dB in the
+  otherwise noiseless ideal path.
+- Completed 512 physical chips at the project-MATLAB 1.2% unit-cap center and
+  a six-point 0.5%-3.0% sensitivity sweep with 128 chips per point.
+- Added an analysis-only finite-sample SRM study. A posterior 22-count LUT
+  improves the ideal path to about 97.40 dB; a 128-count precision profile
+  reaches about 97.93 dB but is not promoted into core RTL.
+- Documented the remaining full-scale gain/saturation tail and preserved all
+  prior artifacts under a recoverable assumption-stress-test archive.
+
 ## v3.9.2-main-unified-skill-refresh - 2026-07-29
 
 - Synchronized `academic_report_style.tex` with the latest

@@ -1,0 +1,36 @@
+{
+  "status": "complete",
+  "evidence_boundary": "Candidate LUTs are trained on a nominal uniform-ramp residue prior and are not RTL-qualified. Only RTL_CURRENT_22 reproduces the current project implementation.",
+  "profiles": [
+    {
+      "profile": "RTL_CURRENT_22",
+      "decision_count": 22,
+      "comparator_sigma_lsb": 0.5,
+      "sndr_mean_db": 97.14474394162656,
+      "sndr_std_db": 0.008994570060307988,
+      "sndr_min_db": 97.12854778887976,
+      "sndr_max_db": 97.16578102211052,
+      "note": "Current paper-faithful RTL profile"
+    },
+    {
+      "profile": "POSTERIOR_RAMP_22",
+      "decision_count": 22,
+      "comparator_sigma_lsb": 0.5,
+      "sndr_mean_db": 97.3955225301416,
+      "sndr_std_db": 0.006547128073218035,
+      "sndr_min_db": 97.38200924048046,
+      "sndr_max_db": 97.40711835958271,
+      "note": "Analysis-only posterior LUT; same 22 decisions"
+    },
+    {
+      "profile": "POSTERIOR_RAMP_128",
+      "decision_count": 128,
+      "comparator_sigma_lsb": 0.5,
+      "sndr_mean_db": 97.92563046389434,
+      "sndr_std_db": 0.002200354074506908,
+      "sndr_min_db": 97.9212044814017,
+      "sndr_max_db": 97.92914903623716,
+      "note": "Analysis-only precision profile; changes latency and counter/LUT size"
+    }
+  ]
+}

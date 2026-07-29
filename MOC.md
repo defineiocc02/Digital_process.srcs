@@ -81,6 +81,9 @@ LaTeX 中间文件按 `.gitignore` 规则清理，不作为仓库内容入口。
 
 ## Analysis Models
 
+- [analysis/physical_cdac_mismatch_20260729/README.md](analysis/physical_cdac_mismatch_20260729/README.md) - physical 6+4+5+5 segmented-CDAC mismatch, 512-chip calibration, ideal 16-bit gate, and stochastic SRM finite-sample validation
+- [analysis/physical_cdac_mismatch_20260729/VALIDATION_REPORT_CN.md](analysis/physical_cdac_mismatch_20260729/VALIDATION_REPORT_CN.md) - Chinese engineering report and evidence boundary
+
 - [analysis/surrogate/README.md](analysis/surrogate/README.md)
 - `analysis/surrogate/replicate_huang2025_calibration_convergence.py` - 量化 16-bit、paired Monte Carlo 收敛代理模型
 - `analysis/surrogate/outputs/` - 生成的 CSV/JSON/PNG，已忽略，可重新生成

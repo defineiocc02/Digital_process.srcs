@@ -2,9 +2,13 @@
 
 ## Current
 
-- Version: `v3.9.2-main-unified-skill-refresh`
+- Version: `v3.10.0-physical-cdac-mismatch-validation`
 - Date: 2026-07-29
-- Purpose: provide an independent, reproducible full-SAR behavioral loop from
+- Purpose: add a physically grounded 6+4+5+5 segmented-CDAC mismatch campaign
+  with unit-cap area-law variation, bridge/parasitic matrix solving, an ideal
+  16-bit 98 dB arithmetic gate, paper-faithful 22-decision stochastic SRM,
+  512-chip calibration validation, and a finite-sample SRM precision study.
+  This extends the independent, reproducible full-SAR behavioral loop from
   sampled input through 20 signed decisions, current-RTL foreground
   calibration, 22-decision SRM, Q8 reconstruction, and signed 16-bit decoding.
   The baseline includes 512 independent virtual chips, dynamic FFT metrics,

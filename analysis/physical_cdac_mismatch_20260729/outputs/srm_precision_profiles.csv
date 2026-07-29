@@ -1,0 +1,4 @@
+profile,decision_count,comparator_sigma_lsb,sndr_mean_db,sndr_std_db,sndr_min_db,sndr_max_db,note
+RTL_CURRENT_22,22,0.5,97.14474394162656,0.008994570060307988,97.12854778887976,97.16578102211052,Current paper-faithful RTL profile
+POSTERIOR_RAMP_22,22,0.5,97.3955225301416,0.006547128073218035,97.38200924048046,97.40711835958271,Analysis-only posterior LUT; same 22 decisions
+POSTERIOR_RAMP_128,128,0.5,97.92563046389434,0.002200354074506908,97.9212044814017,97.92914903623716,Analysis-only precision profile; changes latency and counter/LUT size
