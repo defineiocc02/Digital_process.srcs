@@ -1,0 +1,12 @@
+# XeLaTeX build intermediates
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.synctex.gz
+
+# Local visual-QA renders
+qa_pages/
+qa_contact_sheet.png
