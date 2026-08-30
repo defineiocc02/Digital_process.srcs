@@ -1,0 +1,1372 @@
+{
+  "captured_utc": "2026-08-30T03:40:58.192057+00:00",
+  "host": "192.168.38.140",
+  "mode": "read_only_remote_export",
+  "records": [
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/functional/master.tag",
+      "size_bytes": 38,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\functional\\master.tag",
+      "sha256": "bb86610b61491ea80277baf4447d4bc1bc00a8648c4b00fe918508b0d1090a68"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/functional/pc.db",
+      "size_bytes": 51,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\functional\\pc.db",
+      "sha256": "3e62ec2dd4c0665bbfe6691c48d54033f50e24fdbb8e7d08ec047346e70e320c"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/functional/verilog.v",
+      "size_bytes": 116,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\functional\\verilog.v",
+      "sha256": "693295d8ec63db0f4d70304b52af64d4678f1feeea93d0558807a75d2e34d4b5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/systemVerilog/data.dm",
+      "size_bytes": 3212,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\systemVerilog\\data.dm",
+      "sha256": "ce5a361b592e684942a701acdcaef162bd7b9081c3ab2b4e85f8e0d7e09c6374"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/systemVerilog/master.tag",
+      "size_bytes": 39,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\systemVerilog\\master.tag",
+      "sha256": "1e46d8631ef0b8f89c4d936520cfdbd6df9142294434796cbe61225285c3bcc7"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/systemVerilog/netlist.oa",
+      "size_bytes": 20684,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\systemVerilog\\netlist.oa",
+      "sha256": "b93fab1f8accb8113408ae855e6c63eb11e3974369aa3a2208895860902ff321"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/systemVerilog/pc.db",
+      "size_bytes": 49,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\systemVerilog\\pc.db",
+      "sha256": "6ac9b4fa419a23531a59096030278621189c0917a5a29c3a0be060cbc329a84b"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Digital_Process/systemVerilog/verilog.sv",
+      "size_bytes": 9298,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Digital_Process\\systemVerilog\\verilog.sv",
+      "sha256": "9cb2727cdeaf3fb3b3f70e3f7b94bf958c88b8f763e2413408e1a29a96d0814a"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Flash/veriloga/data.dm",
+      "size_bytes": 3212,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Flash\\veriloga\\data.dm",
+      "sha256": "67145c8aba1592b82e8407dd5aad0093efcceea9812ed972dacd8ee1244e0e08"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Flash/veriloga/master.tag",
+      "size_bytes": 40,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Flash\\veriloga\\master.tag",
+      "sha256": "0bca5277f6bca9d881b02657a49726833c1b97b1379cd6e85e3cf6d691a27006"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Flash/veriloga/netlist.oa",
+      "size_bytes": 14684,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Flash\\veriloga\\netlist.oa",
+      "sha256": "b9726ca2c01e9b5aa08ad6b87df76aa346d3293a4a7ff9ed872de8a678ad04be"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/Flash/veriloga/veriloga.va",
+      "size_bytes": 1336,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\Flash\\veriloga\\veriloga.va",
+      "sha256": "08b0cb307a00d676cd4e57b6803d97517572b9e2ea531a865568a57bee3d6ea1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/flash_decoder_adder/systemVerilog/data.dm",
+      "size_bytes": 3212,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\flash_decoder_adder\\systemVerilog\\data.dm",
+      "sha256": "71fa3a47bee5ff05fcbc540ca592499a59e62638bd42aff8e0e69f40cba97bc0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/flash_decoder_adder/systemVerilog/master.tag",
+      "size_bytes": 39,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\flash_decoder_adder\\systemVerilog\\master.tag",
+      "sha256": "1e46d8631ef0b8f89c4d936520cfdbd6df9142294434796cbe61225285c3bcc7"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/flash_decoder_adder/systemVerilog/netlist.oa",
+      "size_bytes": 18036,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\flash_decoder_adder\\systemVerilog\\netlist.oa",
+      "sha256": "a97764b75e6b58518c8597044261b273ccc9d23ba0956120fd2caa472f1b0ea2"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/flash_decoder_adder/systemVerilog/pc.db",
+      "size_bytes": 49,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\flash_decoder_adder\\systemVerilog\\pc.db",
+      "sha256": "27ed8ace2f44960321de9fc0df26ea522d804c7a8de222fe6904fe7e54bcdaea"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/flash_decoder_adder/systemVerilog/verilog.sv",
+      "size_bytes": 790,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\flash_decoder_adder\\systemVerilog\\verilog.sv",
+      "sha256": "9a0a61e51df4a4c400be0962a8273cf8d3777b9f9dd4324dbde56d802c087d44"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_adc_controller/systemVerilog/data.dm",
+      "size_bytes": 3212,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_adc_controller\\systemVerilog\\data.dm",
+      "sha256": "93adc0cd6d03aaab4ff68a82d131e3795bd2b69eccbf0829f1b76cc249cbb951"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_adc_controller/systemVerilog/master.tag",
+      "size_bytes": 39,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_adc_controller\\systemVerilog\\master.tag",
+      "sha256": "1e46d8631ef0b8f89c4d936520cfdbd6df9142294434796cbe61225285c3bcc7"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_adc_controller/systemVerilog/netlist.oa",
+      "size_bytes": 19252,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_adc_controller\\systemVerilog\\netlist.oa",
+      "sha256": "90001a337b2cb6aa0aee2e775e94d21dc9fa221f45856a147c63de72c0d121f3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_adc_controller/systemVerilog/pc.db",
+      "size_bytes": 49,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_adc_controller\\systemVerilog\\pc.db",
+      "sha256": "2792c1470fe2065d2e4abfcd5b390048dccc2e6ed1453b8d84fd89347bf8d60b"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_adc_controller/systemVerilog/verilog.sv",
+      "size_bytes": 3916,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_adc_controller\\systemVerilog\\verilog.sv",
+      "sha256": "db9eca395ee92994d3ad7061b59f31519e4c8251014be7ca39a343c87322f97e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_reconstruction/systemVerilog/data.dm",
+      "size_bytes": 3212,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_reconstruction\\systemVerilog\\data.dm",
+      "sha256": "7d4c5cd49e0787797e179fd53a42384a63f19944f65138b88d2235f9b7649e96"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_reconstruction/systemVerilog/master.tag",
+      "size_bytes": 39,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_reconstruction\\systemVerilog\\master.tag",
+      "sha256": "1e46d8631ef0b8f89c4d936520cfdbd6df9142294434796cbe61225285c3bcc7"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_reconstruction/systemVerilog/netlist.oa",
+      "size_bytes": 21196,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_reconstruction\\systemVerilog\\netlist.oa",
+      "sha256": "c705876774f059c935526a307b1c5a7e8e99134d82237898bb8aff8b0f356b61"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_reconstruction/systemVerilog/pc.db",
+      "size_bytes": 51,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_reconstruction\\systemVerilog\\pc.db",
+      "sha256": "45392af8fe30a1c6cc95276e51001cea7acb74a33abf6dc7423f5de4c04cfc27"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_CORE/sar_reconstruction/systemVerilog/verilog.sv",
+      "size_bytes": 7038,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_CORE\\sar_reconstruction\\systemVerilog\\verilog.sv",
+      "sha256": "2ca489dd14528b12765022b8e871fdfcd394d88247ff3a58f9e4b54f26375499"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/ADE_state.info",
+      "size_bytes": 123,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\ADE_state.info",
+      "sha256": "9cfaaf749c5262b711aa18fddc3d3ec8cfcac27bb8044b5137d48acf51bc7ba4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/analyses.state",
+      "size_bytes": 43266,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\analyses.state",
+      "sha256": "98b98b2f71c1d5031efd7a2c97ac93bcd8bc7149416fd5ec7d0d57b1a9f169a6"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\convergence.state",
+      "sha256": "e6448112510f9748ad17ad9f6b297e20546c774462e4655fec08d3b6657a949a"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/environmentOptions.state",
+      "size_bytes": 1719,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\environmentOptions.state",
+      "sha256": "b64733917216973cc552e0882198fa66c8ada24067f0dafdafeaf72186655620"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/modelSetup.state",
+      "size_bytes": 2737,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\modelSetup.state",
+      "sha256": "adff9f482bd6f3d28ddbb7717c4419b9f294c55bbc33e4333ac70371f3cb329e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/outputs.state",
+      "size_bytes": 12372,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\outputs.state",
+      "sha256": "3ac75201a7e02c239fecd7d2c899c59ae08567041eaa41fc3d11917e8c4ab388"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/rfstim.state",
+      "size_bytes": 653,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\rfstim.state",
+      "sha256": "e14494124e670d4ff3abc8bc5d1fd52804678541739cfb29f7ce9c35d04516bc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\spList.state",
+      "sha256": "d19c5cef82bbe3c064fe005c94aa0164866dbe49999b55ab152f2ca33ef9356c"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\sprobeList.state",
+      "sha256": "d19c5cef82bbe3c064fe005c94aa0164866dbe49999b55ab152f2ca33ef9356c"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/turboOptions.state",
+      "size_bytes": 1546,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\turboOptions.state",
+      "sha256": "56ce1347b6fae5dc3f683fe24d1917def3b9bd22fb892d366bc72789012ab4be"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_EXP/FIA/spectre_state1/variables.state",
+      "size_bytes": 632,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_EXP\\FIA\\spectre_state1\\variables.state",
+      "sha256": "4fb37821c530bc774eabc7023e330eb32e7a333e1bda95229679f2a85d863645"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/ADE_state.info",
+      "size_bytes": 117,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\ADE_state.info",
+      "sha256": "77016dd1406425cc2fd32667b7d1586a59d15bde0823bd3fad90383c15783f1e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/analyses.state",
+      "size_bytes": 3657,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\analyses.state",
+      "sha256": "86d8414c765176d653875dfac8d7f341106009a5cefd051db6a7d6ba13846510"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\convergence.state",
+      "sha256": "a20c3e68391470b94f67c9225ce1d57a60de542bb731b47ef9b43cf52d95389c"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/environmentOptions.state",
+      "size_bytes": 1707,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\environmentOptions.state",
+      "sha256": "ccd6a32a7889d6589f9bc1104521b23b8522b1f6f2f10cd60087dcf1b630a7e3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/modelSetup.state",
+      "size_bytes": 2737,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\modelSetup.state",
+      "sha256": "adff9f482bd6f3d28ddbb7717c4419b9f294c55bbc33e4333ac70371f3cb329e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/outputs.state",
+      "size_bytes": 9042,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\outputs.state",
+      "sha256": "ac9d5fad01382d5e6a75ad7f6699897d0dd8a77f32581de33243d84aee3fc0c5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/rfstim.state",
+      "size_bytes": 4,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\rfstim.state",
+      "sha256": "2993d99e44a52955771424960849b395ff5ec61eee1252d3021c9be01dd4af5e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\spList.state",
+      "sha256": "5e5ce35ca580573f99379fa475bbc6897e004c150558d1c2d64f9c91741c872d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\sprobeList.state",
+      "sha256": "5e5ce35ca580573f99379fa475bbc6897e004c150558d1c2d64f9c91741c872d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/turboOptions.state",
+      "size_bytes": 1550,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\turboOptions.state",
+      "sha256": "d4fafd2f6894d9b2ce3cfe95f86502b337e4a7a6c623d63d72f843973b9de844"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/Preamp/spectre_state1/variables.state",
+      "size_bytes": 336,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\Preamp\\spectre_state1\\variables.state",
+      "sha256": "b5f75d283c40491bd1d7869b2774f05a30b0eb0263e7117f63e79842009075e7"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/ADE_state.info",
+      "size_bytes": 129,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\ADE_state.info",
+      "sha256": "35dfcefbe940ca7dca77ce09715eb2aff5f05976a64c053c26a15b031d874f0e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/analyses.state",
+      "size_bytes": 47336,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\analyses.state",
+      "sha256": "d92724f0104af1f40f2bdea8536836d7ceae0dbf4e6ee2afa5e7a2da3e2fbf92"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\convergence.state",
+      "sha256": "fd860ea0fd840b3f6efd5c7d18b3c71a52c3b365bb8bfc3c4ea53152e40160c9"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/environmentOptions.state",
+      "size_bytes": 1734,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\environmentOptions.state",
+      "sha256": "8af3992648243a284a4d4241baac01782e44c9e0246c90b974eb8f5f72ee14d0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/modelSetup.state",
+      "size_bytes": 2806,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\modelSetup.state",
+      "sha256": "da911dc937e12bbfa35e82e05b05446f48b28e6b9c9d81b6f1504907470c4cdc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/outputs.state",
+      "size_bytes": 17528,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\outputs.state",
+      "sha256": "830d207b949f927972a2bc08a685b0281e379fc045370bb74457397788916d05"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/rfstim.state",
+      "size_bytes": 1076,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\rfstim.state",
+      "sha256": "595c0ef33244c4b31bd0f7de9907e4bbd1856defaae1aff2c45906368e5284bc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\spList.state",
+      "sha256": "8ff686d6424beeaae68a4ed124a8a8b8be6f1b228d0f5c381e64ffa5e19ff1c2"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\sprobeList.state",
+      "sha256": "8ff686d6424beeaae68a4ed124a8a8b8be6f1b228d0f5c381e64ffa5e19ff1c2"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/turboOptions.state",
+      "size_bytes": 1540,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\turboOptions.state",
+      "sha256": "88bb52f4487fbb96b495db90f3c6bee0c95e0bd13751bb487f0510095ce45065"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ/spectre_state1/variables.state",
+      "size_bytes": 1390,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ\\spectre_state1\\variables.state",
+      "sha256": "b378be921504f187416b09670718e53738a24ed4ffb7ed07a6cd231219f803d3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/ADE_state.info",
+      "size_bytes": 137,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\ADE_state.info",
+      "sha256": "5b7cdfddbb5ed2388ce097bde49a4082acb1969d87c3d2a2e129e00b2f10f83e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/analyses.state",
+      "size_bytes": 47902,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\analyses.state",
+      "sha256": "d46c4802e4f48152724f3f5de7dbc5ab62d4542ae7c0f29ef901ee67ea7322d5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\convergence.state",
+      "sha256": "5020ad61a1f1247152a1672f8f79d97c7454a6fcc4d63b515e8d167eab664460"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/environmentOptions.state",
+      "size_bytes": 1734,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\environmentOptions.state",
+      "sha256": "8af3992648243a284a4d4241baac01782e44c9e0246c90b974eb8f5f72ee14d0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/modelSetup.state",
+      "size_bytes": 2806,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\modelSetup.state",
+      "sha256": "da911dc937e12bbfa35e82e05b05446f48b28e6b9c9d81b6f1504907470c4cdc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/outputs.state",
+      "size_bytes": 23008,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\outputs.state",
+      "sha256": "b9d6e107d29e4e46af7fb006f83716ef1ee74ff1bf4cac5b6b0779c41fa69086"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/rfstim.state",
+      "size_bytes": 1076,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\rfstim.state",
+      "sha256": "6ed73f6aca4c19594d328ef8c3ad60bb738caa84306897626eca880fa485312e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\spList.state",
+      "sha256": "77fa43bff5e33d437cbe27a928f362c482298f2c7040d3131adc11a74002f8d8"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\sprobeList.state",
+      "sha256": "77fa43bff5e33d437cbe27a928f362c482298f2c7040d3131adc11a74002f8d8"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/turboOptions.state",
+      "size_bytes": 1535,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\turboOptions.state",
+      "sha256": "901d338233dcadd5e308047e5832b04f71c45e6a5d7e58ac1dd3626198a95b50"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/variables.state",
+      "size_bytes": 1713,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\variables.state",
+      "sha256": "df8e52cdec60f6cc6e7e10b2456b35e47226911f7f08dc82b5ff3d4e8f4dbac0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state1/waveformSetup_ws.state/waveformSetup_ws_1.grf",
+      "size_bytes": 11174,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state1\\waveformSetup_ws.state\\waveformSetup_ws_1.grf",
+      "sha256": "d5091eee20396635ade4524796ac888ffc6d6a692050422452bf7a1b521a94af"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/ADE_state.info",
+      "size_bytes": 137,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\ADE_state.info",
+      "sha256": "5b7cdfddbb5ed2388ce097bde49a4082acb1969d87c3d2a2e129e00b2f10f83e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/analyses.state",
+      "size_bytes": 47902,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\analyses.state",
+      "sha256": "d46c4802e4f48152724f3f5de7dbc5ab62d4542ae7c0f29ef901ee67ea7322d5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\convergence.state",
+      "sha256": "d2182a0decd040a5492afa87208dfb654434b090f54ae5692d044292bc9ca8c9"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/environmentOptions.state",
+      "size_bytes": 1734,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\environmentOptions.state",
+      "sha256": "8af3992648243a284a4d4241baac01782e44c9e0246c90b974eb8f5f72ee14d0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/modelSetup.state",
+      "size_bytes": 2806,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\modelSetup.state",
+      "sha256": "da911dc937e12bbfa35e82e05b05446f48b28e6b9c9d81b6f1504907470c4cdc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/outputs.state",
+      "size_bytes": 23008,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\outputs.state",
+      "sha256": "b9d6e107d29e4e46af7fb006f83716ef1ee74ff1bf4cac5b6b0779c41fa69086"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/rfstim.state",
+      "size_bytes": 1076,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\rfstim.state",
+      "sha256": "595c0ef33244c4b31bd0f7de9907e4bbd1856defaae1aff2c45906368e5284bc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\spList.state",
+      "sha256": "c656e035ca2a4fa8767f713c9464281968fbbad78f6c228cd2d092531cb4bcf6"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\sprobeList.state",
+      "sha256": "c656e035ca2a4fa8767f713c9464281968fbbad78f6c228cd2d092531cb4bcf6"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/turboOptions.state",
+      "size_bytes": 1535,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\turboOptions.state",
+      "sha256": "901d338233dcadd5e308047e5832b04f71c45e6a5d7e58ac1dd3626198a95b50"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_CURRENT/spectre_state2/variables.state",
+      "size_bytes": 1713,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_CURRENT\\spectre_state2\\variables.state",
+      "sha256": "7612f8d987fc8bfd396907087d37220169511b35e5aa15d86fd18e30c3e630b2"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/ADE_state.info",
+      "size_bytes": 135,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\ADE_state.info",
+      "sha256": "6868f573933d2ded00f654835878d71ebaa5c867d1ff81507686aa23e34d6d6c"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/analyses.state",
+      "size_bytes": 47378,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\analyses.state",
+      "sha256": "269a35ab85fe9ac3b9668a6356190bd3e38f49db59a328c96349d1342015ec25"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\convergence.state",
+      "sha256": "f97d85de676c40d118c5072051957f8eb206217140ac335d8466feafa675b972"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/cosimOptions.state",
+      "size_bytes": 247,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\cosimOptions.state",
+      "sha256": "f513c8c5990c13070cf21955115a1f010815557309a9ee8e93d264b9da5bb9d4"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/environmentOptions.state",
+      "size_bytes": 1734,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\environmentOptions.state",
+      "sha256": "8af3992648243a284a4d4241baac01782e44c9e0246c90b974eb8f5f72ee14d0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/mdlOptions.state",
+      "size_bytes": 244,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\mdlOptions.state",
+      "sha256": "5cfdc6dc4ec7dd0659c77cbc47d01ddadca1153edea8b50d670c9d9d925d22a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/modelSetup.state",
+      "size_bytes": 2806,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\modelSetup.state",
+      "sha256": "da911dc937e12bbfa35e82e05b05446f48b28e6b9c9d81b6f1504907470c4cdc"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/outputs.state",
+      "size_bytes": 16199,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\outputs.state",
+      "sha256": "5cfb9505da699bf3c7a7f8889d0cd9bbc48eef8f4a86914cc3912a3d33478365"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/outputs.stateScripts",
+      "size_bytes": 5704,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\outputs.stateScripts",
+      "sha256": "b1c7ca3f76922718f815efbc47f95c3d31738eeb76da478fa4bb446fde491290"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/rfstim.state",
+      "size_bytes": 1345,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\rfstim.state",
+      "sha256": "71760db2e709385bce1013c69892e549720b89fbd1f3ba69c4683c692c8c5883"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/simulationFiles.state",
+      "size_bytes": 346,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\simulationFiles.state",
+      "sha256": "9208de4aafd3ec61d3532eba09ffe0e1a1b8b9cd7241201b5ec069164983a257"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/simulatorOptions.state",
+      "size_bytes": 3443,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\simulatorOptions.state",
+      "sha256": "7cd85798202688aae85d022c8fbd7d30e500145b01c801adace489fc9e52788d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/spList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\spList.state",
+      "sha256": "b139e8264ada6aadd762b077f60813ba394f04f14f5864501414bb464651bba1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/sprobeList.state",
+      "size_bytes": 27,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\sprobeList.state",
+      "sha256": "b139e8264ada6aadd762b077f60813ba394f04f14f5864501414bb464651bba1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/turboOptions.state",
+      "size_bytes": 1546,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\turboOptions.state",
+      "sha256": "56ce1347b6fae5dc3f683fe24d1917def3b9bd22fb892d366bc72789012ab4be"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_COMP_NOISE_AZ_WCHOP/spectre_state1/variables.state",
+      "size_bytes": 1551,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_COMP_NOISE_AZ_WCHOP\\spectre_state1\\variables.state",
+      "sha256": "6cde4b680fbcdf597e5d5cd9491e7ac3f4137d63704555438f34eb94cd757a0d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/ADE_state.info",
+      "size_bytes": 140,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\ADE_state.info",
+      "sha256": "54cd4c9b1a9ee8a8a26652e7491cd72a0e36af442d1733b5cfd58f9026938c43"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/analyses.state",
+      "size_bytes": 5931,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\analyses.state",
+      "sha256": "554726856cb06b6755b748f7d1a6a0e4a4cd3e5bf3ed8053b176c55938de3b71"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/connectModules.state",
+      "size_bytes": 58,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\connectModules.state",
+      "sha256": "0787f1bc0f6e163500c08286cbc8b01b17bee4c72e971ae2e67c64e0aa6a47eb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/convergence.state",
+      "size_bytes": 10240,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\convergence.state",
+      "sha256": "034f109206c93129ff321026eda6fc130dfb6e40f9cb76ee8225bb62f2e487e0"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/devCheckingSetup.state",
+      "size_bytes": 1172,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\devCheckingSetup.state",
+      "sha256": "63f41d3bd41dcd994f77b55f2ce44d6298da3f3d0e2a574b9880f8fbb9c37d88"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/disciplineSelect.state",
+      "size_bytes": 3,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\disciplineSelect.state",
+      "sha256": "5da3a4c7f117944275b4c8629c4916403625d5a4a6573a01ecb03f0e9d2edbe6"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/environmentOptions.state",
+      "size_bytes": 4444,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\environmentOptions.state",
+      "sha256": "da3545aec1a764b912b6e0a57acbb4961c60f5e7dc73548ff49e325e42a40001"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/environmentOptions.state_backup",
+      "size_bytes": 4476,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\environmentOptions.state_backup",
+      "sha256": "f2b8c86fc9298207da6710cf09625c6a1bbb5ecead6ec643e00fe28e8bb04442"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/globalSignals.state",
+      "size_bytes": 69,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\globalSignals.state",
+      "sha256": "edb3e78c802fea9a7fea724d9c8992993760f2d01eee63662346fd8815487c10"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/graphicalStimuli.state",
+      "size_bytes": 21,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\graphicalStimuli.state",
+      "sha256": "be7c0f8bd3fbfe9929647136f50fad2a7ab7a317adb3c2cbaffee77bc2eccff3"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/libraryFiles.state",
+      "size_bytes": 84,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\libraryFiles.state",
+      "sha256": "c41a50a95f905f2e6b789b900c6ec2a85682cfb79e19bb80f4d5fb169fc84303"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/master.tag",
+      "size_bytes": 43,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\master.tag",
+      "sha256": "790eb5b4173cc2f93ce75221fd4a1a90d9eb782e6b8e8c1f5ba9af1311b003c1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/matlabSimulink.state",
+      "size_bytes": 157,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\matlabSimulink.state",
+      "sha256": "01966ab2acbed60f5579ca2f520357a2e57abe9179013420fef170384835ec5e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/modelSetup.state",
+      "size_bytes": 2737,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\modelSetup.state",
+      "sha256": "adff9f482bd6f3d28ddbb7717c4419b9f294c55bbc33e4333ac70371f3cb329e"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/opPoints.state",
+      "size_bytes": 86,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\opPoints.state",
+      "sha256": "e14d78c7b37524ab8fdbeb56212eadc0ef80142c375d0c3661f42dcf2104b3fb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/outputs.state",
+      "size_bytes": 26847,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\outputs.state",
+      "sha256": "a049e94f3dbf763fa3c7b9877fd1fcbd33163197ae1dfa6d445dd6d55da59de1"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/outputs.stateScripts",
+      "size_bytes": 5672,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\outputs.stateScripts",
+      "sha256": "e1c0a0b25da5ca5a1265ae0ab2ae73825f5301ada1edfac62ec4095ee70afa5d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/paramSetup.state",
+      "size_bytes": 0,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\paramSetup.state",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/relxOptions.state",
+      "size_bytes": 6355,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\relxOptions.state",
+      "sha256": "e910115003fcef0f82164c51293530d61823301bb010909a715497c815f140dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/runOptInfo.state",
+      "size_bytes": 397,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\runOptInfo.state",
+      "sha256": "261df3e555205db7ea8169384dc092f038c2c4b52c1466d0a4322aaf35a7ed11"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/simulationFiles.state",
+      "size_bytes": 341,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\simulationFiles.state",
+      "sha256": "efa7d87af71bd41b87ea8fafc00fce76a72a556a4f65f3786778bfb6ca5fb2dd"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/simulatorOptions.state",
+      "size_bytes": 17379,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\simulatorOptions.state",
+      "sha256": "477edae24437e4e09e501a08d6826aec3f1d0c671357686828f01832af059831"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/solverInfo.state",
+      "size_bytes": 17,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\solverInfo.state",
+      "sha256": "58a94d8c550f6a4f67dae13a356c881127ef0fe658e07d9287b158b8c4158537"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/subckts.state",
+      "size_bytes": 83,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\subckts.state",
+      "sha256": "7084431d9b8b8fb3e1785d29b9f5e6d7dce61ad4a5170997894be73d5bbdc34d"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/turboOptions.state",
+      "size_bytes": 1647,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\turboOptions.state",
+      "sha256": "0732d1981cc0d4e406942efa5c0875f3a0379a893bee98f58de233f5088ec7a5"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/ams_state1/variables.state",
+      "size_bytes": 1714,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\ams_state1\\variables.state",
+      "sha256": "93c72f798a0c4a9608553dd95e8305b9bfd5f3a5c05735ae1ec6d6cfe3127058"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/config/expand.cfg",
+      "size_bytes": 3806,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\config\\expand.cfg",
+      "sha256": "d1bf5e01eb754646d3d5aa53d89bc380f10db2689460b80acab45ef54c7e03cb"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/config/expand.cfg%",
+      "size_bytes": 3742,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\config\\expand.cfg%",
+      "sha256": "2fb60ff261e8a1ce7d05d184da3f1813f42f7d32e109ab6b67db927c293c08f8"
+    },
+    {
+      "remote_path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/config/master.tag",
+      "size_bytes": 39,
+      "status": "exported",
+      "local_path": "analysis\\vm_sar16b_compatibility_20260830\\snapshot\\SAR_16B_5M_TB\\TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6\\config\\master.tag",
+      "sha256": "c923f7656ef1006b58a945f75851e7061244e8afe6794575285f555b098031d0"
+    }
+  ]
+}

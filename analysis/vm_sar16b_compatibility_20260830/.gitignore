@@ -1,0 +1,4 @@
+bridge_session.env
+snapshot/
+remote_tmp/
+__pycache__/

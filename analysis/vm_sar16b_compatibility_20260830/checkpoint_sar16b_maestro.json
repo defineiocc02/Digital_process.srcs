@@ -1,0 +1,97 @@
+{
+  "captured_utc": "2026-08-30T03:50:09.891991+00:00",
+  "mode": "read_only_background_maestro",
+  "library": "SAR_16B_5M_TB",
+  "cell": "TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6",
+  "view": "maestro",
+  "session": "fnxSession1",
+  "test": "ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1",
+  "current_history": "",
+  "hist_files": [
+    ".",
+    "..",
+    "Interactive.0.rdb",
+    "Interactive.1.rdb",
+    "Interactive.2.rdb",
+    "Interactive.3.rdb",
+    "Interactive.4.rdb",
+    "Interactive.5.rdb",
+    "Interactive.6.rdb",
+    "Interactive.6.log",
+    "Interactive.7.rdb",
+    "Interactive.7.log",
+    "Interactive.8.rdb",
+    "Interactive.8.log",
+    "Interactive.9.rdb",
+    "Interactive.9.log",
+    "ExplorerRun.0.rdb",
+    "ExplorerRun.0.log"
+  ],
+  "hist_files_mtime": [],
+  "raw_sections": [
+    [
+      "ddGetObj(\"SAR_16B_5M_TB\")~>readPath",
+      "\"/home/meow/IC/SAR_16B_5M_TB\""
+    ],
+    [
+      "maeGetSetup(?session \"fnxSession1\")",
+      "(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\")"
+    ],
+    [
+      "maeGetEnabledAnalysis(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\" ?session \"fnxSession1\")",
+      "(\"tran\")"
+    ],
+    [
+      "maeGetAnalysis(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\" \"tran\" ?session \"fnxSession1\")",
+      "((\"anaName\" \"tran\") (\"stop\" \"30u\") (\"errpreset\" \"conservative\") (\"tranNoise\" \"Transient Noise\") (\"trannoisemethod\" \"default\") (\"noisefmax\" \"10G\") (\"noiseseed\" \"1423525\") (\"binnum\" \"16\") (\"noiseruns\" \"100\") (\"dynamicParameter\" \"Parameter\") (\"dynParamChoice\" \"User-defined\") (\"dynParamSetChoice\" \"User-defined\") (\"dynchoice\" \"Parameter file\") (\"dynamicChoice\" \"File\") (\"write\" \"spectre.ic\") (\"writefinal\" \"spectre.fc\") (\"annotate\" \"status\") (\"progress_t\" \"60\") (\"progress_p\" \"10\") (\"finalTimeOp\" \"yes\") (\"thermalmethod\" \"Steady State\") (\"triseLimit\" \"300\") (\"resTriseRpt\" \"No\") (\"iterNum\" \"2\") (\"thermalTimeStep\" \"0\") (\"sortMethod\" \"Temperature Rise\") (\"triseTemp\" \"0.0\") (\"saveChannelOnly\" \"No\") (\"triseDelta\" \"0.0\") (\"maxiters\" \"5\"))"
+    ],
+    [
+      "maeGetEnvOption(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\" ?session \"fnxSession1\")",
+      "((\"switchViewList\" (\"spectre\" \"verilog\" \"veriloga\" \"cmos_sch\" \"cmos.sch\" \"schematic\" \"ahdl\" \"symbol\")) (\"stopViewList\" (\"spectre\" \"verilog\" \"veriloga\")) (\"compatMode\" \"spectre\") (\"controlMode\" \"batch\") (\"printComments\" (nil nil)) (\"modelFiles\" ((\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_dio_m\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_dio_3m\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_rtmom\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_bbmvar\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_disres\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_mim\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_3vna\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_dio_dnw\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_m\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_3m\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_res\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_bip3\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_bip\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_dio3\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_3v\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_dio\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_na\") (\"/home/meow/Desktop/TSMC18/tsmc18/../models/spectre/cmn018_assp_v1d2.scs\" \"tt_fmom\"))) (\"reliabilityModelFiles\" \"nil\") (\"placementType\" \"Before Standard Model\") (\"simExecName\" \"ncsim\") (\"isMTSSupported\" t) (\"autoDisplay\" t) (\"autoDisplayBBox\" (\"0\" \"0\" \"515\" \"700\")) (\"netlistBBox\" (\"0\" \"0\" \"515\" \"700\")) (\"mpsSessionNumber\" 0) (\"enable_actimes\" t) (\"licQueueTimeOut\" \"900\") (\"mdlSimExecName\" \"spectremdl\") (\"spectrefxSimExecName\" \"spectrefx\") (\"emAnaType\" \"Dynamic\") (\"case_sensitive\" \"false\") (\"extra_port\" \"false\") (\"port_order\" \"sch\") (\"logstatusInfo\" t) (\"maxHierarchyLevel\" 9) (\"enableNoiseRefactor\" t) (\"enablePhaseNoiseBW\" t) (\"displayToolTip\" t) (\"spectreLineLength\" 75) (\"solver\" \"Spectre\") (\"enableChangeSpectrePath\" (nil)) (\"runOpts\" \"Batch (normal)\") (\"enableAMSdebug\" (nil)) (\"enableCrossSelection\" (nil)) (\"useVSESymInSimvMS\" (nil)) (\"runCompOnly\" (t nil)) (\"runElabOnly\" (t nil)) (\"runSimOnly\" (t)) (\"cleanSnapShot\" (nil)) (\"compileVAAsVAMS\" (nil)) (\"enableAMSDflex\" (t)) (\"restartFlag\" (nil)) (\"restartFlag_assem\" (nil)) (\"snapshotSaveMode\" \"Time points\") (\"snapShotBaseName\" \"mySnapShot\") (\"snapShotNameTimeUnit\" \"us\") (\"maxNumSnapShots\" 4) (\"edenSaveExistingDirectories\" t) (\"edenWaveformTool\" \"SimVision\") (\"builtinuser\" t) (\"showCustomizePopup\" t) (\"showLibFilesPopup\" t) (\"connectRulesList\" ((\"connectLib\" \"ConnRules_18V_full_fast\" \"connect\"))) (\"amsIEsList\" ((t \"global\" \"\" \"Value\" \"1.8\" \"connectLib.CR_full_fast\" \"\" \"logic\" \"discipline=logic;\" \"Built-in\"))) (\"useIeSetup\" t) (\"invocationStyle\" \"irun\") (\"useControlBlock\" t) (\"netlisterMode\" \"AMS-UNL\") (\"autoConfigNameForConfigCreation\" \"auto_config\") (\"viewListForConfigCreation\" \"spectre spice pspice verilog verilogams behavioral functional systemVerilog schematic veriloga vhdl vhdlams wreal\") (\"stopListForConfigCreation\" \"spectre\") (\"defaultVsupForVAR\" \"1.8\") (\"autoCreatePcellFile\" t) (\"matlabStartCmd\" \"matlab\") (\"simInitTimeOut\" 10) (\"whenStartMatlab\" \"no\") (\"edenGlobalCell\" \"cds_globals\") (\"edenShowUsedCrInfo\" t) (\"edenRunOpts\" \"GUI\") (\"edenRunNetlistOnly\" (t nil)) (\"edenHostMode\" \"Local\") (\"compileCRsForPlugin\" \"doNotCompile\") (\"exportIrunDataMode\" \"Write Absolute paths\") (\"exportNetlistPath\" \"./Export-netlist\") (\"exportVerilogNetlistMode\" \"Verilog-AMS\") (\"exportVerilogFileMode\" \"single\") (\"exportVerilogExportMode\" \"link\") (\"exportPromptOn\" t) (\"outputSelectionTextOnTop\" \"auto\") (\"advTBRSelectFSUI\" \"Advanced Testbench Reuse Full Mode\") (\"advTBRDUTconfigMode\" \"Cell\") (\"ipV2K1ConfigName\" \"myConfig\") (\"ipTestbenchTopCell\" \"<SocTopCell>\") (\"ipDrillInhOnAllExceptTop\" (t)) (\"ipDrillInhOnTop\" (t)) (\"ipPrintAdeSimOptions\" \"selected\") (\"ipSelectedSimOptions\" (t t t t)) (\"ipExportHDLFiles\" t) (\"netlistDirAsIncludePath\" t) (\"useMpsDefaultSessionName\" t) (\"enableXmdcp\" (nil)) (\"preCommandsSelect\" \"none\") (\"netlistFormat\" \"spectre\"))"
+    ],
+    [
+      "maeGetSimOption(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\" ?session \"fnxSession1\")",
+      "((\"reltol\" \"1e-3\") (\"vabstol\" \"1e-6\") (\"iabstol\" \"1e-12\") (\"temp\" \"27\") (\"tnom\" \"27\") (\"scalem\" \"1.0\") (\"scale\" \"1.0\") (\"gmin\" \"1e-12\") (\"rforce\" \"1\") (\"maxnotes\" \"5\") (\"maxwarns\" \"5\") (\"digits\" \"5\") (\"pivrel\" \"1e-3\") (\"checklimitdest\" \"psf\") (\"enable_dcsweep_op_info\" \"no\"))"
+    ],
+    [
+      "mapcar(lambda((o) list(o~>name o~>type o~>signal o~>expression o~>plot o~>save o~>evalType o~>yaxisUnit o~>spec)) maeGetTestOutputs(\"ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\" ?session \"fnxSession1\"))",
+      "((nil net \"/P\" nil t t nil nil nil) (\"Cdac_top\" net \"/N\" nil t t nil nil nil) (nil net \"/VIN\" nil t t nil nil nil) (nil net \"/VIP\" nil t t nil nil nil) (nil net \"/D<1:3>\" nil nil t nil nil nil) (nil net \"/Dflash<1:0>\" nil nil t nil nil nil) (nil net \"/BITP<20:0>\" nil nil t nil nil nil) (nil net \"/VCM_165\" nil nil t nil nil nil) (\"Cs_top\" net \"/I110<20>/net011\" nil t t nil nil nil) (\"Cs_bot\" net \"/I110<20>/VSX\" nil t t nil nil nil) (\"Cdac_bot\" net \"/BITD<1>\" nil t t nil nil nil) (nil net \"/I8/VI2N\" nil nil nil nil nil nil) (nil net \"/I8/VI2P\" nil nil nil nil nil nil) (nil net \"/I8/VO2N\" nil nil nil nil nil nil) (nil net \"/I8/VO2P\" nil nil nil nil nil nil) (nil net \"/I8/vx1\" nil nil nil nil nil nil) (nil net \"/I8/vx2\" nil nil nil nil nil nil) (nil net \"/COMP\" nil t t nil nil nil) (nil net \"/COMN\" nil nil nil nil nil nil) (nil nil nil average((VT(\"/V51/PLUS\") * IT(\"/V51/PLUS\"))) t nil nil nil nil) (\"/V51/PLUS_V\" terminalV \"/V51/PLUS\" nil nil t nil nil nil) (nil terminal \"/V51/PLUS\" nil nil t nil nil nil) (nil nil nil average((VT(\"/AVDD\") * IT(\"/V45/PLUS\"))) t nil nil nil nil) (nil terminal \"/V45/PLUS\" nil nil t nil nil nil) (nil nil nil average((VT(\"/AVDD_3.3\") * IT(\"/V50/PLUS\"))) t nil nil nil nil) (nil terminal \"/V50/PLUS\" nil nil t nil nil nil))"
+    ],
+    [
+      "maeGetCurrentRunMode(?session \"fnxSession1\")",
+      "\"Single Run, Sweeps and Corners\""
+    ],
+    [
+      "maeGetJobControlMode(?session \"fnxSession1\")",
+      "\"ICRP\""
+    ],
+    [
+      "errset(maeGetRunPlan(?session \"fnxSession1\"))",
+      "(nil)"
+    ],
+    [
+      "errset(let((h) h=axlGetCurrentHistory(\"fnxSession1\") when(h list(h~>name h~>historyName h~>run h~>runName))))",
+      "nil"
+    ],
+    [
+      "errset(maeGetSimulationMessages(?session \"fnxSession1\" ?msgType \"error\"))",
+      "(\"\")"
+    ],
+    [
+      "errset(maeGetSimulationMessages(?session \"fnxSession1\" ?msgType \"warning\"))",
+      "(\"\")"
+    ],
+    [
+      "errset(maeGetSimulationMessages(?session \"fnxSession1\" ?msgType \"info\"))",
+      "(\"\")"
+    ],
+    [
+      "getDirFiles(strcat(ddGetObj(\"SAR_16B_5M_TB\")~>readPath \"/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro\"))",
+      "(\".\" \"..\" \"Interactive.0.rdb\" \"Interactive.1.rdb\" \"Interactive.2.rdb\" \"Interactive.3.rdb\" \"Interactive.4.rdb\" \"Interactive.5.rdb\" \"Interactive.6.rdb\" \"Interactive.6.log\" \"Interactive.7.rdb\" \"Interactive.7.log\" \"Interactive.8.rdb\" \"Interactive.8.log\" \"Interactive.9.rdb\" \"Interactive.9.log\" \"ExplorerRun.0.rdb\" \"ExplorerRun.0.log\")"
+    ],
+    [
+      "errset(asiGetAnalogRunDir(asiGetSession(\"fnxSession1\")))",
+      "(\"/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/.tmpADEDir_meow/ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1/SAR_16B_5M_TB_TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6_config_ams/netlist\")"
+    ]
+  ]
+}

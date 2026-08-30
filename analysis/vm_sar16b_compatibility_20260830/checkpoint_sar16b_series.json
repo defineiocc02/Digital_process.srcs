@@ -1,0 +1,402 @@
+{
+  "captured_utc": "2026-08-30T03:38:17.024081+00:00",
+  "host": "192.168.38.140",
+  "mode": "read_only",
+  "hostname": "meowu",
+  "cds_libraries": {
+    "/home/meow/Desktop/TSMC18/cds.lib": {
+      "defines": {
+        "tsmc18": "./tsmc18"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 ./tsmc18\n"
+    },
+    "/home/meow/Desktop/TSMC18RF/cds.lib": {
+      "defines": {
+        "basic": "$CDSHOME/tools/dfII/etc/cdslib/basic",
+        "analogLib": "$CDSHOME/tools/dfII/etc/cdslib/artist/analogLib",
+        "tsmc18rf": "./tsmc18rf",
+        "delay_cell_2": "/opt2/work/ic615/Library/1P6M_1.8V_3.3V_MM_RF/delay_cell_2"
+      },
+      "text": "DEFINE basic $CDSHOME/tools/dfII/etc/cdslib/basic \nDEFINE analogLib $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib\nDEFINE tsmc18rf ./tsmc18rf\nDEFINE delay_cell_2 /opt2/work/ic615/Library/1P6M_1.8V_3.3V_MM_RF/delay_cell_2\n"
+    },
+    "/home/meow/Desktop/TSMC18_DIGITAL/cds.lib": {
+      "defines": {
+        "tcb018gbwp7t": "./tcb018gbwp7t"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE tcb018gbwp7t ./tcb018gbwp7t\n"
+    },
+    "/home/meow/IC/12bit_50M_SAR/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC18/tsmc18",
+        "tcb018gbwp7t": "/home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t",
+        "12bit_50M_SAR": "/home/meow/IC/12bit_50M_SAR",
+        "SAR_16B_5M_CORE": "/home/meow/IC/SAR_16B_5M_CORE",
+        "SAR_16B_5M_EXP": "/home/meow/IC/SAR_16B_5M_EXP",
+        "SAR_16B_5M_TB": "/home/meow/IC/SAR_16B_5M_TB"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC18/tsmc18\nDEFINE tcb018gbwp7t /home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t\nDEFINE 12bit_50M_SAR /home/meow/IC/12bit_50M_SAR\nDEFINE SAR_16B_5M_CORE /home/meow/IC/SAR_16B_5M_CORE\nDEFINE SAR_16B_5M_EXP /home/meow/IC/SAR_16B_5M_EXP\nDEFINE SAR_16B_5M_TB /home/meow/IC/SAR_16B_5M_TB\n"
+    },
+    "/home/meow/IC/14BIT_ADC/ADI_ADC/cds.lib": {
+      "defines": {
+        "HIX_2012210_DEV": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_DEV",
+        "HIX_2012210_INT": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_INT",
+        "HIX_2012210_LIB": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_LIB",
+        "HIX_2012210_SHT": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SHT",
+        "HIX_2012210_SUB": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SUB",
+        "HIX_2012210_TOP": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_TOP"
+      },
+      "text": "# Target-local map for the auxiliary ADI reference libraries.\n# Original map is preserved as cds.lib.original-paths.\n\nDEFINE HIX_2012210_DEV /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_DEV\nDEFINE HIX_2012210_INT /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_INT\nDEFINE HIX_2012210_LIB /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_LIB\nDEFINE HIX_2012210_SHT /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SHT\nDEFINE HIX_2012210_SUB /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SUB\nDEFINE HIX_2012210_TOP /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_TOP\n"
+    },
+    "/home/meow/IC/14BIT_ADC/cds.lib": {
+      "defines": {
+        "TI_SAR_ADC": "/home/meow/IC/14BIT_ADC/TI_SAR_ADC",
+        "smic18mmrf": "/home/meow/IC/14BIT_ADC/smic18/SPDK18MSERF_1833_OA_CDS_V1.11_2/smic18mserf_1833_1P6M_5Ia_1TMa2_MIM10_oa_cds_2017_12_25_v1.11_2/smic18mmrf",
+        "smic18_gds": "/home/meow/IC/14BIT_ADC/smic18_gds",
+        "CDAC": "/home/meow/IC/14BIT_ADC/CDAC",
+        "CDAC_p1": "/home/meow/IC/14BIT_ADC/CDAC_p1",
+        "ADC_COMP": "/home/meow/IC/14BIT_ADC/ADC_COMP",
+        "ADC_DS": "/home/meow/IC/14BIT_ADC/ADC_DS",
+        "SP018WP_gds": "/home/meow/IC/14BIT_ADC/SP018WP_gds",
+        "verilog": "/home/meow/IC/14BIT_ADC/verilog",
+        "smic18_digital_oa": "/home/meow/IC/14BIT_ADC/smic18/digital/oa/smic18_digital_oa",
+        "HIX_2012210_DEV": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_DEV",
+        "HIX_2012210_INT": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_INT",
+        "HIX_2012210_LIB": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_LIB",
+        "HIX_2012210_SHT": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SHT",
+        "HIX_2012210_SUB": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SUB",
+        "HIX_2012210_TOP": "/home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_TOP",
+        "cdsSymbolicDevice": "$(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/cdsSymbolicDevice",
+        "cdsTmpSymbolicLib": "./.cadence/dfII/spd/cdsTmpSymbolicLib"
+      },
+      "text": "# Target-local library map for the imported SMIC18RF 14-bit ADC project.\n# Generated for CentOS 7 + Cadence IC6.1.8 on 2026-08-11.\n# Original source maps are preserved as cds.lib.original-paths and\n# cds.lib.restored-ic231.\n\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/cds.lib\nSOFTINCLUDE /opt/cadence/XCELIUM2309/tools.lnx86/affirma_ams/etc/connect_lib/cds.lib\n\nDEFINE TI_SAR_ADC /home/meow/IC/14BIT_ADC/TI_SAR_ADC\nDEFINE smic18mmrf /home/meow/IC/14BIT_ADC/smic18/SPDK18MSERF_1833_OA_CDS_V1.11_2/smic18mserf_1833_1P6M_5Ia_1TMa2_MIM10_oa_cds_2017_12_25_v1.11_2/smic18mmrf\nDEFINE smic18_gds /home/meow/IC/14BIT_ADC/smic18_gds\nDEFINE CDAC /home/meow/IC/14BIT_ADC/CDAC\nDEFINE CDAC_p1 /home/meow/IC/14BIT_ADC/CDAC_p1\nDEFINE ADC_COMP /home/meow/IC/14BIT_ADC/ADC_COMP\nDEFINE ADC_DS /home/meow/IC/14BIT_ADC/ADC_DS\nDEFINE SP018WP_gds /home/meow/IC/14BIT_ADC/SP018WP_gds\nDEFINE verilog /home/meow/IC/14BIT_ADC/verilog\nDEFINE smic18_digital_oa /home/meow/IC/14BIT_ADC/smic18/digital/oa/smic18_digital_oa\n\n# Auxiliary ADI reference libraries included in the source package.\nDEFINE HIX_2012210_DEV /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_DEV\nDEFINE HIX_2012210_INT /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_INT\nDEFINE HIX_2012210_LIB /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_LIB\nDEFINE HIX_2012210_SHT /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SHT\nDEFINE HIX_2012210_SUB /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_SUB\nDEFINE HIX_2012210_TOP /home/meow/IC/14BIT_ADC/ADI_ADC/HIX_2012210_TOP\n\nDEFINE cdsSymbolicDevice $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/cdsSymbolicDevice\nDEFINE cdsTmpSymbolicLib ./.cadence/dfII/spd/cdsTmpSymbolicLib\n\n# The bundled standard-cell Cadence views are legacy CDB pc.db data and remain\n# preserved under smic18/digital/sc/symbols/cadence/smic18.  The independent\n# smic18_digital_oa library is rebuilt from the bundled SC, IO, and PLL Verilog.\n"
+    },
+    "/home/meow/IC/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC18/tsmc18",
+        "tcb018gbwp7t": "/home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t",
+        "12bit_50M_SAR": "/home/meow/IC/12bit_50M_SAR",
+        "SAR_16B_5M_CORE": "/home/meow/IC/SAR_16B_5M_CORE",
+        "SAR_16B_5M_EXP": "/home/meow/IC/SAR_16B_5M_EXP",
+        "SAR_16B_5M_TB": "/home/meow/IC/SAR_16B_5M_TB"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC18/tsmc18\nDEFINE tcb018gbwp7t /home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t\nDEFINE 12bit_50M_SAR /home/meow/IC/12bit_50M_SAR\nDEFINE SAR_16B_5M_CORE /home/meow/IC/SAR_16B_5M_CORE\nDEFINE SAR_16B_5M_EXP /home/meow/IC/SAR_16B_5M_EXP\nDEFINE SAR_16B_5M_TB /home/meow/IC/SAR_16B_5M_TB\n"
+    },
+    "/home/meow/IC/xcelium.d/run.lnx8664.23.09.d/cds.lib": {
+      "defines": {},
+      "text": "include ./cdsrun.lib\n"
+    },
+    "/home/meow/cds.lib": {
+      "defines": {},
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/cds.lib\n#Removed by ddDeleteObj: DEFINE 546 /home/meow/Desktop/TSMC180_CANDIDATE/tsmc18/546\n"
+    },
+    "/home/meow/jxy/12bit_50M_SAR/cds.lib": {
+      "defines": {
+        "12bit_50M_SAR": "/home/meow/jxy/12bit_50M_SAR",
+        "tsmc18": "/home/meow/Desktop/TSMC18/tsmc18",
+        "tsmc18rf": "/home/meow/Desktop/TSMC18RF/tsmc18rf",
+        "tcb018gbwp7t": "/home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t",
+        "cfmom_probe_lib": "/home/meow/jxy/cfmom_probe_lib"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE 12bit_50M_SAR /home/meow/jxy/12bit_50M_SAR\nDEFINE tsmc18 /home/meow/Desktop/TSMC18/tsmc18\nDEFINE tsmc18rf /home/meow/Desktop/TSMC18RF/tsmc18rf\nDEFINE tcb018gbwp7t /home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t\nDEFINE cfmom_probe_lib /home/meow/jxy/cfmom_probe_lib\n"
+    },
+    "/home/meow/jxy/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC18/tsmc18",
+        "tsmc18rf": "/home/meow/Desktop/TSMC18RF/tsmc18rf",
+        "tcb018gbwp7t": "/home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t",
+        "12bit_50M_SAR": "/home/meow/jxy/12bit_50M_SAR",
+        "TEST": "/home/meow/jxy/TEST"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC18/tsmc18\nDEFINE tsmc18rf /home/meow/Desktop/TSMC18RF/tsmc18rf\nDEFINE tcb018gbwp7t /home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t\nDEFINE 12bit_50M_SAR /home/meow/jxy/12bit_50M_SAR\nDEFINE TEST /home/meow/jxy/TEST\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/TSMC180_CANDIDATE/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC180_CANDIDATE/tsmc18"
+      },
+      "text": "# Project-local Cadence library map for TSMC180 candidate OA library\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC180_CANDIDATE/tsmc18\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/cds.lib": {
+      "defines": {
+        "tsmcN18": "/home/meow/Desktop/TSMC180_PARALLEL/tsmcN18"
+      },
+      "text": "# Parallel TSMC 180 nm candidate library\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nDEFINE tsmcN18 /home/meow/Desktop/TSMC180_PARALLEL/tsmcN18\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/tsmc18_candidate_test/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC180_CANDIDATE/tsmc18",
+        "tsmc18_candidate_test": "/home/meow/jxy/tsmc18_candidate_test"
+      },
+      "text": "# Project-local candidate PDK test library\nSOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC180_CANDIDATE/tsmc18\nDEFINE tsmc18_candidate_test /home/meow/jxy/tsmc18_candidate_test\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/tsmcN18/cds.lib": {
+      "defines": {
+        "tsmc18": "./tsmc18"
+      },
+      "text": "# File Created by EDA at Sat Jul 15 21:01:07 2023\n# assisted by CdsLibEditor\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 ./tsmc18\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/tsmcN18_1p5m_1fF/cds.lib": {
+      "defines": {
+        "tsmc18": "./tsmc18"
+      },
+      "text": "# File Created by EDA at Sat Jul 15 21:01:07 2023\n# assisted by CdsLibEditor\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/dfII/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/hdl/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/pic/cds.lib\nSOFTINCLUDE /opt/Cadence/IC617/share/cdssetup/sg/cds.lib\nDEFINE tsmc18 ./tsmc18\n"
+    },
+    "/home/meow/zhaoyi/tsmc18_cleanup_archive_20260731/tsmcN18_test/cds.lib": {
+      "defines": {
+        "tsmc18": "/home/meow/Desktop/TSMC180_PARALLEL/tsmcN18/tsmc18",
+        "tcb018gbwp7t": "/home/meow/Desktop/TSMC180_PARALLEL/tcb018gbwp7t"
+      },
+      "text": "SOFTINCLUDE /opt/cadence/IC618/share/cdssetup/dfII/cds.lib\nDEFINE tsmc18 /home/meow/Desktop/TSMC180_PARALLEL/tsmcN18/tsmc18\nDEFINE tcb018gbwp7t /home/meow/Desktop/TSMC180_PARALLEL/tcb018gbwp7t\n"
+    }
+  },
+  "libraries": {
+    "SAR_16B_5M_CORE": {
+      "name": "SAR_16B_5M_CORE",
+      "path": "/home/meow/IC/SAR_16B_5M_CORE",
+      "exists": true,
+      "cell_count": 26,
+      "cells": {
+        "CDAC_MAIN_20b": [
+          "schematic",
+          "symbol"
+        ],
+        "CDAC_SWITCH_DRIVER_NEW": [
+          "schematic",
+          "symbol"
+        ],
+        "CDAC_SWITCH_DRIVER_NEW_GATES": [
+          "schematic",
+          "symbol"
+        ],
+        "COMP_AZ": [
+          "schematic",
+          "symbol"
+        ],
+        "COMP_AZ_07_11": [
+          "constraint",
+          "schematic"
+        ],
+        "COMP_LATCH": [
+          "schematic",
+          "symbol"
+        ],
+        "Digital_Process": [
+          "functional",
+          "schematic",
+          "symbol",
+          "systemVerilog"
+        ],
+        "Flash": [
+          "symbol",
+          "veriloga"
+        ],
+        "LOGIC_NAND_GATE_1": [
+          "schematic",
+          "symbol"
+        ],
+        "LOGIC_NOR_GATE_1": [
+          "schematic",
+          "symbol"
+        ],
+        "LOGIC_NOT_GATE_1": [
+          "schematic",
+          "symbol"
+        ],
+        "LS_VLS": [
+          "schematic",
+          "symbol"
+        ],
+        "PA_GAIN_STG1": [
+          "schematic",
+          "symbol"
+        ],
+        "PA_GAIN_STG1_PMOS": [
+          "schematic"
+        ],
+        "PA_GAIN_STG2": [
+          "schematic",
+          "symbol"
+        ],
+        "SAR_DflipwiRESET_transistor": [
+          "schematic",
+          "symbol"
+        ],
+        "SAR_Logic": [
+          "schematic",
+          "symbol"
+        ],
+        "SAR_Logic_transistor_woflash": [
+          "schematic",
+          "symbol"
+        ],
+        "SAR_Logic_transistor_woflash_0711": [
+          "constraint",
+          "schematic"
+        ],
+        "SS_MAIN": [
+          "schematic",
+          "symbol"
+        ],
+        "SS_Sampler": [
+          "schematic",
+          "symbol"
+        ],
+        "SS_Sampler_Mdc": [
+          "schematic",
+          "symbol"
+        ],
+        "SWITCH_VCM_REAL_ALONE": [
+          "schematic",
+          "symbol"
+        ],
+        "flash_decoder_adder": [
+          "schematic",
+          "symbol",
+          "systemVerilog"
+        ],
+        "sar_adc_controller": [
+          "symbol",
+          "systemVerilog"
+        ],
+        "sar_reconstruction": [
+          "symbol",
+          "systemVerilog"
+        ]
+      },
+      "find_stderr": ""
+    },
+    "SAR_16B_5M_EXP": {
+      "name": "SAR_16B_5M_EXP",
+      "path": "/home/meow/IC/SAR_16B_5M_EXP",
+      "exists": true,
+      "cell_count": 4,
+      "cells": {
+        "Chopper": [
+          "maestro",
+          "schematic",
+          "symbol"
+        ],
+        "FIA": [
+          "maestro",
+          "schematic",
+          "spectre_state1"
+        ],
+        "SS_Sampler_precharge_tongji": [
+          "schematic",
+          "symbol"
+        ],
+        "STACKED_FIA": [
+          "schematic"
+        ]
+      },
+      "find_stderr": ""
+    },
+    "SAR_16B_5M_TB": {
+      "name": "SAR_16B_5M_TB",
+      "path": "/home/meow/IC/SAR_16B_5M_TB",
+      "exists": true,
+      "cell_count": 9,
+      "cells": {
+        "CAP_MIS": [
+          "schematic"
+        ],
+        "Preamp": [
+          "schematic",
+          "spectre_state1"
+        ],
+        "TEST": [
+          "maestro",
+          "schematic"
+        ],
+        "TEST_COMP_NOISE_AZ": [
+          "maestro",
+          "schematic",
+          "spectre_state1"
+        ],
+        "TEST_COMP_NOISE_AZ_CURRENT": [
+          "schematic",
+          "spectre_state1",
+          "spectre_state2"
+        ],
+        "TEST_COMP_NOISE_AZ_WCHOP": [
+          "schematic",
+          "spectre_state1"
+        ],
+        "TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6": [
+          "ams_state1",
+          "config",
+          "layout",
+          "maestro",
+          "maestro2",
+          "maestro_3",
+          "schematic"
+        ],
+        "TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6_0711": [
+          "constraint",
+          "schematic"
+        ],
+        "TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6_xx": [
+          "maestro",
+          "schematic"
+        ]
+      },
+      "find_stderr": ""
+    }
+  },
+  "simulation": {
+    "path": "/home/meow/IC/simulation/SAR_16B_5M_TB",
+    "exists": true,
+    "file_count": 7,
+    "total_size_bytes": 8457,
+    "files": [
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/maestro.sdb",
+        "size_bytes": 121,
+        "modified": "2026-08-19T13:30:11.0105036190"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/ExplorerRun.0/.hdlPkgEnv",
+        "size_bytes": 1016,
+        "modified": "2026-08-19T13:34:56.0367652480"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/ExplorerRun.0/wavedb/ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1.vqp",
+        "size_bytes": 1576,
+        "modified": "2026-08-19T13:34:55.7377911970"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.7/.hdlPkgEnv",
+        "size_bytes": 1016,
+        "modified": "2026-08-19T13:31:40.9197001020"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.7/wavedb/ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1.vqp",
+        "size_bytes": 1576,
+        "modified": "2026-08-19T13:31:40.6967194550"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.8/wavedb/ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1.vqp",
+        "size_bytes": 1576,
+        "modified": "2026-08-19T13:32:44.5001817420"
+      },
+      {
+        "path": "/home/meow/IC/simulation/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.9/wavedb/ADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1.vqp",
+        "size_bytes": 1576,
+        "modified": "2026-08-19T13:34:01.0285395940"
+      }
+    ],
+    "text_candidates": [],
+    "find_stderr": ""
+  },
+  "cadence_processes": [
+    "26879 Sat Aug 29 22:52:50 2026 /bin/sh /opt/cadence/IC618/share/bin/cdsXvfb-run -a -s -screen 0 1024x868x24 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job123.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 123",
+    "26929 Sat Aug 29 22:52:51 2026 /bin/sh /opt/cadence/IC618/share/bin/cdsXvfb-run -a -s -screen 0 1024x868x24 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job124.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 124",
+    "26987 Sat Aug 29 22:52:51 2026 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job123.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 123",
+    "26994 Sat Aug 29 22:52:51 2026 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job124.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 124",
+    "28550 Sat Aug 29 22:54:47 2026 /opt/cadence/SPECTRE231/tools.lnx86/spectre/bin/64bit/spectre input.scs +escchars +log ../psf/spectre.out -format psfxl -raw ../psf ++aps +mt +lqtimeout 900 -maxw 5 -maxn 5 -env ade -ahdllibdir /home/meow/IC/simulation/12bit_50M_SAR/test_12bit50MSAR_AMS_final/maestro/results/maestro/Interactive.1/sharedData/Job123/ahdl/input.ahdlSimDB +logstatus",
+    "28629 Sat Aug 29 22:54:47 2026 /opt/cadence/SPECTRE231/tools.lnx86/spectre/bin/64bit/spectre input.scs +escchars +log ../psf/spectre.out -format psfxl -raw ../psf ++aps +mt +lqtimeout 900 -maxw 5 -maxn 5 -env ade -ahdllibdir /home/meow/IC/simulation/12bit_50M_SAR/test_12bit50MSAR_AMS_final/maestro/results/maestro/Interactive.1/sharedData/Job124/ahdl/input.ahdlSimDB +logstatus",
+    "58336 Fri Aug 28 09:04:07 2026 /opt/cadence/IC618/tools/bin/64bit/cdsServIpc -c 52248 -n 131 -r 15 -x /usr/bin/env -u LD_LIBRARY_PATH -u LD_PRELOAD stdbuf -oL /home/meow/miniconda3/bin/python3 -u /tmp/virtuoso_bridge_meow/virtuoso_bridge/ramic_bridge_daemon_3.py 0.0.0.0 65440",
+    "58337 Fri Aug 28 09:04:07 2026 /home/meow/miniconda3/bin/python3 -u /tmp/virtuoso_bridge_meow/virtuoso_bridge/ramic_bridge_daemon_3.py 0.0.0.0 65440",
+    "104038 Mon Aug 24 06:26:56 2026 /opt/cadence/IC618/tools/dfII/bin/64bit/virtuoso",
+    "104106 Mon Aug 24 06:26:59 2026 /opt/cadence/IC618/tools/bin/64bit/cdsMsgServer -mpssession virtuoso104038 -idleInitTimeout=2408"
+  ]
+}

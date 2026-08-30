@@ -1,0 +1,256 @@
+{
+  "schema": "sar16b-oa-layout-evidence/1",
+  "collected_at_utc": "2026-08-30T05:14:53.630964+00:00",
+  "source": {
+    "transport": "virtuoso-bridge read-only SKILL",
+    "library": "SAR_16B_5M_TB",
+    "cell": "TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6",
+    "view": "layout",
+    "local_bridge_port": 65441
+  },
+  "scope_warning": "Geometry inventory only. This does not establish DRC, LVS, PEX, antenna, density, ERC, IR/EM, ESD, or foundry signoff status.",
+  "summary_call": {
+    "status": "success",
+    "errors": [],
+    "warnings": [],
+    "raw_output": "\"Layout: SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/layout  (0 shapes  9 instances)\\n  inst: I8  [tsmc18/crtmom]  @ (59.300 107.800)\\n\""
+  },
+  "geometry_call": {
+    "status": "success",
+    "errors": [],
+    "warnings": []
+  },
+  "inventory": {
+    "object_count": 9,
+    "shape_count": 0,
+    "instance_count": 9,
+    "aggregate_bbox": [
+      [
+        50.52,
+        99.7
+      ],
+      [
+        104.9,
+        115.467
+      ]
+    ],
+    "shape_type_counts": {},
+    "layer_purpose_counts": {},
+    "instance_master_counts": {
+      "tsmc18/cfmom/layout": 5,
+      "tsmc18/crtmom/layout": 1,
+      "tsmc18/mimcap_1p0_sin/layout": 1,
+      "tsmc18/nmos2v/layout": 1,
+      "tsmc18/pmos2v/layout": 1
+    },
+    "instances": [
+      {
+        "kind": "instance",
+        "name": "I8",
+        "lib": "tsmc18",
+        "cell": "crtmom",
+        "view": "layout",
+        "xy": [
+          59.3,
+          107.8
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            56.299,
+            106.633
+          ],
+          [
+            62.301,
+            108.967
+          ]
+        ],
+        "transform": "((59.3 107.8) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I2",
+        "lib": "tsmc18",
+        "cell": "pmos2v",
+        "view": "layout",
+        "xy": [
+          67.8,
+          112.6
+        ],
+        "orient": "\"R180\"",
+        "bbox": [
+          [
+            66.71,
+            107.67
+          ],
+          [
+            68.71,
+            113.03
+          ]
+        ],
+        "transform": "((67.8 112.6) \"R180\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I3",
+        "lib": "tsmc18",
+        "cell": "cfmom",
+        "view": "layout",
+        "xy": [
+          60.6,
+          114.3
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            57.599,
+            113.133
+          ],
+          [
+            63.601,
+            115.467
+          ]
+        ],
+        "transform": "((60.6 114.3) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I4",
+        "lib": "tsmc18",
+        "cell": "cfmom",
+        "view": "layout",
+        "xy": [
+          69.3,
+          114.3
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            66.299,
+            113.133
+          ],
+          [
+            72.301,
+            115.467
+          ]
+        ],
+        "transform": "((69.3 114.3) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I7",
+        "lib": "tsmc18",
+        "cell": "cfmom",
+        "view": "layout",
+        "xy": [
+          77.9,
+          114.3
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            74.899,
+            113.133
+          ],
+          [
+            80.901,
+            115.467
+          ]
+        ],
+        "transform": "((77.9 114.3) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I6",
+        "lib": "tsmc18",
+        "cell": "cfmom",
+        "view": "layout",
+        "xy": [
+          77.9,
+          107.7
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            74.899,
+            106.533
+          ],
+          [
+            80.901,
+            108.867
+          ]
+        ],
+        "transform": "((77.9 107.7) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I5",
+        "lib": "tsmc18",
+        "cell": "cfmom",
+        "view": "layout",
+        "xy": [
+          69.3,
+          107.7
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            66.299,
+            106.533
+          ],
+          [
+            72.301,
+            108.867
+          ]
+        ],
+        "transform": "((69.3 107.7) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I9",
+        "lib": "tsmc18",
+        "cell": "mimcap_1p0_sin",
+        "view": "layout",
+        "xy": [
+          92.5,
+          102.1
+        ],
+        "orient": "\"R0\"",
+        "bbox": [
+          [
+            90.1,
+            99.7
+          ],
+          [
+            104.9,
+            114.5
+          ]
+        ],
+        "transform": "((92.5 102.1) \"R0\" 1.0)"
+      },
+      {
+        "kind": "instance",
+        "name": "I1",
+        "lib": "tsmc18",
+        "cell": "nmos2v",
+        "view": "layout",
+        "xy": [
+          56.4,
+          110.8
+        ],
+        "orient": "\"R180\"",
+        "bbox": [
+          [
+            50.52,
+            108.95
+          ],
+          [
+            57.06,
+            111.15
+          ]
+        ],
+        "transform": "((56.4 110.8) \"R180\" 1.0)"
+      }
+    ]
+  }
+}

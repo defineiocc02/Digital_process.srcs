@@ -1,0 +1,18 @@
+gate,stage,required_evidence,current_status,current_evidence,pass_criterion,priority
+G0,Design identity,"frozen top/version/PDK/config/hash/bit map",PARTIAL,"Git HEAD and local reports exist; no release manifest","one signed manifest binds RTL, schematic, PDK, corners, scripts, seeds and output hashes",P0
+G1,RTL requirements,"fixed-point, bit order, EOC, latency, SRM transaction contract",PARTIAL,"Q8 contract exists; VM mapping and transaction ownership are not implemented","all interfaces frozen and assertions cover invalid combinations",P0
+G2,RTL unit DV,"lint, reset/X/Z, back-to-back, assertions, coverage",PARTIAL,"XSIM 93 checks pass; Verilator unavailable; coverage absent","lint clean or waived; functional/code/assertion coverage targets met",P1
+G3,Async capture and CDC,"BITP<20:1> atomic capture, independent EOC, dig_clk CDC/RDC reports",GAP,"VM report identifies required mapping; no adapter RTL/report","no mixed code/lost EOC across PVT and CDC/RDC clean or formally waived",P0
+G4,Calibration PHY,"normal/calibration arbitration, VCM/SET/RSTT/AZ/evaluate/READYN sequence",GAP,"abstract dac_p_force/dac_n_force only","actual differential CDAC path executes P/N sequence with timeout and safe entry/exit",P0
+G5,SRM physical closure,"held residue, 22 repeated decisions, raw/residue pairing",GAP,"digital 22-count LUT passes; VM has no sequence","22 decisions demonstrably sample one residue and bind to one raw code",P0
+G6,Behavioral golden,"ideal, oracle, mismatch, calibration, SRM on/off, 512-chip statistics",PARTIAL,"physical proxy 512-chip experiment and ideal 98.079 dB anchor exist","model derived from frozen schematic/netlist and independently rerunnable",P1
+G7,Transistor AMS normal path,"zero-noise 512 valid conversions, VCM timing, 8192+ sample FFT",GAP,"existing Maestro 30 us is about 150 conversions and historical errors","successful logs/raw data show correct bit map and ideal/noise-limited behavior",P0
+G8,Transistor AMS calibration/SRM,"P/N recursive calibration and 22-decision SRM over PVT/MC",GAP,"no successful end-to-end run","calibrated path approaches oracle; SRM-off zero-noise path does not degrade",P0
+G9,ASIC synthesis and STA,"target standard-cell library, SDC, MMMC, IO/load/slew, unconstrained=0",GAP,"FPGA xc7a35t 100 MHz synthesis only","all modes/corners close setup/hold/recovery/removal with margin",P1
+G10,LEC/GLS/DFT/power intent,"equivalence, SDF GLS, scan/ATPG/MBIST, UPF/CPF",GAP,"no artifacts found","reports pass and all approved waivers are traceable",P1
+G11,Floorplan and PnR,"placed/routed database, clock/power/reference planning",GAP,"no DEF/OA digital PnR asset under declared roots","congestion/timing/noise/power closure at signoff corners",P1
+G12,Analog layout,"complete CDAC/comparator/reference/control layout and matching review",FAIL,"only one 9-instance 0-shape OA test layout found","complete routed hierarchy with matching/dummy/shield/guard-ring review",P0
+G13,Physical signoff,"DRC/LVS/ERC/antenna/density/latch-up/ESD/IR/EM",GAP,"no matching reports under four SAR16B roots","zero blockers; every waiver signed and bound to final database hash",P0
+G14,PEX and post-layout,"extracted netlist, post-layout AMS/PVT/MC/noise",GAP,"no PEX/extracted/timing artifact found","normal/calibration/SRM meet spec on final extracted top",P0
+G15,GDS/OASIS release,"stream-out, layer map, checksum, release manifest",GAP,"no GDS/OASIS under declared SAR16B roots","stream re-imported, hash frozen, LVS/DRC/PEX identity matched",P0
+G16,Package/ATE/bench,"package model, load board, patterns, raw data, calibration logs, INL/DNL/FFT/PVT",GAP,"no silicon or test artifacts","wafer/package/bench results are repeatable and linked to die/package/instrument IDs",P2

@@ -1,0 +1,11 @@
+component,algorithm_fit,direct_drop_in,current_vm_state,required_action,priority
+sar_reconstruction,High,No,"I94 exists but is ignored; raw_bits=BITP<19:0>; valid=BITP<20>; reset/write/output nets are one-ended","Regenerate current Cadence view; map BITP<20:1>; add EOC capture and CDC; extract actual Q8 weights",P0
+sar_calib_ctrl_serial,High for static mismatch,No,"Old Digital_Process view exists but is not instantiated in the reviewed top","Add calibration PHY sequencer; mode arbitration; real P/N switching; READYN/settling handshake",P0
+srm_residue_estimator,Conditional,No,"No SRM RTL instance and no 22-decision residue sequence","Implement residue hold and 22 comparator decisions or regenerate LUT for verified actual count",P1
+sar_adc_digital_top,Medium,No,"Not instantiated; interface assumes a free-running synchronous digital domain","Use as digital-domain skeleton behind adapters; do not replace asynchronous transistor SAR controller directly",P1
+sar16b_code_capture_adapter,Required,Missing,"Existing top incorrectly treats Flash bit BITP<20> as valid","Create atomic BITP<20:1> capture at EOC and transfer through CDC",P0
+sar16b_calib_phy_sequencer,Required,Missing,"Calibration core cannot directly drive SS/RSTT/SET/CLKAZ and two switch-driver polarities","Create analog timing and switch-control adapter with timeout",P0
+normal_calib_srm_mode_arbiter,Required,Missing,"Normal SAR and future calibration/SRM have no exclusive ownership protocol","Add glitch-safe ownership states and reset/VCM handoff",P0
+CDAC_MAIN_20b,Architecturally compatible,Unknown,"OA shows duplicate-looking N ladder and dangling P-side nets net22..net28","Generate current Spectre netlist and resolve/explain connectivity before weight extraction",P0
+VM old sar_reconstruction,Low,No,"No SRM port; all weights initialized to zero; interface behind current repository","Archive as legacy and bind the maintained RTL version",P1
+VM sar_adc_controller,Low for this top,No,"Generic synchronous controller is not instantiated and does not match asynchronous READYN chain","Do not insert without a separate architecture decision",P2

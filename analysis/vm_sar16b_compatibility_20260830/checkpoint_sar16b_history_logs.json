@@ -1,0 +1,93 @@
+{
+  "captured_utc": "2026-08-30T03:52:06.196043+00:00",
+  "host": "192.168.38.140",
+  "mode": "read_only",
+  "history_root": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro",
+  "records": [
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/ExplorerRun.0.log",
+      "size_bytes": 368,
+      "modified": "2026-08-19T13:35:16.2250130430",
+      "text": "Starting Single Run, Sweeps and Corners...\n\nCurrent time: Wed Aug 19 13:34:55 2026 \nBest design point: 1\nDesign specs: \n\tADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\tcorner\tNominal - \nDesign parameters: \n\nExplorerRun.0\nNumber of points completed: 1\nNumber of simulation errors: 1\nExplorerRun.0 completed. \nCurrent time: Wed Aug 19 13:35:16 2026 \n"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/ExplorerRun.0.rdb",
+      "size_bytes": 548864,
+      "modified": "2026-08-19T13:35:16.7379685160"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.0.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.3726568100"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.1.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.3836558550"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.2.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.3956548130"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.3.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.4056539450"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.4.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.4146531650"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.5.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.4236523830"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.6.log",
+      "size_bytes": 532,
+      "modified": "2026-05-11T16:09:14.0000000000",
+      "text": "Starting Single Run, Sweeps and Corners...\n\nCurrent time: Tue May 12 02:34:34 2026 \nBest design point: 1\nDesign specs: \n\tADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\tcorner\tNominal - \n\taverage((VT(\"/V51/PLUS\") * IT(\"/V51/PLUS\")))\t\tError\tNo\n\taverage((VT(\"/AVDD\") * IT(\"/V45/PLUS\")))\t\tError\tNo\n\taverage((VT(\"/AVDD_3.3\") * IT(\"/V50/PLUS\")))\t\tError\tNo\nDesign parameters: \n\nInteractive.6\nNumber of points completed: 1\nNumber of simulation errors: 3\nInteractive.6 completed. \nCurrent time: Tue May 12 04:09:14 2026 \n"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.6.rdb",
+      "size_bytes": 528384,
+      "modified": "2026-08-19T13:35:43.4316516900"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.7.log",
+      "size_bytes": 368,
+      "modified": "2026-08-19T13:31:43.8294475560",
+      "text": "Starting Single Run, Sweeps and Corners...\n\nCurrent time: Wed Aug 19 13:31:40 2026 \nBest design point: 1\nDesign specs: \n\tADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\tcorner\tNominal - \nDesign parameters: \n\nInteractive.7\nNumber of points completed: 1\nNumber of simulation errors: 1\nInteractive.7 completed. \nCurrent time: Wed Aug 19 13:31:43 2026 \n"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.7.rdb",
+      "size_bytes": 548864,
+      "modified": "2026-08-19T13:31:44.3304040760"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.8.log",
+      "size_bytes": 368,
+      "modified": "2026-08-19T13:32:45.9920522580",
+      "text": "Starting Single Run, Sweeps and Corners...\n\nCurrent time: Wed Aug 19 13:32:44 2026 \nBest design point: 1\nDesign specs: \n\tADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\tcorner\tNominal - \nDesign parameters: \n\nInteractive.8\nNumber of points completed: 1\nNumber of simulation errors: 1\nInteractive.8 completed. \nCurrent time: Wed Aug 19 13:32:45 2026 \n"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.8.rdb",
+      "size_bytes": 548864,
+      "modified": "2026-08-19T13:32:46.2150329050"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.9.log",
+      "size_bytes": 368,
+      "modified": "2026-08-19T13:34:07.3189936240",
+      "text": "Starting Single Run, Sweeps and Corners...\n\nCurrent time: Wed Aug 19 13:34:00 2026 \nBest design point: 1\nDesign specs: \n\tADC_TOP_16b_5MS_SS_SRM_TEST:TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6:1\tcorner\tNominal - \nDesign parameters: \n\nInteractive.9\nNumber of points completed: 1\nNumber of simulation errors: 1\nInteractive.9 completed. \nCurrent time: Wed Aug 19 13:34:07 2026 \n"
+    },
+    {
+      "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/maestro/results/maestro/Interactive.9.rdb",
+      "size_bytes": 548864,
+      "modified": "2026-08-19T13:34:07.8359487560"
+    }
+  ]
+}

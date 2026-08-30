@@ -1,0 +1,54 @@
+{
+  "date_local": "2026-08-30",
+  "tool": "Vivado 2018.3 64-bit",
+  "environment_note": "The first wrapper attempt selected win32.o because PROCESSOR_ARCHITECTURE was absent. Valid runs set PROCESSOR_ARCHITECTURE=AMD64.",
+  "xsim_command": "$env:PROCESSOR_ARCHITECTURE='AMD64'; powershell -ExecutionPolicy Bypass -File scripts\\run_all_xsim.ps1",
+  "xsim_overall": "PASS",
+  "xsim_tests": [
+    {
+      "top": "tb_sar_recon_binary_norm",
+      "checks": 49,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "top": "tb_recon_q8_split_weights",
+      "checks": 17,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "top": "tb_srm_residue_estimator",
+      "checks": 17,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "top": "tb_gain_comp_check_lsb",
+      "checks": 10,
+      "failed": 0,
+      "result": "PASS",
+      "mc_runs": 5,
+      "avg_loops": 32,
+      "comparator_offset_lsb": 5.0,
+      "comparator_noise_rms_lsb": 0.5,
+      "worst_residual_lsb": 0.4937
+    }
+  ],
+  "synthesis_top": "sar_adc_digital_top",
+  "synthesis_part": "xc7a35tfgg484-2",
+  "synthesis_result": "PASS",
+  "synthesis_errors": 0,
+  "synthesis_critical_warnings": 0,
+  "synthesis_warnings": 3,
+  "timing_assumption": "Single 100 MHz internal clock; no board/ASIC IO delays",
+  "wns_ns": 3.957,
+  "tns_ns": 0.0,
+  "slice_luts": 1520,
+  "slice_registers": 1661,
+  "bram_tiles": 0,
+  "dsps": 0,
+  "unconstrained_input_ports": 27,
+  "unconstrained_output_ports": 71,
+  "scope_warning": "These results validate the maintained digital RTL only. They do not validate the current VM mixed-signal wiring, CDAC topology, calibration switching sequence, or SRM analog sequence."
+}

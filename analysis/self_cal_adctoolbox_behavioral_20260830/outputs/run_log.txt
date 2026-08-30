@@ -1,0 +1,17 @@
+=== 16-bit on-chip self-calibration experiment ===
+Primary algorithm: project P/N recursive foreground self-calibration
+ADCToolbox role: metrics plus external sine-fit comparison only
+Ideal 16-bit control: SNDR=98.093 dB, theory=98.080 dB
+NOMINAL_Q8_NO_SRM                      SNDR=  61.630 dB  SFDR=  66.731 dB  INLpp= 108.505 LSB  missing=1061
+NOMINAL_Q8_EXACT_RESIDUE               SNDR=  61.632 dB  SFDR=  66.726 dB  INLpp= 108.505 LSB  missing=1093
+SELF_CAL_Q8_NO_SRM                     SNDR=  93.433 dB  SFDR= 105.547 dB  INLpp=   2.732 LSB  missing=   4
+SELF_CAL_Q8_SRM_EXPECTED               SNDR=  95.437 dB  SFDR= 106.870 dB  INLpp=   1.909 LSB  missing=   0
+SELF_CAL_Q8_SRM_22_STOCHASTIC          SNDR=  94.907 dB  SFDR= 107.049 dB  INLpp=   1.909 LSB  missing=   0
+SELF_CAL_Q8_EXACT_RESIDUE              SNDR=  95.441 dB  SFDR= 106.867 dB  INLpp=   1.865 LSB  missing=   0
+ORACLE_Q8_NO_SRM                       SNDR=  95.181 dB  SFDR= 117.945 dB  INLpp=   1.999 LSB  missing= 556
+ORACLE_Q8_SRM_EXPECTED                 SNDR=  98.020 dB  SFDR= 123.807 dB  INLpp=   0.000 LSB  missing=   0
+ORACLE_Q8_EXACT_RESIDUE                SNDR=  98.053 dB  SFDR= 124.417 dB  INLpp=   0.000 LSB  missing=   0
+ADCTOOLBOX_SINE_EXTERNAL_BASELINE      SNDR=  98.026 dB  SFDR= 124.978 dB  INLpp=   0.837 LSB  missing=   0
+Gain-aligned weight RMSE: nominal=9.2864 LSB, self-cal=0.2286 LSB, external-sine=0.0261 LSB
+Paired noisy SRM ablation: oracle 90.532 -> 95.888 dB (mean gain 5.356 dB); self-cal mean gain 4.172 dB
+Outputs: D:\ReedZhao\Document\ADC_Digital_PROCESS\proc_vivado\sar_adc_v3\analysis\self_cal_adctoolbox_behavioral_20260830\outputs

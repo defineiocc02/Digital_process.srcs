@@ -1,0 +1,75 @@
+{
+  "captured_utc": "2026-08-30T03:36:06.127838+00:00",
+  "host": "192.168.38.140",
+  "mode": "read_only",
+  "hostname": "meowu",
+  "ip_addresses": [
+    "192.168.38.140",
+    "192.168.122.1"
+  ],
+  "disk_home": {
+    "filesystem": "/dev/mapper/centos-root",
+    "size": "139G",
+    "used": "95G",
+    "avail": "45G",
+    "use_pct": "68%",
+    "mount": "/"
+  },
+  "virtuoso_running": true,
+  "spectre_running": true,
+  "cds_lib_path": "/home/meow/jxy/cds.lib",
+  "libraries": {
+    "tsmc18": "/home/meow/Desktop/TSMC18/tsmc18",
+    "tsmc18rf": "/home/meow/Desktop/TSMC18RF/tsmc18rf",
+    "tcb018gbwp7t": "/home/meow/Desktop/TSMC18_DIGITAL/tcb018gbwp7t",
+    "12bit_50M_SAR": "/home/meow/jxy/12bit_50M_SAR",
+    "TEST": "/home/meow/jxy/TEST"
+  },
+  "user_library_inventory": {
+    "12bit_50M_SAR": {
+      "path": "/home/meow/jxy/12bit_50M_SAR",
+      "cell_count": 138,
+      "sar_16b_cells": [],
+      "candidate_16b_cells": [
+        "SAR_LOGIC_0716",
+        "SAR_LOGIC_0716_ideal",
+        "test_12bit50MSAR_AMS_final_0716",
+        "test_16bit5MSAR_ideal"
+      ]
+    },
+    "TEST": {
+      "path": "/home/meow/jxy/TEST",
+      "cell_count": 1,
+      "sar_16b_cells": [],
+      "candidate_16b_cells": []
+    }
+  },
+  "matching_directories": [
+    "/home/meow/jxy/12bit_50M_SAR/test_16bit5MSAR_ideal"
+  ],
+  "find_stderr": "",
+  "matching_directories_home": [
+    "/home/meow/IC/.cadence/dfII/TextSupport/Logs/Parser/systemverilog/SAR_16B_5M_CORE",
+    "/home/meow/IC/.cadence/dfII/TextSupport/Logs/Parser/veriloga/SAR_16B_5M_CORE",
+    "/home/meow/IC/12bit_50M_SAR/test_16bit5MSAR_ideal",
+    "/home/meow/IC/SAR_16B_5M_CORE",
+    "/home/meow/IC/SAR_16B_5M_EXP",
+    "/home/meow/IC/SAR_16B_5M_TB",
+    "/home/meow/IC/simulation/SAR_16B_5M_TB",
+    "/home/meow/jxy/12bit_50M_SAR/test_16bit5MSAR_ideal",
+    "/home/meow/zhaoyi/12bit_50M_SAR/test_16bit5MSAR_ideal",
+    "/home/meow/zhaoyi/test_16bit5MSAR_ideal"
+  ],
+  "cadence_processes": [
+    "26879 Sat Aug 29 22:52:50 2026 /bin/sh /opt/cadence/IC618/share/bin/cdsXvfb-run -a -s -screen 0 1024x868x24 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job123.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 123",
+    "26929 Sat Aug 29 22:52:51 2026 /bin/sh /opt/cadence/IC618/share/bin/cdsXvfb-run -a -s -screen 0 1024x868x24 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job124.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 124",
+    "26987 Sat Aug 29 22:52:51 2026 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job123.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 123",
+    "26994 Sat Aug 29 22:52:51 2026 /opt/cadence/IC618/tools.lnx86/dfII/bin/64bit/virtuoso -noautostart -mpssession virtuoso104038 -mpshost meowu -davinciService DaVinciService_104038_1787567286 -log /home/meow/IC/logs_meow/logs0/Job124.log -licenseLockFileName /home/meow/IC/.tmp_meow/.meowu_104038 -interactiveA -interactiveE -interactiveRTT -nostdin -nographE -axlChildIdFlag 124",
+    "28550 Sat Aug 29 22:54:47 2026 /opt/cadence/SPECTRE231/tools.lnx86/spectre/bin/64bit/spectre input.scs +escchars +log ../psf/spectre.out -format psfxl -raw ../psf ++aps +mt +lqtimeout 900 -maxw 5 -maxn 5 -env ade -ahdllibdir /home/meow/IC/simulation/12bit_50M_SAR/test_12bit50MSAR_AMS_final/maestro/results/maestro/Interactive.1/sharedData/Job123/ahdl/input.ahdlSimDB +logstatus",
+    "28629 Sat Aug 29 22:54:47 2026 /opt/cadence/SPECTRE231/tools.lnx86/spectre/bin/64bit/spectre input.scs +escchars +log ../psf/spectre.out -format psfxl -raw ../psf ++aps +mt +lqtimeout 900 -maxw 5 -maxn 5 -env ade -ahdllibdir /home/meow/IC/simulation/12bit_50M_SAR/test_12bit50MSAR_AMS_final/maestro/results/maestro/Interactive.1/sharedData/Job124/ahdl/input.ahdlSimDB +logstatus",
+    "58336 Fri Aug 28 09:04:07 2026 /opt/cadence/IC618/tools/bin/64bit/cdsServIpc -c 52248 -n 131 -r 15 -x /usr/bin/env -u LD_LIBRARY_PATH -u LD_PRELOAD stdbuf -oL /home/meow/miniconda3/bin/python3 -u /tmp/virtuoso_bridge_meow/virtuoso_bridge/ramic_bridge_daemon_3.py 0.0.0.0 65440",
+    "58337 Fri Aug 28 09:04:07 2026 /home/meow/miniconda3/bin/python3 -u /tmp/virtuoso_bridge_meow/virtuoso_bridge/ramic_bridge_daemon_3.py 0.0.0.0 65440",
+    "104038 Mon Aug 24 06:26:56 2026 /opt/cadence/IC618/tools/dfII/bin/64bit/virtuoso",
+    "104106 Mon Aug 24 06:26:59 2026 /opt/cadence/IC618/tools/bin/64bit/cdsMsgServer -mpssession virtuoso104038 -idleInitTimeout=2408"
+  ]
+}

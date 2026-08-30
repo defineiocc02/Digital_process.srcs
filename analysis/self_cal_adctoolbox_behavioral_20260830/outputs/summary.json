@@ -1,0 +1,504 @@
+{
+  "schema_version": 2,
+  "experiment": "SAR16B_ONCHIP_SELF_CAL_WITH_ADCTOOLBOX_ANALYSIS",
+  "algorithm_under_test": {
+    "type": "project_on_chip_foreground_self_calibration",
+    "output_bits": 16,
+    "raw_decisions": 20,
+    "trusted_lsb_reference_bits": 6,
+    "recursively_calibrated_bits": [
+      6,
+      19
+    ],
+    "pn_pairs_per_target": 32,
+    "scalar_comparator_measurements_per_target": 64,
+    "top_bit_protection": [
+      18,
+      19
+    ],
+    "weight_format": "signed_Q8",
+    "srm_decisions": 22,
+    "source": "analysis/full_sar_behavioral_20260729/full_sar_model.py"
+  },
+  "adctoolbox_role": {
+    "primary": "FFT and ramp-histogram metrics",
+    "secondary": "external sine-fit calibration baseline only",
+    "explicitly_not": "the project on-chip self-calibration algorithm",
+    "version": "0.9.1",
+    "reviewed_commit": "a8995cf4faf73dde9918589bfeb866c6a77db12d",
+    "module_path": "C:\\Users\\Administrator\\Desktop\\ADCToolbox_EVAL_20260728\\upstream\\python\\src\\adctoolbox\\__init__.py"
+  },
+  "experiment_conditions": {
+    "chip_id": 17,
+    "normal_conversion_random_noise_enabled": false,
+    "calibration_comparator_offset_lsb": 5.0,
+    "calibration_comparator_noise_lsb": 0.5,
+    "srm_comparator_noise_lsb": 0.5,
+    "unit_cap_sigma_pct": 1.2,
+    "node_parasitic_sigma_pct": 2.0,
+    "comparator_input_sigma_pct": 2.0,
+    "n_fft": 16384,
+    "train_fin_hz": 710144.04296875,
+    "train_fft_bin": 2327,
+    "test_fin_hz": 1130065.91796875,
+    "test_fft_bin": 3703,
+    "ramp_samples_per_code": 2,
+    "ramp_sample_count": 131072,
+    "actual_chip_mismatch": {
+      "bit_cap_rel_error_pct_rms": 0.5808240218227242,
+      "bit_cap_rel_error_pct_min": -1.6149878233870634,
+      "bit_cap_rel_error_pct_max": 1.1331827242858123,
+      "bridge_rel_error_pct_rms": 0.4089000993746602,
+      "effective_weight_rel_error_pct_rms": 0.5919263290862661,
+      "effective_weight_rel_error_pct_min": -1.3872539863866606,
+      "effective_weight_rel_error_pct_max": 0.6412103657004398
+    }
+  },
+  "ideal_16bit_control": {
+    "sndr_db": 98.09250755954295,
+    "snr_db": 95.60417645864965,
+    "sfdr_db": 124.53312294246508,
+    "thd_db": -135.19930796884103,
+    "enob": 16.002077667698163,
+    "fin_hz": 970153.80859375,
+    "fft_bin": 3179,
+    "theoretical_full_scale_sndr_db": 98.08
+  },
+  "srm_noise_reduction_ablation": {
+    "classification": "paired_comparator_noise_and_residue_ablation",
+    "repeat_count": 32,
+    "raw_bits_shared_between_srm_on_off": true,
+    "conditions": {
+      "n_fft": 8192,
+      "fin_hz": 709838.8671875,
+      "fft_bin": 1163,
+      "sine_amplitude_fraction_of_positive_full_scale": 0.9,
+      "normal_comparator_noise_lsb": 0.5,
+      "srm_observation_noise_lsb": 0.5,
+      "srm_decisions": 22,
+      "sampling_noise_lsb": 0.0,
+      "reference_noise_rms_fraction": 0.0,
+      "dac_settling_error_fraction": 0.0
+    },
+    "decoder_metrics": {
+      "ORACLE_NO_SRM_NOISY": {
+        "sndr_db": {
+          "mean": 90.53233349961727,
+          "std": 0.05355071455482028,
+          "min": 90.39086577192697,
+          "p05": 90.46281683249865,
+          "median": 90.53865658718338,
+          "p95": 90.60447936682789,
+          "max": 90.64203901927007
+        },
+        "sfdr_db": {
+          "mean": 115.7516370171279,
+          "std": 0.6431014731863873,
+          "min": 114.54474443128609,
+          "p05": 114.69211433822439,
+          "median": 115.75645853415419,
+          "p95": 116.54107463684076,
+          "max": 116.9647820809046
+        },
+        "aligned_error_rmse_lsb": {
+          "mean": 0.6202555854104022,
+          "std": 0.0038245439871937223,
+          "min": 0.6124413461322459,
+          "p05": 0.6150999892203428,
+          "median": 0.6197956084759719,
+          "p95": 0.6252164327303481,
+          "max": 0.6304094413728097
+        },
+        "max_saturation_fraction": 0.0
+      },
+      "ORACLE_SRM_22_NOISY": {
+        "sndr_db": {
+          "mean": 95.88841945571747,
+          "std": 0.04391804020737126,
+          "min": 95.81452101654322,
+          "p05": 95.82704543663495,
+          "median": 95.88741597683081,
+          "p95": 95.96337978817158,
+          "max": 95.98283532809302
+        },
+        "sfdr_db": {
+          "mean": 122.24676156283331,
+          "std": 0.7221412599038095,
+          "min": 120.61216619529255,
+          "p05": 121.12972736348266,
+          "median": 122.18054255822659,
+          "p95": 123.18739945388832,
+          "max": 123.49701456202385
+        },
+        "aligned_error_rmse_lsb": {
+          "mean": 0.3347900022217898,
+          "std": 0.001687878154535645,
+          "min": 0.33118439690990525,
+          "p05": 0.33191309872135283,
+          "median": 0.3348163869554486,
+          "p95": 0.3371458432876738,
+          "max": 0.3376882845221925
+        },
+        "max_saturation_fraction": 0.0
+      },
+      "ORACLE_SRM_EXPECTED_NOISY": {
+        "sndr_db": {
+          "mean": 96.75864294473494,
+          "std": 0.03288896799724481,
+          "min": 96.70125503348879,
+          "p05": 96.7093019538757,
+          "median": 96.75519771404865,
+          "p95": 96.81305718433185,
+          "max": 96.8381512832952
+        },
+        "sfdr_db": {
+          "mean": 121.52343507573725,
+          "std": 0.505085936064307,
+          "min": 120.17014020714905,
+          "p05": 120.74617554150183,
+          "median": 121.61652728655355,
+          "p95": 122.18869487118083,
+          "max": 122.51272710410133
+        },
+        "aligned_error_rmse_lsb": {
+          "mean": 0.3029076991568971,
+          "std": 0.0011324275444166256,
+          "min": 0.3002088966472003,
+          "p05": 0.3010558397427654,
+          "median": 0.3030284346384235,
+          "p95": 0.3045817606332868,
+          "max": 0.3048958140010861
+        },
+        "max_saturation_fraction": 0.0
+      },
+      "SELF_CAL_NO_SRM_NOISY": {
+        "sndr_db": {
+          "mean": 89.71576951035671,
+          "std": 0.05946660556109358,
+          "min": 89.57884633979306,
+          "p05": 89.61274504673592,
+          "median": 89.71492633091714,
+          "p95": 89.80212255949428,
+          "max": 89.82037687968116
+        },
+        "sfdr_db": {
+          "mean": 105.39708001473147,
+          "std": 0.4823668759584738,
+          "min": 104.51260777471637,
+          "p05": 104.72251669281815,
+          "median": 105.39978283608392,
+          "p95": 106.18194062539408,
+          "max": 106.51036176826466
+        },
+        "aligned_error_rmse_lsb": {
+          "mean": 0.6721950411674129,
+          "std": 0.0046020378200168095,
+          "min": 0.6641558149128509,
+          "p05": 0.665524068302915,
+          "median": 0.6722573302299784,
+          "p95": 0.6801850989552082,
+          "max": 0.6828386078991731
+        },
+        "max_saturation_fraction": 0.0
+      },
+      "SELF_CAL_SRM_22_NOISY": {
+        "sndr_db": {
+          "mean": 93.88806992420828,
+          "std": 0.04904531722532203,
+          "min": 93.74949606522077,
+          "p05": 93.81201537204628,
+          "median": 93.90215917804929,
+          "p95": 93.94522898294537,
+          "max": 93.96380345106373
+        },
+        "sfdr_db": {
+          "mean": 106.26610679628779,
+          "std": 0.38520120276330283,
+          "min": 105.61678094264477,
+          "p05": 105.78331195705138,
+          "median": 106.21103119821035,
+          "p95": 106.95639130347335,
+          "max": 107.24496517620354
+        },
+        "aligned_error_rmse_lsb": {
+          "mean": 0.4157969099704777,
+          "std": 0.0023559349170650056,
+          "min": 0.4122220631716606,
+          "p05": 0.4130506364410626,
+          "median": 0.41511482852962683,
+          "p95": 0.4194470122188005,
+          "max": 0.4224770543348642
+        },
+        "max_saturation_fraction": 0.0
+      }
+    },
+    "paired_improvement": {
+      "oracle_sndr_gain_db": {
+        "mean": 5.356085956100191,
+        "std": 0.05568726143418468,
+        "min": 5.225112178475982,
+        "p05": 5.254935467767078,
+        "median": 5.34750547154993,
+        "p95": 5.439319921810936,
+        "max": 5.44683144922368
+      },
+      "self_cal_sndr_gain_db": {
+        "mean": 4.172300413851589,
+        "std": 0.07933060536268446,
+        "min": 4.03709946183659,
+        "p05": 4.0533439907148185,
+        "median": 4.168761716133083,
+        "p95": 4.303609635845801,
+        "max": 4.335327072813172
+      },
+      "oracle_error_rmse_reduction_ratio": {
+        "mean": 1.852696125669265,
+        "std": 0.0118545495355286,
+        "min": 1.8247328942332468,
+        "p05": 1.831316997775175,
+        "median": 1.8508498614354294,
+        "p95": 1.8703182920418202,
+        "max": 1.8721704957205143
+      },
+      "self_cal_error_rmse_reduction_ratio": {
+        "mean": 1.6166965217128877,
+        "std": 0.01477843955690394,
+        "min": 1.5917654325701072,
+        "p05": 1.5946315686035266,
+        "median": 1.6159700836765882,
+        "p95": 1.641238778422469,
+        "max": 1.6472299752962607
+      }
+    },
+    "evidence_boundary": "This isolates comparator/pre-amplifier decision noise and held-residue estimation. It does not model split-sampling kT/C cancellation, AZ aliasing, transistor bandwidth, or the paper's complete 111-to-38-uVrms noise budget."
+  },
+  "weight_errors": {
+    "nominal_direct_rmse_lsb": 11.07068957418413,
+    "self_cal_direct_rmse_lsb": 141.26271391577288,
+    "external_sine_direct_rmse_lsb": 1.3043118169644736,
+    "nominal_gain_aligned_rmse_lsb": 9.286434834197099,
+    "self_cal_gain_aligned_rmse_lsb": 0.2285551104139296,
+    "external_sine_gain_aligned_rmse_lsb": 0.026135651615602575,
+    "self_cal_gain_alignment_factor": 1.0136904050230777,
+    "external_sine_gain_alignment_factor": 1.0001246902098258,
+    "self_cal_gain_aligned_improvement_x": 40.63105312928118
+  },
+  "decoder_metrics": {
+    "NOMINAL_Q8_NO_SRM": {
+      "sndr_db": 61.6297472207691,
+      "snr_db": 83.39734560126216,
+      "sfdr_db": 66.73144897527028,
+      "thd_db": -65.53556384337257,
+      "enob": 9.945140734347028,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -1.0,
+      "dnl_max_lsb": 1.9998626688029297,
+      "dnl_pp_lsb": 2.9998626688029297,
+      "inl_min_lsb": -54.252689402614166,
+      "inl_max_lsb": 54.25264362554848,
+      "inl_pp_lsb": 108.50533302816265,
+      "missing_codes": 1061,
+      "static_saturation_fraction": 0.0
+    },
+    "NOMINAL_Q8_EXACT_RESIDUE": {
+      "sndr_db": 61.63187688400302,
+      "snr_db": 83.56179483838105,
+      "sfdr_db": 66.72591036827941,
+      "thd_db": -65.53104606265381,
+      "enob": 9.945494499003825,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -1.0,
+      "dnl_max_lsb": 1.4998855573357748,
+      "dnl_pp_lsb": 2.4998855573357748,
+      "inl_min_lsb": -54.25273517967983,
+      "inl_max_lsb": 54.25268940261419,
+      "inl_pp_lsb": 108.50542458229401,
+      "missing_codes": 1093,
+      "static_saturation_fraction": 0.0
+    },
+    "SELF_CAL_Q8_NO_SRM": {
+      "sndr_db": 93.43332063513554,
+      "snr_db": 92.44229213688502,
+      "sfdr_db": 105.54651080751432,
+      "thd_db": -104.31501041003115,
+      "enob": 15.228126351351419,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -1.0,
+      "dnl_max_lsb": 0.9729915312428472,
+      "dnl_pp_lsb": 1.9729915312428472,
+      "inl_min_lsb": -1.3726253147173268,
+      "inl_max_lsb": 1.3591210803387508,
+      "inl_pp_lsb": 2.731746395056078,
+      "missing_codes": 4,
+      "static_saturation_fraction": 0.0
+    },
+    "SELF_CAL_Q8_SRM_EXPECTED": {
+      "sndr_db": 95.43680060095164,
+      "snr_db": 97.63069999308847,
+      "sfdr_db": 106.87024615584647,
+      "thd_db": -105.86278979046556,
+      "enob": 15.560930332383993,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -0.5067521171892881,
+      "dnl_max_lsb": 0.9729915312428472,
+      "dnl_pp_lsb": 1.4797436484321354,
+      "inl_min_lsb": -0.9613183794918729,
+      "inl_max_lsb": 0.9478141451132965,
+      "inl_pp_lsb": 1.9091325246051696,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    },
+    "SELF_CAL_Q8_SRM_22_STOCHASTIC": {
+      "sndr_db": 94.90720695058539,
+      "snr_db": 96.44753577724593,
+      "sfdr_db": 107.04864661935227,
+      "thd_db": -105.99274726574617,
+      "enob": 15.47295796521352,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -0.5067521171892881,
+      "dnl_max_lsb": 0.9729915312428472,
+      "dnl_pp_lsb": 1.4797436484321354,
+      "inl_min_lsb": -0.9613183794918729,
+      "inl_max_lsb": 0.9478141451132965,
+      "inl_pp_lsb": 1.9091325246051696,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    },
+    "SELF_CAL_Q8_EXACT_RESIDUE": {
+      "sndr_db": 95.44109280957409,
+      "snr_db": 97.64061005039197,
+      "sfdr_db": 106.86707136061219,
+      "thd_db": -105.77298145977471,
+      "enob": 15.561643323849516,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -0.5067521171892881,
+      "dnl_max_lsb": 0.9729915312428472,
+      "dnl_pp_lsb": 1.4797436484321354,
+      "inl_min_lsb": -0.9393453879606317,
+      "inl_max_lsb": 0.9258411535820554,
+      "inl_pp_lsb": 1.8651865415426871,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    },
+    "ORACLE_Q8_NO_SRM": {
+      "sndr_db": 95.18076960082314,
+      "snr_db": 93.13414438769186,
+      "sfdr_db": 117.94543474152063,
+      "thd_db": -125.9197439390094,
+      "enob": 15.518400265917466,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -1.0,
+      "dnl_max_lsb": 0.9999694819562066,
+      "dnl_pp_lsb": 1.9999694819562066,
+      "inl_min_lsb": -0.9997558556496529,
+      "inl_max_lsb": 0.9997405966277562,
+      "inl_pp_lsb": 1.999496452277409,
+      "missing_codes": 556,
+      "static_saturation_fraction": 0.0
+    },
+    "ORACLE_Q8_SRM_EXPECTED": {
+      "sndr_db": 98.02047250177046,
+      "snr_db": 95.53296297295927,
+      "sfdr_db": 123.80749171295469,
+      "thd_db": -131.72609920475614,
+      "enob": 15.990111711257551,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": 0.0,
+      "dnl_max_lsb": 0.0,
+      "dnl_pp_lsb": 0.0,
+      "inl_min_lsb": 0.0,
+      "inl_max_lsb": 0.0,
+      "inl_pp_lsb": 0.0,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    },
+    "ORACLE_Q8_EXACT_RESIDUE": {
+      "sndr_db": 98.05267717094877,
+      "snr_db": 95.55614889580715,
+      "sfdr_db": 124.41657287962136,
+      "thd_db": -130.9933203165163,
+      "enob": 15.99546132407787,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": 0.0,
+      "dnl_max_lsb": 0.0,
+      "dnl_pp_lsb": 0.0,
+      "inl_min_lsb": 0.0,
+      "inl_max_lsb": 0.0,
+      "inl_pp_lsb": 0.0,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    },
+    "ADCTOOLBOX_SINE_EXTERNAL_BASELINE": {
+      "sndr_db": 98.02596018138246,
+      "snr_db": 95.5388248444227,
+      "sfdr_db": 124.97774669386109,
+      "thd_db": -126.12428406445603,
+      "enob": 15.99102328594393,
+      "dynamic_saturation_fraction": 0.0,
+      "dnl_min_lsb": -0.500061037018952,
+      "dnl_max_lsb": 0.499816888943144,
+      "dnl_pp_lsb": 0.999877925962096,
+      "inl_min_lsb": -0.4183782464064455,
+      "inl_max_lsb": 0.4182561723685415,
+      "inl_pp_lsb": 0.836634418774987,
+      "missing_codes": 0,
+      "static_saturation_fraction": 0.0
+    }
+  },
+  "external_sine_baseline": {
+    "classification": "external_foreground_fit_not_on_chip_self_cal",
+    "fit": {
+      "refined_frequency": 0.14202880859375,
+      "initial_frequency": 0.14202880859375,
+      "scale_factor": 8345369.595105445,
+      "scale_convention": "adc_reference_scale",
+      "rank_patch_applied": false,
+      "bit_width_effective": 20,
+      "dropped_constant_bits": [],
+      "unmapped_bits": []
+    },
+    "diagnostic": {
+      "shape": [
+        16384,
+        20
+      ],
+      "is_binary": true,
+      "binary_violation_fraction": 0.0,
+      "rank": 20,
+      "rank_with_offset": 21,
+      "condition_number": 19.454292646145774,
+      "near_constant_columns": [],
+      "weight_diagnostics": {
+        "min": 255.33630115542448,
+        "max": 10309602.946972365,
+        "negative_fraction": 0.0,
+        "total_variation": 10309347.61067121,
+        "relative_deviation_from_nominal": 0.0008876105913697937,
+        "nominal_scale": 1.000451782593241
+      }
+    }
+  },
+  "self_calibration_trace_summary": {
+    "target_count": 14,
+    "first_target": 6,
+    "last_target": 19
+  },
+  "primary_result_deltas": {
+    "self_cal_no_srm_sndr_gain_db": 31.803573414366447,
+    "self_cal_expected_srm_sndr_gain_db": 33.807053380182545,
+    "expected_srm_increment_over_self_cal_db": 2.0034799658160978,
+    "stochastic_srm_penalty_vs_expected_db": -0.5295936503662517,
+    "oracle_residue_information_gain_db": 2.839702900947316,
+    "self_cal_gap_to_oracle_without_srm_db": -1.747448965687596,
+    "self_cal_gap_to_oracle_with_expected_srm_db": -2.583671900818814,
+    "nominal_exact_residue_increment_db": 0.0021296632339229404,
+    "self_cal_exact_residue_increment_db": 2.007772174438543
+  },
+  "evidence_boundary": [
+    "Behavioral physical-CDAC proxy, not transistor or PEX simulation.",
+    "Normal conversion random noise is disabled to isolate mismatch correction.",
+    "The separate paired SRM noise ablation enables comparator noise and shares one raw-bit stream between SRM on/off decoders.",
+    "The SRM noise ablation does not reproduce split-sampling, AZ aliasing, or the complete paper noise budget.",
+    "ADCToolbox sine fitting requires an external coherent tone and is not self-calibration."
+  ]
+}

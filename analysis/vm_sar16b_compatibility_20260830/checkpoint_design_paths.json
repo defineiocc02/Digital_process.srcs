@@ -1,0 +1,47 @@
+{
+  "captured_utc": "2026-08-30T03:27:55.483046+00:00",
+  "host": "192.168.38.140",
+  "mode": "read_only",
+  "library_root": "/home/meow/jxy/12bit_50M_SAR",
+  "cell": "test_16bit5MSAR_ideal",
+  "cell_root": "/home/meow/jxy/12bit_50M_SAR/test_16bit5MSAR_ideal",
+  "cell_size": "68K",
+  "cell_entries": [
+    "schematic"
+  ],
+  "view_inventory": {
+    "schematic": {
+      "path": "/home/meow/jxy/12bit_50M_SAR/test_16bit5MSAR_ideal/schematic",
+      "entries": [
+        "data.dm",
+        "master.tag",
+        "sch.oa",
+        "thumbnail_128x128.png"
+      ],
+      "size": "68K"
+    }
+  },
+  "simulation_dirs": [],
+  "netlist_candidates": [],
+  "maestro_state_candidates": [],
+  "named_candidate_cells": [
+    "/home/meow/jxy/12bit_50M_SAR/CDAC",
+    "/home/meow/jxy/12bit_50M_SAR/CDAC_0713",
+    "/home/meow/jxy/12bit_50M_SAR/CDAC_0713_2",
+    "/home/meow/jxy/12bit_50M_SAR/CDAC_0716",
+    "/home/meow/jxy/12bit_50M_SAR/CDAC_VA",
+    "/home/meow/jxy/12bit_50M_SAR/CMAZ_SSDA_compare",
+    "/home/meow/jxy/12bit_50M_SAR/DEC_Ideal_DAC_Combined",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_0601",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_0713",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_0716",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_0716_ideal",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_SYNC",
+    "/home/meow/jxy/12bit_50M_SAR/SAR_LOGIC_ideal",
+    "/home/meow/jxy/12bit_50M_SAR/SNDR_DAC",
+    "/home/meow/jxy/12bit_50M_SAR/SNDR_DAC_0713",
+    "/home/meow/jxy/12bit_50M_SAR/test_SARLogic",
+    "/home/meow/jxy/12bit_50M_SAR/vcm_cdac_cal_decode_va_v3"
+  ]
+}

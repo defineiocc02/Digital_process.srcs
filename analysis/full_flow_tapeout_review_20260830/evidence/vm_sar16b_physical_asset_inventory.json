@@ -1,0 +1,32 @@
+{
+  "schema": "sar16b-vm-physical-inventory/1",
+  "collected_at_utc": "2026-08-30T05:15:32.974319+00:00",
+  "source": {
+    "host": "192.168.38.140",
+    "user": "meow",
+    "roots": [
+      "/home/meow/IC/SAR_16B_5M_CORE",
+      "/home/meow/IC/SAR_16B_5M_EXP",
+      "/home/meow/IC/SAR_16B_5M_TB",
+      "/home/meow/IC/simulation/SAR_16B_5M_TB"
+    ]
+  },
+  "read_only": true,
+  "ssh_exit_code": 0,
+  "ssh_stderr": "",
+  "total_files_scanned": 2581,
+  "categories": {
+    "oa_layout": [
+      {
+        "path": "/home/meow/IC/SAR_16B_5M_TB/TEST_TRAN_ALL_TRANSISTOR_wFLash_ver6/layout/layout.oa",
+        "size_bytes": 81060,
+        "modified": "2026-07-13T08:26:11.0000000000-0400"
+      }
+    ],
+    "stream_out": [],
+    "place_route_exchange": [],
+    "extracted_or_timing": [],
+    "signoff_named_file": []
+  },
+  "interpretation_rule": "Absence from this inventory means no matching file was found under the four declared SAR_16B roots. It does not prove absence elsewhere on the VM."
+}
