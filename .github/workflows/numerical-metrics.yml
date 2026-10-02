@@ -29,3 +29,13 @@ jobs:
         with:
           name: coherent-metric-campaign-recheck
           path: campaign-recheck/
+      - name: Recompute the full 512-chip campaign from fresh data
+        if: github.event_name == 'pull_request'
+        env:
+          MPLBACKEND: Agg
+        run: python analysis/full_sar_behavioral_20260729/run_campaign.py --chips 512 --workers 2 --no-resume --outdir campaign-full-recheck
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'pull_request'
+        with:
+          name: full-coherent-metric-campaign-recheck
+          path: campaign-full-recheck/
