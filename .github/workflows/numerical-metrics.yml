@@ -1,0 +1,23 @@
+name: Numerical metric controls
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy==2.1.3 pytest==8.3.5
+      - run: python -m pytest analysis/test_coherent_metrics.py -q
+      - name: Compile changed analysis modules
+        run: python -m py_compile analysis/coherent_metrics.py analysis/full_sar_behavioral_20260729/full_sar_model.py
+      - name: Install behavioral model dependencies
+        run: pip install -r analysis/full_sar_behavioral_20260729/requirements.txt
+      - name: Run behavioral integration controls
+        run: python -m pytest analysis/full_sar_behavioral_20260729/test_full_sar_model.py -q
