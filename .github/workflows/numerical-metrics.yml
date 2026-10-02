@@ -20,4 +20,61 @@ jobs:
       - name: Install behavioral model dependencies
         run: pip install -r analysis/full_sar_behavioral_20260729/requirements.txt
       - name: Run behavioral integration controls
-        run: python -m pytest analysis/full_sar_behavioral_20260729/test_full_sar_model.py -q
+        run: python -m pytest analysis/full_sar_behavioral_20260729/test_full_sar_model.py analysis/full_sar_behavioral_20260729/test_campaign_provenance.py -q
+      - name: Regenerate a fresh four-chip campaign
+        env:
+          MPLBACKEND: Agg
+        run: python analysis/full_sar_behavioral_20260729/run_campaign.py --quick --chips 4 --workers 2 --no-resume --outdir campaign-recheck
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coherent-metric-campaign-recheck
+          path: campaign-recheck/
+      - name: Recompute the full 512-chip campaign from fresh data
+        if: github.event_name == 'pull_request'
+        env:
+          MPLBACKEND: Agg
+        run: python analysis/full_sar_behavioral_20260729/run_campaign.py --chips 512 --workers 2 --no-resume --outdir campaign-full-recheck
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'pull_request'
+        with:
+          name: full-coherent-metric-campaign-recheck
+          path: campaign-full-recheck/
+  physical-cdac:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pytest==8.3.5 numpy==2.1.3 -r analysis/full_sar_behavioral_20260729/requirements.txt
+      - name: Verify affected physical model controls
+        run: python -m pytest analysis/physical_cdac_mismatch_20260729/test_physical_cdac.py analysis/physical_cdac_mismatch_20260729/test_revalidation.py -q
+      - name: Recompute physical mismatch and amplitude sweeps
+        env:
+          MPLBACKEND: Agg
+        run: python analysis/physical_cdac_mismatch_20260729/run_revalidation.py --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 2 --outdir physical-cdac-recheck
+      - name: Verify metric ordering and preserve provenance
+        run: |
+          python - <<'PY'
+          import csv, hashlib, importlib.metadata, json, os, platform
+          from pathlib import Path
+          root = Path('physical-cdac-recheck')
+          data = json.loads((root / 'summary.json').read_text())
+          rows = list(csv.DictReader((root / 'per_chip_main_metrics.csv').open()))
+          assert data['main_completed_chips'] == 512 and len(rows) == 3072
+          for row in rows:
+              for prefix in ('fullscale', 'backoff'):
+                  assert float(row[prefix + '_snr_db']) >= float(row[prefix + '_sndr_db']) - 1e-10
+          paths = [Path('analysis/coherent_metrics.py'), Path('analysis/full_sar_behavioral_20260729/full_sar_model.py'), Path('analysis/physical_cdac_mismatch_20260729/physical_cdac.py'), Path('analysis/physical_cdac_mismatch_20260729/run_revalidation.py')]
+          provenance = {'checkout_commit': os.environ['GITHUB_SHA'], 'python': platform.python_version(), 'dependencies': {n: importlib.metadata.version(n) for n in ('numpy', 'scipy', 'adctoolbox')}, 'source_sha256': {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}, 'summary_sha256': hashlib.sha256((root / 'summary.json').read_bytes()).hexdigest()}
+          (root / 'provenance.json').write_text(json.dumps(provenance, indent=2))
+          snapshot = {'provenance': provenance, 'config': data['config'], 'physical_config': data['physical_config'], 'ideal_acceptance': data['ideal_acceptance'], 'main_completed_chips': data['main_completed_chips'], 'pass_rates': data['pass_rates'], 'main_summary': data['main_summary']}
+          (root / 'review_snapshot.json').write_text(json.dumps(snapshot, indent=2))
+          print('REVIEW_SNAPSHOT_JSON ' + json.dumps(snapshot))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: physical-cdac-metric-revalidation
+          path: physical-cdac-recheck/

@@ -20,7 +20,16 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 from scipy.special import ndtr
-from analysis.coherent_metrics import coherent_metrics
+try:
+    from analysis.coherent_metrics import coherent_metrics
+except ModuleNotFoundError as exc:
+    if exc.name != "analysis":
+        raise
+    # Direct script execution does not put the repository root on sys.path.
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from analysis.coherent_metrics import coherent_metrics
 
 try:
     import adctoolbox
