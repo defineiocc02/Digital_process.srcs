@@ -6,7 +6,7 @@ The algorithmic source of truth remains the local RTL:
 * ``rtl/srm_residue_estimator.sv`` for the 22-decision SRM count-to-Q8 LUT;
 * ``rtl/sar_reconstruction.sv`` for signed Q8 reconstruction and saturation.
 
-ADCToolbox is used only for standardized spectrum and ramp-histogram metrics.
+Coherent spectra use analysis.coherent_metrics; ADCToolbox supplies ramp-histogram metrics.
 The analog path in this module is a system-level differential CDAC/residue
 model. It is not a transistor, PVT, extracted-parasitic, or reference-network
 signoff model.
@@ -20,6 +20,7 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 from scipy.special import ndtr
+from analysis.coherent_metrics import coherent_metrics
 
 try:
     import adctoolbox
@@ -497,23 +498,20 @@ def _best_gain_aligned_rmse(reference: np.ndarray, estimate: np.ndarray) -> floa
 
 
 def spectrum_metrics(codes: np.ndarray, cfg: FullSarConfig) -> Dict[str, float]:
-    """Use ADCToolbox's standardized coherent-spectrum implementation."""
+    """Measure the coherent final-word record using one power partition.
 
-    result = adctoolbox.analyze_spectrum(
-        np.asarray(codes, dtype=float),
-        fs=cfg.fs_hz,
-        win_type="rectangular",
-        side_bin=0,
-        max_harmonic=8,
-        create_plot=False,
-    )
-    return {
-        "sndr_db": float(result["sndr_dbc"]),
-        "snr_db": float(result["snr_dbc"]),
-        "sfdr_db": float(result["sfdr_dbc"]),
-        "thd_db": float(result["thd_dbc"]),
-        "enob": float(result["enob"]),
-    }
+    The tone bin matches coherent_sine. Historical ADCToolbox summaries remain
+    frozen evidence; new runs use this explicitly versioned local metric path.
+    ADCToolbox continues to provide static INL/DNL and external calibration.
+    """
+    data = np.asarray(codes)
+    if data.shape != (cfg.n_fft,):
+        raise ValueError("Spectrum record must match the declared n_fft.")
+    k = int(round(cfg.fin_target_hz / cfg.fs_hz * cfg.n_fft))
+    k = max(1, min(k, cfg.n_fft // 2 - 1))
+    while math.gcd(k, cfg.n_fft) != 1 and k + 1 < cfg.n_fft // 2:
+        k += 1
+    return coherent_metrics(data, cfg.fs_hz, k, max_harmonic=8)
 
 
 def linearity_metrics(codes: np.ndarray, cfg: FullSarConfig) -> Dict[str, object]:

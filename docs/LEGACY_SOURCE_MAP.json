@@ -1,0 +1,68 @@
+{
+  "review_date": "2026-10-02",
+  "status": "exact-content-already-present",
+  "source_baseline": "06b048bd674170973d00444f7636ef1fa095859f",
+  "target_baseline": "f1fe8816c7d7091b3011f777c399ae0584a113cd",
+  "files": [
+    {
+      "legacy_relative_path": "constrs_1/new/bringup_io.xdc",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/constrs_1/new/bringup_io.xdc",
+      "git_blob": "3d9844542e692fe55a2ff43477e959de3619d9c0"
+    },
+    {
+      "legacy_relative_path": "sim_1/new/sar_adc_fpga_top.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/sar_adc_fpga_top.sv",
+      "git_blob": "621081300de7fd4549fd95cd37276a684a4c3066"
+    },
+    {
+      "legacy_relative_path": "sim_1/new/tb_fpga_top.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_fpga_top.sv",
+      "git_blob": "1f8443f8a116e0481b8e9ed928fb8309c81524a6"
+    },
+    {
+      "legacy_relative_path": "sim_1/new/tb_sar_calib_recursive.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_calib_recursive.sv",
+      "git_blob": "bf9347f1f46149bedfd68f0b5382d3b33f805dc3"
+    },
+    {
+      "legacy_relative_path": "sim_1/new/tb_sar_calib_sys.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_calib_sys.sv",
+      "git_blob": "5b1c86c500ee17c9be1d611e549d3fdd1d0799ad"
+    },
+    {
+      "legacy_relative_path": "sim_1/new/tb_sar_recon.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_recon.sv",
+      "git_blob": "90f5a722e2eb13d6d21607de43edd3561409d9d3"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_adc_fpga_top.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_adc_fpga_top.sv",
+      "git_blob": "723feafc89e345649643bb57792b6d2a641f7c32"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_adc_model.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_adc_model.sv",
+      "git_blob": "7d32c17573d1732b6baecbb7f048035a5e96eba4"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_calib_ctrl.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_calib_ctrl.sv",
+      "git_blob": "fa5bed6c756431e8523117b6abb3a799f7161ace"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_calib_ctrl_recursive.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_calib_ctrl_recursive.sv",
+      "git_blob": "b0225a307177e19b488c989269d0e1d4485493f2"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_reconstruction.sv",
+      "archive_path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/reconstruction/sar_reconstruction.sv",
+      "git_blob": "d050f1144403296477b600b066a37261c2faf952"
+    },
+    {
+      "legacy_relative_path": "sources_1/new/sar_reconstruction_parallel.sv",
+      "archive_path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_reconstruction_parallel.sv",
+      "git_blob": "032aa04daafb22e45dee85caf4a77c539bdee8d3"
+    }
+  ]
+}

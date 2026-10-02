@@ -1,8 +1,12 @@
 # SAR ADC 数字处理系统
 
+> **2026-10-02 数值勘误**：历史频谱汇总发现 SNR / SNDR 口径矛盾，相关性能数字待重算。
+> 当前频谱代码已加入独立功率分区与解析对照检查；旧报告不是本轮重新验证的结果。
+> 详见 [指标勘误](docs/METRIC_ERRATUM_20261002.md)。
+
 本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
 
-当前工程基线为 **v3.11.0-physical-cdac-revalidation**。本版本以当前 RTL 为算法真值，从 `6+4+5+5` 物理分段CDAC、电容面积律失配、20次差分SAR判决、P/N递归前台校准、22次SRM、Q8重构到16-bit输出完成512芯片再验证，并发布27页中文学术/工业维护报告。ADCToolbox仅用于标准化指标计算，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
+当前工程基线为 **v3.11.0-physical-cdac-revalidation**。本版本以当前 RTL 为算法真值，从 `6+4+5+5` 物理分段CDAC、电容面积律失配、20次差分SAR判决、P/N递归前台校准、22次SRM、Q8重构到16-bit输出完成512芯片再验证，并发布27页中文学术/工业维护报告。频谱指标使用显式相干功率分区，ADCToolbox用于静态指标和外部校准对照，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
 
 ## 目录结构
 
@@ -104,7 +108,7 @@ GUI 工程便于调试和查看工程状态；脚本入口仍是可复现构建�
 
 Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sources_1/new/`。维护时优先修改 `rtl/`，再同步到 Vivado 工程镜像。
 
-## 验证基线
+## 历史验证基线（频谱指标待按勘误重算）
 
 2026-07-29 物理CDAC失配与当前片上自校准再验证：
 
