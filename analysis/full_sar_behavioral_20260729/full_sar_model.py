@@ -20,13 +20,16 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 from scipy.special import ndtr
-if __package__:
-    from ..coherent_metrics import coherent_metrics
-else:  # Support the documented direct-script campaign entry point.
+try:
+    from analysis.coherent_metrics import coherent_metrics
+except ModuleNotFoundError as exc:
+    if exc.name != "analysis":
+        raise
+    # Direct script execution does not put the repository root on sys.path.
     import sys
     from pathlib import Path
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from coherent_metrics import coherent_metrics
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from analysis.coherent_metrics import coherent_metrics
 
 try:
     import adctoolbox
