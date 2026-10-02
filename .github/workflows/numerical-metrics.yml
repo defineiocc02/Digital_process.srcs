@@ -20,4 +20,12 @@ jobs:
       - name: Install behavioral model dependencies
         run: pip install -r analysis/full_sar_behavioral_20260729/requirements.txt
       - name: Run behavioral integration controls
-        run: python -m pytest analysis/full_sar_behavioral_20260729/test_full_sar_model.py -q
+        run: python -m pytest analysis/full_sar_behavioral_20260729/test_full_sar_model.py analysis/full_sar_behavioral_20260729/test_campaign_provenance.py -q
+      - name: Regenerate a fresh four-chip campaign
+        env:
+          MPLBACKEND: Agg
+        run: python analysis/full_sar_behavioral_20260729/run_campaign.py --quick --chips 4 --workers 2 --no-resume --outdir campaign-recheck
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coherent-metric-campaign-recheck
+          path: campaign-recheck/

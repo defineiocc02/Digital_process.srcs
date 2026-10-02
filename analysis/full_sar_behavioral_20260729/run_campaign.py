@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import importlib.metadata
+import platform
 import json
 import os
 import time
@@ -46,6 +49,18 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_OUTDIR = ROOT / "outputs"
 
 
+def campaign_identity(cfg: FullSarConfig) -> Dict[str, object]:
+    paths = [ROOT / 'full_sar_model.py', ROOT.parent / 'coherent_metrics.py', Path(__file__)]
+    return {
+        'schema': 'coherent-metrics-v1',
+        'config': asdict(cfg),
+        'source_sha256': {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in paths},
+        'python': platform.python_version(),
+        'packages': {name: importlib.metadata.version(name) for name in ('numpy', 'scipy', 'adctoolbox')},
+    }
+
+
+
 def _checkpoint_path(outdir: Path, chip_id: int) -> Path:
     return outdir / "checkpoints" / f"chip_{chip_id:04d}.json"
 
@@ -71,12 +86,13 @@ def _write_checkpoint(
     chip_id: int,
     metrics: List[Dict[str, object]],
     trace: Dict[str, object],
+    identity: Dict[str, object],
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".tmp")
     temporary.write_text(
         json.dumps(
-            {"chip_id": chip_id, "metrics": metrics, "trace": trace},
+            {"chip_id": chip_id, "metrics": metrics, "trace": trace, "identity": identity},
             indent=2,
         ),
         encoding="utf-8",
@@ -84,8 +100,10 @@ def _write_checkpoint(
     temporary.replace(path)
 
 
-def _load_checkpoint(path: Path) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
+def _load_checkpoint(path: Path, identity: Dict[str, object]) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
     payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("identity") != identity:
+        raise ValueError("Checkpoint provenance differs; use a fresh output directory or --no-resume")
     return payload["metrics"], payload["trace"]
 
 
@@ -163,6 +181,7 @@ def plot_summary(summary: Dict[str, object], outdir: Path) -> None:
         "CAL_SRM": "Calibration + SRM",
         "ORACLE_SRM": "Oracle + SRM",
     }
+    count = summary[DECODER_ORDER[0]]["n_chips"]
     colors = ["#697783", "#277da1", "#2a9d6f", "#6d5aa8"]
     x = np.arange(len(DECODER_ORDER))
 
@@ -177,7 +196,7 @@ def plot_summary(summary: Dict[str, object], outdir: Path) -> None:
     )
     plt.xticks(x, [labels[name] for name in DECODER_ORDER])
     plt.ylabel("SNDR median (dB)")
-    plt.title("512-point full-loop dynamic decoding")
+    plt.title(f"{count}-chip full-loop dynamic decoding")
     plt.grid(axis="y", alpha=0.25)
     plt.tight_layout()
     plt.savefig(outdir / "fig_sndr_summary.png", dpi=200)
@@ -192,7 +211,7 @@ def plot_summary(summary: Dict[str, object], outdir: Path) -> None:
     )
     plt.xticks(x, [labels[name] for name in DECODER_ORDER])
     plt.ylabel("Endpoint INL p-p median (LSB)")
-    plt.title("512-point full-range ramp linearity")
+    plt.title(f"{count}-chip full-range ramp linearity")
     plt.grid(axis="y", alpha=0.25)
     plt.tight_layout()
     plt.savefig(outdir / "fig_inl_summary.png", dpi=200)
@@ -211,7 +230,7 @@ def plot_summary(summary: Dict[str, object], outdir: Path) -> None:
     plt.xticks(x, [labels[name] for name in DECODER_ORDER])
     plt.ylabel("Missing-code median + 1")
     plt.yscale("log")
-    plt.title("512-point missing-code comparison")
+    plt.title(f"{count}-chip missing-code comparison")
     plt.grid(axis="y", alpha=0.25)
     plt.tight_layout()
     plt.savefig(outdir / "fig_missing_codes_summary.png", dpi=200)
@@ -256,7 +275,7 @@ def run_representative_high_resolution(
                 transition_code=linearity["transition_code"],
                 inl=linearity["inl"],
             )
-        plot_representative_linearity(label, chip_id, retained, outdir)
+        plot_representative_linearity(label, chip_id, retained, outdir, cfg.representative_samples_per_code)
         plot_representative_spectrum(label, chip_id, retained, cfg, outdir)
     return representative
 
@@ -266,6 +285,7 @@ def plot_representative_linearity(
     chip_id: int,
     retained: Dict[str, object],
     outdir: Path,
+    samples_per_code: int,
 ) -> None:
     fig, axes = plt.subplots(2, 3, figsize=(14.0, 7.0), sharex="col")
     styles = {
@@ -293,7 +313,7 @@ def plot_representative_linearity(
     axes[1, 0].set_ylabel("INL (LSB)")
     fig.suptitle(
         f"{label.title()} CAL_SRM chip {chip_id}: "
-        "8 samples/code high-resolution cross-check",
+        f"{samples_per_code} samples/code high-resolution cross-check",
         y=0.995,
     )
     for axis in axes.flat:
@@ -367,6 +387,7 @@ def run_campaign(
     resume: bool,
 ) -> Dict[str, object]:
     cfg.validate()
+    identity = campaign_identity(cfg)
     outdir.mkdir(parents=True, exist_ok=True)
     started_at = time.time()
     all_rows: List[Dict[str, object]] = []
@@ -376,7 +397,7 @@ def run_campaign(
     for chip_id in range(cfg.n_chips):
         checkpoint = _checkpoint_path(outdir, chip_id)
         if resume and checkpoint.exists():
-            rows, trace = _load_checkpoint(checkpoint)
+            rows, trace = _load_checkpoint(checkpoint, identity)
             all_rows.extend(rows)
             if chip_id < 3:
                 traces[f"chip_{chip_id}"] = trace
@@ -399,7 +420,7 @@ def run_campaign(
             for future in as_completed(future_map):
                 chip_id, rows, trace = future.result()
                 _write_checkpoint(
-                    _checkpoint_path(outdir, chip_id), chip_id, rows, trace
+                    _checkpoint_path(outdir, chip_id), chip_id, rows, trace, identity
                 )
                 all_rows.extend(rows)
                 if chip_id < 3:
@@ -432,13 +453,15 @@ def run_campaign(
             "foreground_calibration": "rtl/sar_calib_ctrl_serial.sv",
             "srm_lut": "rtl/srm_residue_estimator.sv",
             "q8_reconstruction": "rtl/sar_reconstruction.sv",
-            "metrics_backend": "ADCToolbox 0.9.1 (MIT), commit a8995cf4",
+            "dynamic_metrics": "analysis/coherent_metrics.py; harmonics 2..8, DC excluded",
+            "static_metrics": "ADCToolbox 0.9.1 (MIT), commit a8995cf4",
         },
         "evidence_boundary": (
             "Behavioral system validation only. It does not sign off transistor "
             "noise, CDAC charge redistribution, reference settling, PVT, PEX, "
             "metastability timing, or silicon yield."
         ),
+        "provenance": identity,
         "config": asdict(cfg),
         "completed_chips": cfg.n_chips,
         "decoder_rows": len(metrics),

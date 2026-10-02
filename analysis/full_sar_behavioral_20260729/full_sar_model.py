@@ -20,7 +20,13 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 from scipy.special import ndtr
-from analysis.coherent_metrics import coherent_metrics
+if __package__:
+    from ..coherent_metrics import coherent_metrics
+else:  # Support the documented direct-script campaign entry point.
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from coherent_metrics import coherent_metrics
 
 try:
     import adctoolbox
