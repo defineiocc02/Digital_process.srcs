@@ -9,6 +9,8 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from analysis.metric_evidence import EvidenceError, check_frozen_evidence, load_current_metrics
 
 RTL_DIR = ROOT / "rtl"
 if (ROOT / "tb").exists():
@@ -105,6 +107,15 @@ def main() -> None:
                 errors += 1
             else:
                 print(f"  OK: core_synth.xdc clean of '{token}'")
+
+    # Current metrics may not resolve to historical summaries or changed source.
+    try:
+        load_current_metrics()
+        count = check_frozen_evidence()
+        print(f"  OK: current metrics and {count} frozen evidence files verified")
+    except EvidenceError as exc:
+        print(f"  FAIL: metric evidence: {exc}")
+        errors += 1
 
     if errors:
         fail(f"{errors} consistency error(s)")

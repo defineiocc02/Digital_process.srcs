@@ -1,14 +1,19 @@
-"""Generate LaTeX metrics and tables from the authoritative campaign JSON."""
+"""Explicitly reproduce LaTeX metrics and tables from frozen historical campaign JSON."""
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 
 REPORT_DIR = Path(__file__).resolve().parent
 ROOT = REPORT_DIR.parent
 SUMMARY_PATH = ROOT / "outputs" / "summary.json"
+sys.path.insert(0, str(ROOT.parents[1]))
+from analysis.metric_evidence import require_historical_report
+
+HISTORICAL_NOTICE = "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.\n"
 
 
 def metric(payload: dict, decoder: str, name: str, statistic: str) -> float:
@@ -35,6 +40,7 @@ def generate_metrics(payload: dict) -> str:
         - metric(payload, "CAL_SRM", "dynamic_sndr_db", "median")
     )
     lines = [
+        "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.",
         "% Generated from outputs/summary.json. Do not edit manually.",
         command("ChipCount", str(payload["completed_chips"])),
         command("DecoderRows", str(payload["decoder_rows"])),
@@ -195,7 +201,7 @@ def generate_dynamic_table(payload: dict) -> str:
                 metric(payload, decoder, "dynamic_enob", "median"),
             )
         )
-    return "\\newcommand{\\DynamicTableRows}{%\n" + "\n".join(rows) + "\n}\n"
+    return HISTORICAL_NOTICE + "\\newcommand{\\DynamicTableRows}{%\n" + "\n".join(rows) + "\n}\n"
 
 
 def generate_static_table(payload: dict) -> str:
@@ -218,7 +224,7 @@ def generate_static_table(payload: dict) -> str:
                 metric(payload, decoder, "missing_codes", "max"),
             )
         )
-    return "\\newcommand{\\StaticTableRows}{%\n" + "\n".join(rows) + "\n}\n"
+    return HISTORICAL_NOTICE + "\\newcommand{\\StaticTableRows}{%\n" + "\n".join(rows) + "\n}\n"
 
 
 def generate_representative_table(payload: dict) -> str:
@@ -241,16 +247,21 @@ def generate_representative_table(payload: dict) -> str:
             )
         )
     return (
-        "\\newcommand{\\RepresentativeTableRows}{%\n"
+        HISTORICAL_NOTICE
+        + "\\newcommand{\\RepresentativeTableRows}{%\n"
         + "\n".join(rows)
         + "\n}\n"
     )
 
 
 def main() -> None:
+    global REPORT_DIR
+    REPORT_DIR = require_historical_report(SUMMARY_PATH)
+    print("HISTORICAL evidence reproduction; see docs/METRIC_ERRATUM_20261002.md.")
     payload = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
     if payload.get("status") != "complete" or payload.get("completed_chips") != 512:
         raise RuntimeError("The formal 512-point campaign is not complete.")
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
     (REPORT_DIR / "generated_metrics.tex").write_text(
         generate_metrics(payload), encoding="utf-8"
     )

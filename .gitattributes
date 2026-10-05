@@ -1,4 +1,4 @@
-* text=auto
+* text=auto eol=lf
 
 # Source and documentation files are kept LF-normalized in Git.
 *.sv  text eol=lf

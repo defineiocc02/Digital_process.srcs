@@ -1,14 +1,17 @@
-"""Generate LaTeX report assets from calibration validation evidence."""
+"""Explicitly reproduce LaTeX assets from frozen historical calibration evidence."""
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
 SUMMARY_PATH = ROOT / "outputs" / "summary.json"
 REPORT_DIR = ROOT / "report"
+sys.path.insert(0, str(ROOT.parents[1]))
+from analysis.metric_evidence import require_historical_report
 
 
 def esc(text: str) -> str:
@@ -28,11 +31,15 @@ def macro(name: str, value: str | float) -> str:
 
 
 def build_assets() -> None:
+    global REPORT_DIR
+    REPORT_DIR = require_historical_report(SUMMARY_PATH)
+    print("HISTORICAL evidence reproduction; see docs/METRIC_ERRATUM_20261002.md.")
     payload = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
     summary = payload["summary"]
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     lines = [
+        "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.",
         "% Auto-generated from analysis/calibration_effectiveness_20260729/outputs/summary.json",
         macro("ValNChips", str(payload["config"]["n_chips"])),
         macro("ValFFT", str(payload["config"]["n_fft"])),
@@ -68,6 +75,7 @@ def build_assets() -> None:
         "ORACLE": "Physical-weight oracle",
     }
     table = [
+        "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.",
         r"\small",
         r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}Xrrrr@{}}",
         r"\toprule",
