@@ -1,0 +1,2495 @@
+{
+  "schema_version": 1,
+  "metric_definition": "coherent-one-sided-v1",
+  "baseline_commit": "f180d8a4e3ec21bfcc84b904e3672553344b0114",
+  "current": {
+    "id": "physical-cdac-20261002",
+    "status": "current",
+    "path": "docs/REVALIDATION_20261002.json",
+    "sha256": "bba44e9f3834f5cc01c572f189ec545de5ff3382f3febc4eab5b5e9901b888dc",
+    "date": "2026-10-02",
+    "scopes": [
+      "physical_cdac.ideal",
+      "physical_cdac.main"
+    ],
+    "tested_head_commit": "1655d303fdc6627c506a7b46fb294c92972ec331",
+    "provenance": {
+      "checkout_commit": "f0401fca6e6244a2967f8eea4eed60536cfd3e47",
+      "python": "3.12.14",
+      "dependencies": {
+        "numpy": "2.1.3",
+        "scipy": "1.18.1",
+        "adctoolbox": "0.9.1"
+      },
+      "source_sha256": {
+        "analysis/coherent_metrics.py": "51fce177f97c8bb5b4af8d2605d57be994cdfbbe1a7c91314d9462394f8ea5fd",
+        "analysis/full_sar_behavioral_20260729/full_sar_model.py": "5d8697119fe0f687820c63a05db10c658c62c185243105f420701379e2360291",
+        "analysis/physical_cdac_mismatch_20260729/physical_cdac.py": "57fa81ff02e0d2db3c9ba60d7adbe234f1cf96c0b1952299d8e4bfab852ff982",
+        "analysis/physical_cdac_mismatch_20260729/run_revalidation.py": "043003f86b5a3ad498041596836303c0bb35da21de833901e4c842fcbcb131a9"
+      },
+      "summary_sha256": "7230120b96fc44fb29de2e67138399ea69c3a9cdebb19cb8bf62868606bb3e0e"
+    }
+  },
+  "frozen_evidence": [
+    {
+      "path": "analysis/calibration_effectiveness_20260729/outputs/fig_dynamic_sndr_median.png",
+      "sha256": "3cb1b4eddbdc15ddf698f240bbe1b57eafc6336605d5662342a8bcca0a250380",
+      "status": "historical",
+      "reason": "Historical calibration-effectiveness results with the legacy spectral convention; not rerun by the committed current physical-CDAC snapshot."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/outputs/fig_weight_rmse.png",
+      "sha256": "a69a9c381896529c49972715d0fb1a73b9afb42d975c20305fbd5334d20bd554",
+      "status": "historical",
+      "reason": "Historical calibration-effectiveness results with the legacy spectral convention; not rerun by the committed current physical-CDAC snapshot."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/outputs/per_chip_results.csv",
+      "sha256": "ec2a617050fecf7538df8fb911f7e6445580ceeb97192a992a5ad63eec706ee6",
+      "status": "historical",
+      "reason": "Historical calibration-effectiveness results with the legacy spectral convention; not rerun by the committed current physical-CDAC snapshot."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/outputs/summary.json",
+      "sha256": "c54cce36222acb5734dccb965a1a9a373efa403cc95321021e6bc5718c075063",
+      "status": "historical",
+      "reason": "Historical calibration-effectiveness results with the legacy spectral convention; not rerun by the committed current physical-CDAC snapshot."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf",
+      "sha256": "ad3211eb6f7fb82d5266801fc015c1bafb60218917849c4d9fcf2aff4f2a8c70",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.tex",
+      "sha256": "87a411652240a8b510cd83b9d8bbcd43980146d1abd6552ab475af8dd4f84df1",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/report/generated_metrics.tex",
+      "sha256": "05248f79a97ee36e44b718e4ba49ede5255ba7ffd5c89fab44a00d5ff736f3a1",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/calibration_effectiveness_20260729/report/summary_table.tex",
+      "sha256": "bcb2fd62f32f7b516f7d2cd844183d62ef22f95c1c65c623a958d4045644bbf2",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/PAPER_COMPARISON_AND_NOVELTY_MATRIX.csv",
+      "sha256": "bb03e57103c8a8177bb91fe812fad4686d9ee283361ad3c863d61a82e70c611d",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/TAPEOUT_GATE_MATRIX.csv",
+      "sha256": "58e9eb9258b0068991074e7f0cf8c1ee049312e3ad4526c6b82fce30b7189c28",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/evidence/local_validation_20260830.json",
+      "sha256": "95a7eafdc154580b4f751fb70fec54cf19acd0324990028b3bbb71c030f26601",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/evidence/vm_sar16b_layout_summary.json",
+      "sha256": "6fc201679252c15cc91b33d2c9147c2d3b07ee338bca86d4630ccb650f0b1497",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/evidence/vm_sar16b_physical_asset_inventory.json",
+      "sha256": "685637fca5ecccbdb3185693b3d2229365dc81deb99a056fe19303a0cf44db7b",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_flow_tapeout_review_20260830/reproducibility_audit_adc.json",
+      "sha256": "1402117204cbba4d194a9e1a34bb87a73fd2232b0e60910c74edc0b9ac584d64",
+      "status": "historical",
+      "reason": "Historical engineering/tapeout/physical-asset evidence; a diagnostic record rather than current ADC spectral metrics."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_best_dnl_inl.pdf",
+      "sha256": "6b62e6c077c85cd67a172d969db2706038724dc26915f77ba1b25800a18d2ade",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_best_dnl_inl.png",
+      "sha256": "c0d26e24730b18fba57e30c3dc73dde73bdfb4ca5f2d9abcc7887b5e5a9847d5",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_best_spectrum.pdf",
+      "sha256": "b500a1f5cbf23c2543399676d744f97b071c50c018d2d010c2a0345ec6fc55c8",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_best_spectrum.png",
+      "sha256": "ce0f99cd5b9fc404a9c022581fb22167747083eef708e203e7a19524c1b369d7",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_median_dnl_inl.pdf",
+      "sha256": "53599b2b9ce0ee26a44cf09a508e44b62eb2f05a7e74f124395b8d14ccfaf942",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_median_dnl_inl.png",
+      "sha256": "2e8124a000fe60eab99fae6f3b7a906bdab270c6d9bf7dc2fa937fd36b9d2a06",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_median_spectrum.pdf",
+      "sha256": "be11b01268372c6fb3ab84093b71c0f3ef80f9afbb8091b4793fa2595ef65a7b",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_median_spectrum.png",
+      "sha256": "bb1f9b13a9bf996f701aeeb161040a8eee07b3ae3c3199c562994fad695bec73",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_worst_dnl_inl.pdf",
+      "sha256": "483e9b723d069da4d17372c3c308ff8e725e39033de5e4c6dc24e6559ab43837",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_worst_dnl_inl.png",
+      "sha256": "c7e158c3c7a9f8257192b53c9b11641001ab2fdf3377a07c1e41a3bde77c3f8e",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_worst_spectrum.pdf",
+      "sha256": "d8d2a74d72ba9988a9c27ae7e7f8638b3b51a580ababcdeb269e721387516f2e",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_highres_worst_spectrum.png",
+      "sha256": "f8ccc34b6cd2e12470e2fce312f80f5ca60b2e7565ed6985f3a5310736073cda",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_inl_summary.pdf",
+      "sha256": "7c0292aa4c00125620275c1a23009e2b754d5f2a95ec6d8cddc1aaa8980116d0",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_inl_summary.png",
+      "sha256": "b94b11f468be6ac8a6ffaec87dbba2318a2d33de274bcf903d0d0a2edc1454ac",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_missing_codes_summary.pdf",
+      "sha256": "8be49e74513b749c288627d4059d6b9d28dd61281b0b19dc035f03aa82a41873",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_missing_codes_summary.png",
+      "sha256": "8a2c52e107a2f1af807e474d74880492336ac78c378a9db6f19ae401c888e79a",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_sndr_summary.pdf",
+      "sha256": "fd361752bfa73c5deada02e95cc0440ca26a82c10912a15d009777b8c8baa78a",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/fig_sndr_summary.png",
+      "sha256": "206ca5a17faa9e4409f947e6bf03436e644ef367d127f7c7b84f9c4089cad4bd",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_best_cal_srm.npz",
+      "sha256": "d700a44b40ec3361c757219c2fe65022442573a127f74a02cdd9bea33c1a914b",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_best_nominal_no_srm.npz",
+      "sha256": "3bfdfb2d03156f5567e4f34839565d9a15a7437ce6e108f63c6e7d80c8c2e963",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_best_oracle_srm.npz",
+      "sha256": "c8e53a068eb3b434a39d0fdf89bb0f19affc8b84f0be6d536ab037f3a4b4b367",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_median_cal_srm.npz",
+      "sha256": "28782e311f62ec85aad44505a351ea4a26cada65ca0e1ffdb16971ead0140a67",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_median_nominal_no_srm.npz",
+      "sha256": "43e4a4597242cbb60ca7034a86fe31c81e07ed0843b7843741de51e1bcaf37c9",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_median_oracle_srm.npz",
+      "sha256": "b992a36246dc109d215f4953198e37f7f19258981a6ccfe579a3994e3c304516",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_worst_cal_srm.npz",
+      "sha256": "91ab4e416e77619b0901e63352539dee075266813866e16b6a024e857f57e870",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_worst_nominal_no_srm.npz",
+      "sha256": "07c1877208417dab10f6df6dcc3099fab0f369c5583c5a4f08069db5b87be8dc",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/highres_worst_oracle_srm.npz",
+      "sha256": "ed850fca3057101c6c304f1bbb55390c0a6a95e0d87045a8aafdc51028d71d35",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/per_chip_decoder_metrics.csv",
+      "sha256": "ee5b56424277862b4e3b1491d7e46351f62907850b1177351ae1bdc95beb71c7",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/outputs/summary.json",
+      "sha256": "6c3bb6da32950b084d225a4528608831841290eade1f0e4453be28832463a723",
+      "status": "historical",
+      "reason": "Historical full-SAR campaign including static-transfer NPZ and figures; October rerun artifacts do not make these stored bytes current. Current committed snapshot does not cover full_sar scope."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/academic_report_style.tex",
+      "sha256": "64e08b6c433cee4ea480a7dc49b260939db53d26a7e0f05c8e4ae43325082239",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/dynamic_table_rows.tex",
+      "sha256": "e6fab1b7025d92b77fd26135a196dfa572dd1e95dad12d2cdf6a70fe96a15216",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf",
+      "sha256": "9f4b01e4e69ab5fe2e1230ccb57debf63a07ecb83540f1954d86a910d1e8d731",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.tex",
+      "sha256": "696e076986364c511d4f62363dbadc1913179cdb4cce1daab540d609c6e67bda",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/generated_metrics.tex",
+      "sha256": "f8ec3cc3133dc2a1d612f469ab7cc53431c79b3bcad315ac97c77b3e3b4aadaf",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/representative_table_rows.tex",
+      "sha256": "7ee7d42999ee3c5d2b159066f4074d2158da6e1c8a07fe012edc1743032a15a5",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/full_sar_behavioral_20260729/report/static_table_rows.tex",
+      "sha256": "8db42aa5f0ee71d882abd27940fda9bd54b94369a2759378e91814b63752e15b",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/SHA256SUMS.txt",
+      "sha256": "6bc95ecc15148a3e6e655321e2f3e5bb2e18c32cac9dcfb7459ef0adb14251ac",
+      "status": "historical",
+      "reason": "Legacy historical checksum record; some text digests describe CRLF transport bytes rather than canonical Git blobs. Preserve this record; use this manifest for baseline byte checks."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/SHA256SUMS_REVALIDATION.txt",
+      "sha256": "b294c7bd22b020237ec7530d85d8956d79168800e86c130f75fc6bda10de6c5d",
+      "status": "historical",
+      "reason": "Legacy historical checksum record; some text digests describe CRLF transport bytes rather than canonical Git blobs. Preserve this record; use this manifest for baseline byte checks."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_physical_mismatch_summary.pdf",
+      "sha256": "a77c145a85023b960724627af926c108b42ef63d05b3a09629960eecd422af81",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_physical_mismatch_summary.png",
+      "sha256": "7ef9322a356026ef412a73050415237c8b34216ed9e1056bef0f60656959946a",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_srm_precision_profiles.pdf",
+      "sha256": "68999ff8d35827c9f1ca3ceb66387c69808f9640cc4749400c52ea0e45f48633",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_srm_precision_profiles.png",
+      "sha256": "954085da936ca937aaf5ca6c543c08a621cb3409850ee0b39f0628cc4cb37675",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_unit_cap_sigma_sensitivity.pdf",
+      "sha256": "2cb403029bea22815952f05f3be48a9b5e1ea2f2ca6431cfc10c2c0fb1ac9f7d",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/fig_unit_cap_sigma_sensitivity.png",
+      "sha256": "3a3104af534dd198f0665e937f628cd97f4aef74b9f0dffe1c9242e8e9ba3cdd",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/per_chip_decoder_metrics.csv",
+      "sha256": "16b455223958bc8307b33e737ba1c6e032dd10390780a100a7c46748fd79d272",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/per_chip_physical_metrics.csv",
+      "sha256": "32359b6b82d88fdcbdb2d4d63c3788a8ac39013fe75e8c5bd40c002662012a36",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/per_chip_sensitivity_metrics.csv",
+      "sha256": "939672fbf6d510795c8fb0872c82ab3d22abe87125e1ec9a2bc8c30462b49255",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/sensitivity_summary.csv",
+      "sha256": "6fa311e0ad1e51a1a19858a96958cb7b7fb9c530441b45cefce4a3ebb1c1af38",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/srm_lut_candidates.csv",
+      "sha256": "0b6c56ee1fa2cd368ff4fa2de9682598fa85599f93365ab2e58e297d8340e351",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/srm_precision_profiles.csv",
+      "sha256": "b0f6ab0c75294842c4e50621b6dc37bc33deaf84dffc68f8f638085fcbd5131b",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/srm_precision_profiles.json",
+      "sha256": "f4daac840550d8e508017aeb3692a6f00fcc5d357989c101336649905b8a6ef3",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs/summary.json",
+      "sha256": "5d6cfa85274f62a91b81c07e689acd0cff0d38c7158a80746c0c6ac219f020c1",
+      "status": "historical",
+      "reason": "Historical physical-CDAC mismatch/precision-profile results with the legacy spectral convention; not current evidence."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/amplitude_summary.csv",
+      "sha256": "a1fab0fa17b2d9979ff74c9d1fcaf05edbf6b240783a2274dfc4581115258ac6",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_amplitude_sweep.pdf",
+      "sha256": "e72747b304bb698318ea7e50fb1e6ce16241002e1a528943289639ce74f879c0",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_amplitude_sweep.png",
+      "sha256": "4b2b30fdf903c6c5d1c61885fd73b55dd730dae020fe72b64be68ad1ba3c1f67",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_main.pdf",
+      "sha256": "91efe1bff9d5b6e4d5b904d91f136948f39a51a94c037ed3e775cb5f0e46ce1c",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_main.png",
+      "sha256": "3255f5ebc25cca7307dcef369a402411477cabd3b0b3b449e28dc9290f383e6c",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_sigma_sweep.pdf",
+      "sha256": "a4261a3f2f91abc715a37a99a41c835bd5a21418d96f27bcdd840648ee9b9cb8",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_sigma_sweep.png",
+      "sha256": "fd9b973f1524ca253fb5a41054ad74688b11731e99fe8e4a72929ffb871c67ae",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_static.pdf",
+      "sha256": "13f25d5c6b78f88921c48704a28152ccb695c6b51eb3eba74ee7cf815b1f87ef",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/fig_revalidation_static.png",
+      "sha256": "2fb2d27558566c128b701500e0b971bc22fe0b1fa09f7320bd732b38f8240ddc",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/per_chip_amplitude_metrics.csv",
+      "sha256": "1443bd5f901020e018070d8162813f80a793020649251b5f112d94d6ae451c8b",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/per_chip_main_metrics.csv",
+      "sha256": "53d417109360a81cf76e3f5e1c097a880948426e26b7b26e1ff938eda5d00cfb",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/per_chip_physical_metrics.csv",
+      "sha256": "32359b6b82d88fdcbdb2d4d63c3788a8ac39013fe75e8c5bd40c002662012a36",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/per_chip_sigma_metrics.csv",
+      "sha256": "8899ba3ba7679e28ebf3f851a004b3569e8fede31d31df8cc824d9ba89324d24",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/sigma_summary.csv",
+      "sha256": "624710b33987f09da6b6c5a1d6985eada86ab63ab6348aeff116eaf2ee42e5f0",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/outputs_revalidation/summary.json",
+      "sha256": "c2d2c2fecbc2341bd71909d9c24e1eedd5fd8d833aca29da03e15eaec16915a1",
+      "status": "historical",
+      "reason": "Historical physical-CDAC revalidation; spectral metrics superseded only for physical_cdac.ideal and physical_cdac.main by the 2026-10-02 snapshot. Frozen sweeps require fresh evidence before current use."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/academic_report_style.tex",
+      "sha256": "64e08b6c433cee4ea480a7dc49b260939db53d26a7e0f05c8e4ae43325082239",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/amplitude_table_rows.tex",
+      "sha256": "d828e5021cd12575fda5772607e463870387021a7070e053b950c59ad1f8f203",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/dynamic_table_rows.tex",
+      "sha256": "ac7eefe59194111a3b130d95ade0dc3023e067fbd46f27ac8f4eaa0a40fc24fb",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/generated_metrics.tex",
+      "sha256": "7fafe741474900921c94f9dc55bca6b6cf298cb3a9fcf0ab7c56309e802804d6",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/pass_table_rows.tex",
+      "sha256": "c3951b4e2276f481e7ed7a5b45b9da265edef45d8fab00003dc409d79e8f91fa",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf",
+      "sha256": "96f3c087a7561579fb1d7db9870a4c155f12872155ee64f6851b2343719a3189",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.tex",
+      "sha256": "4533061f045fcc11266d75b754b30a3f15db73962bc7f3c9c17d4898f4ead0e2",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/sigma_table_rows.tex",
+      "sha256": "b7915efdb145c63f62412ba7958154bc8f313495dfdd7f9ee375b56163a84f63",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/static_table_rows.tex",
+      "sha256": "24dcf409c8eef60e7e23795cde6dceb10cfc71e7cfc1ef41a9eac204f4c4b8ad",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/physical_cdac_mismatch_20260729/report_revalidation/tail_table_rows.tex",
+      "sha256": "1476ff5e5431e6b9d25dc0747ac86733d72847a12ee42325f8ca192ffd9e6ab4",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/calibration_trace.json",
+      "sha256": "f2ae613fa6671a10001ce8d212bbe7b42eead85b88bdf5749859ee356d901737",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/fig_calibration_trace.png",
+      "sha256": "e4b8fa0e1cafac7cda12c06b34bef95c85e49a29715a621e8e46698ca6a3d4f3",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/fig_inl_compare.png",
+      "sha256": "17ebab08a5b6b59f77831358c3733859f42312d62d313264be08a9f222dc5d9b",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/fig_spectrum_compare.png",
+      "sha256": "767b3f702f8118b3448e9bdd55daa39f469ad2877b4f91e9de7e665fb8ec5987",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/fig_srm_noise_ablation.png",
+      "sha256": "cd43625dab55aa3516cf2fd10828f550e2c85130a3155aa8fd242c9ed5805489",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/fig_weight_error.png",
+      "sha256": "44dafc67c24a2cc956671ed7bfa695b89ea9e423f56f69753aa6ff008b57c84a",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/metrics.csv",
+      "sha256": "ae437dece0a06ec3be910b63ddcd6449500685c1e8b1ef62aa9c70df9b453660",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/run_log.txt",
+      "sha256": "1c1513943142f292fde32c01436c1805ec09a3f73652bd4cc97e7fbf483c5adb",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/srm_noise_ablation.csv",
+      "sha256": "c7f5cc74080890451f4233e17d37c0023f842f2ecee88508e31b2e3cda0b9a6e",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/summary.json",
+      "sha256": "d0be97534b6ca2e7a131c30e4fd3beaec3f1bbff47a6de287e1772813109e595",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/outputs/weights.csv",
+      "sha256": "bf65e99f6eb3c694aa42541c2b4fbbdd6f4d7df3a7ea9902750bf2041dd24071",
+      "status": "historical",
+      "reason": "Historical self-calibration and noise-ablation results retain the legacy spectral convention; these scopes were not rerun in the 2026-10-02 snapshot."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/report/.gitignore",
+      "sha256": "1f41a1d332efa685e6b1be9ce12d2802c4f9300d24a3f4ab4d5def0452fecaa9",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/report/PDF_RELEASE_QA_CN.md",
+      "sha256": "09adda241e3c6d56b76bcbf781fa61e96ff5e2d3fa0003ed76f8ecdebbe8bb7b",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/report/SAR16B_SELF_CAL_SRM_BEHAVIORAL_REPORT_CN.pdf",
+      "sha256": "281b315dd6a12ff80cc6a35c234f5a2e58ea03c6b101faf689e76e462afabd90",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/self_cal_adctoolbox_behavioral_20260830/report/SAR16B_SELF_CAL_SRM_BEHAVIORAL_REPORT_CN.tex",
+      "sha256": "8bef8d8ac11ef3b5163444aca5ac4b74ecc5cc992f92f8d45b28334afd534ce0",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_design_paths.json",
+      "sha256": "d7ac4ca9965a654ac55655dcbe2b077a90e0e2890fc5fb257218806ecf7b24f8",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_full_params.json",
+      "sha256": "26e2967019aa5b59e943ca1fd501e1c91f669054ad5ec4204e56d2a4ff713c88",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_hierarchy.json",
+      "sha256": "5caac4f79490924c150279c25c47ee4093516188063849751b11b674ef59c3ef",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_inventory.json",
+      "sha256": "aa8dd43b62838069b428fcbb3f5b867d5fb067b7330ee3f3d20477365ef3fb45",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_sar16b_full_params.json",
+      "sha256": "5549a1005c23c71e25763990c6cd0d857666b61a9a335fafcd804a260a7c9ea3",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_sar16b_hierarchy.json",
+      "sha256": "8733e02526840fefc0e819fc185d8c65e719fc80b39994eafd2de81ad205ee7a",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_sar16b_history_logs.json",
+      "sha256": "c238b9c61af0b564b34b1b55e0279fe0bde59ae557639f25ecec1e4f62ceb479",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_sar16b_maestro.json",
+      "sha256": "648d1bbc32b2adec06daf5f8bdf966d2204ef7d3740584f13ac8651868b9ea62",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_sar16b_series.json",
+      "sha256": "cfe207eecf29eaffb6cbf413476fa5d5dd9ae5cf5d80af9845f5d013aeadff24",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/checkpoint_text_views.json",
+      "sha256": "31525cfdeb521b88509221bd3e7345b13030709e49e7729f96f52a5b652d41b2",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/compatibility_matrix.csv",
+      "sha256": "5adc752f5fc8de94127c0a6ac514ae50ba2c49f4e2da350da48db40b40a91637",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "analysis/vm_sar16b_compatibility_20260830/local_rtl_validation_summary.json",
+      "sha256": "e8d868e4ec70256e7e88ea409d2f762b9ed62a415db5adea70bcf5bd9b91e60f",
+      "status": "historical",
+      "reason": "Historical VM inventory, compatibility, synthesis or test diagnostics; not a current ADC spectral metric source."
+    },
+    {
+      "path": "archive/README.md",
+      "sha256": "2c4a7e8476e55d64374f4b6b3550e89c9ad3875fd58de48774a348ea83e80cbc",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/.gitignore",
+      "sha256": "ed093f4141641d19032f4c4b1ca85a59ed492e30d3388bf7b122d06e3e0f56a8",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/README.md",
+      "sha256": "d32aebcbbd3c8f7e7fac71c2091af0b54c67f35ab21d4edb69ea615bdffd744d",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/VALIDATION_REPORT_CN.md",
+      "sha256": "2b36fb687b51ef4438334b32a515d64b3ce39bf5855e187a0af22d193c54e5b0",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/WITHDRAWN.md",
+      "sha256": "39dce2cda5d83d2d85bb2602c06a3e0ca98d7f967a5a0b3ad1a645a8ea2bacbe",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/__init__.py",
+      "sha256": "0602c332761137b807a44a2fb92464ad12c25720ff72a5c516528a413212b755",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/outputs/fig_mismatch_only_summary.pdf",
+      "sha256": "476e5c5fbfa20633d44f763cf1e52896207530b7ebbb578184c758e1062bc1da",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/outputs/fig_mismatch_only_summary.png",
+      "sha256": "dc8e1f614a386b251de51510037d1a5af1f11463dbea624651f7c961ab880191",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/outputs/per_chip_metrics.csv",
+      "sha256": "bd116aa339e6e0edfe06d67319a60b216d34078762080d97988d955d346315ad",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/outputs/summary.json",
+      "sha256": "94dd2ab66aac1629c8357f3e3028e38508e259ce12b7b68e6d93c826a0f088a1",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/run_mismatch_only.py",
+      "sha256": "03fda577ac61f8b5bf795843431b2376698c8f27ffbf78666383e63ff3a824d6",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/effective_weight_3pct_20260729/test_mismatch_only.py",
+      "sha256": "f235db9773f5ac986a06282870dedcef7b264bc7817a5422cbc7572ccd7c7f90",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/README.md",
+      "sha256": "38843ab88eb5be72d230e30ca69228bc3a82a07286930805f436fe7022da9878",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/amplitude_summary.csv",
+      "sha256": "d7075bdd90fdedbb40841f23a48a1034bfbadb2b61de9ad86c941cb7d1049d7a",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_amplitude_sweep.pdf",
+      "sha256": "e1d0a3947c1e3d34511fad025c55d8093aeb518654d101d697dbb8d1fd6ac40b",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_amplitude_sweep.png",
+      "sha256": "985ee78189f9c847a12edb2167980c2d0dd71f28afdcae518529043ef1e4baae",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_main.pdf",
+      "sha256": "14aafb64bbf8d4c9c2e4a82358b1c2004ae70819dcdc2fe4f91749136432f4b3",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_main.png",
+      "sha256": "07f1670207714a2b725143a93257588bf4199effa5c1ad0a13ad12a9e3e66bb7",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_sigma_sweep.pdf",
+      "sha256": "544e18e71906d0d226013fc85dc80301b2927fcf873dc9e6c9ab34358ad9f81c",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_sigma_sweep.png",
+      "sha256": "840891ac46a3506fe119fa20f68810a16789e6e68bde3b6061b261448486a155",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_static.pdf",
+      "sha256": "282d6b4c1bc002241e28d2510ebd9e9ceabae65e614ea78f86e76a16ebcab007",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/fig_revalidation_static.png",
+      "sha256": "fa30050505eb602d373e3f1971ab87f45dccfa0b6614926fef4d745a68fa1d15",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/per_chip_amplitude_metrics.csv",
+      "sha256": "142169928069c01492ebbdf144e4c11853e047aa326f84259d412b52ff1c1246",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/per_chip_main_metrics.csv",
+      "sha256": "c6d3481b930e56845ec121ac0748c479c019b3f062a17891ccb1c1b4889ba91f",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/per_chip_physical_metrics.csv",
+      "sha256": "32359b6b82d88fdcbdb2d4d63c3788a8ac39013fe75e8c5bd40c002662012a36",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/per_chip_sigma_metrics.csv",
+      "sha256": "85f2c93591eb1b379860fc44f1fd86336e66adbe71ae98f86d226b6ca861649e",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/sigma_summary.csv",
+      "sha256": "55ac3ed4871bade45f4286afcd8a798bf95bd609740b055ca5cb584534d5419f",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/assumption_stress_tests/revalidation_v2_symmetric_sum_20260729/outputs_revalidation/summary.json",
+      "sha256": "aab75896a77aa6ac3c9c0c8a907be1767bd26810c368397b057743f93054ace9",
+      "status": "historical",
+      "reason": "Archived assumption-stress experiment; withdrawn or superseded model/metric convention. Never promote to current evidence."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/.github/copilot-instructions.md",
+      "sha256": "99615455f32f576b5e46e43ddc9ca799b2213cb4288454b88187ac311aeb9ff7",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/.gitignore",
+      "sha256": "135d71be21109a8cfe1f2b665194c810cc0d7dfb5bcedff3339721ba12338827",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/.trae/rules/project_rules.md",
+      "sha256": "acb4a1163ff53c877401020be0de2b018f824b7815c9e4ad80e4f3c69e249bb6",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/CLEANUP_REPORT.md",
+      "sha256": "4238999d84040ac04a70f6d8f2560a2d7533b1b36373f61c23d8d2c7cc1fe69b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/COMMENT_CONVERSION_REPORT.md",
+      "sha256": "b103c201900b1be190d6bb210ec07b1f7a07205469e7cb3892ee677a0089f9c0",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/FILE_STRUCTURE_EXPLANATION.md",
+      "sha256": "b47cc84bfb888bf8e26d9926db88bfbbc985c8081f71bd33d73613547a1a0af6",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/MIGRATION_GUIDE.md",
+      "sha256": "7bedbc8b34b26b905707f1311ba1d0e4bf67dbe9251883d746a40a04c061dbea",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/MIGRATION_REPORT.md",
+      "sha256": "fa0b9d8b645be15ee86302609fc016b32002c12fbacbb7312f1cef105ac531c6",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/PROJECT_ANALYSIS_REPORT.md",
+      "sha256": "5180d74a5bcb0f4ae80e0fe04e4b4aecacca464165a341bd92ef63762355bca9",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/README.md",
+      "sha256": "b3fb0c49f7e285d84dabdd1a080359c34963b96c2a03736eae83a1ddbcc3c8f3",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Docs/TB_REPORT_IMPLEMENTATION_SUMMARY.md",
+      "sha256": "caf5526b563fc49d0b8aab3fbb42c3a0ed3b6a70488cafa4e56f0cfbe758fd6e",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/README.md",
+      "sha256": "cafc317bf4be3028484b51be964f249fbfff2bf2f2de5c29811dcea4ba5aed9a",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/REFERENCE/README.md",
+      "sha256": "678bc0bce7c4d3932a922f013e7270553468490c4ed033dbce2f4a4cb3574167",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Reports/VERSION_MANAGEMENT.md",
+      "sha256": "4596ae02719bb8895a5733bf324ffc5aa5a4a750cc69d285d595c55c21fb1fb5",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/Reports/project_report_v1.0.md",
+      "sha256": "50a66d2b317a5cf4ca658ccda4ab757e36f0f5e195d5c4c20170067409aff84d",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/constraints/sar_calib_fpga.xdc",
+      "sha256": "9853e7421939fb86cc5de8d9d04dcf8afec1cead0c87dac3f4cd740b3f9e3ebd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/calibration/sar_calib_ctrl_serial.sv",
+      "sha256": "828b159b77d56ff7b8de44d70f29bb9a5fab5aac466ed5203e61e8aa318853ed",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/decoder/flash_decoder_adder.sv",
+      "sha256": "fa9944c0f96861c51e6091d57065371526d6b01042e36a92ab7522aafbc23d4d",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/flash_decoder_adder.sv",
+      "sha256": "fa9944c0f96861c51e6091d57065371526d6b01042e36a92ab7522aafbc23d4d",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/reconstruction/sar_reconstruction.sv",
+      "sha256": "8fcdd08d6bf11a9d7b88f9879262a30adc84dacd50957ff9f80b97cb1912e6bd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/sar_adc_controller.sv",
+      "sha256": "6b60a6d661a977804797a52d85ce1fad466f4e32c4d4931af95f4c4230fd183f",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/sar_calib_ctrl_serial.sv",
+      "sha256": "828b159b77d56ff7b8de44d70f29bb9a5fab5aac466ed5203e61e8aa318853ed",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/sar_logic/sar_adc_controller.sv",
+      "sha256": "6b60a6d661a977804797a52d85ce1fad466f4e32c4d4931af95f4c4230fd183f",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/sar_reconstruction.sv",
+      "sha256": "8fcdd08d6bf11a9d7b88f9879262a30adc84dacd50957ff9f80b97cb1912e6bd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/rtl/top/fpga_top_wrapper.sv",
+      "sha256": "420410ea6aa849f9cd9d630c248a09c339f2e10391440164a224830b061a726b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/sim_models/virtual_adc_phy.v",
+      "sha256": "cc96f8fa8e81afe6835892291923d4d5ed9c98f46160d621134cb19b7b9df565",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/testbenches/calibration/tb_gain_comp_check_lsb.sv",
+      "sha256": "ffadf77b6286aa4571e616f5eb20e28c848d0d70e1e716565d528561dc4c4871",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/testbenches/decoder/tb_flash_decoder.sv",
+      "sha256": "36d535561009773bb7bf13c4e3c815f09d29a3d3ee9bc2d71589ad9cc24926f9",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/testbenches/reconstruction/tb_sar_recon.sv",
+      "sha256": "f765679a17bf0156c4e72f6879815456c7a97f41060deb7e16e73b85de70dc48",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/backup_chinese/testbenches/top_level/tb_sar_adc_top.sv",
+      "sha256": "2b014c95a6354c936c8ba20dcf14770680c4d67f7c1689926da32ce8327fbfcc",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/scripts/README.md",
+      "sha256": "92b3b85a1d7c9a2a60e436206b64d42b479ff9f8db9a96ec940fe230d18dac74",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/scripts/automated_migration.ps1",
+      "sha256": "8d5e222eacfd05ed2f1a4512b136b1ea39d0b0260e91de4c8e5241ff86aae038",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/scripts/fix_git_config.ps1",
+      "sha256": "c9040a2acbe022378da3d49f2aadff123358b366faa42aa990df09dfa9238fe3",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/scripts/sync_backup_vivado.ps1",
+      "sha256": "c24d6d6b5a3ebaacaf94076c876aa27863dd6d56a5d1dc71fd8c7e6bee66e5fb",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/scripts/verify_consistency.ps1",
+      "sha256": "fadecddec931615a4994129eddd8bdff1423761a4eab7847ae2b2bc192d75aad",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/test_reports/README.md",
+      "sha256": "78fc320a4a3b030e11eef9f1ac74f8e11981f04f96f42d30a1268b0a4642dbdd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/Digital_process/Digital_process.srcs/test_reports/TB_REPORT_SPEC.md",
+      "sha256": "003ee42550ea60cead86bfbd0b8553ec3aaf944b3fc65ee539f0f36fcb98b3a2",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/README.md",
+      "sha256": "389937517399f712e1635e3d18b11ecba82e7985f843fbc3558d20b6212e7dbc",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/Verifiy.srcs/sim_1/new/erf_inv_lut.vh",
+      "sha256": "2b472b4c095c16688a421071891fe10c1240be5687b3fab0f93a2406a0562a06",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/Verifiy.srcs/sim_1/new/tb_sar_recon.sv",
+      "sha256": "0dcc180fc491baa32c4a025d2c87bb52e60b9984b3b77a0275289b9fea1ae690",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/Verifiy.xpr",
+      "sha256": "f802605aaf7a4351e246479a0d7c8df2e419826a34c08f5799bbefd5ca40175b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/cap_array_calib_16b.m",
+      "sha256": "13484f3ea4c6f6620bda9cfb9176aca0f7ec40d890b7517f761a109ea20d1c02",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/erf_inv_lut.vh",
+      "sha256": "2b472b4c095c16688a421071891fe10c1240be5687b3fab0f93a2406a0562a06",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/Verifiy/gen_srm_lut.m",
+      "sha256": "c61aa21f666f3bc7ab5f5a0ca1bfa593eecf263b6d361b3f7cd38914ede0fa1b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/constrs_1/new/bringup_io.xdc",
+      "sha256": "c7e3660900f099bc3479c7d14327586b778e6be31371f869a672547ce9b54d55",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/sar_adc_fpga_top.sv",
+      "sha256": "cb611942cd0cdb0b710588b275138dc84a7e785062bcbd23e28f8a2d8faa9e89",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_fpga_top.sv",
+      "sha256": "15a5057d230df9814e772657327b72b7caef9d0c1628272d78f58606e5871a52",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_calib_recursive.sv",
+      "sha256": "e8fa7b49744580d92b5980e506a4c0a89c7727707863893681905dcde11d4e25",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_calib_sys.sv",
+      "sha256": "d0d5c889af92e0771ae578c56609a2c5a0422b16c2250737125c480dbfcb1d5c",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sim_1/new/tb_sar_recon.sv",
+      "sha256": "f6c29930d4637f6b6a9717ac54896c4a5b3e0649c2af1a3ed315b32fa73896c9",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_adc_fpga_top.sv",
+      "sha256": "7f87d16024d12d19231595a6d2e8cd35b57fd61330578c45a9f83e188f3f3b6c",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_adc_model.sv",
+      "sha256": "e86dc7d9b06b9b1a1b341b28ed7c9d1f24c13dca2c4901a6f2792d7d6b89aca2",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_calib_ctrl.sv",
+      "sha256": "5dce57418a8ce34041765a7bd9ea598c40e53e782e98a3c49ef4b74277f0e5d9",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_calib_ctrl_recursive.sv",
+      "sha256": "bf19cbf3ffdc2aa251cce1f4501411831f7613302b3214d058e988c45913beb5",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_reconstruction.sv",
+      "sha256": "8fcdd08d6bf11a9d7b88f9879262a30adc84dacd50957ff9f80b97cb1912e6bd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.srcs/sources_1/new/sar_reconstruction_parallel.sv",
+      "sha256": "45924f20987733965426dda3d2634cf3586ab6363d41e854678d5ca00a6fa56e",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/archive/legacy_vivado_projects/sar_adc_project/sar_adc_project.xpr",
+      "sha256": "d71ebb0088f8663389dd77468c3613d5576792bdb7d26feffc15b27c72b466b9",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/matlab/README.md",
+      "sha256": "1338aa6abe6423d5a435053b682f3836a13452bddb03f60a10e4161a30b56b54",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/matlab/cap_array_calib_16b.m",
+      "sha256": "13484f3ea4c6f6620bda9cfb9176aca0f7ec40d890b7517f761a109ea20d1c02",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/matlab/gen_srm_lut.m",
+      "sha256": "c61aa21f666f3bc7ab5f5a0ca1bfa593eecf263b6d361b3f7cd38914ede0fa1b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/matlab/generated/erf_inv_lut.vh",
+      "sha256": "2b472b4c095c16688a421071891fe10c1240be5687b3fab0f93a2406a0562a06",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-039c478/matlab/ramp_noise_analysis.m",
+      "sha256": "cd14dbdad90922c8e605d4b84aec2b4795077d63cb2e110e02155825c5debd19",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sim_1/new/tb_flash_decoder.sv",
+      "sha256": "61558b1bc1dbd1454519d0a5512bd9ff754a1548bd075788c32ce4fa66fea23b",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sim_1/new/tb_sar_adc_top.sv",
+      "sha256": "4fb97a5770fb99acb65bee670094f4ed50fb7a6b36ba712f9fbc010c103097cd",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sources_1/new/flash_decoder_adder.sv",
+      "sha256": "9b14389d041d37b8683d72254ab657732bf575e0e56f9c3666081030e910b7b6",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sources_1/new/fpga_top_wrapper.sv",
+      "sha256": "c414280c0031c5bd7d51c22b32cb3047135b95e71a4968fc6959c8c88a26b826",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sources_1/new/sar_adc_controller.sv",
+      "sha256": "7fab2aa85bcfc57907b3b9b7956ae07f288e08231182d1995e9d3393031f13f2",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/deleted-in-110ef75/Digital_process/Digital_process.srcs/sources_1/new/virtual_adc_phy.v",
+      "sha256": "add7d3ceb30903ff0c4ec07962f4a10886866544e1fc078bdf6ebd968e5fe53a",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v1_simple/README.md",
+      "sha256": "4c88030760ed99e35d2cd4548f3e419df4ef1ec0509b14736522a189a4649d8a",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v1_simple/full_sar_behavioral_validation_cn_v1.pdf",
+      "sha256": "992b3187449c8e5c0620fdb5ab43a80c2eb5c8ad6986fa2de1c323255781eda8",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v1_simple/full_sar_behavioral_validation_cn_v1.tex",
+      "sha256": "c84ffe7b8d12ea14242e5b51aef4472c96f3cf69b988eb704e8987337adfa507",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/README.md",
+      "sha256": "7b7f3afe168e1366d7ebe8bc41b56fb8e4a734fcdd0b7203aff0f8961438ab5c",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/academic_report_style_v2.tex",
+      "sha256": "cdd224f58c6a4fd8dd773cfd34b1b6b3524184ca83ebf57a18d20061ba2e1d4c",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/full_sar_behavioral_validation_cn_v2.pdf",
+      "sha256": "08da0f43bce6ad73fd991c9f62ffe3009a6cc866f2c72b3baa5d85c52a019751",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_full_sar_behavioral_v2_before_skill_refresh/full_sar_behavioral_validation_cn_v2.tex",
+      "sha256": "1254a4bca89b0c4b85f1df2ba6fdda094a6842f329b07128ce40a9d69a0de74c",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_physical_cdac_validation_v1_before_revalidation/README.md",
+      "sha256": "ef132111a8b2a47ce3b787afffd02e877346e2fef4e7d0c5f164d11f625563c6",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "archive/report_versions/20260729_physical_cdac_validation_v1_before_revalidation/VALIDATION_REPORT_CN.md",
+      "sha256": "6da19c3c57975c6175e8288b8e1115b1fb64d3fe3b9294a08e118bf3f4707824",
+      "status": "historical",
+      "reason": "Historical archive retained byte-for-byte; not a current metric source or current executable entry point."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/MANIFEST.md",
+      "sha256": "74c5d951348bd297a3c86229b74e13aff02b8822b5c2f6f3c4e139107ca8406a",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/README.md",
+      "sha256": "19b59e25eb05da08edadd50f09f4c2be3aa38846af4e15570b6af4e7a3782b1a",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/SHA256SUMS.txt",
+      "sha256": "bc6ab11973914bcfca77d548c0637363c3537fcc812283468d6185526105c8a9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/README.md",
+      "sha256": "a10a8f37a48417506b7a6c405e5cf39a81a6a6d88b65e1f58324b1da01296650",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/generate_report_assets.py",
+      "sha256": "6e3967ea778e9764245e11b5cb66c1cf7741a77a05ef4bb6a74d75db3356bcf0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/outputs/fig_dynamic_sndr_median.png",
+      "sha256": "3cb1b4eddbdc15ddf698f240bbe1b57eafc6336605d5662342a8bcca0a250380",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/outputs/fig_weight_rmse.png",
+      "sha256": "a69a9c381896529c49972715d0fb1a73b9afb42d975c20305fbd5334d20bd554",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/outputs/per_chip_results.csv",
+      "sha256": "ec2a617050fecf7538df8fb911f7e6445580ceeb97192a992a5ad63eec706ee6",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/outputs/summary.json",
+      "sha256": "c54cce36222acb5734dccb965a1a9a373efa403cc95321021e6bc5718c075063",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/behavior/validate_current_calibration.py",
+      "sha256": "a49f86691c67130dd49e4f1ddb77cd833d0ad800c301aec1983b7a965f46ecf4",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/docs/FIXED_POINT_CONTRACT.md",
+      "sha256": "d068c9f02fecd9d1f065b529be6fb78f9ffe39c532b4ad9ac5f137f5004812ae",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/docs/current_calibration_validation_report_cn.pdf",
+      "sha256": "ad3211eb6f7fb82d5266801fc015c1bafb60218917849c4d9fcf2aff4f2a8c70",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/docs/current_calibration_validation_report_cn.tex",
+      "sha256": "87a411652240a8b510cd83b9d8bbcd43980146d1abd6552ab475af8dd4f84df1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/docs/generated_metrics.tex",
+      "sha256": "05248f79a97ee36e44b718e4ba49ede5255ba7ffd5c89fab44a00d5ff736f3a1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/docs/summary_table.tex",
+      "sha256": "bcb2fd62f32f7b516f7d2cd844183d62ef22f95c1c65c623a958d4045644bbf2",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/logs/PDF_QA_SUMMARY.md",
+      "sha256": "31f77e190015f51ec9b5e0238d94efd4a45e4edca440592ef1c2691f385a7578",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/logs/RTL_XSIM_SUMMARY.md",
+      "sha256": "8078d3b5ef1238879bdcfc3935a9f1aa57c98fa680b859d81fe72622fc20bd2a",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/rtl/sar_calib_ctrl_serial.sv",
+      "sha256": "8f88bfee21b013dcce764ad14bbe933aa2f8df87e5e0fd911bbead14262b1709",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/rtl/sar_reconstruction.sv",
+      "sha256": "a8f88e9e73682c2057ef3c1d5e06c686c4ea79f155988d7a4b873c9ee749ea4e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/rtl/srm_residue_estimator.sv",
+      "sha256": "90f8022653174f35d47d0097f078725e05627c2eb3b7d6f6527f670c84af2791",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/tb/tb_gain_comp_check_lsb.sv",
+      "sha256": "d04ee51b6b149c01fca168d3bf49cb1cda525ced7dc0f3d215c1eae7a1403612",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/tb/tb_recon_q8_split_weights.sv",
+      "sha256": "a0576ecf4ff58073b2780f00dcc71719b3158bd35ad0c61c4c19ccc62276c098",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/tb/tb_sar_recon_binary_norm.sv",
+      "sha256": "5df42fe9ff30ff9f088807ea5a0b3ade53c643ff6cb4d67cb24bd06666d90d28",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/current_calibration_validation_20260729/tb/tb_srm_residue_estimator.sv",
+      "sha256": "bb572055c1a63772a78785f008a92eba3edbb80a278fa69283e7cc6344df83cf",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/MANIFEST.md",
+      "sha256": "579bc3658f4063b4d4a85d20bf93b6cd7beb04b2df8fcc187801dec2c146673c",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/README.md",
+      "sha256": "23b0b5b5986e052be2e88dcffddd0344909c02c38eec9e434cd3d308de84211e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/SHA256SUMS.txt",
+      "sha256": "dbefbbc337dbc396e5980107b14b92f2f8a8b5e8c9ab6ca3317ad1777fa00a68",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/THIRD_PARTY_NOTICES.md",
+      "sha256": "df808100c4bce8659ac9d193053b17c41a45c1d3e8ec8d3613590130c444840b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/__init__.py",
+      "sha256": "6c428bb9e859c0cb4efc0eee0c7c65593a9b2fe14b73c53cc1fe9236c8ffc188",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/full_sar_model.py",
+      "sha256": "8553489552dca3c9c3908af9fd3907dfabafb386200031795bad9ef2ce31df85",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_best_dnl_inl.pdf",
+      "sha256": "6b62e6c077c85cd67a172d969db2706038724dc26915f77ba1b25800a18d2ade",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_best_dnl_inl.png",
+      "sha256": "c0d26e24730b18fba57e30c3dc73dde73bdfb4ca5f2d9abcc7887b5e5a9847d5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_best_spectrum.pdf",
+      "sha256": "b500a1f5cbf23c2543399676d744f97b071c50c018d2d010c2a0345ec6fc55c8",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_best_spectrum.png",
+      "sha256": "ce0f99cd5b9fc404a9c022581fb22167747083eef708e203e7a19524c1b369d7",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_median_dnl_inl.pdf",
+      "sha256": "53599b2b9ce0ee26a44cf09a508e44b62eb2f05a7e74f124395b8d14ccfaf942",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_median_dnl_inl.png",
+      "sha256": "2e8124a000fe60eab99fae6f3b7a906bdab270c6d9bf7dc2fa937fd36b9d2a06",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_median_spectrum.pdf",
+      "sha256": "be11b01268372c6fb3ab84093b71c0f3ef80f9afbb8091b4793fa2595ef65a7b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_median_spectrum.png",
+      "sha256": "bb1f9b13a9bf996f701aeeb161040a8eee07b3ae3c3199c562994fad695bec73",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_worst_dnl_inl.pdf",
+      "sha256": "483e9b723d069da4d17372c3c308ff8e725e39033de5e4c6dc24e6559ab43837",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_worst_dnl_inl.png",
+      "sha256": "c7e158c3c7a9f8257192b53c9b11641001ab2fdf3377a07c1e41a3bde77c3f8e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_worst_spectrum.pdf",
+      "sha256": "d8d2a74d72ba9988a9c27ae7e7f8638b3b51a580ababcdeb269e721387516f2e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_highres_worst_spectrum.png",
+      "sha256": "f8ccc34b6cd2e12470e2fce312f80f5ca60b2e7565ed6985f3a5310736073cda",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_inl_summary.pdf",
+      "sha256": "7c0292aa4c00125620275c1a23009e2b754d5f2a95ec6d8cddc1aaa8980116d0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_inl_summary.png",
+      "sha256": "b94b11f468be6ac8a6ffaec87dbba2318a2d33de274bcf903d0d0a2edc1454ac",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_missing_codes_summary.pdf",
+      "sha256": "8be49e74513b749c288627d4059d6b9d28dd61281b0b19dc035f03aa82a41873",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_missing_codes_summary.png",
+      "sha256": "8a2c52e107a2f1af807e474d74880492336ac78c378a9db6f19ae401c888e79a",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_sndr_summary.pdf",
+      "sha256": "fd361752bfa73c5deada02e95cc0440ca26a82c10912a15d009777b8c8baa78a",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/fig_sndr_summary.png",
+      "sha256": "206ca5a17faa9e4409f947e6bf03436e644ef367d127f7c7b84f9c4089cad4bd",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_best_cal_srm.npz",
+      "sha256": "d700a44b40ec3361c757219c2fe65022442573a127f74a02cdd9bea33c1a914b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_best_nominal_no_srm.npz",
+      "sha256": "3bfdfb2d03156f5567e4f34839565d9a15a7437ce6e108f63c6e7d80c8c2e963",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_best_oracle_srm.npz",
+      "sha256": "c8e53a068eb3b434a39d0fdf89bb0f19affc8b84f0be6d536ab037f3a4b4b367",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_median_cal_srm.npz",
+      "sha256": "28782e311f62ec85aad44505a351ea4a26cada65ca0e1ffdb16971ead0140a67",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_median_nominal_no_srm.npz",
+      "sha256": "43e4a4597242cbb60ca7034a86fe31c81e07ed0843b7843741de51e1bcaf37c9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_median_oracle_srm.npz",
+      "sha256": "b992a36246dc109d215f4953198e37f7f19258981a6ccfe579a3994e3c304516",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_worst_cal_srm.npz",
+      "sha256": "91ab4e416e77619b0901e63352539dee075266813866e16b6a024e857f57e870",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_worst_nominal_no_srm.npz",
+      "sha256": "07c1877208417dab10f6df6dcc3099fab0f369c5583c5a4f08069db5b87be8dc",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/highres_worst_oracle_srm.npz",
+      "sha256": "ed850fca3057101c6c304f1bbb55390c0a6a95e0d87045a8aafdc51028d71d35",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/per_chip_decoder_metrics.csv",
+      "sha256": "ee5b56424277862b4e3b1491d7e46351f62907850b1177351ae1bdc95beb71c7",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/outputs/summary.json",
+      "sha256": "6c3bb6da32950b084d225a4528608831841290eade1f0e4453be28832463a723",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/requirements.txt",
+      "sha256": "ba1ee554fb1198be2f95decbb7cb2793afe9adc10747d93f6af820246790c03f",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/run_campaign.py",
+      "sha256": "78b1eb52bb0d264cd84d9e80c24fece0275ebc4ed69723e075377162841ac8c9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/spec.yml",
+      "sha256": "800673beda69840492398bb9916897b0b5a361e327e12ddb18b2ab97f63c82b8",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/behavior/test_full_sar_model.py",
+      "sha256": "71d9f1c23232431748f35466d028f54cbc193688c219bfcd3249f41e3f7695f9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/docs/FIXED_POINT_CONTRACT.md",
+      "sha256": "d068c9f02fecd9d1f065b529be6fb78f9ffe39c532b4ad9ac5f137f5004812ae",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/docs/VERIFICATION.md",
+      "sha256": "6be0c041ec1b79d125841fbde6573cc74608a894b1e6343acbb34b4cf8a6ddff",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/logs/PDF_QA_SUMMARY.md",
+      "sha256": "61112bb71c26f862818fe8605d2ca3964d6f128db535828cff53d4802223d049",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/logs/PYTHON_CAMPAIGN_SUMMARY.md",
+      "sha256": "f32f8434b81a7507b9d0ebcafa7bface532c73749ebbb7c96d4cfb3e2fea9d49",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/academic_report_style.tex",
+      "sha256": "64e08b6c433cee4ea480a7dc49b260939db53d26a7e0f05c8e4ae43325082239",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/dynamic_table_rows.tex",
+      "sha256": "e6fab1b7025d92b77fd26135a196dfa572dd1e95dad12d2cdf6a70fe96a15216",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/full_sar_behavioral_validation_cn.pdf",
+      "sha256": "9f4b01e4e69ab5fe2e1230ccb57debf63a07ecb83540f1954d86a910d1e8d731",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/full_sar_behavioral_validation_cn.tex",
+      "sha256": "4250e41acbdd331049da52e36d051f9f6f96fb2ebd85313ab74e08df2c44927b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/generate_report_assets.py",
+      "sha256": "091f26020a40aafb49e673387b9a6c9d6ebf3d5310a9c5903ad496d1a8bba163",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/generated_metrics.tex",
+      "sha256": "f8ec3cc3133dc2a1d612f469ab7cc53431c79b3bcad315ac97c77b3e3b4aadaf",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/representative_table_rows.tex",
+      "sha256": "7ee7d42999ee3c5d2b159066f4074d2158da6e1c8a07fe012edc1743032a15a5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/report/static_table_rows.tex",
+      "sha256": "8db42aa5f0ee71d882abd27940fda9bd54b94369a2759378e91814b63752e15b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/rtl/sar_calib_ctrl_serial.sv",
+      "sha256": "8f88bfee21b013dcce764ad14bbe933aa2f8df87e5e0fd911bbead14262b1709",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/rtl/sar_reconstruction.sv",
+      "sha256": "a8f88e9e73682c2057ef3c1d5e06c686c4ea79f155988d7a4b873c9ee749ea4e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/rtl/srm_residue_estimator.sv",
+      "sha256": "90f8022653174f35d47d0097f078725e05627c2eb3b7d6f6527f670c84af2791",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/tb/tb_gain_comp_check_lsb.sv",
+      "sha256": "d04ee51b6b149c01fca168d3bf49cb1cda525ced7dc0f3d215c1eae7a1403612",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/tb/tb_recon_q8_split_weights.sv",
+      "sha256": "a0576ecf4ff58073b2780f00dcc71719b3158bd35ad0c61c4c19ccc62276c098",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/tb/tb_sar_recon_binary_norm.sv",
+      "sha256": "5df42fe9ff30ff9f088807ea5a0b3ade53c643ff6cb4d67cb24bd06666d90d28",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/full_sar_behavioral_validation_20260729/tb/tb_srm_residue_estimator.sv",
+      "sha256": "bb572055c1a63772a78785f008a92eba3edbb80a278fa69283e7cc6344df83cf",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/MANIFEST.md",
+      "sha256": "57b37b505efcf1f5d0a7c495ec7ede159034b01597cd8f9dede0939768ffb6e5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/README.md",
+      "sha256": "4f6a2306f2131abb783b1f710dd2e8c6c7728cb81e80179b43c6901d1264ea81",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/SHA256SUMS.txt",
+      "sha256": "8fe633f8321de8c945810209e0dffb91bd3a885309ee8fe589b609632184f43b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/__init__.py",
+      "sha256": "dfddba48409bc67639edb6c1a805b318a6792a58509490ccd9cc8e496f1081be",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/full_sar_behavioral_20260729/THIRD_PARTY_NOTICES.md",
+      "sha256": "6ac9d8df0a1fc594f2e6162388cd52326921556282e322bbafd26da53c3378c4",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/full_sar_behavioral_20260729/__init__.py",
+      "sha256": "c6c0c1ba5b99dfc5d1176ee8691a09d6369c9120fbc5adc75033c886c3e03505",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/full_sar_behavioral_20260729/full_sar_model.py",
+      "sha256": "8553489552dca3c9c3908af9fd3907dfabafb386200031795bad9ef2ce31df85",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/full_sar_behavioral_20260729/requirements.txt",
+      "sha256": "ab58726fc50c8874313f3cbe24d2c71fe288c4d717a5e18b919cb32ef09b5a2f",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/__init__.py",
+      "sha256": "547eeacffd05bf13b45ac0e9bad113ba9354b8fab8c02d9a0134f74b8f3dc66b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/physical_cdac.py",
+      "sha256": "57fa81ff02e0d2db3c9ba60d7adbe234f1cf96c0b1952299d8e4bfab852ff982",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/revalidation_spec.yml",
+      "sha256": "f4da2c3855a38009afe65c6b5798eba7a2502135c9f8f1863ed5091c6bd43969",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/run_physical_mismatch.py",
+      "sha256": "0b94603d2745029dcb54a76540bb7afd7c9bd6b969f561b7ff39c17f44e8e2ee",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/run_revalidation.py",
+      "sha256": "043003f86b5a3ad498041596836303c0bb35da21de833901e4c842fcbcb131a9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/test_physical_cdac.py",
+      "sha256": "512d897d2fcd108082ac43254277022ea02713776cd16cb618378cf38c0480a0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/analysis/physical_cdac_mismatch_20260729/test_revalidation.py",
+      "sha256": "11546ca7a3998254097f2cd00132c7416688854e539b82d0f5edd38fbe553ba9",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/CHANGELOG.md",
+      "sha256": "aa8ca7ebaa7d1b4df30c9b8da7889a6f2d51a203a0399c819b4e1371b7204a58",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/FIXED_POINT_CONTRACT.md",
+      "sha256": "d068c9f02fecd9d1f065b529be6fb78f9ffe39c532b4ad9ac5f137f5004812ae",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/MIXED_SIGNAL_TIMING_CONTRACT.md",
+      "sha256": "b6efdf483ff4015149b4222145ae626c7cc167191cc92bc3a55c461970c6537e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/README.md",
+      "sha256": "df5c0bcdbd014372a8500cf138be5a87e5efd3fc3664fe6afe2051fb54e9e9e1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/RUN_LOG.md",
+      "sha256": "5527345c7d5f47c7981d34ef943a4b947beea8f536c4130632f25a0dec087c42",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/VALIDATION_REPORT_CN.md",
+      "sha256": "d5cf93a900317fc0570a5620de232a0e19649fe927183b6a88bb66d23ca3f20e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/VERIFICATION.md",
+      "sha256": "86a3efc35f23273663ef346102ce68177d7b70cbc1d8b2097549eff3188d9d46",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/docs/VERSION.md",
+      "sha256": "2cacbc2e7d3d0fd54850ea96403eb5d4b2189dd3e2153e5970a0fba80146d89d",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/amplitude_summary.csv",
+      "sha256": "a1fab0fa17b2d9979ff74c9d1fcaf05edbf6b240783a2274dfc4581115258ac6",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_amplitude_sweep.pdf",
+      "sha256": "e72747b304bb698318ea7e50fb1e6ce16241002e1a528943289639ce74f879c0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_amplitude_sweep.png",
+      "sha256": "4b2b30fdf903c6c5d1c61885fd73b55dd730dae020fe72b64be68ad1ba3c1f67",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_main.pdf",
+      "sha256": "91efe1bff9d5b6e4d5b904d91f136948f39a51a94c037ed3e775cb5f0e46ce1c",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_main.png",
+      "sha256": "3255f5ebc25cca7307dcef369a402411477cabd3b0b3b449e28dc9290f383e6c",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_sigma_sweep.pdf",
+      "sha256": "a4261a3f2f91abc715a37a99a41c835bd5a21418d96f27bcdd840648ee9b9cb8",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_sigma_sweep.png",
+      "sha256": "fd9b973f1524ca253fb5a41054ad74688b11731e99fe8e4a72929ffb871c67ae",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_static.pdf",
+      "sha256": "13f25d5c6b78f88921c48704a28152ccb695c6b51eb3eba74ee7cf815b1f87ef",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/fig_revalidation_static.png",
+      "sha256": "2fb2d27558566c128b701500e0b971bc22fe0b1fa09f7320bd732b38f8240ddc",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/per_chip_amplitude_metrics.csv",
+      "sha256": "1443bd5f901020e018070d8162813f80a793020649251b5f112d94d6ae451c8b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/per_chip_main_metrics.csv",
+      "sha256": "53d417109360a81cf76e3f5e1c097a880948426e26b7b26e1ff938eda5d00cfb",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/per_chip_physical_metrics.csv",
+      "sha256": "32359b6b82d88fdcbdb2d4d63c3788a8ac39013fe75e8c5bd40c002662012a36",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/per_chip_sigma_metrics.csv",
+      "sha256": "8899ba3ba7679e28ebf3f851a004b3569e8fede31d31df8cc824d9ba89324d24",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/sigma_summary.csv",
+      "sha256": "624710b33987f09da6b6c5a1d6985eada86ab63ab6348aeff116eaf2ee42e5f0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/evidence/summary.json",
+      "sha256": "c2d2c2fecbc2341bd71909d9c24e1eedd5fd8d833aca29da03e15eaec16915a1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/academic_report_style.tex",
+      "sha256": "64e08b6c433cee4ea480a7dc49b260939db53d26a7e0f05c8e4ae43325082239",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/amplitude_table_rows.tex",
+      "sha256": "d828e5021cd12575fda5772607e463870387021a7070e053b950c59ad1f8f203",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/dynamic_table_rows.tex",
+      "sha256": "ac7eefe59194111a3b130d95ade0dc3023e067fbd46f27ac8f4eaa0a40fc24fb",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/generate_report_assets.py",
+      "sha256": "079339b7a5765b56514498e1269958f01325b9519f95ca60e942e86e4585b5a7",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/generated_metrics.tex",
+      "sha256": "7fafe741474900921c94f9dc55bca6b6cf298cb3a9fcf0ab7c56309e802804d6",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/pass_table_rows.tex",
+      "sha256": "c3951b4e2276f481e7ed7a5b45b9da265edef45d8fab00003dc409d79e8f91fa",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/physical_cdac_revalidation_cn.pdf",
+      "sha256": "96f3c087a7561579fb1d7db9870a4c155f12872155ee64f6851b2343719a3189",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/physical_cdac_revalidation_cn.tex",
+      "sha256": "4533061f045fcc11266d75b754b30a3f15db73962bc7f3c9c17d4898f4ead0e2",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/sigma_table_rows.tex",
+      "sha256": "b7915efdb145c63f62412ba7958154bc8f313495dfdd7f9ee375b56163a84f63",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/static_table_rows.tex",
+      "sha256": "24dcf409c8eef60e7e23795cde6dceb10cfc71e7cfc1ef41a9eac204f4c4b8ad",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/report/tail_table_rows.tex",
+      "sha256": "1476ff5e5431e6b9d25dc0747ac86733d72847a12ee42325f8ca192ffd9e6ab4",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/rtl/sar_calib_ctrl_serial.sv",
+      "sha256": "8f88bfee21b013dcce764ad14bbe933aa2f8df87e5e0fd911bbead14262b1709",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/rtl/sar_reconstruction.sv",
+      "sha256": "a8f88e9e73682c2057ef3c1d5e06c686c4ea79f155988d7a4b873c9ee749ea4e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/rtl/srm_residue_estimator.sv",
+      "sha256": "90f8022653174f35d47d0097f078725e05627c2eb3b7d6f6527f670c84af2791",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/scripts/run_all_xsim.ps1",
+      "sha256": "0f29c30b2474fafcb3c9969772f25f41c6cccb7a0a506b49c9a35d048e2c1117",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/scripts/run_xsim.ps1",
+      "sha256": "561bb1c720070b5e6e82ec8a9f1ed4dc13ff0ff96174b4b1fe1d1fb75dc50de5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/tb/tb_gain_comp_check_lsb.sv",
+      "sha256": "d04ee51b6b149c01fca168d3bf49cb1cda525ced7dc0f3d215c1eae7a1403612",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/tb/tb_recon_q8_split_weights.sv",
+      "sha256": "a0576ecf4ff58073b2780f00dcc71719b3158bd35ad0c61c4c19ccc62276c098",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/tb/tb_sar_recon_binary_norm.sv",
+      "sha256": "5df42fe9ff30ff9f088807ea5a0b3ade53c643ff6cb4d67cb24bd06666d90d28",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/physical_cdac_revalidation_20260729/tb/tb_srm_residue_estimator.sv",
+      "sha256": "bb572055c1a63772a78785f008a92eba3edbb80a278fa69283e7cc6344df83cf",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/.github/copilot-instructions.md",
+      "sha256": "93389450f07299de9dda497caf449a6d46a295eda7c36c47b72b3b101e045dce",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/LICENSE",
+      "sha256": "e233b56d5d06fce4e68b9ec34a65be304417f150cf1c2bdf0e60038e1fdd9120",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/MANIFEST.md",
+      "sha256": "eed2a1aee3190bca1d361f31eca1c88a354d3e5e2cc59cda70325cb7173693a5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/README.md",
+      "sha256": "2ff772b9ca305e6d52254f9d4ba52ac68b4716e9f15c354d9bf387d486036525",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/RUNBOOK.md",
+      "sha256": "9a7cc1963cf45b145d5ca921ef1c225b7cd817671ed6b2539829a78c0ad4a6fc",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/SHA256SUMS.txt",
+      "sha256": "445603ef57b7e799b2c1609f615946158780df6fa3e5cf70b6abbc87ec9f4cbb",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/constraints/core_synth.xdc",
+      "sha256": "00670427deb71d5ba9d68b66b2de52fb6a8f21cec732e130cf8ac8de94c60c30",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/constraints/debug_ila_template.xdc",
+      "sha256": "e32c25a0151ef20d73a6daec163f501bc9090446175e134f4fd535036077e765",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/constraints/sar_calib_fpga_legacy_board_hint.xdc",
+      "sha256": "44b7d947f002939dfccbea40549ea612675ccf061550a9ebf533f260e2ae381c",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/ARCHITECTURE.md",
+      "sha256": "271997c5d07efb7f352fad74a3c570c48eb1d50e8120fcb57a080d2a393f314d",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/CHANGELOG.md",
+      "sha256": "0c5452ff943fc377414bf2c76ac9e8dc2d0f1fffac499c0b828e713905385c3b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/ENGINEERING_CLOSURE_AUDIT_2026-05-18.md",
+      "sha256": "b4302b57e60022c6617a80dc8dc7e7550b695abe8e3b2cdb1f7fd0fb43dcaf86",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/FINAL_REPRODUCTION_AND_VERIFICATION_REPORT_CN_2026-05-18.md",
+      "sha256": "192d668bc3750f321e1440c7546e5547070c17aeea23dc8e21337c58c85ada50",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/FIXED_POINT_CONTRACT.md",
+      "sha256": "d068c9f02fecd9d1f065b529be6fb78f9ffe39c532b4ad9ac5f137f5004812ae",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/FPGA_ASIC_SIGNOFF_REVIEW_2026-05-18.md",
+      "sha256": "b3422b043b00aeb7099671cc33ae4b23a7fa08cf229aec6b0866c46bb867f644",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/MIXED_SIGNAL_TIMING_CONTRACT.md",
+      "sha256": "b6efdf483ff4015149b4222145ae626c7cc167191cc92bc3a55c461970c6537e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/MOC.md",
+      "sha256": "b3ae6e79ee53670344effc6e26119f30ec26dd92fef9d481c370815d80663405",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/PROJECT_ORGANIZATION.md",
+      "sha256": "97a2e34deeb67e0aca0e87b62534226961713c30f2db626fbf4c71c34a391cce",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/README.md",
+      "sha256": "3a3f320c3f77d02000b78bda8085ef4c98610d7ef07316d9de363772bb85c199",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/REPRODUCTION_REPORT_2026-05-18.md",
+      "sha256": "b5b8e2eda49469ba5131a99933cb89440f18885ede3af8fe08c168ab50885fa0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/REQUIREMENTS.md",
+      "sha256": "0f6f38bd035a4e01c5478a87bf200a3ce98c42708a212e85e57f973138865b2b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/TB_INDUSTRIAL_VERIFICATION_GUIDE.md",
+      "sha256": "f0626c4fc13fbc7e75701c1abdc18cb4962403af74f7f096911552734f6b1ec1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/TECHNICAL_ALGORITHM_GAP_ANALYSIS_CN_2026-05-18.md",
+      "sha256": "6ed7bb2fe0cb8482638ddcb57266bc99692b5608cd0b5c559922948d2de0f2fb",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/VERIFICATION.md",
+      "sha256": "cb9069c5ce4f31c831da7600524eab0f18b0334f3748b580360e61a93e00382f",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/docs/VERSION.md",
+      "sha256": "d7e45b40a0b7fdea52342fbe62e9b119b3bee82f2f9cb5fea73155bc8a2a17c7",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/rtl/sar_adc_digital_top.sv",
+      "sha256": "176d14f69dace5ab55a9b758e96891d233742fb2784fb12e164f819361a65a09",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/rtl/sar_calib_ctrl_serial.sv",
+      "sha256": "94478460fd1e1e51de295ea5a65d90d60becff54429ed363cbf9f19adce86571",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/rtl/sar_calib_fpga_top.sv",
+      "sha256": "9e7f2047f71593a3f6b25d0adc63c208c544ebe072a0f8edcf367c9991b5b36b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/rtl/sar_reconstruction.sv",
+      "sha256": "a8f88e9e73682c2057ef3c1d5e06c686c4ea79f155988d7a4b873c9ee749ea4e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/rtl/srm_residue_estimator.sv",
+      "sha256": "90f8022653174f35d47d0097f078725e05627c2eb3b7d6f6527f670c84af2791",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/build.ps1",
+      "sha256": "dbbb0eb335127cef40d40282ea51dea11a2e778fa49d2a0d3f38674c43ac05b3",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/build_vivado.tcl",
+      "sha256": "f823dd7e40d9e43ab6e04bbaf8e1a37abf4966f6d4d4aea52966ed3a658d104b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/check_repo_consistency.py",
+      "sha256": "cab19e1409282a04e3640773680f3bbbc38fd9ee9aefd01c6bfe5a34c104c2c8",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/lint_verilator.ps1",
+      "sha256": "fefc0ae741b605609a426c2ae99f8baa74e863449b5526557a352bf8de395622",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/lint_verilator.sh",
+      "sha256": "5e26a9f4b02923263f797cb6dde5fc7533621bb18a0a4d08f6fb71e93901a2b0",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_all_xsim.ps1",
+      "sha256": "0f29c30b2474fafcb3c9969772f25f41c6cccb7a0a506b49c9a35d048e2c1117",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_core_synth_checks.ps1",
+      "sha256": "00e1b41d55d08e5fb3729aa93babd66f5fcbdf12b75bcc0f4c1d069772f3121e",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_package_synth_checks.ps1",
+      "sha256": "02a317b2e7e31b04e4573050b6dcd09e2b85fdaf8befac41f489d3ad7268627d",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/run_xsim.ps1",
+      "sha256": "561bb1c720070b5e6e82ec8a9f1ed4dc13ff0ff96174b4b1fe1d1fb75dc50de5",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/scripts/synth_one_top.tcl",
+      "sha256": "cf48b2790ffc131504382ffca820bbf8f8da83866ee4a4c3548a43b429892d8b",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/tb/tb_gain_comp_check_lsb.sv",
+      "sha256": "d04ee51b6b149c01fca168d3bf49cb1cda525ced7dc0f3d215c1eae7a1403612",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/tb/tb_recon_q8_split_weights.sv",
+      "sha256": "a0576ecf4ff58073b2780f00dcc71719b3158bd35ad0c61c4c19ccc62276c098",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/tb/tb_sar_recon_binary_norm.sv",
+      "sha256": "5df42fe9ff30ff9f088807ea5a0b3ade53c643ff6cb4d67cb24bd06666d90d28",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/tb/tb_srm_residue_estimator.sv",
+      "sha256": "bb572055c1a63772a78785f008a92eba3edbb80a278fa69283e7cc6344df83cf",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "delivery/sar_adc_v3_digital_core_2026-05-18/vivado/Digital_process_reference.xpr",
+      "sha256": "a279e68b5b396a1005ec703ee67e63540a42e6302d98c403b3cbc33e856b31b1",
+      "status": "historical",
+      "reason": "Frozen historical delivery package; metric values and bundled code are not current evidence. See docs/METRIC_ERRATUM_20261002.md."
+    },
+    {
+      "path": "docs/paper/paper_sar_adc_calibration.pdf",
+      "sha256": "bb768c60df1dc773dc60df2967a6aec8be5425489b30aad3b145433727a383c1",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    },
+    {
+      "path": "docs/paper/paper_sar_adc_calibration.tex",
+      "sha256": "d4cd095f7743efe6e7c3abe8c1af659a1e6adecc69d250e0b500607a0ee6fe96",
+      "status": "historical",
+      "reason": "Historical report artifact, generated metric macro/table or report-build companion; retained bytes are not a current metric source."
+    }
+  ]
+}

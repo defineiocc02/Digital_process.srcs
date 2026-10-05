@@ -1,15 +1,20 @@
-"""Generate deterministic LaTeX tables for the physical-CDAC revalidation report."""
+"""Explicitly reproduce LaTeX tables for the frozen historical CDAC revalidation report."""
 
 from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 OUT = ROOT / "outputs_revalidation"
+sys.path.insert(0, str(ROOT.parents[1]))
+from analysis.metric_evidence import require_historical_report
+
+HISTORICAL_NOTICE = "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.\n"
 
 DECODER_LABELS = {
     "NOMINAL_SRM": "标称权重+SRM",
@@ -35,11 +40,16 @@ def read_csv(name: str) -> list[dict[str, str]]:
 
 
 def main() -> None:
+    global HERE
+    HERE = require_historical_report(OUT / "summary.json")
+    print("HISTORICAL evidence reproduction; see docs/METRIC_ERRATUM_20261002.md.")
     summary = json.loads((OUT / "summary.json").read_text(encoding="utf-8"))
     main_rows = read_csv("per_chip_main_metrics.csv")
+    HERE.mkdir(parents=True, exist_ok=True)
 
     ideal = summary["ideal_acceptance"]
     macros = [
+        "% HISTORICAL evidence; see docs/METRIC_ERRATUM_20261002.md.",
         tex_macro("ExperimentVersion", summary["experiment_version"]),
         tex_macro("ChipCount", summary["main_completed_chips"]),
         tex_macro("FftLength", summary["config"]["n_fft"]),
@@ -95,8 +105,8 @@ def main() -> None:
             )
             + r" \\"
         )
-    (HERE / "dynamic_table_rows.tex").write_text("\n".join(dynamic_lines) + "\n\\bottomrule\n", encoding="utf-8")
-    (HERE / "static_table_rows.tex").write_text("\n".join(static_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "dynamic_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(dynamic_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "static_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(static_lines) + "\n\\bottomrule\n", encoding="utf-8")
 
     pass_lines = []
     for decoder in ("CAL_CURRENT_SRM", "CAL_SUM_NORM_SRM", "CAL_HEADROOM_GUARD_SRM"):
@@ -113,7 +123,7 @@ def main() -> None:
             )
             + r" \\"
         )
-    (HERE / "pass_table_rows.tex").write_text("\n".join(pass_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "pass_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(pass_lines) + "\n\\bottomrule\n", encoding="utf-8")
 
     current = {
         int(row["chip_id"]): row for row in main_rows if row["decoder"] == "CAL_CURRENT_SRM"
@@ -140,7 +150,7 @@ def main() -> None:
             )
             + r" \\"
         )
-    (HERE / "tail_table_rows.tex").write_text("\n".join(tail_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "tail_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(tail_lines) + "\n\\bottomrule\n", encoding="utf-8")
 
     sigma_rows = read_csv("sigma_summary.csv")
     sigma_lines = []
@@ -163,7 +173,7 @@ def main() -> None:
             )
             + r" \\"
         )
-    (HERE / "sigma_table_rows.tex").write_text("\n".join(sigma_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "sigma_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(sigma_lines) + "\n\\bottomrule\n", encoding="utf-8")
 
     amplitude_rows = read_csv("amplitude_summary.csv")
     amplitude_lines = []
@@ -186,7 +196,7 @@ def main() -> None:
             )
             + r" \\"
         )
-    (HERE / "amplitude_table_rows.tex").write_text("\n".join(amplitude_lines) + "\n\\bottomrule\n", encoding="utf-8")
+    (HERE / "amplitude_table_rows.tex").write_text(HISTORICAL_NOTICE + "\n".join(amplitude_lines) + "\n\\bottomrule\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

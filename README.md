@@ -3,6 +3,12 @@
 > **2026-10-02 数值勘误**：历史频谱汇总发现 SNR / SNDR 口径矛盾；本轮已完成两组核心矩阵重算。
 > 当前频谱代码已加入独立功率分区与解析对照检查；完整行为与物理 CDAC 矩阵已重新执行。
 > 最新结果见 [本轮再验证](docs/REVALIDATION_20261002.md)，旧交付报告的历史数字仍按 [指标勘误](docs/METRIC_ERRATUM_20261002.md) 处理。
+>
+> **机器读取当前指标**：唯一清单是 [METRICS_CURRENT.json](docs/METRICS_CURRENT.json)。
+> 使用 `python -m analysis.metric_evidence --scope physical_cdac.ideal` 或
+> `physical_cdac.main`；旧 summary、未知 scope、哈希/版本/源码身份不符直接失败。
+> `python -m analysis.metric_evidence --check` 校验当前快照和冻结证据。
+> 全量入口审计、历史复现方式与验收条件见 [防误用审计](docs/METRIC_ENTRYPOINT_AUDIT_20261005.md)。
 
 本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
 
@@ -70,11 +76,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
 $py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\envs\upstream-main\Scripts\python.exe"
 
 & $py -m pytest analysis\full_sar_behavioral_20260729\test_full_sar_model.py -q
-& $py analysis\full_sar_behavioral_20260729\run_campaign.py --chips 512 --workers 6
+& $py analysis\full_sar_behavioral_20260729\run_campaign.py --chips 512 --workers 6 --no-resume --outdir campaign-full-new
 ```
 
-运行支持逐芯片检查点和断点续跑；正式聚合结果位于
-`analysis/full_sar_behavioral_20260729/outputs/`。
+运行支持逐芯片检查点和带身份校验的断点续跑。上述命令写入新目录；
+`analysis/full_sar_behavioral_20260729/outputs/` 是冻结历史证据，不能作为当前频谱口径。
 
 ### 物理CDAC失配正式再验证
 
@@ -83,10 +89,11 @@ $py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\envs\upstream-mai
   analysis\physical_cdac_mismatch_20260729\test_physical_cdac.py `
   analysis\physical_cdac_mismatch_20260729\test_revalidation.py -q
 & $py analysis\physical_cdac_mismatch_20260729\run_revalidation.py `
-  --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 6
+  --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 6 --outdir physical-cdac-new
 ```
 
-正式证据位于 `analysis/physical_cdac_mismatch_20260729/outputs_revalidation/`。
+上述命令写入新目录。`analysis/physical_cdac_mismatch_20260729/outputs_revalidation/`
+保留冻结历史字节；当前已固化的理想对照和物理主矩阵应通过 current 清单读取。
 
 ### Vivado GUI 工程
 

@@ -1,5 +1,8 @@
 ## Purpose
 
+For all metric evidence work, follow the repository-root `AGENTS.md` contract
+and `docs/METRICS_CURRENT.json`; legacy `summary.json` files are not current.
+
 Help AI coding agents understand and work efficiently in this SAR ADC digital
 processing project (RTL changes, testbench updates, simulation debugging,
 constraint modifications).
