@@ -39,7 +39,7 @@ worktree and contained NF10/NF1 report material.
 | local and remote `main` | Canonical release history | Active integration and delivery branch |
 | retired `codex/huang-calibration-convergence` | Fast-forwarded into `main` | Safe to remove after remote verification |
 | retired local/remote `master` | No unique commits; both refs were ancestors of unified `main` | Removed after default-branch verification |
-| `origin/legacy-main` | 16 unique commits; query behind count live | Divergent historical branch; do not delete without archival |
+| `origin/legacy-main` | Orphan history (no common ancestor with `main`), 16 commits from 2026-01-06 to 2026-03-14; 43 of its 49 blobs are byte-identical to `main`'s `archive/deleted-in-*` | Archive with a tag, then delete; see the 2026-10-19 verification below |
 
 The remote default branch is `origin/main`. The completed calibration/report
 branch was a strict descendant and was integrated with `git merge --ff-only`,
@@ -57,13 +57,38 @@ so no merge commit or parallel main history was created.
    both aliases after confirming GitHub's default branch is `main`.
 8. Ran `git fetch --prune` and `git worktree prune --verbose`.
 
-The remaining non-main branch is `legacy-main`. It is not a worktree and
-requires a separate history-archival decision before deletion.
+The remaining non-main branch is `legacy-main`, with no registered worktree.
+
+## `legacy-main` verification (2026-10-19)
+
+Content was re-checked blob by blob, by SHA rather than by path:
+
+- `legacy-main` is an orphan history: `compare/main...legacy-main` has no common
+  ancestor, so the 16 commits can never be merged and `main` cannot absorb them.
+- 43 of its 49 blobs are byte-identical to files already on `main` under
+  `archive/deleted-in-039c478/` and `archive/deleted-in-110ef75/`.
+- Only 6 blobs are unique to it, and none carries engineering value:
+  - 1 × 37,646,578 B reference PDF (Huang 2024, clock multiplier and SAR ADC),
+    which the current `.gitignore` policy deliberately keeps out of the
+    repository (`REFERENCE/*.pdf`);
+  - 5 × RTL/TB files last touched on 2026-03-07 (`sar_reconstruction.sv`,
+    `sar_calib_ctrl_serial.sv`, `virtual_adc_phy.v`,
+    `tb_gain_comp_check_lsb.sv`, `tb_sar_adc_top.sv`), all older revisions whose
+    interfaces are strictly contained in the `main` versions.
+
+Verdict: the branch is not a source of unique assets, so it may be deleted after
+the archival tag is pushed. This supersedes the earlier "do not delete without
+archival" reading of its 16 "unique commits"; the commits are unique, their
+content is not.
 
 ## Commands for a later approved cleanup
 
 The commands below are intentionally not executed by this audit because they
 delete branch references.
+
+Note: do not run the `git bundle` step for `legacy-main`. Because the branch is
+orphan history, a bundle would copy the 37.6 MB PDF into `.git` a second time;
+the tag alone preserves the 16 commits.
 
 ```powershell
 # Inspect unique legacy history first.

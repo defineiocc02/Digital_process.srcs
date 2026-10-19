@@ -1,7 +1,7 @@
 # SAR ADC V3 Engineering Closure Audit Report
 
 **Date:** 2026-05-18
-**Baseline:** `master` before `d141b46` (v3.5.4-fixed-point-contract)
+**Baseline:** `main` before `d141b46` (v3.5.4-fixed-point-contract)
 **Final:** `v3.6.0-engineering-closure` tag (see git tag for exact hash)
 **Author:** Zhao Yi, with Claude Opus 4.7
 **Scope:** 11 commits total:
