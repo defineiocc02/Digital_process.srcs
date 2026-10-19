@@ -1,8 +1,8 @@
 # Digital_process.srcs
 
-> Split-Sampling SAR ADC 的数字后端：前台电容权重校准、SRM 残差估计、Q8 重构，SystemVerilog 实现。
+![状态](https://img.shields.io/badge/%E7%8A%B6%E6%80%81-RTL_%E5%86%BB%E7%BB%93-bf8700?style=flat-square) ![类型](https://img.shields.io/badge/%E7%B1%BB%E5%9E%8B-RTL_%E9%AA%8C%E8%AF%81-6e7781?style=flat-square) ![技术栈](https://img.shields.io/badge/%E6%8A%80%E6%9C%AF%E6%A0%88-SystemVerilog-6e7781?style=flat-square) ![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-%E6%9C%AA%E6%8C%87%E5%AE%9A-6e7781?style=flat-square)
 
-[![RTL Lint](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/rtl_lint.yml/badge.svg)](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/rtl_lint.yml)  [![Numerical metric controls](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/numerical-metrics.yml/badge.svg)](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/numerical-metrics.yml)  [![License](https://img.shields.io/github/license/defineiocc02/Digital_process.srcs)](LICENSE)
+> Split-Sampling SAR ADC 的数字后端：前台电容权重校准、SRM 残差估计、Q8 重构，SystemVerilog 实现。
 
 ## 这是什么
 
@@ -69,7 +69,7 @@ archive/                     历史裁剪归档，按删除 commit 命名，不�
 MOC.md                       仓库内容索引
 ```
 
-## 设计
+## 设计与用法
 
 ### 模块划分
 
@@ -124,6 +124,10 @@ MOC.md                       仓库内容索引
 - 满幅下 CAL_CURRENT_SRM 的 SNDR ≥90 dB 只有 504/512，尾部失败样本保留在逐 chip CSV；`CAL_HEADROOM_GUARD_SRM` 的 512/512 是后处理分析结果，未进入 RTL。
 - 2026-07-29 冻结的交付 PDF 与旧 summary 保留历史口径，其 SNR/SNDR 存在已确认矛盾，只能作为历史记录引用。
 - 无 ASIC 库、SDC/MMMC、CDC/RDC、LEC、DFT 证据，也无 routed layout；见 [流片前总评审](analysis/full_flow_tapeout_review_20260830/SAR16B_RTL_TO_SILICON_MASTER_REVIEW_CN.md)。
+
+## 相关仓库
+
+暂无直接关联的仓库。
 
 ## 许可
 
