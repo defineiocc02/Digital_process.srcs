@@ -1,195 +1,130 @@
-# SAR ADC 数字处理系统
+# Digital_process.srcs
 
-> **2026-10-02 数值勘误**：历史频谱汇总发现 SNR / SNDR 口径矛盾；本轮已完成两组核心矩阵重算。
-> 当前频谱代码已加入独立功率分区与解析对照检查；完整行为与物理 CDAC 矩阵已重新执行。
-> 最新结果见 [本轮再验证](docs/REVALIDATION_20261002.md)，旧交付报告的历史数字仍按 [指标勘误](docs/METRIC_ERRATUM_20261002.md) 处理。
+> Split-Sampling SAR ADC 的数字后端：前台电容权重校准、SRM 残差估计、Q8 重构，SystemVerilog 实现。
 
-本仓库维护 Split-Sampling SAR ADC 的数字后端处理逻辑，重点覆盖前台校准、SAR 码重构、SRM 残差估计，以及 FPGA/Vivado 验证入口。
+[![RTL Lint](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/rtl_lint.yml/badge.svg)](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/rtl_lint.yml)  [![Numerical metric controls](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/numerical-metrics.yml/badge.svg)](https://github.com/defineiocc02/Digital_process.srcs/actions/workflows/numerical-metrics.yml)  [![License](https://img.shields.io/github/license/defineiocc02/Digital_process.srcs)](LICENSE)
 
-当前工程基线为 **v3.11.0-physical-cdac-revalidation**。本版本以当前 RTL 为算法真值，从 `6+4+5+5` 物理分段CDAC、电容面积律失配、20次差分SAR判决、P/N递归前台校准、22次SRM、Q8重构到16-bit输出完成512芯片再验证，并发布27页中文学术/工业维护报告。频谱指标使用显式相干功率分区，ADCToolbox用于静态指标和外部校准对照，不替代本工程 `sar_calib_ctrl_serial.sv`、`srm_residue_estimator.sv` 和 `sar_reconstruction.sv`。
+## 这是什么
+
+本仓库实现 Split-Sampling SAR ADC 的数字处理边界：把 20 位差分 SAR 原始判决位流，经校准权重加权求和、SRM 残差修正后还原为 signed 16-bit 输出码。三个可综合模块分别是 P/N 递归前台校准控制器、22 次比较判决的 SRM 残差估计器、Q8 权重重构引擎；配套 Python 行为模型用于 512 chip 的失配与噪声实验。目标是可核对的算法与 RTL 等价性，不包含模拟前端，也不是流片签核工程。
+
+## 当前状态
+
+| 项 | 值 |
+|---|---|
+| 阶段 | 数字算法核验证完成，RTL 冻结于原位；ASIC 集成与流片前工作未开始 |
+| 最近验证 | 2026-10-02 频谱口径修复后独立重跑：完整行为模型 512 chip 与物理 CDAC 主矩阵（512 chip / 7 失配点 / 5 幅度点），[CI 全绿](https://github.com/defineiocc02/Digital_process.srcs/actions/runs/37002707969) |
+| 关键指标 | 完整含噪行为模型 CAL+SRM：SNDR 中位 **91.018 dB**（512 chip）；物理 CDAC 零转换噪声主矩阵满幅：SNDR 中位 **95.256 dB**、SNR 中位 **95.383 dB**；理想 16-bit 量化对照 SNR **98.079781 dB** / SNDR **98.079113 dB**。全部为模型条件，非硅片 |
+| 结论边界 | 有证据：三个核心 RTL 可综合、4 个 testbench 在 Vivado 2018.3 XSIM 全通过、上述数值可复跑。无证据：AMS/PVT/PEX、ASIC STA、DFT、GDS、硅片 |
+
+当前数字见 [docs/REVALIDATION_20261002.md](docs/REVALIDATION_20261002.md)；2026-07-29 冻结的 PDF/JSON 保留原字节，其频谱数字受 [docs/METRIC_ERRATUM_20261002.md](docs/METRIC_ERRATUM_20261002.md) 约束，不得直接当作当前指标引用。
+
+## 快速开始
+
+### 依赖
+
+- Vivado 2018.3（工程文件由 v2018.3 生成，`scripts/run_all_xsim.ps1` 默认指向 `Vivado/2018.3/bin`）
+- Python 3.12
+- `numpy==2.1.3`、`pytest==8.3.5`（与 CI 一致）；行为级实验另装 [requirements.txt](analysis/full_sar_behavioral_20260729/requirements.txt)
+- verilator + python3（lint 与一致性检查，CI 在 ubuntu-latest 上执行）
+- `scripts/*.ps1` 与 `build.ps1` 为 Windows PowerShell 入口，综合与 XSIM 需在 Windows 上跑
+
+### 运行
+
+```bash
+python3 scripts/check_repo_consistency.py
+bash scripts/lint_verilator.sh
+python3 -m pip install numpy==2.1.3 pytest==8.3.5
+python3 -m pytest analysis/test_coherent_metrics.py -q
+python3 analysis/full_sar_behavioral_20260729/run_campaign.py --quick --chips 4 --workers 2 --no-resume --outdir campaign-recheck
+```
+
+综合与 RTL 仿真（Windows）：
+
+```powershell
+.\scripts\build.ps1 -Target build_calib_core
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_all_xsim.ps1
+```
+
+`build.ps1` 的可用 target 为 `build_calib_core`、`build_recon_core`、`build_fpga_demo`、`build_asic_skeleton`。
+
+### 验证
+
+- 一致性检查最后一行打印 `PASS: repository consistency check completed`；缺文件、残留 `tb_sar_recon.sv`、`core_synth.xdc` 混入板级或 ILA 约束都会报错退出。
+- `lint_verilator.sh` 退出码为 0，即 5 个 RTL 文件 lint 通过。
+- `pytest analysis/test_coherent_metrics.py` 全通过，覆盖谐波/非谐波、直流、Nyquist、奇偶记录与谐波别名。
+- `run_campaign.py` 在 `--outdir` 下写出 `summary.json` 与逐 chip CSV；`main_completed_chips` 等于 `--chips` 即完整。
 
 ## 目录结构
 
 ```text
-sar_adc_v3/
-|-- rtl/                         # 权威 RTL 源文件
-|-- Digital_process/             # Vivado 活动工程；srcs 下保持与 rtl/ 同步
-|-- constraints/                 # 推荐约束入口与板级/debug 可选模板
-|-- scripts/                     # Vivado 构建、XSIM 回归、lint/一致性检查脚本
-|-- docs/                        # 架构、契约、验证、版本与评审文档
-|   `-- paper/                   # SAR ADC 校准论文源文件与 PDF
-|-- analysis/surrogate/          # Huang 2025 收敛代理分析
-|-- analysis/calibration_effectiveness_20260729/
-|                                 # 当前 RTL 片上校准行为级有效性验证
-|-- analysis/full_sar_behavioral_20260729/
-|                                 # 512 点完整 SAR 行为级闭环与报告
-|-- analysis/physical_cdac_mismatch_20260729/
-|                                 # 物理CDAC失配、当前校准与SRM正式再验证
-|-- delivery/                    # 冻结交付包与行为级验证包
-|-- archive/                     # 历史裁剪归档
-|-- MOC.md                       # 内容索引
-|-- README.md                    # 本文件
-`-- LICENSE
+rtl/                         权威 RTL 源文件（5 个模块）
+Digital_process/             Vivado 活动工程（.xpr 与 sources_1/sim_1 镜像）
+constraints/                 综合约束 core_synth.xdc 与可选板级/ILA 模板
+scripts/                     Vivado 构建、XSIM 回归、lint、仓库一致性检查
+docs/                        架构、定点契约、时序契约、验证与版本文档；paper/ 为论文源
+analysis/                    行为模型、物理 CDAC、校准有效性、流片前评审与证据
+delivery/                    冻结的交付快照，内含与 docs/、analysis/ 同名的副本，不再修改
+archive/                     历史裁剪归档，按删除 commit 命名，不参与构建
+MOC.md                       仓库内容索引
 ```
 
-生成物清理约定：
+## 设计
 
-- Vivado/XSIM 输出、日志、`.Xil/`、`sim_work/`、`.cache/`、`.hw/`、`.runs/` 都视为可再生成文件。
-- LaTeX 中间文件如 `*.aux`、`*.log`、`*.out` 不进入仓库。
-- 代理分析输出目录 `analysis/surrogate/outputs/` 可由脚本重新生成。
-- 完整行为模型的逐点检查点与运行日志可再生成，不进入仓库；聚合 CSV、JSON、图和代表性高分辨率数组作为验证证据保留。
-- PDF 视觉 QA 渲染页缓存 `analysis/*/report/qa_pages*/` 可由 Poppler 重新生成。
-- 本地参考文献缓存 `.tmp_literature/` 保留为本机资料缓存，不作为源码交付内容。
+### 模块划分
 
-## 快速开始
+| 模块 | 文件 | 职责 | 关键参数 |
+|---|---|---|---|
+| `sar_calib_ctrl_serial` | `rtl/sar_calib_ctrl_serial.sv` | 前台递归校准：以低位已校准电容作参考 DAC，正负两相二分测量高位实际权重，取平均后写回 | `CAP_NUM=20`、`COMP_WAIT_CYC=16`、`AVG_LOOPS=32`、`MAX_CALIB_BIT=5` |
+| `srm_residue_estimator` | `rtl/srm_residue_estimator.sv` | 统计 22 次噪声比较器判决，把「1」的个数经正态反函数 LUT 映射为 signed 残差修正 | `DECISION_COUNT=22`、`RESIDUE_WIDTH=30` |
+| `sar_reconstruction` | `rtl/sar_reconstruction.sv` | Q8 权重有符号加权求和、差分归一、叠加 SRM 残差、四舍五入并饱和到 16-bit | `FRAC_BITS=8`、`OUTPUT_WIDTH=16`、`INIT_WEIGHT_LSB=256` |
+| `sar_calib_fpga_top` | `rtl/sar_calib_fpga_top.sv` | 板级演示 wrapper（按键/复位/指示灯）；比较器输入接确定性 stub，不能用于算法验证 | — |
+| `sar_adc_digital_top` | `rtl/sar_adc_digital_top.sv` | ASIC 数字集成 skeleton，串联校准、SRM 与重构；无模式仲裁与 AFE 时序 | — |
 
-### 一致性检查
+`rtl/` 是唯一权威源。`Digital_process/Digital_process.srcs/sources_1/new/` 是 Vivado 工程按路径引用的镜像，`scripts/build_vivado.tcl` 与 `scripts/lint_verilator.sh` 都以 `rtl/` 为准；两者内容必须逐字节一致，改一处要同步另一处。
 
-```powershell
-python scripts\check_repo_consistency.py
-```
+### 时钟域
 
-### XSIM 回归
+- 三个核心模块共用一个时钟 `clk`，复位为异步低有效 `rst_n`，无跨时钟域路径与 CDC 结构。
+- 模块间只通过单周期脉冲握手：校准用 `start_calib` / `calib_done`，SRM 用 `start` / `busy` / `done`，重构用 `data_valid_in` / `data_valid_out`。
+- `rst_n` 释放后校准控制器把 Bit 0–5 的理想权重装入 Shadow RAM，因此未校准时的重构输出仍有定义。
+- 校准是串行累加：每个目标位的权重累加需要 `CAP_NUM` 拍（`S_PHASE_P_CALC` / `S_PHASE_N_CALC`），单次比较等待 `COMP_WAIT_CYC` 拍，每个相位平均 `AVG_LOOPS` 次；`calib_mode_en` 在校准期间保持高。
+- 重构为两级流水（4×5 分组部分和 → 全局求和 → 归一/舍入/饱和），`data_valid_in` 到 `data_valid_out` 固定 3 拍延迟。
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_all_xsim.ps1
-```
+### 接口
 
-### Vivado 综合目标
+`sar_adc_digital_top` 的端口分组：
 
-```powershell
-.\scripts\build.ps1 -Target build_calib_core
-.\scripts\build.ps1 -Target build_recon_core
-.\scripts\build.ps1 -Target build_fpga_demo
-.\scripts\build.ps1 -Target build_asic_skeleton
-```
+| 组 | 信号 | 方向/位宽 | 说明 |
+|---|---|---|---|
+| 全局 | `clk`、`rst_n` | in | 单时钟，异步低有效复位 |
+| 校准控制 | `start_calib`、`calib_comp_out` | in | 启动脉冲与校准期比较器输出 |
+| 校准输出 | `calib_done`、`calib_mode_en`、`dac_p_force[19:0]`、`dac_n_force[19:0]` | out | 完成标志、状态指示、P/N 侧 DAC 强制码（抽象控制，非真实 PHY 时序） |
+| 重构输入 | `data_valid_in`、`raw_bits[19:0]` | in | 一次转换完成脉冲与 20 位原始判决 |
+| SRM 输入 | `srm_start`、`srm_decision_valid`、`srm_decision_bit` | in | 启动脉冲与逐次判决 |
+| SRM 输出 | `srm_busy`、`srm_done`、`srm_decision_index[4:0]`、`srm_ones_count[4:0]` | out | 采集状态与计数（上限 22） |
+| 数据输出 | `adc_dout[15:0]`、`data_valid_out` | out | signed 16-bit 输出码与有效标志 |
 
-### 完整行为级 512 点验证
+权重写回总线 `w_wr_en` / `w_wr_addr[4:0]` / `w_wr_data[29:0]` 是校准到重构的内部通路，`sar_adc_digital_top` 未引出。
 
-```powershell
-$py = "C:\Users\Administrator\Desktop\ADCToolbox_EVAL_20260728\envs\upstream-main\Scripts\python.exe"
+### 位宽约定
 
-& $py -m pytest analysis\full_sar_behavioral_20260729\test_full_sar_model.py -q
-& $py analysis\full_sar_behavioral_20260729\run_campaign.py --chips 512 --workers 6
-```
+- `CAP_NUM=20`：`raw_bits[19:0]`，Bit 0–5 为免校准可信 LSB 段（`MAX_CALIB_BIT=5`），对应 6+4+5+5 物理分段 CDAC 的 20 次判决。
+- 权重统一为 signed 30-bit Q22.8：`WEIGHT_WIDTH=30`、`FRAC_BITS=8`，`256` 等于 1 个输出码 LSB；`INIT_WEIGHT_LSB=256` 是 Bit 0 的理想权重。
+- 重构累加器为 signed 40-bit；输入侧按 `bit ? +W : -W` 作双侧求和，再算术右移 1 位完成差分归一。
+- 输出为 signed 16-bit，饱和到 `+32767 / -32768`；舍入加 `2^(FRAC_BITS-1)` 补偿 floor 截断带来的 -0.5 LSB 系统性偏置。
+- `srm_residue` 与权重同一 Q8 单位，在归一之后、输出移位之前注入；`+256` 表示未饱和时 +1 个输出码 LSB。
+- RTL 内有参数守卫：`CAP_NUM=20`、`WEIGHT_WIDTH≥30`、`OUTPUT_WIDTH=16`、`FRAC_BITS=8` 以外的配置直接 `$error`，4×5 分组流水只对 20 位成立。
 
-运行支持逐芯片检查点和断点续跑；正式聚合结果位于
-`analysis/full_sar_behavioral_20260729/outputs/`。
+## 已知限制
 
-### 物理CDAC失配正式再验证
+- 只有数字边界：`dac_p_force` / `dac_n_force` 是抽象强制码，没有 VCM/SET/RSTT/CLKAZ/READYN 等实际 PHY 序列，也没有与异步 SAR 的 EOC/code 原子锁存时序。
+- `sar_adc_digital_top` 自述为 skeleton：无 normal/calibration/SRM 模式仲裁；`srm_residue_q` 无 transaction ID、freshness 与 `srm_done` 门控，连续转换时旧残差可能被套用到新 raw code。
+- 512 chip 物理 CDAC 结论建立在模型假设上（6+4+5+5 分段、8 fF 单位电容、面积律失配），没有 PDK 失配卡、全电路 PVT、PEX 或真实 ADC 接入。
+- 满幅下 CAL_CURRENT_SRM 的 SNDR ≥90 dB 只有 504/512，尾部失败样本保留在逐 chip CSV；`CAL_HEADROOM_GUARD_SRM` 的 512/512 是后处理分析结果，未进入 RTL。
+- 2026-07-29 冻结的交付 PDF 与旧 summary 保留历史口径，其 SNR/SNDR 存在已确认矛盾，只能作为历史记录引用。
+- 无 ASIC 库、SDC/MMMC、CDC/RDC、LEC、DFT 证据，也无 routed layout；见 [流片前总评审](analysis/full_flow_tapeout_review_20260830/SAR16B_RTL_TO_SILICON_MASTER_REVIEW_CN.md)。
 
-```powershell
-& $py -m pytest `
-  analysis\physical_cdac_mismatch_20260729\test_physical_cdac.py `
-  analysis\physical_cdac_mismatch_20260729\test_revalidation.py -q
-& $py analysis\physical_cdac_mismatch_20260729\run_revalidation.py `
-  --chips 512 --sensitivity-chips 128 --amplitude-chips 128 --workers 6
-```
+## 许可
 
-正式证据位于 `analysis/physical_cdac_mismatch_20260729/outputs_revalidation/`。
-
-### Vivado GUI 工程
-
-```text
-Digital_process/Digital_process.xpr
-```
-
-GUI 工程便于调试和查看工程状态；脚本入口仍是可复现构建的推荐入口。
-
-## 核心模块
-
-| 模块 | 位置 | 说明 |
-| --- | --- | --- |
-| `sar_calib_ctrl_serial` | `rtl/sar_calib_ctrl_serial.sv` | 前台电容权重校准控制器 |
-| `sar_reconstruction` | `rtl/sar_reconstruction.sv` | 基于 Q8 权重的 20-bit raw code 到 signed 16-bit 重构 |
-| `srm_residue_estimator` | `rtl/srm_residue_estimator.sv` | 22 次噪声比较器判决统计与残差 LUT 映射 |
-| `sar_calib_fpga_top` | `rtl/sar_calib_fpga_top.sv` | FPGA 演示/综合 wrapper，不作为 ASIC 顶层 |
-| `sar_adc_digital_top` | `rtl/sar_adc_digital_top.sv` | ASIC 数字集成 skeleton |
-
-Vivado 工程中的镜像文件位于 `Digital_process/Digital_process.srcs/sources_1/new/`。维护时优先修改 `rtl/`，再同步到 Vivado 工程镜像。
-
-## 历史验证基线（频谱指标待按勘误重算）
-
-2026-07-29 物理CDAC失配与当前片上自校准再验证：
-
-| 验证层 | 入口 | 结果 |
-| --- | --- | --- |
-| 理想16位算术门限 | `run_revalidation.py` | PASS；直接量化98.079 dB，精确物理残差98.079 dB，确定性SRM 98.045 dB，随机22次SRM中位97.145 dB |
-| 512芯片物理失配 | `outputs_revalidation/summary.json` | PASS；当前校准满幅中位95.256 dB，回退中位93.577 dB，DNL max中位0.968 LSB，INL max中位0.993 LSB，缺码中位0 |
-| 满幅余量tail | `CAL_HEADROOM_GUARD_SRM` | 分析候选；最差值55.619 -> 93.129 dB，512/512超过90 dB；尚未进入RTL |
-| Python回归与回放 | `test_revalidation.py` | PASS；11 tests；8芯片双重回放7个CSV/JSON逐字节一致 |
-| 详细PDF | `report_revalidation/physical_cdac_revalidation_cn.pdf` | PASS；27页；发布/字体/ToUnicode/逐页视觉/确定性重建门限全通过 |
-
-2026-07-29 完整行为级闭环验证：
-
-| 验证层 | 入口 | 结果 |
-| --- | --- | --- |
-| 512 点完整 SAR 行为模型 | `analysis/full_sar_behavioral_20260729/run_campaign.py` | PASS；512/512 完成；校准+SRM 的 SNDR 中位数 91.018 dB、SFDR 中位数 108.776 dBc、INL 峰峰值中位数 2.015 LSB |
-| 高分辨率静态复核 | `analysis/full_sar_behavioral_20260729/outputs/highres_*.npz` | Best/Median/Worst 每码 8 点；最坏代表点 2 个缺码 |
-| Python 单元/闭环测试 | `analysis/full_sar_behavioral_20260729/test_full_sar_model.py` | PASS；5 tests |
-| PDF 发布检查 | `analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf` | PASS；32 页；最新 Skill 双门禁与两次确定性构建一致；SHA-256 `9F4B01E4E69AB5FE2E1230CCB57DEBF63A07ECB83540F1954D86A910D1E8D731` |
-
-本轮结果是完整系统行为级证据，不是 AMS、PVT、PEX 或硅片签核。512 点中校准+SRM 路径缺码中位数为 0，但最坏值为 18；该尾部风险保留在报告和逐芯片 CSV 中。
-
-2026-07-29 当前片上校准算法验证：
-
-| 验证层 | 入口 | 结果 |
-| --- | --- | --- |
-| 行为级当前 RTL 等效模型 | `analysis/calibration_effectiveness_20260729/validate_current_calibration.py` | PASS；SNDR 中位数 36.214 dB -> 92.007 dB；权重 RMSE 147.9781 LSB -> 0.1908 LSB |
-| Vivado XSIM RTL 回归 | `scripts/run_all_xsim.ps1` | PASS；4 个 testbench 全通过 |
-| PDF 发布检查 | `analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf` | PASS；7 页；SHA-256 `AD3211EB6F7FB82D5266801FC015C1BAFB60218917849C4D9FCF2AFF4F2A8C70` |
-
-当前校准验证交付包见 `delivery/current_calibration_validation_20260729/`。
-完整行为级交付包见 `delivery/full_sar_behavioral_validation_20260729/`。
-
-2026-05-18 工程闭合基线：
-
-| Testbench | 目标 | 结果 |
-| --- | --- | --- |
-| `tb_sar_recon_binary_norm.sv` | `sar_reconstruction` | PASS, 49 checks, 0 failed |
-| `tb_recon_q8_split_weights.sv` | `sar_reconstruction` + SRM | PASS, 17 checks, 0 failed |
-| `tb_srm_residue_estimator.sv` | `srm_residue_estimator` | PASS, 17 checks, 0 failed |
-| `tb_gain_comp_check_lsb.sv` | `sar_calib_ctrl_serial` | PASS, 5 Monte Carlo runs, worst residual 0.4937 LSB |
-
-| 综合目标 | Top | 结果 | WNS |
-| --- | --- | --- | --- |
-| `build_calib_core` | `sar_calib_ctrl_serial` | PASS | 5.449 ns |
-| `build_recon_core` | `sar_reconstruction` | PASS | 3.999 ns |
-| `build_fpga_demo` | `sar_calib_fpga_top` | PASS | 5.441 ns |
-| `build_asic_skeleton` | `sar_adc_digital_top` | PASS | 3.957 ns |
-
-最新验证细节见 [docs/VERIFICATION.md](docs/VERIFICATION.md)。
-
-## 文档入口
-
-- [MOC.md](MOC.md): 仓库内容索引
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): 架构说明
-- [docs/FIXED_POINT_CONTRACT.md](docs/FIXED_POINT_CONTRACT.md): Q8 定点契约
-- [docs/MIXED_SIGNAL_TIMING_CONTRACT.md](docs/MIXED_SIGNAL_TIMING_CONTRACT.md): 混合信号时序契约
-- [docs/VERIFICATION.md](docs/VERIFICATION.md): 验证状态与维护规则
-- [docs/PROJECT_ORGANIZATION.md](docs/PROJECT_ORGANIZATION.md): 项目组织说明
-- [docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md](docs/GIT_WORKTREE_AND_BRANCH_AUDIT_2026-07-29.md): Git worktree、临时目录与分支收敛审计
-- [docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md](docs/HUANG2025_SURROGATE_MODEL_REVIEW_CN_2026-05-26.md): Huang 2025 代理模型接入评审
-- [docs/paper/paper_sar_adc_calibration.tex](docs/paper/paper_sar_adc_calibration.tex): 论文源文件
-- [docs/paper/paper_sar_adc_calibration.pdf](docs/paper/paper_sar_adc_calibration.pdf): 论文 PDF
-- [analysis/calibration_effectiveness_20260729/README.md](analysis/calibration_effectiveness_20260729/README.md): 当前片上校准算法验证说明
-- [analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf](analysis/calibration_effectiveness_20260729/report/current_calibration_validation_report_cn.pdf): 当前片上校准有效性验证报告
-- [analysis/full_sar_behavioral_20260729/README.md](analysis/full_sar_behavioral_20260729/README.md): 完整 SAR 行为模型、运行口径与结果入口
-- [analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf](analysis/full_sar_behavioral_20260729/report/full_sar_behavioral_validation_cn.pdf): 512 点完整行为级验证报告
-- [analysis/physical_cdac_mismatch_20260729/README.md](analysis/physical_cdac_mismatch_20260729/README.md): 物理CDAC失配正式再验证入口
-- [analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf](analysis/physical_cdac_mismatch_20260729/report_revalidation/physical_cdac_revalidation_cn.pdf): 27页详细中文再验证报告
-- [delivery/current_calibration_validation_20260729/README.md](delivery/current_calibration_validation_20260729/README.md): 当前校准验证交付包入口
-- [delivery/full_sar_behavioral_validation_20260729/README.md](delivery/full_sar_behavioral_validation_20260729/README.md): 完整行为级交付包入口
-
-## 版本信息
-
-- 版本号：`v3.11.0-physical-cdac-revalidation`
-- 日期：2026-07-29
-- 状态：Main-Unified Physical-CDAC Revalidation Baseline
-- 工程闭合 tag：`v3.6.0-engineering-closure`
-
-## 许可证
-
-本项目使用 [MIT License](LICENSE)。
-
-最后整理：2026-07-29
+[MIT License](LICENSE)，Copyright 2026 Zhao Yi。
